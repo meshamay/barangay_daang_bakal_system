@@ -24,15 +24,15 @@ class ReportsController extends Controller
         // Stats for cards
         $stats = [
             'totalUsers' => User::count(),
-            'totalResidents' => User::whereIn('role', ['user', 'resident'])->count(),
-            'totalStaff' => User::whereIn('role', ['admin', 'superadmin'])->count(),
+            'totalResidents' => User::whereIn('role', ['user', 'resident'])->whereNull('deleted_at')->count(),
+            'totalStaff' => User::whereIn('role', ['admin', 'superadmin'])->whereNull('deleted_at')->count(),
             'archivedAccounts' => User::whereIn('role', ['user', 'resident'])->onlyTrashed()->count(),
         ];
 
         // Population by Gender (filtered by year and month)
         $populationByGender = [
-            'male' => User::where('gender', 'Male')->whereBetween('created_at', [$startOfMonth, $endOfMonth])->count(),
-            'female' => User::where('gender', 'Female')->whereBetween('created_at', [$startOfMonth, $endOfMonth])->count(),
+            'male' => User::whereRaw('LOWER(gender) = ?', ['male'])->whereBetween('created_at', [$startOfMonth, $endOfMonth])->count(),
+            'female' => User::whereRaw('LOWER(gender) = ?', ['female'])->whereBetween('created_at', [$startOfMonth, $endOfMonth])->count(),
         ];
 
         $requestsComplaints = [

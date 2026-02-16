@@ -15,17 +15,45 @@ class UserController extends Controller
      */
     public function index()
     {
-        $totalResidents = User::where('role', 'user')->count();
-        $maleCount      = User::where('role', 'user')->where('gender', 'Male')->count();
-        $femaleCount    = User::where('role', 'user')->where('gender', 'Female')->count();
-        $archivedCount  = User::where('role', 'user')->onlyTrashed()->count();
+        $totalResidents = User::where('role', 'resident')->count();
+        $maleCount      = User::where('role', 'resident')->where('gender', 'Male')->count();
+        $femaleCount    = User::where('role', 'resident')->where('gender', 'Female')->count();
+        $archivedCount  = User::where('role', 'resident')->onlyTrashed()->count();
 
 
-        
-        $users = User::latest()->paginate(10); 
+        // Always start with all users including archived
+        $query = User::withTrashed()->where('role', 'resident');
 
+        // Filter by status
+        if (request('status')) {
+            if (request('status') === 'Archived') {
+                $query = User::onlyTrashed()->where('role', 'user');
+            } else {
+                $query = User::where('role', 'user')->where('status', request('status'));
+            }
+        }
 
-        
+        // Filter by gender
+        if (request('gender')) {
+            $query->where('gender', request('gender'));
+        }
+
+        // Search
+        if (request('search')) {
+            $search = request('search');
+            $query->where(function($q) use ($search) {
+                $q->where('first_name', 'like', "%$search%")
+                  ->orWhere('last_name', 'like', "%$search%")
+                  ->orWhere('email', 'like', "%$search%")
+                  ->orWhere('address', 'like', "%$search%")
+                  ->orWhere('contact_number', 'like', "%$search%")
+                  ->orWhere('username', 'like', "%$search%")
+                  ;
+            });
+        }
+
+        $users = $query->latest()->paginate(10);
+
         return view('admin.users.index', compact(
             'users',
             'totalResidents',

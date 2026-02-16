@@ -14,7 +14,8 @@
     <div class="relative min-h-screen w-full bg-cover bg-center" style="background-image: url('https://media.karousell.com/media/photos/products/2025/3/4/lot_for_sale_in_barangay_daang_1741074654_b1a72035');">
         <div class="absolute inset-0 z-10 bg-white/70"></div>
         <div class="relative z-20 flex min-h-screen w-full items-center justify-center p-4">
-            <form id="registration-form" class="w-full" novalidate="" enctype="multipart/form-data">
+            <form id="registration-form" class="w-full" novalidate enctype="multipart/form-data">
+                <input type="hidden" name="barangay" value="Barangay Daang Bakal">
                 <div id="step-1" class="mx-auto max-w-4xl">
                     <div class="flex max-h-[90vh] sm:max-h-[90vh] h-auto sm:flex-col overflow-y-auto sm:overflow-hidden flex-col rounded-2xl bg-white border-2 border-gray-100 shadow-xl">
                         <div class="flex shrink-0 items-center p-3 sm:p-4" style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%);">

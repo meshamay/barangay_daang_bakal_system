@@ -135,6 +135,7 @@ Route::middleware(['auth:admin', 'check.admin'])->prefix('admin')->name('admin.'
     Route::put('/users/{user}/accept', [ResidentManagementController::class, 'accept'])->name('users.accept');
     Route::put('/users/{user}/reject', [ResidentManagementController::class, 'reject'])->name('users.reject');
     Route::put('/users/{user}/archive', [ResidentManagementController::class, 'archive'])->name('users.archive');
+    Route::put('/users/{user}/restore', [ResidentManagementController::class, 'restore'])->name('users.restore');
     Route::delete('/users/{user}', [ResidentManagementController::class, 'destroy'])->name('users.destroy');
 
     // --- DOCUMENT REQUESTS ---

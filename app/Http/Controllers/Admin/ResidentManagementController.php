@@ -16,12 +16,13 @@ class ResidentManagementController extends Controller
     public function index(Request $request)
     {
         
-        $totalResidents = User::where('user_type', 'resident')->count();
-        $maleCount      = User::where('user_type', 'resident')->where('gender', 'Male')->count();
-        $femaleCount    = User::where('user_type', 'resident')->where('gender', 'Female')->count();
-        $archivedCount  = User::where('user_type', 'resident')->where('status', 'archived')->count();
+        $totalResidents = User::where('user_type', 'resident')->whereNull('deleted_at')->count();
+        $maleCount      = User::where('user_type', 'resident')->whereRaw('LOWER(gender) = ?', ['male'])->whereNull('deleted_at')->count();
+        $femaleCount    = User::where('user_type', 'resident')->whereRaw('LOWER(gender) = ?', ['female'])->whereNull('deleted_at')->count();
+        $archivedCount  = User::where('user_type', 'resident')->onlyTrashed()->count();
+        $femaleResidents = User::where('user_type', 'resident')->whereRaw('LOWER(gender) = ?', ['female'])->whereNull('deleted_at')->get();
 
-        $query = User::where('user_type', 'resident');
+        $query = User::where('user_type', 'resident')->withTrashed();
 
         if ($request->has('search') && $request->filled('search')) {
             $search = $request->search;
@@ -48,15 +49,17 @@ class ResidentManagementController extends Controller
             'totalResidents',
             'maleCount',
             'femaleCount',
-            'archivedCount'
+            'archivedCount',
+            'femaleResidents'
         ));
     }
 
     /**
      * Display the specified user profile (The "View" Button).
      */
-    public function show(User $user)
+    public function show($id)
     {
+        $user = User::withTrashed()->findOrFail($id);
         return view('admin.users.show', compact('user'));
     }
 
@@ -134,6 +137,15 @@ class ResidentManagementController extends Controller
     {
         $user->delete();
         return back()->with('success', 'User archived successfully.');
+    }
+
+    /**
+     * Restore an archived user.
+     */
+    public function restore(User $user)
+    {
+        $user->restore();
+        return redirect()->route('admin.users.index')->with('success', 'User restored successfully.');
     }
 
     /**

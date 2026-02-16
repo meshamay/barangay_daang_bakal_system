@@ -25,7 +25,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-gray-500 text-sm font-medium">Registered Residents</p>
-                    <p class="text-4xl font-bold text-gray-900 mt-2">{{ $totalResidents ?? 0 }}</p>
+                        <p class="text-4xl font-bold text-gray-900 mt-2">{{ $archivedCount ?? 0 }}</p>
                 </div>
                 <div class="bg-blue-100 p-4 rounded-lg">
                     <svg class="h-8 w-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -143,37 +143,31 @@
                 <tbody class="divide-y divide-gray-100">
                 @forelse($users as $user)
                 <tr class="hover:bg-blue-50/70 transition-colors duration-150 ease-in-out text-center">
-
                     <td class="py-5 px-6 w-1/7 font-semibold text-gray-900">
                         {{ $user->resident_id ?? 'N/A' }}
                     </td>
-
                     <td class="py-5 px-6 w-1/7 text-gray-700">{{ $user->last_name }}</td>
                     <td class="py-5 px-6 w-1/7 text-gray-700">{{ $user->first_name }}</td>
-
                     <td class="py-5 px-6 w-1/7 text-gray-600">{{ $user->gender }}</td>
-
                     <td class="py-5 px-6 w-1/7 text-gray-600 text-sm">{{ $user->created_at->format('m/d/Y') }}</td>
-
                     <td class="py-5 px-6 w-1/7">
                         @php
                             $status = strtolower($user->status ?? 'pending');
-                            $colorClass = match($status) {
-                                'approved', 'accepted' => 'bg-emerald-100 text-emerald-800 border border-emerald-300',
-                                'reject'   => 'bg-red-100 text-red-800 border border-red-300',
-                                'archived' => 'bg-gray-100 text-gray-800 border border-gray-300',
-                                default    => 'bg-amber-100 text-amber-800 border border-amber-300', // Pending
-                            };
+                            $isArchived = $user->trashed();
+                            $colorClass = $isArchived
+                                ? 'bg-gray-100 text-gray-800 border border-gray-300'
+                                : match($status) {
+                                    'approved', 'accepted' => 'bg-emerald-100 text-emerald-800 border border-emerald-300',
+                                    'reject'   => 'bg-red-100 text-red-800 border border-red-300',
+                                    default    => 'bg-amber-100 text-amber-800 border border-amber-300', // Pending
+                                };
                         @endphp
                         <span class="{{ $colorClass }} text-xs font-bold px-3 py-2 rounded-full inline-block capitalize shadow-sm">
-                            {{ $status }}
+                            {{ $isArchived ? 'archived' : $status }}
                         </span>
                     </td>
-
                     <td class="py-5 px-6 w-1/7 text-center">
-                        {{-- 🚀 FIX 1: Set parent container z-index high enough --}}
-                        <div class="flex justify-center items-center gap-1.5 relative z-30"> 
-
+                        <div class="flex justify-center items-center gap-1.5 relative z-30">
                             {{-- View Button --}}
                             <div class="relative group">
                                 <a href="{{ route('admin.users.show', $user->id) }}" class="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-blue-50 transition-all duration-200 hover:shadow-md">
@@ -184,43 +178,19 @@
                                 </a>
                                 <span class="absolute top-full mt-2 left-1/2 -translate-x-1/2 px-2 py-1 text-xs text-white bg-gray-800 rounded opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-200 whitespace-nowrap" style="z-index: 9999;">View</span>
                             </div>
-
                             {{-- Archive Button --}}
                             <div class="relative group">
-                                <button onclick="setModalAction('{{ route('admin.users.archive', $user->id) }}', 'archiveModal')"
-                                        class="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-gray-50 transition-all duration-200 hover:shadow-md">
-                                    <svg class="w-6 h-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
-                                    </svg>
-                                </button>
+                                <form method="POST" action="{{ route('admin.users.archive', $user->id) }}" onsubmit="return confirm('Archive this user?');">
+                                    @csrf
+                                    @method('PUT')
+                                    <button type="submit" class="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-gray-50 transition-all duration-200 hover:shadow-md" @if($isArchived) disabled style="opacity:0.5;cursor:not-allowed;" @endif>
+                                        <svg class="w-6 h-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
+                                        </svg>
+                                    </button>
+                                </form>
                                 <span class="absolute top-full mt-2 left-1/2 -translate-x-1/2 px-2 py-1 text-xs text-white bg-gray-800 rounded opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-200 whitespace-nowrap" style="z-index: 9999;">Archive</span>
                             </div>
-
-                            @if(strtolower($user->status) === 'pending')
-                            {{-- Approve Button --}}
-                            <div class="relative group">
-                                <button onclick="setModalAction('{{ route('admin.users.accept', $user->id) }}', 'approvedModal')"
-                                        class="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-green-50 transition-all duration-200 hover:shadow-md">
-                                    <svg class="w-6 h-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                </button>
-                                <span class="absolute top-full mt-2 left-1/2 -translate-x-1/2 px-2 py-1 text-xs text-white bg-gray-800 rounded opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-200 whitespace-nowrap" style="z-index: 9999;">Approve</span>
-                            </div>
-
-                            {{-- Reject Button --}}
-                            <div class="relative group">
-                                <button onclick="setModalAction('{{ route('admin.users.destroy', $user->id) }}', 'rejectModal')"
-                                        class="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-red-50 transition-all duration-200 hover:shadow-md">
-                                    <svg class="w-6 h-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                        <circle cx="12" cy="12" r="9" />
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 9l6 6m0-6l-6 6" />
-                                    </svg>
-                                </button>
-                                <span class="absolute top-full mt-2 left-1/2 -translate-x-1/2 px-2 py-1 text-xs text-white bg-gray-800 rounded opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-200 whitespace-nowrap" style="z-index: 9999;">Reject</span>
-                            </div>
-                            @endif
-
                         </div>
                     </td>
 
