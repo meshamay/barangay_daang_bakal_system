@@ -6,34 +6,9 @@
 
 @section('content')
 
-<style>
-    /* Ensure checkbox checkmark is visible only when checked */
-    input[type="checkbox"] {
-        appearance: none;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        width: 1rem;
-        height: 1rem;
-        border: 2px solid #d1d5db;
-        border-radius: 0.25rem;
-        background-color: white;
-        cursor: pointer;
-    }
-    
-    input[type="checkbox"]:checked {
-        background-color: #2563eb;
-        border-color: #2563eb;
-        background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3e%3c/svg%3e");
-        background-size: 100% 100%;
-        background-position: center;
-        background-repeat: no-repeat;
-    }
-    
-    input[type="checkbox"]:focus {
-        outline: 2px solid #3b82f6;
-        outline-offset: 2px;
-    }
-</style>
+@push('styles')
+	<link rel="stylesheet" href="{{ asset('css/form-inputs.css') }}">
+@endpush
 
 <div id="registration-container">
     <div class="relative min-h-screen w-full bg-cover bg-center" style="background-image: url('https://media.karousell.com/media/photos/products/2025/3/4/lot_for_sale_in_barangay_daang_1741074654_b1a72035');">

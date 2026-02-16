@@ -338,22 +338,7 @@
     });
 </script>
 
-<style>
-    /* Custom Scrollbar */
-    .custom-scrollbar::-webkit-scrollbar {
-        width: 6px;
-    }
-    .custom-scrollbar::-webkit-scrollbar-track {
-        background: #f1f1f1;
-    }
-    .custom-scrollbar::-webkit-scrollbar-thumb {
-        background: #c1d2e1;
-        border-radius: 10px;
-    }
-    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-        background: #a2c4d9;
-    }
-</style>
+<link rel="stylesheet" href="{{ asset('css/scrollbars.css') }}">
 
 </body>
 </html>

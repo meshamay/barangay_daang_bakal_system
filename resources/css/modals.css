@@ -1,0 +1,37 @@
+/* Full-screen blurred backdrop excluding navbar */
+#modal-backdrop {
+	position: fixed;
+	top: 80px;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	width: 100vw;
+	height: calc(100vh - 80px);
+	background: rgba(0, 0, 0, 0.45);
+	backdrop-filter: blur(10px);
+	-webkit-backdrop-filter: blur(10px);
+	z-index: 50;
+	pointer-events: auto;
+}
+
+#modal-backdrop.full-screen {
+	top: 0;
+	height: 100vh;
+	z-index: 60;
+}
+
+/* Modal stays clear and interactive and centered */
+.modal-container {
+	filter: none !important;
+	pointer-events: auto;
+	z-index: 70 !important;
+	display: none;
+}
+
+.modal-container:not(.hidden) {
+	display: flex !important;
+}
+
+#modal-backdrop:not(.hidden) {
+	display: block;
+}

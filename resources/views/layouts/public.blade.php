@@ -17,16 +17,19 @@
 
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <link rel="stylesheet" href="{{ asset('css/animations.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/scrollbars.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/modals.css') }}">
 
 
-            <style>
+    <style>
         html {
             scroll-behavior: smooth;
         }
 
-                .landing-page .font-barlow {
-                        font-family: 'Poppins', sans-serif;
-                }
+        .landing-page .font-barlow {
+            font-family: 'Poppins', sans-serif;
+        }
     </style>
 
 

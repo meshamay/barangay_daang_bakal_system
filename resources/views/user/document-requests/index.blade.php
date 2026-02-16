@@ -1,60 +1,11 @@
 @extends('layouts.user', ['title' => 'Request a Document'])
 
 @section('content')
-<style>
-	.justify-start {
-		justify-content: center;
-	}
-	
-	/* Full-screen blurred backdrop excluding navbar */
-	#modal-backdrop {
-		position: fixed;
-		top: 80px;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		width: 100vw;
-		height: calc(100vh - 80px);
-		background: rgba(0, 0, 0, 0.45);
-		backdrop-filter: blur(10px);
-		-webkit-backdrop-filter: blur(10px);
-		z-index: 50;
-		pointer-events: auto;
-	}
-	
-	/* Modal stays clear and interactive and centered */
-	.modal-container {
-		filter: none !important;
-		pointer-events: auto;
-	}
-
-	/* Checkbox styling for all document request forms */
-	input[type="checkbox"] {
-		appearance: none;
-		-webkit-appearance: none;
-		-moz-appearance: none;
-		width: 1rem;
-		height: 1rem;
-		border: 2px solid #d1d5db;
-		border-radius: 0.25rem;
-		background-color: white;
-		cursor: pointer;
-	}
-	
-	input[type="checkbox"]:checked {
-		background-color: #2563eb;
-		border-color: #2563eb;
-		background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3e%3c/svg%3e");
-		background-size: 100% 100%;
-		background-position: center;
-		background-repeat: no-repeat;
-	}
-	
-	input[type="checkbox"]:focus {
-		outline: 2px solid #3b82f6;
-		outline-offset: 2px;
-	}
-</style>
+@push('styles')
+	<link rel="stylesheet" href="{{ asset('css/modals.css') }}">
+	<link rel="stylesheet" href="{{ asset('css/form-inputs.css') }}">
+	<link rel="stylesheet" href="{{ asset('css/scrollbars.css') }}">
+@endpush
 
 <main id="page-content">
 

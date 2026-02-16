@@ -10,12 +10,8 @@
     body { 
       font-family: 'Poppins', sans-serif;
     }
-    .fade-in { animation: fadeIn 0.5s ease-in-out; }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
   </style>
+  <link rel="stylesheet" href="{{ asset('css/animations.css') }}">
 </head>
 <body class="min-h-screen flex items-center justify-center p-4 sm:p-6 bg-gradient-to-br from-blue-50 via-white to-blue-100">
 

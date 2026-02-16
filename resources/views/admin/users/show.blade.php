@@ -21,51 +21,10 @@
       }
     }
   </script>
+  <link rel="stylesheet" href="{{ asset('css/modals.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/animations.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/scrollbars.css') }}">
   <style>
-    #modal-backdrop {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(0, 0, 0, 0.45);
-      z-index: 60;
-      pointer-events: auto;
-      display: none;
-    }
-
-    #modal-backdrop:not(.hidden) {
-      display: block;
-    }
-
-    .modal-container {
-      filter: none !important;
-      pointer-events: auto;
-      z-index: 70 !important;
-      display: none;
-    }
-
-    .modal-container:not(.hidden) {
-      display: flex !important;
-    }
-
-    @keyframes fadeInDown {
-      from {
-        opacity: 0;
-        transform: translateY(-20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .animate-fade-in-down {
-      animation: fadeInDown 0.3s ease-out;
-    }
-  </style>
 </head>
 
 <body class="bg-gray-100" style="font-family: 'Poppins', sans-serif;">
@@ -484,22 +443,7 @@
     });
 </script>
 
-<style>
-    /* Custom Scrollbar */
-    .custom-scrollbar::-webkit-scrollbar {
-        width: 6px;
-    }
-    .custom-scrollbar::-webkit-scrollbar-track {
-        background: #f1f1f1;
-    }
-    .custom-scrollbar::-webkit-scrollbar-thumb {
-        background: #c1d2e1;
-        border-radius: 10px;
-    }
-    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-        background: #a2c4d9;
-    }
-</style>
+<link rel="stylesheet" href="{{ asset('css/scrollbars.css') }}">
 
 </body>
 </html>

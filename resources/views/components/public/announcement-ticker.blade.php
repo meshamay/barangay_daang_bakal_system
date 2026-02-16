@@ -23,24 +23,6 @@
 </div>
 
 
-<style>
-    @keyframes marquee {
-        0% {
-            transform: translateX(100%);
-        }
-
-
-        100% {
-            transform: translateX(-100%);
-        }
-    }
-
-
-    .animate-marquee {
-        animation: marquee 25s linear infinite;
-    }
-   
-    .animate-marquee:hover {
-        animation-play-state: paused;
-    }
-</style>
+@push('styles')
+	<link rel="stylesheet" href="{{ asset('css/animations.css') }}">
+@endpush
