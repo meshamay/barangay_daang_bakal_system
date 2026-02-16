@@ -2,27 +2,11 @@
 
 @section('content')
 
-<style>
-    /* Full-screen blurred backdrop shared by all modals */
-    #modal-backdrop {
-        position: fixed;
-        top: 80px;
-        left: 240px;
-        width: calc(100vw - 240px);
-        height: calc(100vh - 80px);
-        background: rgba(0, 0, 0, 0.35);
-        backdrop-filter: blur(2px);
-        -webkit-backdrop-filter: blur(2px);
-        z-index: 110;
-        pointer-events: auto;
-    }
+@push('styles')
+	<link rel="stylesheet" href="{{ asset('css/admin-modals.css') }}">
+@endpush
 
-    /* Keep modal content crisp above the blur */
-    .modal-container {
-        filter: none !important;
-        pointer-events: auto;
-        z-index: 120;
-    }
+<style>
 </style>
 
 <main class="flex-1 p-8 fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] overflow-y-auto bg-gradient-to-br from-gray-50 to-gray-100">
@@ -344,13 +328,10 @@
         <br><br>
 </main>
 
-{{-- Shared Backdrop for All Modals --}}
-<div id="modal-backdrop" class="hidden"></div>
-
     <!-- =============================== -->
     <!-- 1. EXPORT SETTINGS MODAL -->
     <!-- =============================== -->
-    <div id="exportModal" class="modal-container hidden fixed top-0 left-0 w-full h-full flex items-center justify-center z-[120] font-poppins" style="left: 240px; width: calc(100vw - 240px); top: 80px; height: calc(100vh - 80px);">
+    <div id="exportModal" class="modal-container hidden fixed top-0 left-0 w-full h-full flex items-center justify-center z-[9999] font-poppins" style="left: 240px; width: calc(100vw - 240px); top: 80px; height: calc(100vh - 80px);">
         <div class="bg-white w-[650px] rounded-3xl shadow-2xl overflow-hidden border-2 border-gray-100 flex flex-col relative">
            
             <!-- Gradient Header -->
@@ -455,7 +436,7 @@
     <!-- =============================== -->
     <!-- 2. SUCCESS MODAL (PIXEL PERFECT) -->
     <!-- =============================== -->
-    <div id="exportSuccessModal" class="modal-container hidden fixed top-0 left-0 w-full h-full flex items-center justify-center z-[70] font-poppins" style="left: 240px; width: calc(100vw - 240px); top: 80px; height: calc(100vh - 80px);">
+    <div id="exportSuccessModal" class="modal-container hidden fixed top-0 left-0 w-full h-full flex items-center justify-center z-[9999] font-poppins" style="left: 240px; width: calc(100vw - 240px); top: 80px; height: calc(100vh - 80px);">
         <!-- Gray Card Container -->
         <div class="bg-[#E5E5E5] w-[600px] rounded-3xl p-10 shadow-2xl relative border-2 border-black">
            
@@ -496,61 +477,6 @@
 
 
     <!-- JavaScript to Handle Modals -->
-
-    <script>
-        const backdrop = document.getElementById('modal-backdrop');
-        if (backdrop && backdrop.parentElement !== document.body) {
-            document.body.appendChild(backdrop);
-        }
-
-        function showBackdrop() {
-            if (backdrop) backdrop.classList.remove('hidden');
-        }
-
-        function hideBackdrop() {
-            if (backdrop) backdrop.classList.add('hidden');
-        }
-
-        function openModal(id) {
-            document.getElementById(id)?.classList.remove('hidden');
-            showBackdrop();
-        }
-
-
-        function closeModal(id) {
-            document.getElementById(id)?.classList.add('hidden');
-            hideBackdrop();
-        }
-
-
-        // Logic to switch modals
-        function submitExport() {
-            const form = document.getElementById('exportForm');
-            if (!form) return;
-
-            const checkedSections = form.querySelectorAll('input[name="sections[]"]:checked');
-            if (checkedSections.length === 0) {
-                alert('Please select at least one section to export.');
-                return;
-            }
-
-            form.submit();
-        }
-
-
-        // Close modal if user clicks outside
-        window.onclick = function(event) {
-            const exportModal = document.getElementById('exportModal');
-            const successModal = document.getElementById('exportSuccessModal');
-           
-            if (event.target == exportModal) {
-                closeModal('exportModal');
-            }
-            if (event.target == successModal) {
-                closeModal('exportSuccessModal');
-            }
-        }
-    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
@@ -1137,6 +1063,12 @@
     });
     </script>
 
+{{-- Shared Backdrop for All Modals --}}
+<div id="modal-backdrop" class="hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] bg-black/50 backdrop-blur-sm z-[9998]"></div>
 
 @endsection
+
+@push('scripts')
+<script src="{{ asset('js/admin-reports.js') }}" defer></script>
+@endpush
 

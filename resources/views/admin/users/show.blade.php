@@ -24,7 +24,6 @@
   <link rel="stylesheet" href="{{ asset('css/modals.css') }}">
   <link rel="stylesheet" href="{{ asset('css/animations.css') }}">
   <link rel="stylesheet" href="{{ asset('css/scrollbars.css') }}">
-  <style>
 </head>
 
 <body class="bg-gray-100" style="font-family: 'Poppins', sans-serif;">
@@ -49,7 +48,7 @@
     </div>
 </nav>
 
-<main id="main-content" class="grow flex px-12 py-6 gap-8 text-[#1e2e3d] text-[1.05rem] pt-24 max-w-7xl mx-auto h-screen overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100">
+<main id="main-content" class="grow flex px-12 py-6 gap-8 text-[#1e2e3d] text-[1.05rem] pt-24 max-w-7xl mx-auto w-full overflow-y-auto bg-gradient-to-br from-gray-50 to-gray-100">
 
     @if(session('success'))
         <div class="fixed top-24 right-8 bg-green-500 text-white px-6 py-4 rounded-xl shadow-2xl z-50 animate-fade-in-down flex items-center gap-3">
@@ -225,11 +224,8 @@
     </section>
 </main>
 
-{{-- Shared Backdrop for All Modals --}}
-<div id="modal-backdrop" class="hidden"></div>
-
-<div id="approveModal" class="modal-container hidden fixed inset-0 flex items-center justify-center z-[70] bg-black/30">
-    <div class="bg-white w-[450px] rounded-3xl shadow-2xl overflow-hidden border-2 border-gray-100 relative animate-fade-in-up">
+<div id="approveModal" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[9999] pointer-events-none">
+    <div class="bg-white w-[450px] rounded-3xl shadow-2xl overflow-hidden border-2 border-gray-100 relative animate-fade-in-up pointer-events-auto">
         
         {{-- Content Body --}}
         <div class="px-8 py-8 bg-white text-center">
@@ -272,8 +268,8 @@
     </div>
 </div>
 
-<div id="archiveModal" class="modal-container hidden fixed inset-0 flex items-center justify-center z-[70] bg-black/30">
-    <div class="bg-white w-[450px] rounded-3xl shadow-2xl overflow-hidden border-2 border-gray-100 relative animate-fade-in-up">
+<div id="archiveModal" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[9999] pointer-events-none">
+    <div class="bg-white w-[450px] rounded-3xl shadow-2xl overflow-hidden border-2 border-gray-100 relative animate-fade-in-up pointer-events-auto">
         
         {{-- Content Body --}}
         <div class="px-8 py-8 bg-white text-center">
@@ -316,8 +312,8 @@
     </div>
 </div>
 
-<div id="rejectModal" class="modal-container hidden fixed inset-0 flex items-center justify-center z-[70] bg-black/30">
-    <div class="bg-white w-[450px] rounded-3xl shadow-2xl overflow-hidden border-2 border-gray-100 relative animate-fade-in-up">
+<div id="rejectModal" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[9999] pointer-events-none">
+    <div class="bg-white w-[450px] rounded-3xl shadow-2xl overflow-hidden border-2 border-gray-100 relative animate-fade-in-up pointer-events-auto">
         
         {{-- Content Body --}}
         <div class="px-8 py-8 bg-white text-center">
@@ -443,7 +439,8 @@
     });
 </script>
 
-<link rel="stylesheet" href="{{ asset('css/scrollbars.css') }}">
+{{-- Shared Backdrop for All Modals --}}
+<div id="modal-backdrop" class="hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] bg-black/50 backdrop-blur-sm z-[9998]"></div>
 
 </body>
 </html>

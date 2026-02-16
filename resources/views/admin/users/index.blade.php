@@ -2,33 +2,11 @@
 
 @section('content')
 
-<style>
-	#modal-backdrop {
-		position: fixed;
-		top: 80px;
-		left: 240px;
-		width: calc(100vw - 240px);
-		height: calc(100vh - 80px);
-		background: rgba(0, 0, 0, 0.35);
-		backdrop-filter: blur(5px);
-		-webkit-backdrop-filter: blur(5px);
-		z-index: 50;
-		pointer-events: auto;
-		display: none;
-	}
+@push('styles')
+	<link rel="stylesheet" href="{{ asset('css/admin-modals.css') }}">
+@endpush
 
-	#modal-backdrop:not(.hidden) {
-		display: block;
-	}
-
-	.modal-container {
-		filter: none !important;
-		pointer-events: auto;
-		z-index: 70 !important;
-		display: none;
-	}
-
-	.modal-container:not(.hidden) {
+<style>	.modal-container:not(.hidden) {
 		display: flex !important;
 	}
 </style>
@@ -268,13 +246,10 @@
     <!-- Pagination removed as requested -->
 </main>
 
-{{-- Shared Backdrop for All Modals --}}
-<div id="modal-backdrop" class="hidden"></div>
-
 {{-- MODALS (Keep Z-index high for modal and backdrop) --}}
 
-    <div id="archiveModal" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[70]">
-        <div class="bg-white w-[520px] h-[400px] rounded-3xl shadow-2xl overflow-hidden border-2 border-gray-100 transform transition-all">
+    <div id="archiveModal" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[9999] pointer-events-none">
+        <div class="bg-white w-[520px] h-[400px] rounded-3xl shadow-2xl overflow-hidden border-2 border-gray-100 transform transition-all pointer-events-auto">
             
             <!-- Content -->
             <div class="p-8 text-center flex flex-col justify-between h-full">
@@ -316,8 +291,8 @@
         </div>
     </div>
 
-    <div id="approvedModal" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[70]">
-        <div class="bg-white w-[520px] h-[400px] rounded-3xl shadow-2xl overflow-hidden border-2 border-gray-100 transform transition-all">
+    <div id="approvedModal" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[9999] pointer-events-none">
+        <div class="bg-white w-[520px] h-[400px] rounded-3xl shadow-2xl overflow-hidden border-2 border-gray-100 transform transition-all pointer-events-auto">
             
             <!-- Content -->
             <div class="p-8 text-center flex flex-col justify-between h-full">
@@ -359,8 +334,8 @@
         </div>
     </div>
 
-    <div id="rejectModal" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[70]">
-        <div class="bg-white w-[520px] h-[400px] rounded-3xl shadow-2xl overflow-hidden border-2 border-gray-100 transform transition-all">
+    <div id="rejectModal" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[9999] pointer-events-none">
+        <div class="bg-white w-[520px] h-[400px] rounded-3xl shadow-2xl overflow-hidden border-2 border-gray-100 transform transition-all pointer-events-auto">
             
             <!-- Content -->
             <div class="p-8 text-center flex flex-col justify-between h-full">
@@ -403,36 +378,7 @@
         </div>
     </div>
 
-<script>
-    const backdrop = document.getElementById('modal-backdrop');
-    if (backdrop && backdrop.parentElement !== document.body) {
-        document.body.appendChild(backdrop);
-    }
-
-    function showBackdrop() {
-        if (backdrop) backdrop.classList.remove('hidden');
-    }
-
-    function hideBackdrop() {
-        if (backdrop) backdrop.classList.add('hidden');
-    }
-
-    // Sets the action URL for the modal form dynamically based on the user ID
-    function setModalAction(actionUrl, modalId) {
-        const modal = document.getElementById(modalId);
-        const form = modal.querySelector('form');
-        if (form) {
-            form.action = actionUrl;
-        }
-        modal.classList.remove('hidden');
-        showBackdrop();
-    }
-
-    function closeModal(modalId) {
-        const modal = document.getElementById(modalId);
-        modal.classList.add('hidden');
-        hideBackdrop();
-    }
-</script>
+{{-- Shared Backdrop for All Modals --}}
+<div id="modal-backdrop" class="hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] bg-black/50 backdrop-blur-sm z-[9998]"></div>
 
 @endsection

@@ -1,4 +1,4 @@
-/* Full-screen blurred backdrop excluding navbar */
+/* Admin-specific modal backdrop with sidebar offset */
 #modal-backdrop {
 	position: fixed !important;
 	top: 0 !important;
@@ -23,13 +23,7 @@
 	visibility: hidden !important;
 }
 
-#modal-backdrop.full-screen {
-	top: 0 !important;
-	height: 100vh !important;
-	z-index: 60 !important;
-}
-
-/* Modal stays clear and interactive and centered */
+/* Modal container styling */
 .modal-container {
 	filter: none !important;
 	pointer-events: auto !important;

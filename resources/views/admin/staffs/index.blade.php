@@ -3,30 +3,12 @@
 
 @section('content')
 
+@push('styles')
+	<link rel="stylesheet" href="{{ asset('css/admin-modals.css') }}">
+@endpush
 
 <style>
-    /* Full-screen backdrop shared by all modals - only blur content, not navbar/sidebar */
-    #modal-backdrop {
-        position: fixed;
-        top: 80px;
-        left: 240px;
-        width: calc(100vw - 240px);
-        height: calc(100vh - 80px);
-        background: rgba(0, 0, 0, 0.35);
-        backdrop-filter: blur(2px);
-        -webkit-backdrop-filter: blur(2px);
-        z-index: 110;
-        pointer-events: auto;
-    }
-
-    /* Keep modal content crisp above the blur */
-    .modal-container {
-        filter: none !important;
-        pointer-events: auto;
-        z-index: 120;
-    }
 </style>
-
 
 <main class="flex-1 p-8 fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100">
 	<div class="flex items-center justify-between mb-8">
@@ -156,12 +138,8 @@
 
 </main>
 
-{{-- Shared Backdrop for All Modals --}}
-<div id="modal-backdrop" class="hidden"></div>
-
-
 <!-- ADD STAFF MODAL -->
-<div id="addStaffModal" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[120]">
+<div id="addStaffModal" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[9999]">
     <div class="bg-white w-[700px] rounded-3xl shadow-2xl overflow-hidden border-2 border-gray-100">
         <div class="px-6 py-4 flex items-center gap-3" style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%);">
             <h2 class="text-white font-bold text-xl tracking-wide font-['Barlow_Semi_Condensed']">Add New Staff</h2>
@@ -233,7 +211,7 @@
 
 
 <!-- VIEW STAFF MODAL -->
-<div id="viewStaffModal" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[120]">
+<div id="viewStaffModal" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[9999]">
     <div class="bg-white w-[650px] rounded-3xl shadow-2xl overflow-hidden border-2 border-gray-100">
         <div class="px-6 py-4 flex items-center gap-3" style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%);">
             <h2 class="text-white font-bold text-xl tracking-wide font-['Barlow_Semi_Condensed']">Staff Details</h2>
@@ -285,7 +263,7 @@
 
 
 <!-- EDIT STAFF MODAL -->
-<div id="editStaffModal" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[120]">
+<div id="editStaffModal" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[9999]">
     <div class="bg-white w-[650px] rounded-3xl shadow-2xl overflow-hidden border-2 border-gray-100">
         <div class="px-6 py-4 flex items-center gap-3" style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%);">
             <h2 class="text-white font-bold text-xl tracking-wide font-['Barlow_Semi_Condensed']">Edit Staff Member</h2>
@@ -359,7 +337,7 @@
 
 
 <!-- DEACTIVATE STAFF MODAL -->
-<div id="deleteModal" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[120]">
+<div id="deleteModal" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[9999]">
     <div class="bg-white w-[520px] rounded-3xl shadow-2xl p-10 text-center border-2 border-gray-100 transform transition-all">
         
         <!-- Icon Badge -->
@@ -392,103 +370,12 @@
     </div>
 </div>
 
-
-<script>
-    const backdrop = document.getElementById('modal-backdrop');
-    if (backdrop && backdrop.parentElement !== document.body) {
-        document.body.appendChild(backdrop);
-    }
-
-    function showBackdrop() {
-        if (backdrop) backdrop.classList.remove('hidden');
-        document.body.style.overflow = 'hidden';
-    }
-
-    function hideBackdrop() {
-        if (backdrop) backdrop.classList.add('hidden');
-        document.body.style.overflow = '';
-    }
-
-    function openModal(modalId) {
-        const modal = document.getElementById(modalId);
-        if (!modal) {
-            console.warn('Modal not found:', modalId);
-            return;
-        }
-        modal.classList.remove('hidden');
-        showBackdrop();
-    }
-
-    function closeModal(modalId) {
-        const modal = document.getElementById(modalId);
-        if (!modal) return;
-        modal.classList.add('hidden');
-        hideBackdrop();
-    }
-
-    function viewStaff(button) {
-        const lastName = button?.dataset?.lastName || 'N/A';
-        const firstName = button?.dataset?.firstName || 'N/A';
-        const username = button?.dataset?.username || 'N/A';
-        const password = button?.dataset?.password || '';
-        const passwordHash = button?.dataset?.passwordHash || '';
-        const dateCreated = button?.dataset?.dateCreated || 'N/A';
-
-        // Populate the view modal with staff data passed directly
-        document.getElementById('viewLastName').value = lastName;
-        document.getElementById('viewFirstName').value = firstName;
-        document.getElementById('viewUsername').value = username;
-        document.getElementById('viewPassword').value = password || passwordHash || '••••••••';
-        document.getElementById('viewDateCreated').value = dateCreated;
-        
-        // Open the modal
-        openModal('viewStaffModal');
-    }
-
-    function confirmDelete() {
-        // TODO: Hook up actual delete if needed; for now just close.
-        closeModal('deleteModal');
-    }
-
-    function prepareDeactivate(staffId) {
-        const form = document.getElementById('deactivateForm');
-        form.action = `/admin/staffs/${staffId}/deactivate`;
-        openModal('deleteModal');
-    }
-
-    function editStaff(id, lastName, firstName, username, dateCreated) {
-        // Populate edit form fields with the selected staff's data
-        document.getElementById('editLastName').value = lastName || '';
-        document.getElementById('editFirstName').value = firstName || '';
-        document.getElementById('editUsername').value = username || '';
-        document.getElementById('editPassword').value = '';
-        document.getElementById('editPasswordConfirm').value = '';
-        document.getElementById('editDateCreated').value = dateCreated || '';
-
-        // Point the form to the staff update route
-        const form = document.getElementById('editStaffForm');
-        form.action = `/admin/staffs/${id}`;
-
-        openModal('editStaffModal');
-    }
-
-    function togglePasswordVisibility(fieldId) {
-        const field = document.getElementById(fieldId);
-        const eyeOpen = document.getElementById(fieldId + '-eye-open');
-        const eyeClosed = document.getElementById(fieldId + '-eye-closed');
-
-        if (field.type === 'password') {
-            field.type = 'text';
-            eyeOpen.classList.add('hidden');
-            eyeClosed.classList.remove('hidden');
-        } else {
-            field.type = 'password';
-            eyeOpen.classList.remove('hidden');
-            eyeClosed.classList.add('hidden');
-        }
-    }
-</script>
-
+{{-- Shared Backdrop for All Modals --}}
+<div id="modal-backdrop" class="hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] bg-black/50 backdrop-blur-sm z-[9998]"></div>
 
 @endsection
+
+@push('scripts')
+<script src="{{ asset('js/admin-staffs.js') }}" defer></script>
+@endpush
 

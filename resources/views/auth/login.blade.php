@@ -104,25 +104,7 @@
     </div>
   </div>
 
-  <script>
-    const togglePassword = document.getElementById('togglePassword');
-    const passwordInput = document.getElementById('password');
-    const eyeOpen = document.getElementById('eyeOpen');
-    const eyeClosed = document.getElementById('eyeClosed');
-
-    togglePassword.addEventListener('click', () => {
-      const type = passwordInput.type === 'password' ? 'text' : 'password';
-      passwordInput.type = type;
-      
-      if (type === 'password') {
-        eyeOpen.classList.remove('hidden');
-        eyeClosed.classList.add('hidden');
-      } else {
-        eyeOpen.classList.add('hidden');
-        eyeClosed.classList.remove('hidden');
-      }
-    });
-  </script>
-
 </body>
 </html>
+
+<script src="{{ asset('js/auth-login.js') }}" defer></script>

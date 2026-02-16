@@ -12,6 +12,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/dropdowns.css') }}">
 
+    @stack('styles')
+
     <script>
         tailwind.config = {
             theme: {
@@ -270,6 +272,8 @@
     }
 </script>
 {{-- 🛑 END: NOTIFICATION JAVASCRIPT LOGIC --}}
+
+@stack('scripts')
 
 </body>
 </html>

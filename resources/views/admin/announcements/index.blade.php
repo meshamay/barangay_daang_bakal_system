@@ -3,26 +3,9 @@
 
 @section('content')
 
-<style>
-    #modal-backdrop {
-        position: fixed;
-        top: 80px;
-        left: 240px;
-        width: calc(100vw - 240px);
-        height: calc(100vh - 80px);
-        background: rgba(0, 0, 0, 0.35);
-        backdrop-filter: blur(2px);
-        -webkit-backdrop-filter: blur(2px);
-        z-index: 110;
-        pointer-events: auto;
-    }
-
-    .modal-container {
-        filter: none !important;
-        pointer-events: auto;
-        z-index: 120;
-    }
-</style>
+@push('styles')
+	<link rel="stylesheet" href="{{ asset('css/admin-modals.css') }}">
+@endpush
 
 <main class="flex-1 p-8 fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100">
     <div class="flex items-center justify-between mb-8">
@@ -196,11 +179,8 @@
     </div>
 </main>
 
-{{-- Shared Backdrop for All Modals --}}
-<div id="modal-backdrop" class="hidden"></div>
-
 <!-- ADD ANNOUNCEMENT MODAL -->
-<div id="addAnnouncementModal" class="modal-container hidden fixed top-0 left-0 w-full h-full flex items-center justify-center z-[120]" style="left: 240px; width: calc(100vw - 240px); top: 80px; height: calc(100vh - 80px);">
+<div id="addAnnouncementModal" class="modal-container hidden fixed top-0 left-0 w-full h-full flex items-center justify-center z-[9999]" style="left: 240px; width: calc(100vw - 240px); top: 80px; height: calc(100vh - 80px);">
     <div class="bg-white w-[700px] rounded-3xl shadow-2xl overflow-hidden border-2 border-gray-100">
         <div class="px-6 py-4 flex items-center gap-3" style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%);">
             <h2 class="text-white font-bold text-xl tracking-wide font-['Barlow_Semi_Condensed']">Add New Announcement</h2>
@@ -239,7 +219,7 @@
 
 
 <!-- VIEW ANNOUNCEMENT MODAL -->
-<div id="viewAnnouncementModal" class="modal-container hidden fixed top-0 left-0 w-full h-full flex items-center justify-center z-[120]" style="left: 240px; width: calc(100vw - 240px); top: 80px; height: calc(100vh - 80px);">
+<div id="viewAnnouncementModal" class="modal-container hidden fixed top-0 left-0 w-full h-full flex items-center justify-center z-[9999]" style="left: 240px; width: calc(100vw - 240px); top: 80px; height: calc(100vh - 80px);">
     <div class="bg-white w-[700px] rounded-3xl shadow-2xl overflow-hidden border-2 border-gray-100">
         <div class="px-6 py-4 flex items-center gap-3" style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%);">
             <h2 class="text-white font-bold text-xl tracking-wide font-['Barlow_Semi_Condensed']">Announcement Details</h2>
@@ -277,7 +257,7 @@
 
 
 <!-- EDIT ANNOUNCEMENT MODAL  -->
-<div id="editAnnouncementModal" class="modal-container hidden fixed top-0 left-0 w-full h-full flex items-center justify-center z-[120]" style="left: 240px; width: calc(100vw - 240px); top: 80px; height: calc(100vh - 80px);">
+<div id="editAnnouncementModal" class="modal-container hidden fixed top-0 left-0 w-full h-full flex items-center justify-center z-[9999]" style="left: 240px; width: calc(100vw - 240px); top: 80px; height: calc(100vh - 80px);">
     <div class="bg-white w-[700px] rounded-3xl shadow-2xl overflow-hidden border-2 border-gray-100">
         <div class="px-6 py-4 flex items-center gap-3" style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%);">
             <h2 class="text-white font-bold text-xl tracking-wide font-['Barlow_Semi_Condensed']">Edit Announcement Details</h2>
@@ -315,61 +295,11 @@
     </div>
 </div>
 
-
-<script>
-    const backdrop = document.getElementById('modal-backdrop');
-    if (backdrop && backdrop.parentElement !== document.body) {
-        document.body.appendChild(backdrop);
-    }
-
-    function showBackdrop() {
-        if (backdrop) backdrop.classList.remove('hidden');
-    }
-
-    function hideBackdrop() {
-        if (backdrop) backdrop.classList.add('hidden');
-    }
-
-    function openModal(modalId) {
-        document.getElementById(modalId)?.classList.remove('hidden');
-        showBackdrop();
-    }
-
-
-    function closeModal(modalId) {
-        document.getElementById(modalId)?.classList.add('hidden');
-        hideBackdrop();
-    }
-
-    function openEditModal(button) {
-        const id = button.dataset.id;
-        const title = button.dataset.title;
-        const content = button.dataset.content;
-        const start = button.dataset.start;
-        const end = button.dataset.end;
-
-        // Update Form Action URL
-        const form = document.getElementById('editAnnouncementForm');
-        form.action = "{{ route('admin.announcements.index') }}/" + id;
-
-        // Populate Fields
-        document.getElementById('editTitle').value = title;
-        document.getElementById('editContent').value = content;
-        document.getElementById('editStartDate').value = start;
-        document.getElementById('editEndDate').value = end;
-
-        openModal('editAnnouncementModal');
-    }
-
-    function openViewModal(button) {
-        document.getElementById('viewTitle').value = button.dataset.title;
-        document.getElementById('viewContent').value = button.dataset.content;
-        document.getElementById('viewStartDate').value = button.dataset.start;
-        document.getElementById('viewEndDate').value = button.dataset.end;
-
-        openModal('viewAnnouncementModal');
-    }
-</script>
-
+{{-- Shared Backdrop for All Modals --}}
+<div id="modal-backdrop" class="hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] bg-black/50 backdrop-blur-sm z-[9998]"></div>
 
 @endsection
+
+@push('scripts')
+<script src="{{ asset('js/admin-announcements.js') }}" defer></script>
+@endpush

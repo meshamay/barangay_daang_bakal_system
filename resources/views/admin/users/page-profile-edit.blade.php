@@ -477,5 +477,8 @@ function closeSaveModal() {
   });
 </script>
 
+<!-- Modal Backdrop -->
+<div id="modal-backdrop" class="hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] bg-black/50 backdrop-blur-sm z-[9998]"></div>
+
 </body>
 </html>

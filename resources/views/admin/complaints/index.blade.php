@@ -2,28 +2,11 @@
 
 @section('content')
 
+@push('styles')
+	<link rel="stylesheet" href="{{ asset('css/admin-modals.css') }}">
+@endpush
+
 <style>
-    /* Backdrop that only covers content area (excludes navbar and sidebar) */
-    #modal-backdrop {
-        position: fixed;
-        top: 80px;
-        left: 240px;
-        width: calc(100vw - 240px);
-        height: calc(100vh - 80px);
-        background: rgba(0, 0, 0, 0.35);
-        backdrop-filter: blur(2px);
-        -webkit-backdrop-filter: blur(2px);
-        z-index: 110;
-        pointer-events: auto;
-    }
-
-    /* Keep modal content crisp above the blur */
-    .modal-container {
-        filter: none !important;
-        pointer-events: auto;
-        z-index: 120;
-    }
-
     /* Table wrapper with scrollable area - this enables scrolling */
     .table-wrapper {
         max-height: 420px;
@@ -303,14 +286,11 @@
     
 </main>
 
-{{-- Shared Backdrop for All Modals --}}
-<div id="modal-backdrop" class="hidden"></div>
-
 {{-- ======================================================= --}}
 {{--  MODALS FOR STATUS UPDATES (Generic, ID set via JS)     --}}
 {{-- ======================================================= --}}
 
-    <div id="inprogressModal" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[70]">
+    <div id="inprogressModal" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[9999]">
         <div class="bg-white w-[520px] rounded-3xl shadow-2xl p-10 relative text-center border-2 border-gray-100 transform transition-all">
             <!-- Icon Badge -->
             <div class="flex justify-center mb-6">
@@ -349,7 +329,7 @@
         </div>
     </div>
 
-    <div id="completedModal" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[70]">
+    <div id="completedModal" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[9999]">
         <div class="bg-white w-[520px] rounded-3xl shadow-2xl p-10 relative text-center border-2 border-gray-100 transform transition-all">
             <!-- Icon Badge -->
             <div class="flex justify-center mb-6">
@@ -396,7 +376,7 @@
         @php $u = $c->user; @endphp
         
         {{-- UNIQUE ID FOR EVERY MODAL --}}
-        <div id="viewModal-{{ $c->id }}" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[70]">
+        <div id="viewModal-{{ $c->id }}" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[9999]">
             <div class="bg-white w-[850px] max-h-[90vh] rounded-3xl overflow-hidden flex flex-col shadow-2xl border-2 border-gray-100">
                 
                 {{-- Modal Header --}}
@@ -476,66 +456,11 @@
         </div>
     @endforeach
 
-
-    <script>
-    const backdrop = document.getElementById('modal-backdrop');
-    if (backdrop && backdrop.parentElement !== document.body) {
-        document.body.appendChild(backdrop);
-    }
-
-    function showBackdrop() {
-        if (backdrop) backdrop.classList.remove('hidden');
-        document.body.style.overflow = 'hidden';
-    }
-
-    function hideBackdrop() {
-        if (backdrop) backdrop.classList.add('hidden');
-        document.body.style.overflow = '';
-    }
-
-    // GENERIC MODAL FUNCTIONS (defensive against missing IDs)
-    function openModal(id) {
-        const modal = document.getElementById(id);
-        if (!modal) {
-            console.warn('Modal not found:', id);
-            return;
-        }
-        modal.classList.remove('hidden');
-        showBackdrop();
-    }
-
-    function closeModal(id) {
-        const modal = document.getElementById(id);
-        if (!modal) return;
-        modal.classList.add('hidden');
-        hideBackdrop();
-    }
-
-    // STATUS MODAL FUNCTIONS
-    function openStatusModal(modalId, complaintId) {
-        const modal = document.getElementById(modalId);
-        const form = document.getElementById(modalId === 'inprogressModal' ? 'inprogressForm' : 'completedForm');
-        
-        if (form) {
-            // Construct the URL manually to ensure it works regardless of route naming issues.
-            form.action = "{{ url('admin/complaints') }}/" + complaintId;
-        }
-
-        if (!modal) {
-            console.warn('Status modal not found:', modalId);
-            return;
-        }
-
-        modal.classList.remove('hidden');
-        showBackdrop();
-    }
-
-    function closeStatusModal(id) {
-        const modal = document.getElementById(id);
-        if (!modal) return;
-        modal.classList.add('hidden');
-        hideBackdrop();
-    }
-</script>
+{{-- Shared Backdrop for All Modals --}}
+<div id="modal-backdrop" class="hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] bg-black/50 backdrop-blur-sm z-[9998]"></div>
 
 @endsection
+
+@push('scripts')
+<script src="{{ asset('js/admin-complaints.js') }}" defer></script>
+@endpush

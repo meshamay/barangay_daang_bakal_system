@@ -134,13 +134,10 @@
 </div>
 
 
-{{-- Shared Backdrop for All Modals --}}
-<div id="modal-backdrop" class="hidden"></div>
-
 {{-- ======================================================================== --}}
 {{-- USER COMPLAINT MODAL (WITH NAME ATTRIBUTES AND FORM ID) --}}
 {{-- ======================================================================== --}}
-<div id="modalGeneralComplaint" class="modal-container hidden fixed inset-0 z-[70] overflow-hidden p-4 sm:p-0" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+<div id="modalGeneralComplaint" class="modal-container hidden fixed top-[80px] left-0 w-full h-[calc(100vh-80px)] flex items-center justify-center z-[9999] overflow-hidden p-4 sm:p-0" aria-labelledby="modal-title" role="dialog" aria-modal="true">
   <!-- Modal Panel -->
   <div class="flex min-h-full items-center justify-center text-center z-50 relative pointer-events-none">
     <div class="bg-white w-full sm:w-[600px] max-h-[90vh] sm:max-h-none overflow-y-auto sm:overflow-hidden rounded-2xl flex flex-col pointer-events-auto shadow-2xl border-2 border-gray-100 relative transform transition-all">
@@ -148,7 +145,7 @@
     <h1 class="text-white font-bold text-lg sm:text-xl text-center uppercase tracking-wide">General Complaint Form</h1>
   </div>
   <div class="px-4 sm:px-6 py-4 flex-1 overflow-y-auto">
-    <form id="complaintForm" class="space-y-3 sm:space-y-4">
+    <form id="complaintForm" class="space-y-3 sm:space-y-4" data-store-url="{{ route('user.complaints.store') }}">
       @csrf
       <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
         <label class="w-full sm:w-40 shrink-0 text-left text-xs sm:text-sm font-semibold text-gray-700 leading-tight">Incident Date</label>
@@ -218,7 +215,7 @@
   </div>
 </div>
 
-<div id="successModal" class="modal-container hidden fixed inset-0 flex items-center justify-center z-[80] p-4 sm:p-0">
+<div id="successModal" class="modal-container hidden fixed top-[80px] left-0 w-full h-[calc(100vh-80px)] flex items-center justify-center z-[9999] p-4 sm:p-0">
 <div class="bg-white w-full sm:w-[480px] rounded-2xl shadow-2xl p-6 sm:p-10 relative z-[9999] text-center border-2 border-gray-100">
   <div class="flex justify-center mb-4 sm:mb-6">
     <div class="w-16 h-16 sm:w-24 sm:h-24 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center shadow-lg">
@@ -240,139 +237,11 @@
 </div>
 </div>
 
-<script>
-const backdrop = document.getElementById('modal-backdrop');
-if (backdrop && backdrop.parentElement !== document.body) {
-    document.body.appendChild(backdrop);
-}
-
-function showBackdrop() {
-    if (backdrop) backdrop.classList.remove('hidden');
-}
-
-function hideBackdrop() {
-    if (backdrop) backdrop.classList.add('hidden');
-}
-
-document.addEventListener('DOMContentLoaded', function () {
-    // Move success modal to body to ensure it covers the header
-    const successModal = document.getElementById('successModal');
-    if (successModal) document.body.appendChild(successModal);
-});
-
-function openModal(id) {
-  document.getElementById(id).classList.remove('hidden');
-  showBackdrop();
-  document.body.classList.add('overflow-hidden');
-}
-function closeModal(id) {
-  document.getElementById(id).classList.add('hidden');
-  hideBackdrop();
-  document.body.classList.remove('overflow-hidden');
-}
-
-// Close on Escape key
-document.addEventListener('keydown', function(event) {
-    if (event.key === "Escape") {
-        closeModal('modalGeneralComplaint');
-        if(!document.getElementById('successModal').classList.contains('hidden')) closeSuccessModal();
-    }
-});
-
-function closeSuccessModal() {
-  document.getElementById("successModal").classList.add("hidden");
-  hideBackdrop();
-  document.body.classList.remove('overflow-hidden');
-  // Reload page to show the new complaint in the table
-  window.location.reload(); 
-}
-
-function toggleSpecifyField() {
-  const select = document.getElementById('description');
-  const specify = document.getElementById('specifyField');
-  specify.classList.toggle('hidden', select.value !== 'Others');
-}
-function removePlaceholder() {
-  document.getElementById('specifyInput').placeholder = '';
-}
-function restorePlaceholder() {
-  document.getElementById('specifyInput').placeholder = 'Please specify...';
-}
-
-// 🚀 NEW AJAX SUBMISSION FUNCTION FOR COMPLAINTS
-async function submitComplaintForm() {
-    const form = document.getElementById('complaintForm');
-    const submitButton = document.getElementById('submitComplaintBtn');
-    const errorsDiv = document.getElementById('validationErrors');
-    
-    const checkbox = form.querySelector('input[type="checkbox"][required]');
-    if (checkbox && !checkbox.checked) {
-        alert("Please confirm the accuracy of the information by checking the box.");
-        return;
-    }
-
-    const formData = new FormData(form);
-    errorsDiv.classList.add('hidden');
-    errorsDiv.innerHTML = '';
-    
-    submitButton.disabled = true;
-    submitButton.textContent = 'SUBMITTING...';
-
-    try {
-        // Use the complaints store route
-        const response = await fetch("{{ route('user.complaints.store') }}", {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'Accept': 'application/json',
-            },
-        });
-
-        let data;
-        try {
-            data = await response.json();
-        } catch (e) {
-            console.error('Failed to parse JSON response:', e);
-            alert('Server error: Invalid response format. Check console for details.');
-            return;
-        }
-
-        if (response.status === 422) { // Validation Error
-            let messages = '';
-            for (const key in data.errors) {
-                messages += `• ${data.errors[key][0]}<br>`;
-            }
-            errorsDiv.innerHTML = messages;
-            errorsDiv.classList.remove('hidden');
-
-        } else if (response.ok) { // Success (200, 201)
-            
-            // 🚀 FIX: Capture Transaction ID from server response
-            const trackingId = data.tracking_number;
-            
-            // Update the success message content with the ID
-            const successMessage = document.getElementById('successMessageContent');
-            successMessage.innerHTML = `
-                Transaction ID: <strong>${trackingId}</strong><br>
-                Your complaint has been filed and will be reviewed shortly.
-            `;
-            
-            closeModal('modalGeneralComplaint');
-            showBackdrop();
-            openModal('successModal');
-            form.reset(); 
-
-        } else {
-            alert('An unexpected server error occurred: ' + (data.details || data.message || 'Check console.'));
-        }
-    } catch (error) {
-        console.error('Complaint submission error:', error);
-        alert('A network or critical server error occurred: ' + error.message);
-    } finally {
-        submitButton.disabled = false;
-        submitButton.textContent = 'SUBMIT';
-    }
-}
-</script>
+{{-- Shared Backdrop for All Modals --}}
+<div id="modal-backdrop" class="hidden fixed top-[80px] left-0 w-full h-[calc(100vh-80px)] bg-black/40 backdrop-blur-sm z-[9998]"></div>
 
 @endsection
+
+@push('scripts')
+<script src="{{ asset('js/user-complaints.js') }}" defer></script>
+@endpush

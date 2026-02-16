@@ -1,28 +1,16 @@
 @extends('admin.layouts.app')
 @section('content')
+
+@push('styles')
+	<link rel="stylesheet" href="{{ asset('css/admin-modals.css') }}">
+@endpush
+
 <style>
 	.justify-start {
 		justify-content: center;
 	}
-
-	#modal-backdrop {
-		position: fixed;
-		top: 80px;
-		left: 240px;
-		width: calc(100vw - 240px);
-		height: calc(100vh - 80px);
-		background: rgba(0, 0, 0, 0.25);
-		backdrop-filter: blur(3px);
-		-webkit-backdrop-filter: blur(3px);
-		z-index: 50;
-		pointer-events: auto;
-	}
-
-	.modal-container {
-		filter: none !important;
-		pointer-events: auto;
-	}
 </style>
+
 <main class="flex-1 p-8 fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] overflow-y-auto bg-gradient-to-br from-gray-50 to-gray-100"> 
 	<div class="flex items-center justify-between mb-8">
 		<div>
@@ -222,7 +210,7 @@
 							
 							{{-- View Button --}}
 							<div class="relative group">
-								<button onclick="openModal('{{ $targetModal }}', this)" 
+								<button onclick="openDocumentModal('{{ $targetModal }}', this)" 
 										class="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-blue-50 transition-all duration-200 hover:shadow-md"
 								
 										{{-- Personal Info --}}
@@ -312,11 +300,8 @@
 
 {{-- ================= MODALS START HERE ================= --}}
 
-{{-- Shared Backdrop for All Modals --}}
-<div id="modal-backdrop" class="hidden"></div>
-
 {{-- Modal 1: Clearance --}}
-<div id="modalClearance" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[70]">
+<div id="modalClearance" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[9999]">
 	<div class="bg-white w-[800px] max-h-[90vh] rounded-3xl overflow-hidden flex flex-col shadow-2xl border-2 border-gray-100">
 		<div class="flex items-center justify-center px-6 py-4" style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%);">
 			<h1 class="text-white text-xl font-bold font-['Barlow_Semi_Condensed'] tracking-wide">Request for Barangay Clearance</h1>
@@ -357,7 +342,7 @@
 </div>
 
 {{-- Modal 2: Certificate --}}
-<div id="modalCertificate" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[70]">
+<div id="modalCertificate" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[9999]">
 	<div class="bg-white w-[800px] max-h-[90vh] rounded-3xl overflow-hidden flex flex-col shadow-2xl border-2 border-gray-100">
 		<div class="flex items-center justify-center px-6 py-4" style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%);">
 			<h1 class="text-white text-xl font-bold font-['Barlow_Semi_Condensed'] tracking-wide">Request for Barangay Certificate</h1>
@@ -398,7 +383,7 @@
 </div>
 
 {{-- Modal 3: Indigency --}}
-<div id="modalIndigency" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[70]">
+<div id="modalIndigency" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[9999]">
 	<div class="bg-white w-[800px] max-h-[90vh] rounded-3xl overflow-hidden flex flex-col shadow-2xl border-2 border-gray-100">
 		<div class="flex items-center justify-center px-6 py-4" style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%);">
 			<h1 class="text-white text-xl font-bold font-['Barlow_Semi_Condensed'] tracking-wide">Request for Certificate of Indigency</h1>
@@ -450,7 +435,7 @@
 </div>
 
 {{-- Modal 4: Residency --}}
-<div id="modalResidency" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[70]">
+<div id="modalResidency" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[9999]">
 	<div class="bg-white w-[800px] max-h-[90vh] rounded-3xl overflow-hidden flex flex-col shadow-2xl border-2 border-gray-100">
 		<div class="flex items-center justify-center px-6 py-4" style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%);">
 			<h1 class="text-white text-xl font-bold font-['Barlow_Semi_Condensed'] tracking-wide">Request for Certificate of Residency</h1>
@@ -491,7 +476,7 @@
 </div>
 
 {{-- Modal 5: Process Confirmation --}}
-<div id="inprogressModal" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[70]">
+<div id="inprogressModal" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[9999]">
 	<div class="bg-white w-[520px] rounded-3xl shadow-2xl p-10 relative text-center border-2 border-gray-100 transform transition-all">
 		
 		<!-- Icon Badge -->
@@ -533,7 +518,7 @@
 </div>
 
 {{-- Modal 6: Complete Confirmation --}}
-<div id="completedModal" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[70]">
+<div id="completedModal" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[9999]">
 	<div class="bg-white w-[520px] rounded-3xl shadow-2xl p-10 relative text-center border-2 border-gray-100 transform transition-all">
 		
 		<!-- Icon Badge -->
@@ -577,141 +562,11 @@
 	</div>
 </div>
 
-<script>
-const backdrop = document.getElementById('modal-backdrop');
-if (backdrop && backdrop.parentElement !== document.body) {
-	document.body.appendChild(backdrop);
-}
+{{-- Shared Backdrop for All Modals --}}
+<div id="modal-backdrop" class="hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] bg-black/50 backdrop-blur-sm z-[9998]"></div>
 
-function showBackdrop() {
-	if (backdrop) backdrop.classList.remove('hidden');
-}
-
-function hideBackdrop() {
-	if (backdrop) backdrop.classList.add('hidden');
-}
-
-// Open View Modal and Populate Data
-function openModal(modalId, button) {
-	const modal = document.getElementById(modalId);
-	if(!modal) return;
-
-	// 1. Get Data from Button attributes
-	const d = button.dataset;
-
-	// 2. Helper function to find input by Label text inside this specific modal
-	const setField = (labelText, value) => {
-		// Find all labels in this modal
-		const labels = modal.querySelectorAll('label');
-		labels.forEach(label => {
-			// Check if label contains the text (case insensitive, trimmed)
-			if (label.textContent.trim().includes(labelText)) {
-				// Find the input/textarea immediately following the label
-				const input = label.nextElementSibling; 
-				
-				// Safety check: ensure input exists and is an input/textarea field
-				if (input && (input.tagName === 'INPUT' || input.tagName === 'TEXTAREA')) {
-					// Handle null/undefined values gracefully
-					input.value = (value && value !== 'undefined' && value !== 'null') ? value : '';
-				}
-			}
-		});
-	};
-
-	// 3. Populate Fields
-	setField('Last Name:', d.lname);
-	setField('First Name:', d.fname);
-	setField('Middle Name:', d.mname);
-	setField('Suffix:', d.suffix);
-	setField('Age:', d.age);
-	setField('Date of Birth:', d.dob);
-	setField('Place of Birth:', d.pob);
-	setField('Gender:', d.gender);
-	setField('Civil Status:', d.civil);
-	setField('Citizenship:', d.citizenship);
-	
-	// --- Specific Data Fields ---
-	// 🚀 FIX: Length of Residency (from parent table)
-	setField('Length of Residency:', d.residency); 
-	
-	// 🚀 FIX: Valid ID Number (from parent table)
-	setField('Valid ID Number:', d.validIdNo); 
-	
-	// 🚀 FIX: Registered Voter (from parent table)
-	setField('Registered Voter:', d.voter); 
-	
-	// Purpose fields (Handles "Purpose of Request" and "Other Purpose" in Indigency)
-	setField('Purpose of Request:', d.purpose);
-	setField('Other Purpose:', d.purpose); 
-	
-	// Indigency specific text
-	setField('Certificate of Being Indigent:', 'Indigency Request'); 
-
-	// 4. Update Images Logic (Switch between Icon and Photo)
-	const defaultIcon = "https://cdn-icons-png.flaticon.com/512/685/685655.png";
-	
-	// Select the specific images using the classes we added to the modal HTML
-	const frontImg = modal.querySelector('.js-id-front');
-	const backImg = modal.querySelector('.js-id-back');
-	const proofImg = modal.querySelector('.js-proof-img'); // For Indigency Modal
-
-	// Helper to toggle image styles
-	const updateImage = (imgElement, imageSrc) => {
-		if (!imgElement) return;
-
-		if (imageSrc && imageSrc !== '') {
-			// Show real photo
-			imgElement.src = imageSrc;
-			imgElement.classList.remove('w-10', 'opacity-70', 'mb-2'); 
-			imgElement.classList.add('w-full', 'h-40', 'px-2', 'object-contain'); 
-		} else {
-			// Show default icon
-			imgElement.src = defaultIcon;
-			imgElement.classList.add('w-10', 'opacity-70', 'mb-2'); 
-			imgElement.classList.remove('w-full', 'h-40', 'px-2', 'object-contain'); 
-		}
-	};
-
-	updateImage(frontImg, d.idFront);
-	updateImage(backImg, d.idBack);
-	updateImage(proofImg, d.proof); // Indigency proof
-
-	// 5. Show Modal
-	showBackdrop();
-	modal.classList.remove('hidden');
-}
-
-function closeModal(id) {
-	document.getElementById(id).classList.add('hidden');
-	hideBackdrop();
-}
-
-// Open In Progress Modal
-function openInprogressModal(requestId) {
-	const modal = document.getElementById('inprogressModal');
-	const form = document.getElementById('inprogressForm');
-	// 🚨 WARNING: Update this to use the route() helper if possible for robustness!
-	form.action = "/admin/documents/" + requestId + "/status";
-	showBackdrop();
-	modal.classList.remove('hidden');
-}
-function closeInprogressModal() {
-	document.getElementById('inprogressModal').classList.add('hidden');
-	hideBackdrop();
-}
-
-// Open Completed Modal
-function openCompletedModal(requestId) {
-	const modal = document.getElementById('completedModal');
-	const form = document.getElementById('completedForm');
-	// 🚨 WARNING: Update this to use the route() helper if possible for robustness!
-	form.action = "/admin/documents/" + requestId + "/status";
-	showBackdrop();
-	modal.classList.remove('hidden');
-}
-function closeCompletedModal() {
-	document.getElementById('completedModal').classList.add('hidden');
-	hideBackdrop();
-}
-</script>
 @endsection
+
+@push('scripts')
+<script src="{{ asset('js/admin-documents.js') }}" defer></script>
+@endpush

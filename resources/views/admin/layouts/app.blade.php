@@ -14,6 +14,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/dropdowns.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/admin-modals.css') }}">
+    <script src="{{ asset('js/admin-modals.js') }}" defer></script>
+
+    @stack('styles')
+    @stack('scripts')
 
     <script>
         tailwind.config = {

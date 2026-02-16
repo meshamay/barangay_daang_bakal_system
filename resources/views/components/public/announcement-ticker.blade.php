@@ -14,7 +14,7 @@
                     @endif
                 @empty
                     <span class="text-[#facc15] font-medium text-sm sm:text-base tracking-wide mx-4">
-                        There are no announcements at the moment.
+                        No announcements at the moment.
                     </span>
                 @endforelse
             </div>
@@ -23,6 +23,24 @@
 </div>
 
 
-@push('styles')
-	<link rel="stylesheet" href="{{ asset('css/animations.css') }}">
-@endpush
+<style>
+    @keyframes marquee {
+        0% {
+            transform: translateX(100%);
+        }
+
+
+        100% {
+            transform: translateX(-100%);
+        }
+    }
+
+
+    .animate-marquee {
+        animation: marquee 25s linear infinite;
+    }
+   
+    .animate-marquee:hover {
+        animation-play-state: paused;
+    }
+</style>

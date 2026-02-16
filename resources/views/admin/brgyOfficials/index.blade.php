@@ -3,25 +3,11 @@
 
 @section('content')
 
-<style>
-    #modal-backdrop {
-        position: fixed;
-        top: 80px;
-        left: 240px;
-        width: calc(100vw - 240px);
-        height: calc(100vh - 80px);
-        background: rgba(0, 0, 0, 0.35);
-        backdrop-filter: blur(2px);
-        -webkit-backdrop-filter: blur(2px);
-        z-index: 110;
-        pointer-events: auto;
-    }
+@push('styles')
+	<link rel="stylesheet" href="{{ asset('css/admin-modals.css') }}">
+@endpush
 
-    .modal-container {
-        filter: none !important;
-        pointer-events: auto;
-        z-index: 120;
-    }
+<style>
 </style>
 
 <main class="flex-1 p-8 fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100">
@@ -131,7 +117,7 @@
 
 
 <!-- ADD OFFICIAL MODAL -->
-<div id="addOfficialModal" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[120]">
+<div id="addOfficialModal" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[9999]">
     <div class="bg-white w-[700px] rounded-3xl shadow-2xl overflow-hidden border-2 border-gray-100">
         <div class="px-6 py-4 flex items-center gap-3" style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%);">
             <h2 class="text-white font-bold text-xl tracking-wide font-['Barlow_Semi_Condensed']">Add New Barangay Official</h2>
@@ -183,7 +169,7 @@
 
 
 <!-- VIEW OFFICIAL MODAL -->
-<div id="viewOfficialModal" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[120]">
+<div id="viewOfficialModal" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[9999]">
     <div class="bg-white w-[700px] rounded-3xl shadow-2xl overflow-hidden border-2 border-gray-100">
         <div class="px-6 py-4 flex items-center gap-3" style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%);">
             <h2 class="text-white font-bold text-xl tracking-wide font-['Barlow_Semi_Condensed']">Barangay Official Details</h2>
@@ -223,7 +209,7 @@
 
 
 <!-- EDIT OFFICIAL MODAL -->
-<div id="editOfficialModal" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[120]">
+<div id="editOfficialModal" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[9999]">
     <div class="bg-white w-[700px] rounded-3xl shadow-2xl overflow-hidden border-2 border-gray-100">
         <div class="px-6 py-4 flex items-center gap-3" style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%);">
             <h2 class="text-white font-bold text-xl tracking-wide font-['Barlow_Semi_Condensed']">Edit Barangay Official Details</h2>
@@ -276,10 +262,7 @@
 
 
 <!-- DELETE OFFICIAL MODAL -->
-{{-- Shared Backdrop for All Modals --}}
-<div id="modal-backdrop" class="hidden"></div>
-
-<div id="deleteModal" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[120]">
+<div id="deleteModal" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[9999]">
     <div class="bg-white w-[520px] rounded-3xl shadow-2xl p-10 text-center border-2 border-gray-100 transform transition-all">
         
         <!-- Icon Badge -->
@@ -313,107 +296,11 @@
 </div>
 
 
-<script>
-    const backdrop = document.getElementById('modal-backdrop');
-    if (backdrop && backdrop.parentElement !== document.body) {
-        document.body.appendChild(backdrop);
-    }
-
-    function showBackdrop() {
-        if (backdrop) backdrop.classList.remove('hidden');
-    }
-
-    function hideBackdrop() {
-        if (backdrop) backdrop.classList.add('hidden');
-    }
-
-    function openModal(modalId) {
-        document.getElementById(modalId)?.classList.remove('hidden');
-        showBackdrop();
-    }
-
-    function closeModal(modalId) {
-        document.getElementById(modalId)?.classList.add('hidden');
-        hideBackdrop();
-    }
-
-    function previewImage(event, previewImageId, iconPlaceholderId, thumbId = null) {
-        const input = event.target;
-        const reader = new FileReader();
-
-        reader.onload = function() {
-            const dataURL = reader.result;
-            const preview = document.getElementById(previewImageId);
-            const icon = document.getElementById(iconPlaceholderId);
-            const thumb = thumbId ? document.getElementById(thumbId) : null;
-
-            if (preview) {
-                preview.src = dataURL;
-                preview.classList.remove('hidden');
-            }
-            if (icon) {
-                icon.classList.add('hidden');
-            }
-            if (thumb) {
-                thumb.src = dataURL;
-            }
-        };
-
-        if (input.files && input.files[0]) {
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-
-    function openViewOfficial(data) {
-        document.getElementById('viewLastName').value = data.last_name || '';
-        document.getElementById('viewFirstName').value = data.first_name || '';
-        document.getElementById('viewMiddleInitial').value = data.middle_initial || '';
-        document.getElementById('viewPosition').value = data.position || '';
-
-        const photo = document.getElementById('viewPhotoPreview');
-        const thumb = document.getElementById('viewPhotoThumb');
-        const fallback = 'https://via.placeholder.com/400x400.png?text=Add+Photo';
-        const hasPhoto = data.photo && typeof data.photo === 'string' && data.photo.trim() !== '';
-        photo.onerror = () => { photo.onerror = null; photo.src = fallback; };
-        photo.src = hasPhoto ? data.photo : fallback;
-        if (thumb) {
-            thumb.src = hasPhoto ? data.photo : 'https://via.placeholder.com/200x200.png?text=Preview';
-        }
-
-        openModal('viewOfficialModal');
-    }
-
-    function openEditOfficial(data) {
-        document.getElementById('editOfficialForm').action = `/admin/brgy-officials/${data.id}`;
-        document.getElementById('editLastName').value = data.last_name || '';
-        document.getElementById('editFirstName').value = data.first_name || '';
-        document.getElementById('editMiddleInitial').value = data.middle_initial || '';
-        document.getElementById('editPosition').value = data.position || '';
-
-        const photo = document.getElementById('editPhotoPreview');
-        const icon = document.getElementById('editCameraIconPlaceholder');
-        const thumb = document.getElementById('editPhotoThumb');
-        const fallback = 'https://via.placeholder.com/400x400.png?text=Add+Photo';
-        if (data.photo) {
-            photo.src = data.photo;
-            photo.classList.remove('hidden');
-            icon.classList.add('hidden');
-            if (thumb) thumb.src = data.photo;
-        } else {
-            photo.classList.add('hidden');
-            icon.classList.remove('hidden');
-            if (thumb) thumb.src = 'https://via.placeholder.com/200x200.png?text=Preview';
-            photo.src = fallback;
-        }
-
-        openModal('editOfficialModal');
-    }
-
-    function openDeleteOfficial(id, name) {
-        document.getElementById('deleteOfficialForm').action = `/admin/brgy-officials/${id}`;
-        openModal('deleteModal');
-    }
-</script>
-
+{{-- Shared Backdrop for All Modals --}}
+<div id="modal-backdrop" class="hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] bg-black/50 backdrop-blur-sm z-[9998]"></div>
 
 @endsection
+
+@push('scripts')
+<script src="{{ asset('js/admin-brgyOfficials.js') }}" defer></script>
+@endpush

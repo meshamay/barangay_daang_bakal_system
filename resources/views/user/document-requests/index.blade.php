@@ -159,19 +159,16 @@
 </div>
 </main>
 
-{{-- Global Backdrop --}}
-<div id="modal-backdrop" class="hidden"></div>
-
 {{-- ================================================================================= --}}
 {{-- MODAL 1: Barangay Certificate --}}
-<div id="modalCertificate" class="modal-container hidden fixed inset-0 flex items-center justify-center z-[70] p-4 sm:p-0" onclick="if(event.target === this) closeModal('modalCertificate')">
-	<div class="modal-content bg-white w-full sm:w-[560px] max-h-[90vh] sm:max-h-none rounded-2xl shadow-2xl overflow-y-auto sm:overflow-hidden flex flex-col border-2 border-gray-100">
+<div id="modalCertificate" class="modal-container hidden fixed top-[80px] left-0 w-full h-[calc(100vh-80px)] flex items-center justify-center z-[9999] p-4 sm:p-0" onclick="if(event.target === this) closeModal('modalCertificate')">
+	<div class="modal-content bg-white -translate-y-5 w-full sm:w-[560px] max-h-[90vh] sm:max-h-none rounded-2xl shadow-2xl overflow-y-auto sm:overflow-hidden flex flex-col border-2 border-gray-100">
 	<div class="px-4 sm:px-6 py-4 rounded-t-2xl" style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%);">
 		<h1 class="text-white font-bold text-lg sm:text-xl text-center uppercase tracking-wide">APPLICATION FOR BARANGAY CERTIFICATE</h1>
 	</div>
 	<div class="px-4 sm:px-8 py-6 text-left flex-1 flex flex-col justify-between overflow-y-auto">
 		<div>
-			<form id="formCertificate">
+			<form id="formCertificate" data-store-url="{{ route('user.document.store') }}">
 				@csrf
 				<input type="hidden" name="document_type" value="Barangay Certificate">
 
@@ -213,14 +210,14 @@
 </div>
 
 {{-- MODAL 2: Barangay Clearance --}}
-<div id="modalClearance" class="modal-container hidden fixed inset-0 flex items-center justify-center z-[70] p-4 sm:p-0" onclick="if(event.target === this) closeModal('modalClearance')">
-    <div class="modal-content bg-white w-full sm:w-[560px] max-h-[90vh] sm:max-h-none rounded-2xl shadow-2xl overflow-y-auto sm:overflow-hidden flex flex-col border-2 border-gray-100">
+<div id="modalClearance" class="modal-container hidden fixed top-[80px] left-0 w-full h-[calc(100vh-80px)] flex items-center justify-center z-[9999] p-4 sm:p-0" onclick="if(event.target === this) closeModal('modalClearance')">
+	<div class="modal-content bg-white -translate-y-3 w-full sm:w-[560px] max-h-[90vh] sm:max-h-none rounded-2xl shadow-2xl overflow-y-auto sm:overflow-hidden flex flex-col border-2 border-gray-100">
     <div class="px-4 sm:px-6 py-4 rounded-t-2xl" style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%);">
         <h1 class="text-white font-bold text-lg sm:text-xl text-center uppercase tracking-wide">APPLICATION FOR BARANGAY CLEARANCE</h1>
     </div>
     <div class="px-4 sm:px-8 py-6 text-left flex-1 flex flex-col justify-between overflow-y-auto">
         <div>
-            <form id="formClearance">
+            <form id="formClearance" data-store-url="{{ route('user.document.store') }}">
                 @csrf
                 <input type="hidden" name="document_type" value="Barangay Clearance">
 
@@ -262,8 +259,8 @@
 </div>
 
 {{-- MODAL 3: Barangay Indigency --}}
-<div id="modalIndigency" class="modal-container hidden fixed inset-0 flex items-center justify-center z-[70] p-4 sm:p-0">
-	<div class="modal-content bg-white w-full sm:w-[560px] max-h-[90vh] sm:max-h-none overflow-y-auto sm:overflow-hidden rounded-2xl shadow-2xl overflow-hidden flex flex-col border-2 border-gray-100">
+<div id="modalIndigency" class="modal-container hidden fixed top-[80px] left-0 w-full h-[calc(100vh-80px)] flex items-center justify-center z-[9999] p-4 sm:p-0">
+	<div class="modal-content bg-white -translate-y-3 w-full sm:w-[560px] max-h-[90vh] sm:max-h-none overflow-y-auto sm:overflow-hidden rounded-2xl shadow-2xl overflow-hidden flex flex-col border-2 border-gray-100">
 
 		<!-- Header -->
 		<div class="px-4 sm:px-6 py-4 rounded-t-2xl" style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%);">
@@ -273,7 +270,7 @@
 		<!-- Body -->
 		<div class="px-4 sm:px-8 py-6 text-left flex-1 flex flex-col justify-between">
 			<div>
-				<form id="formIndigency" class="space-y-5" enctype="multipart/form-data">
+				<form id="formIndigency" class="space-y-5" enctype="multipart/form-data" data-store-url="{{ route('user.document.store') }}">
 					@csrf
 					<input type="hidden" name="document_type" value="Certificate of Indigency">
 					<input type="hidden" name="resident_years" value="N/A">
@@ -321,8 +318,8 @@
 </div>
 
 {{-- MODAL 4: Barangay Residency --}}
-<div id="modalResidency" class="modal-container hidden fixed inset-0 flex items-center justify-center z-[70] p-4 sm:p-0">
-	<div class="modal-content bg-white w-full sm:w-[560px] max-h-[90vh] sm:max-h-none overflow-y-auto sm:overflow-hidden rounded-2xl shadow-2xl overflow-hidden flex flex-col border-2 border-gray-100">
+<div id="modalResidency" class="modal-container hidden fixed top-[80px] left-0 w-full h-[calc(100vh-80px)] flex items-center justify-center z-[9999] p-4 sm:p-0">
+	<div class="modal-content bg-white -translate-y-3 w-full sm:w-[560px] max-h-[90vh] sm:max-h-none overflow-y-auto sm:overflow-hidden rounded-2xl shadow-2xl overflow-hidden flex flex-col border-2 border-gray-100">
 
 		<!-- Header -->
 		<div class="px-4 sm:px-6 py-4 rounded-t-2xl" style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%);">
@@ -333,7 +330,7 @@
 		<div class="px-4 sm:px-8 py-6 text-left flex-1 flex flex-col justify-between">
 			
 			<div>
-				<form id="formResidency" class="space-y-5">
+				<form id="formResidency" class="space-y-5" data-store-url="{{ route('user.document.store') }}">
 					@csrf
 					<input type="hidden" name="document_type" value="Certificate of Residency">
 					<input type="hidden" name="civil_status" value="N/A">
@@ -382,7 +379,7 @@
 {{-- ... (Success Modals and Scripts remain unchanged) ... --}}
 
 @if(session('success'))
-<div id="sessionSuccessModal" class="modal-container fixed inset-0 flex items-center justify-center z-[80] p-4 sm:p-0">
+<div id="sessionSuccessModal" class="modal-container fixed top-[80px] left-0 w-full h-[calc(100vh-80px)] flex items-center justify-center z-[9999] p-4 sm:p-0">
 	<div class="bg-[#DDE1E5] w-full sm:w-[480px] rounded-2xl shadow-xl p-6 sm:p-10 relative text-center">
 	<div class="flex justify-center mb-3 sm:mb-4">
 		<div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full border-4 border-green-700 flex items-center justify-center">
@@ -408,7 +405,7 @@
 </div>
 @endif
 
-<div id="ajaxSuccessModal" class="modal-container hidden fixed inset-0 flex items-center justify-center z-[80] p-4 sm:p-0">
+<div id="ajaxSuccessModal" class="modal-container hidden fixed top-[80px] left-0 w-full h-[calc(100vh-80px)] flex items-center justify-center z-[9999] p-4 sm:p-0">
 	<div class="bg-white w-full sm:w-[480px] rounded-2xl shadow-2xl p-6 sm:p-10 relative z-[9999] text-center border-2 border-gray-100">
 	<div class="flex justify-center mb-4 sm:mb-6">
 		<div class="w-16 h-16 sm:w-24 sm:h-24 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center shadow-lg">
@@ -427,130 +424,11 @@
 	</div>
 </div>
 
-<script>
-	const backdrop = document.getElementById('modal-backdrop');
-	if (backdrop && backdrop.parentElement !== document.body) {
-		document.body.appendChild(backdrop); // ensure fixed overlay anchors to viewport, not a transformed parent
-	}
-
-	function showBackdrop() {
-		if (backdrop) backdrop.classList.remove('hidden');
-	}
-
-	function hideBackdrop() {
-		if (backdrop) backdrop.classList.add('hidden');
-	}
-
-	function openModal(id) {
-		document.getElementById(id).classList.remove('hidden');
-		showBackdrop();
-	}
-	function closeModal(id) {
-		document.getElementById(id).classList.add('hidden');
-		hideBackdrop();
-	}
-
-	function closeSuccessModal(id) {
-		const modal = document.getElementById(id);
-		if (modal) modal.remove();
-		hideBackdrop();
-	}
-
-	// Close on ESC
-	document.addEventListener('keydown', function(event) {
-		if (event.key === "Escape") {
-			['modalCertificate', 'modalClearance', 'modalIndigency', 'modalResidency'].forEach(id => {
-				const modal = document.getElementById(id);
-				if (modal && !modal.classList.contains('hidden')) {
-					closeModal(id);
-				}
-			});
-		}
-	});
-
-	document.addEventListener('DOMContentLoaded', function () {
-		backdrop.classList.add('hidden'); // Ensure backdrop is hidden on load
-
-		// Move success modals to body to ensure they cover the header
-		['sessionSuccessModal', 'ajaxSuccessModal'].forEach(id => {
-			const el = document.getElementById(id);
-			if (el) document.body.appendChild(el);
-		});
-
-		const sessionSuccessModal = document.getElementById('sessionSuccessModal');
-		if (sessionSuccessModal && !sessionSuccessModal.classList.contains('hidden')) {
-			showBackdrop();
-		}
-
-		const forms = {
-			'formCertificate': 'modalCertificate',
-			'formClearance': 'modalClearance',
-			'formIndigency': 'modalIndigency',
-			'formResidency': 'modalResidency'
-		};
-
-		for (const formId in forms) {
-			const form = document.getElementById(formId);
-			if (form) {
-				form.addEventListener('submit', function (e) {
-					e.preventDefault();
-					submitForm(form, forms[formId]);
-				});
-			}
-		}
-	});
-
-	async function submitForm(form, modalId) {
-		const formData = new FormData(form);
-		let submitButton = form.querySelector('button[type="submit"]');
-		if (!submitButton) {
-			submitButton = document.querySelector(`button[form="${form.id}"][type="submit"]`);
-		}
-		if (submitButton) {
-			submitButton.disabled = true;
-			submitButton.textContent = 'SUBMITTING...';
-		}
-
-		// You can add logic here to clear old validation messages
-
-		try {
-			const response = await fetch("{{ route('user.document.store') }}", {
-				method: 'POST',
-				body: formData,
-				headers: {
-					'Accept': 'application/json',
-				},
-			});
-
-			if (response.status === 422) { // Validation error
-				const data = await response.json();
-				let errorMessages = 'Please fix the following errors:\n';
-				for (const key in data.errors) {
-					errorMessages += `- ${data.errors[key][0]}\n`;
-				}
-				alert(errorMessages);
-			} else if (response.ok) {
-				const data = await response.json();
-				closeModal(modalId);
-				
-				const successModal = document.getElementById('ajaxSuccessModal');
-				const successMessage = document.getElementById('ajaxSuccessMessage');
-				successMessage.innerHTML = `Transaction ID: ${data.tracking_number} <br> Your request will be processed within 1 day. You may claim your document at the barangay once it’s ready for release.`;
-				showBackdrop();
-				successModal.classList.remove('hidden');
-			} else {
-				const errorText = await response.text();
-				throw new Error('An unexpected error occurred. Please try again. Status: ' + response.status + '. Response: ' + errorText);
-			}
-		} catch (error) {
-			alert(error.message);
-		} finally {
-			if (submitButton) {
-				submitButton.disabled = false;
-				submitButton.textContent = 'SUBMIT';
-			}
-		}
-	}
-</script>
+{{-- Global Backdrop --}}
+<div id="modal-backdrop" class="hidden fixed top-[80px] left-0 w-full h-[calc(100vh-80px)] bg-black/50 backdrop-blur-sm z-[9998]"></div>
 
 @endsection
+
+@push('scripts')
+<script src="{{ asset('js/user-document-requests.js') }}" defer></script>
+@endpush
