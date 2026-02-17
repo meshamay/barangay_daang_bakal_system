@@ -1,0 +1,10 @@
+vendor
+node_modules
+.git
+.env
+storage/*.key
+storage/*.sqlite
+public/storage
+/.idea
+.vscode
+docker-compose.override.yml
