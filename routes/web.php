@@ -132,7 +132,8 @@ Route::middleware(['auth:admin', 'check.admin'])->prefix('admin')->name('admin.'
     Route::get('/users/{user}', [ResidentManagementController::class, 'show'])->name('users.show');
     Route::get('/users/{user}/edit', [ResidentManagementController::class, 'edit'])->name('users.edit');
     Route::put('/users/{user}', [ResidentManagementController::class, 'update'])->name('users.update');
-    Route::put('/users/{user}/accept', [ResidentManagementController::class, 'accept'])->name('users.accept');
+    Route::put('/users/{user}/accept', [ResidentManagementController::class, 'accept'])->name('users.accept')->withTrashed();
+    Route::put('/users/{user}/approve', [ResidentManagementController::class, 'approve'])->name('users.approve')->withTrashed();
     Route::put('/users/{user}/reject', [ResidentManagementController::class, 'reject'])->name('users.reject');
     Route::put('/users/{user}/archive', [ResidentManagementController::class, 'archive'])->name('users.archive');
     Route::put('/users/{user}/restore', [ResidentManagementController::class, 'restore'])->name('users.restore');

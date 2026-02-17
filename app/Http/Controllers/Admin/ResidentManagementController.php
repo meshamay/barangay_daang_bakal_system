@@ -16,11 +16,22 @@ class ResidentManagementController extends Controller
     public function index(Request $request)
     {
         
-        $totalResidents = User::where('user_type', 'resident')->whereNull('deleted_at')->count();
-        $maleCount      = User::where('user_type', 'resident')->whereRaw('LOWER(gender) = ?', ['male'])->whereNull('deleted_at')->count();
-        $femaleCount    = User::where('user_type', 'resident')->whereRaw('LOWER(gender) = ?', ['female'])->whereNull('deleted_at')->count();
+        $totalResidents = User::where('user_type', 'resident')
+            ->withTrashed()
+            ->count();
+        $maleCount      = User::where('user_type', 'resident')
+            ->withTrashed()
+            ->whereRaw('LOWER(TRIM(gender)) = ?', ['male'])
+            ->count();
+        $femaleCount    = User::where('user_type', 'resident')
+            ->withTrashed()
+            ->whereRaw('LOWER(TRIM(gender)) = ?', ['female'])
+            ->count();
         $archivedCount  = User::where('user_type', 'resident')->onlyTrashed()->count();
-        $femaleResidents = User::where('user_type', 'resident')->whereRaw('LOWER(gender) = ?', ['female'])->whereNull('deleted_at')->get();
+        $femaleResidents = User::where('user_type', 'resident')
+            ->withTrashed()
+            ->whereRaw('LOWER(TRIM(gender)) = ?', ['female'])
+            ->get();
 
         $query = User::where('user_type', 'resident')->withTrashed();
 
@@ -104,6 +115,9 @@ class ResidentManagementController extends Controller
      */
     public function accept(User $user)
     {
+        if ($user->trashed()) {
+            $user->restore();
+        }
         $user->update(['status' => 'approved']); // or 'active' depending on your logic
         $user->notify(new UserRegistrationApproved($user));
         return back()->with('success', 'User accepted successfully. Approval email sent.');
@@ -114,6 +128,9 @@ class ResidentManagementController extends Controller
      */
     public function approve(User $user)
     {
+        if ($user->trashed()) {
+            $user->restore();
+        }
         $user->update(['status' => 'approved']);
         $user->notify(new UserRegistrationApproved($user));
         return back()->with('success', 'User approved successfully. Approval email sent.');

@@ -61,11 +61,22 @@
 
     <section class="w-1/2 flex flex-col pr-4">
       <div class="bg-white rounded-2xl shadow-lg p-6 mb-6 border border-gray-100">
+      @php
+        $rawPhotoPath = $user->photo_path;
+        $normalizedPhotoPath = $rawPhotoPath
+            ? preg_replace('#^(public/|storage/)#', '', ltrim($rawPhotoPath, '/'))
+            : null;
+        $photoUrl = $normalizedPhotoPath
+            ? (preg_match('#^https?://#', $normalizedPhotoPath)
+                ? $normalizedPhotoPath
+                : asset('storage/' . $normalizedPhotoPath))
+            : 'https://ui-avatars.com/api/?name=' . urlencode($user->first_name . ' ' . $user->last_name);
+      @endphp
       <div class="flex items-center gap-6 mb-4">
         <div class="w-40 h-36 border-4 border-blue-200 rounded-2xl flex items-center justify-center relative overflow-hidden bg-white shadow-md">
 
             <img
-                src="{{ $user->photo_path ? asset('storage/' . $user->photo_path) : 'https://ui-avatars.com/api/?name='.urlencode($user->first_name.'+'.$user->last_name) }}"
+                src="{{ $photoUrl }}"
                 alt="Profile Image"
                 class="w-full h-full object-cover"
                 onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=User';"

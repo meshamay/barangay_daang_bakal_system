@@ -60,7 +60,7 @@
         </div>
 
         <div class="max-w-4xl mx-auto mb-8 sm:mb-10 md:mb-12 lg:mb-16">
-            <div class="bg-gradient-to-br from-blue-50 to-white rounded-lg sm:rounded-xl md:rounded-2xl shadow-lg hover:shadow-2xl p-6 sm:p-8 md:p-10 border-2 border-blue-200 transition-all duration-300">
+            <div class="bg-gradient-to-br from-blue-50 to-white rounded-lg sm:rounded-xl md:rounded-2xl shadow-lg p-6 sm:p-8 md:p-10 border-2 border-blue-200">
                 <ul class="space-y-1 text-slate-700 text-sm sm:text-base md:text-lg leading-relaxed flex flex-col items-center">
                     <li class="flex gap-3 items-center mb-0">
                         <svg class="w-5 h-5 text-[#0052CC] flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">

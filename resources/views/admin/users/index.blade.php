@@ -25,7 +25,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-gray-500 text-sm font-medium">Registered Residents</p>
-                        <p class="text-4xl font-bold text-gray-900 mt-2">{{ $archivedCount ?? 0 }}</p>
+                        <p class="text-4xl font-bold text-gray-900 mt-2">{{ $totalResidents ?? 0 }}</p>
                 </div>
                 <div class="bg-blue-100 p-4 rounded-lg">
                     <svg class="h-8 w-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -167,29 +167,45 @@
                         </span>
                     </td>
                     <td class="py-5 px-6 w-1/7 text-center">
-                        <div class="flex justify-center items-center gap-1.5 relative z-30">
+                        <div class="flex items-center justify-center gap-1 relative z-30">
                             {{-- View Button --}}
                             <div class="relative group">
-                                <a href="{{ route('admin.users.show', $user->id) }}" class="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-blue-50 transition-all duration-200 hover:shadow-md">
+                                <a href="{{ route('admin.users.show', $user->id) }}" class="w-9 h-9 flex items-center justify-center rounded-lg bg-transparent hover:bg-blue-100 transition-all duration-200 hover:shadow-md">
                                     <svg class="w-6 h-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                                     </svg>
                                 </a>
-                                <span class="absolute top-full mt-2 left-1/2 -translate-x-1/2 px-2 py-1 text-xs text-white bg-gray-800 rounded opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-200 whitespace-nowrap" style="z-index: 9999;">View</span>
+                                <span class="absolute z-[100] top-full mt-1 left-1/2 transform -translate-x-1/2 px-2 py-1 text-xs text-white bg-gray-800 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">View</span>
                             </div>
                             {{-- Archive Button --}}
                             <div class="relative group">
-                                <form method="POST" action="{{ route('admin.users.archive', $user->id) }}" onsubmit="return confirm('Archive this user?');">
-                                    @csrf
-                                    @method('PUT')
-                                    <button type="submit" class="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-gray-50 transition-all duration-200 hover:shadow-md" @if($isArchived) disabled style="opacity:0.5;cursor:not-allowed;" @endif>
-                                        <svg class="w-6 h-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
-                                        </svg>
-                                    </button>
-                                </form>
-                                <span class="absolute top-full mt-2 left-1/2 -translate-x-1/2 px-2 py-1 text-xs text-white bg-gray-800 rounded opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-200 whitespace-nowrap" style="z-index: 9999;">Archive</span>
+                                <button type="button" onclick="openArchiveModal('{{ route('admin.users.archive', $user->id) }}')" class="w-9 h-9 flex items-center justify-center rounded-lg bg-transparent hover:bg-gray-200 transition-all duration-200 hover:shadow-md" @if($isArchived) disabled style="opacity:0.5;cursor:not-allowed;" @endif>
+                                    <svg class="w-6 h-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
+                                    </svg>
+                                </button>
+                                <span class="absolute z-[100] top-full mt-1 left-1/2 transform -translate-x-1/2 px-2 py-1 text-xs text-white bg-gray-800 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">Archive</span>
+                            </div>
+                            {{-- Accept Button --}}
+                            <div class="relative group inline-block">
+                                <button type="button" onclick="openApproveModal('{{ route('admin.users.approve', $user->id) }}')" class="w-9 h-9 flex items-center justify-center rounded-lg bg-transparent hover:bg-emerald-100 transition-all duration-200 hover:shadow-md" title="Accept">
+                                    <svg class="w-6 h-6 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="9" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.5l2 2 4-4" />
+                                    </svg>
+                                </button>
+                                <span class="absolute z-[100] top-full mt-1 left-1/2 transform -translate-x-1/2 px-2 py-1 text-xs text-white bg-gray-800 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">Accept</span>
+                            </div>
+                            {{-- Reject Button --}}
+                            <div class="relative group inline-block">
+                                <button type="button" onclick="openRejectModal('{{ route('admin.users.reject', $user->id) }}')" class="w-9 h-9 flex items-center justify-center rounded-lg bg-transparent hover:bg-red-100 transition-all duration-200 hover:shadow-md" title="Reject">
+                                    <svg class="w-6 h-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="9" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 9l6 6m0-6l-6 6" />
+                                    </svg>
+                                </button>
+                                <span class="absolute z-[100] top-full mt-1 left-1/2 transform -translate-x-1/2 px-2 py-1 text-xs text-white bg-gray-800 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">Reject</span>
                             </div>
                         </div>
                     </td>
@@ -351,4 +367,37 @@
 {{-- Shared Backdrop for All Modals --}}
 <div id="modal-backdrop" class="hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] bg-black/50 backdrop-blur-sm z-[9998]"></div>
 
+<script>
+    function openArchiveModal(actionUrl) {
+        const modal = document.getElementById('archiveModal');
+        const backdrop = document.getElementById('modal-backdrop');
+        modal.classList.remove('hidden');
+        backdrop.classList.remove('hidden');
+        // Set form action
+        const form = modal.querySelector('form');
+        form.action = actionUrl;
+    }
+    function openApproveModal(actionUrl) {
+        const modal = document.getElementById('approvedModal');
+        const backdrop = document.getElementById('modal-backdrop');
+        modal.classList.remove('hidden');
+        backdrop.classList.remove('hidden');
+        // Set form action
+        const form = modal.querySelector('form');
+        form.action = actionUrl;
+    }
+    function openRejectModal(actionUrl) {
+        const modal = document.getElementById('rejectModal');
+        const backdrop = document.getElementById('modal-backdrop');
+        modal.classList.remove('hidden');
+        backdrop.classList.remove('hidden');
+        // Set form action
+        const form = modal.querySelector('form');
+        form.action = actionUrl;
+    }
+    function closeModal(modalId) {
+        document.getElementById(modalId).classList.add('hidden');
+        document.getElementById('modal-backdrop').classList.add('hidden');
+    }
+</script>
 @endsection
