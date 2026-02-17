@@ -61,7 +61,7 @@
 		<span class="truncate">Document Requests</span>
 	</h3>
 
-	<div class="relative inline-block text-left w-auto ml-auto" x-data="{ open: false, selectDocument(type) { const modalId = { 'Barangay Certificate': 'modalCertificate', 'Barangay Clearance': 'modalClearance', 'Barangay Indigency': 'modalIndigency', 'Barangay Residency': 'modalResidency' }[type]; if (modalId) { openModal(modalId); } } }">
+	<div class="relative inline-block text-left w-auto ml-auto" x-data="{ open: false, selectDocument(type) { const modalId = { 'Barangay Clearance': 'modalClearance', 'Barangay Certificate': 'modalCertificate', 'Indigency Clearance': 'modalIndigency', 'Resident Certificate': 'modalResidency' }[type]; if (modalId) { openModal(modalId); } } }">
 		<button @click="open = !open" class="w-auto bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-3 sm:px-6 py-1.5 sm:py-2.5 text-xs sm:text-sm rounded-lg font-semibold shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200 flex items-center justify-center gap-1.5 sm:gap-2">
 			<svg class="w-3.5 h-3.5 sm:w-5 sm:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
 				<path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
@@ -74,10 +74,10 @@
 		
 		<div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 w-72 sm:w-56 bg-white border border-gray-200 rounded-xl shadow-xl z-50 overflow-hidden" style="display: none;">
 			<ul class="text-gray-700 text-lg sm:text-sm divide-y divide-gray-100">
-				<li @click="selectDocument('Barangay Certificate'); open = false" class="px-6 py-5 sm:px-4 sm:py-3 hover:bg-blue-50 cursor-pointer transition-colors font-medium">Barangay Certificate</li>
 				<li @click="selectDocument('Barangay Clearance'); open = false" class="px-6 py-5 sm:px-4 sm:py-3 hover:bg-blue-50 cursor-pointer transition-colors font-medium">Barangay Clearance</li>
-				<li @click="selectDocument('Barangay Indigency'); open = false" class="px-6 py-5 sm:px-4 sm:py-3 hover:bg-blue-50 cursor-pointer transition-colors font-medium">Barangay Indigency</li>
-				<li @click="selectDocument('Barangay Residency'); open = false" class="px-6 py-5 sm:px-4 sm:py-3 hover:bg-blue-50 cursor-pointer transition-colors font-medium">Barangay Residency</li>
+				<li @click="selectDocument('Barangay Certificate'); open = false" class="px-6 py-5 sm:px-4 sm:py-3 hover:bg-blue-50 cursor-pointer transition-colors font-medium">Barangay Certificate</li>
+				<li @click="selectDocument('Indigency Clearance'); open = false" class="px-6 py-5 sm:px-4 sm:py-3 hover:bg-blue-50 cursor-pointer transition-colors font-medium">Indigency Clearance</li>
+				<li @click="selectDocument('Resident Certificate'); open = false" class="px-6 py-5 sm:px-4 sm:py-3 hover:bg-blue-50 cursor-pointer transition-colors font-medium">Resident Certificate</li>
 			</ul>
 		</div>
 	</div>
@@ -101,7 +101,7 @@
 	<tbody class="divide-y divide-gray-100">
 		@forelse($myRequests as $request)
 		<tr class="text-xs sm:text-sm hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 transition-all duration-200">
-			<td class="px-3 sm:px-5 py-3 sm:py-4 font-mono font-semibold text-blue-600 whitespace-nowrap text-center">{{ $request->tracking_number ?? 'N/A' }}</td>
+			<td class="px-3 sm:px-5 py-3 sm:py-4 font-mono font-bold text-blue-600 whitespace-nowrap text-center">{{ $request->tracking_number ?? 'N/A' }}</td>
 			<td class="px-3 sm:px-5 py-3 sm:py-4 font-medium text-gray-700 whitespace-nowrap text-center">{{ Auth::user()->last_name }}</td>
 			<td class="px-3 sm:px-5 py-3 sm:py-4 font-medium text-gray-700 whitespace-nowrap text-center">{{ Auth::user()->first_name }}</td>
 			<td class="px-3 sm:px-5 py-3 sm:py-4 font-semibold text-gray-800 text-center">{{ $request->document_type }}</td>
@@ -149,9 +149,9 @@
 
 <div class="flex justify-end mt-4 sm:mt-6 px-0">
 	<a href="{{ route('home') }}">
-	<button class="w-full sm:w-auto bg-gradient-to-r from-gray-100 to-gray-200 hover:from-gray-200 hover:to-gray-300 text-gray-700 font-semibold px-6 sm:px-8 py-2 sm:py-2.5 rounded-lg transition-all duration-200 shadow-md border border-gray-300 flex items-center justify-center sm:justify-start gap-2 text-sm">
+	<button class="bg-gray-200 hover:bg-gray-300 text-[14px] text-gray-700 font-bold px-6 sm:px-8 py-2.5 sm:py-3 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl border border-gray-300 flex items-center gap-2">
 		<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-			<path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+			<path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
 		</svg>
 		BACK
 	</button>
@@ -175,7 +175,7 @@
 				<div class="space-y-5">
 					<div>
 						<label class="block text-sm font-semibold text-gray-700 mb-2">Length of Residency</label>
-						<input type="text" name="length_of_residency" class="w-full bg-gray-50 border-2 border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all" placeholder="e.g., 5 years" required>
+						<input type="text" name="length_of_residency" class="w-full bg-gray-50 border-2 border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all" placeholder="Enter years of residency (e.g., 5 years)" required>
 					</div>
 					<div>
 					<label class="block text-sm font-semibold text-gray-700 mb-2">Valid ID Number</label>
@@ -183,25 +183,30 @@
 					</div>
 					<div>
 					<label class="block text-sm font-semibold text-gray-700 mb-2">Registered Voter</label>
-					<select name="registered_voter" class="w-full bg-gray-50 border-2 border-gray-300 rounded-lg px-4 sm:px-4 py-3 sm:py-2.5 text-base sm:text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all cursor-pointer appearance-none" required>
+					<div class="relative">
+						<select name="registered_voter" class="w-full bg-gray-50 border-2 border-gray-300 rounded-lg px-4 sm:px-4 py-3 sm:py-2.5 text-base sm:text-sm text-gray-500 valid:text-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all cursor-pointer appearance-none" style="appearance: none; -webkit-appearance: none; -moz-appearance: none; background-image: none;" required>
 							<option value="" disabled selected hidden>Select option</option>
 							<option value="Yes">Yes</option>
 							<option value="No">No</option>
 						</select>
+						<svg class="w-4 h-4 text-gray-400 absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+							<path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+						</svg>
+					</div>
 					</div>
 					<div>
 						<label class="block text-sm font-semibold text-gray-700 mb-2">Purpose of Request</label>
-						<input type="text" name="purpose" required class="w-full bg-gray-50 border-2 border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all" placeholder="State your purpose">
+					<input type="text" name="purpose" required class="w-full bg-gray-50 border-2 border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all" placeholder="State the purpose (Employment, Business, Travel, etc.)">
 					</div>
 					<div class="flex items-start pt-2">
-						<input type="checkbox" required class="mt-1 mr-3 w-4 h-4 text-blue-600 border-2 border-gray-300 rounded focus:ring-2 focus:ring-blue-500 cursor-pointer">
-						<label class="text-xs text-gray-600 leading-relaxed">I certify that the information provided above is accurate and complete to the best of my knowledge.</label>
+						<input type="checkbox" required class="mt-1 mr-3 w-3.5 h-3.5 text-blue-600 border-2 border-gray-300 rounded focus:ring-2 focus:ring-blue-500 cursor-pointer">
+						<label class="text-[14px] text-gray-600 leading-relaxed">I certify that the information provided above is accurate and complete to the best of my knowledge.</label>
 					</div>
 				</div>
 
 				<div class="flex justify-end gap-3 mt-8 pt-6 border-t border-gray-100">
-					<button type="button" onclick="closeModal('modalCertificate')" class="px-6 py-2.5 bg-gradient-to-r from-gray-100 to-gray-200 hover:from-gray-200 hover:to-gray-300 text-gray-700 font-semibold rounded-lg transition-all duration-200 border border-gray-300">CANCEL</button>
-					<button type="submit" class="px-6 py-2.5 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white font-semibold rounded-lg transition-all duration-200 shadow-md hover:shadow-lg">SUBMIT</button>
+					<button type="button" onclick="closeModal('modalCertificate')" class="px-6 py-2.5 bg-gradient-to-r from-gray-100 to-gray-200 hover:from-red-500 hover:to-red-600 text-gray-700 hover:text-white font-semibold rounded-lg transition-all duration-200 border border-gray-300 text-[14px]">CANCEL</button>
+					<button type="submit" class="px-6 py-2.5 bg-gradient-to-r from-gray-100 to-gray-200 hover:from-blue-500 hover:to-blue-600 text-gray-700 hover:text-white font-semibold rounded-lg transition-all duration-200 shadow-md hover:shadow-lg border border-gray-300 text-[14px]">SUBMIT</button>
 				</div>
 			</form>
 			</div>
@@ -211,7 +216,7 @@
 
 {{-- MODAL 2: Barangay Clearance --}}
 <div id="modalClearance" class="modal-container hidden fixed top-[80px] left-0 w-full h-[calc(100vh-80px)] flex items-center justify-center z-[9999] p-4 sm:p-0" onclick="if(event.target === this) closeModal('modalClearance')">
-	<div class="modal-content bg-white -translate-y-3 w-full sm:w-[560px] max-h-[90vh] sm:max-h-none rounded-2xl shadow-2xl overflow-y-auto sm:overflow-hidden flex flex-col border-2 border-gray-100">
+	<div class="modal-content bg-white -translate-y-5 w-full sm:w-[560px] max-h-[90vh] sm:max-h-none rounded-2xl shadow-2xl overflow-y-auto sm:overflow-hidden flex flex-col border-2 border-gray-100">
     <div class="px-4 sm:px-6 py-4 rounded-t-2xl" style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%);">
         <h1 class="text-white font-bold text-lg sm:text-xl text-center uppercase tracking-wide">APPLICATION FOR BARANGAY CLEARANCE</h1>
     </div>
@@ -224,33 +229,38 @@
                 <div class="space-y-5">
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-2">Length of Residency</label>
-                        <input type="text" name="length_of_residency" class="w-full bg-gray-50 border-2 border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all" placeholder="e.g., 5 years" required>
+						<input type="text" name="length_of_residency" class="w-full bg-gray-50 border-2 border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all" placeholder="Enter years of residency (e.g., 5 years)" required>
                     </div>
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Valid ID Number</label>
-                        <input type="text" name="valid_id_number" class="w-full bg-gray-50 border-2 border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all" placeholder="Enter ID number" required>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Valid ID Number</label>
+                    <input type="text" name="valid_id_number" class="w-full bg-gray-50 border-2 border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all" placeholder="Enter ID number" required>
                     </div>
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Registered Voter</label>
-                        <select name="registered_voter" class="w-full bg-gray-50 border-2 border-gray-300 rounded-lg px-4 py-3 text-base sm:text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all cursor-pointer appearance-none" required>
-                            <option value="" disabled selected hidden>Select option</option>
-                            <option value="Yes">Yes</option>
-                            <option value="No">No</option>
-                        </select>
+					<label class="block text-sm font-semibold text-gray-700 mb-2">Registered Voter</label>
+					<div class="relative">
+						<select name="registered_voter" class="w-full bg-gray-50 border-2 border-gray-300 rounded-lg px-4 sm:px-4 py-3 sm:py-2.5 text-base sm:text-sm text-gray-500 valid:text-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all cursor-pointer appearance-none" style="appearance: none; -webkit-appearance: none; -moz-appearance: none; background-image: none;" required>
+							<option value="" disabled selected hidden>Select option</option>
+							<option value="Yes">Yes</option>
+							<option value="No">No</option>
+						</select>
+						<svg class="w-4 h-4 text-gray-400 absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+							<path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+						</svg>
+					</div>
                     </div>
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-2">Purpose of Request</label>
-                        <input type="text" name="purpose" required class="w-full bg-gray-50 border-2 border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all" placeholder="State your purpose">
+						<input type="text" name="purpose" required class="w-full bg-gray-50 border-2 border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all" placeholder="State the purpose (Employment, Business, Travel, etc.)">
                     </div>
                     <div class="flex items-start pt-2">
-                        <input type="checkbox" required class="mt-1 mr-3 w-4 h-4 text-blue-600 border-2 border-gray-300 rounded focus:ring-2 focus:ring-blue-500 cursor-pointer">
-                        <label class="text-xs text-gray-600 leading-relaxed">I certify that the information provided above is accurate and complete to the best of my knowledge.</label>
+						<input type="checkbox" required class="mt-1 mr-3 w-3.5 h-3.5 text-blue-600 border-2 border-gray-300 rounded focus:ring-2 focus:ring-blue-500 cursor-pointer">
+						<label class="text-[14px] text-gray-600 leading-relaxed">I certify that the information provided above is accurate and complete to the best of my knowledge.</label>
                     </div>
                 </div>
 
                 <div class="flex justify-end gap-3 mt-8 pt-6 border-t border-gray-100">
-                    <button type="button" onclick="closeModal('modalClearance')" class="px-6 py-2.5 bg-gradient-to-r from-gray-100 to-gray-200 hover:from-gray-200 hover:to-gray-300 text-gray-700 font-semibold rounded-lg transition-all duration-200 border border-gray-300">CANCEL</button>
-                    <button type="submit" class="px-6 py-2.5 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white font-semibold rounded-lg transition-all duration-200 shadow-md hover:shadow-lg">SUBMIT</button>
+                    <button type="button" onclick="closeModal('modalClearance')" class="px-6 py-2.5 bg-gradient-to-r from-gray-100 to-gray-200 hover:from-red-500 hover:to-red-600 text-gray-700 hover:text-white font-semibold rounded-lg transition-all duration-200 border border-gray-300 text-[14px]">CANCEL</button>
+                    <button type="submit" class="px-6 py-2.5 bg-gradient-to-r from-gray-100 to-gray-200 hover:from-blue-500 hover:to-blue-600 text-gray-700 hover:text-white font-semibold rounded-lg transition-all duration-200 shadow-md hover:shadow-lg border border-gray-300 text-[14px]">SUBMIT</button>
                 </div>
             </form>
             </div>
@@ -260,7 +270,7 @@
 
 {{-- MODAL 3: Barangay Indigency --}}
 <div id="modalIndigency" class="modal-container hidden fixed top-[80px] left-0 w-full h-[calc(100vh-80px)] flex items-center justify-center z-[9999] p-4 sm:p-0">
-	<div class="modal-content bg-white -translate-y-3 w-full sm:w-[560px] max-h-[90vh] sm:max-h-none overflow-y-auto sm:overflow-hidden rounded-2xl shadow-2xl overflow-hidden flex flex-col border-2 border-gray-100">
+	<div class="modal-content bg-white -translate-y-5 w-full sm:w-[560px] max-h-[90vh] sm:max-h-none overflow-y-auto sm:overflow-hidden rounded-2xl shadow-2xl overflow-hidden flex flex-col border-2 border-gray-100">
 
 		<!-- Header -->
 		<div class="px-4 sm:px-6 py-4 rounded-t-2xl" style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%);">
@@ -268,16 +278,18 @@
 		</div>
 
 		<!-- Body -->
-		<div class="px-4 sm:px-8 py-6 text-left flex-1 flex flex-col justify-between">
+		<div class="px-4 sm:px-8 py-6 text-left flex-1 flex flex-col justify-between overflow-y-auto">
 			<div>
-				<form id="formIndigency" class="space-y-5" enctype="multipart/form-data" data-store-url="{{ route('user.document.store') }}">
+				<form id="formIndigency" enctype="multipart/form-data" data-store-url="{{ route('user.document.store') }}">
 					@csrf
 					<input type="hidden" name="document_type" value="Certificate of Indigency">
 					<input type="hidden" name="resident_years" value="N/A">
 
-					<div>
-					<label class="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">Indigency Category</label>
-					<select name="indigency_category" class="w-full bg-gray-50 border-2 border-gray-300 rounded-lg px-4 sm:px-4 py-3 sm:py-2.5 text-base sm:text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all cursor-pointer appearance-none">
+					<div class="space-y-5">
+						<div>
+					<label class="block text-sm font-semibold text-gray-700 mb-2">Certificate of being Indigent</label>
+					<div class="relative">
+						<select name="indigency_category" class="w-full bg-gray-50 border-2 border-gray-300 rounded-lg px-4 sm:px-4 py-3 sm:py-2.5 text-base sm:text-sm text-gray-500 valid:text-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all cursor-pointer appearance-none" style="appearance: none; -webkit-appearance: none; -moz-appearance: none; background-image: none;" required>
 							<option value="" disabled selected hidden>Select category</option>
 							<option value="Medical">Medical</option>
 							<option value="Educational">Educational</option>
@@ -285,33 +297,37 @@
 							<option value="Legal">Legal</option>
 							<option value="Financial">Financial</option>
 						</select>
+						<svg class="w-4 h-4 text-gray-400 absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+							<path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+						</svg>
 					</div>
-			
-					<div>
-					<label class="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">Other Purpose (Optional)</label>
-					<input type="text" name="other_purpose" class="w-full bg-gray-50 border-2 border-gray-300 rounded-lg px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all" placeholder="Specify if not in category">
+						</div>
+				
+						<div>
+						<label class="block text-sm font-semibold text-gray-700 mb-2">Other Purpose (Optional)</label>
+						<input type="text" name="other_purpose" class="w-full bg-gray-50 border-2 border-gray-300 rounded-lg px-4 py-2.5 text-sm placeholder:text-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all" placeholder="Specify if not in category">
+						</div>
+
+						<div>
+						<label class="block text-sm font-semibold text-gray-700 mb-2">Proof of Request (Optional)</label>
+						<input type="file" name="proof_file" class="w-full bg-gray-50 border-2 border-gray-300 rounded-lg px-4 py-2.5 text-sm text-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all file:mr-2 sm:file:mr-4 file:py-1 file:px-2 sm:file:px-3 file:rounded-md file:border-0 file:text-xs sm:file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer">
+						</div>
+
+						<div>
+						<label class="block text-sm font-semibold text-gray-700 mb-2">Purpose of Request</label>
+					<input type="text" name="purpose" required class="w-full bg-gray-50 border-2 border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all" placeholder="State the purpose (e.g., Medical, Educational, etc.)">
+						</div>
+						<div class="flex items-start pt-2">
+							<input type="checkbox" required class="mt-1 mr-3 w-3.5 h-3.5 text-blue-600 border-2 border-gray-300 rounded focus:ring-2 focus:ring-blue-500 cursor-pointer">
+							<label class="text-[14px] text-gray-600 leading-relaxed">I certify that the information provided above is accurate and complete to the best of my knowledge.</label>
+						</div>
 					</div>
 
-					<div>
-					<label class="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">Proof of Request (Optional)</label>
-					<input type="file" name="proof_file" class="w-full bg-gray-50 border-2 border-gray-300 rounded-lg px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all file:mr-2 sm:file:mr-4 file:py-1 file:px-2 sm:file:px-3 file:rounded-md file:border-0 file:text-xs sm:file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer">
-					</div>
-
-					<div>
-					<label class="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">Purpose of Request</label>
-					<input type="text" name="purpose" class="w-full bg-gray-50 border-2 border-gray-300 rounded-lg px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all" placeholder="State your purpose" required>
-					</div>
-					<div class="flex items-start pt-2">
-						<input type="checkbox" class="mt-1 mr-3 w-4 h-4 text-blue-600 border-2 border-gray-300 rounded focus:ring-2 focus:ring-blue-500 cursor-pointer">
-						<label class="text-xs text-gray-600 leading-relaxed">I certify that the information provided above is accurate and complete to the best of my knowledge.</label>
+					<div class="flex justify-end gap-3 mt-8 pt-6 border-t border-gray-100">
+						<button type="button" onclick="closeModal('modalIndigency')" class="px-6 py-2.5 bg-gradient-to-r from-gray-100 to-gray-200 hover:from-red-500 hover:to-red-600 text-gray-700 hover:text-white font-semibold rounded-lg transition-all duration-200 border border-gray-300 text-[14px]">CANCEL</button>
+						<button type="submit" class="px-6 py-2.5 bg-gradient-to-r from-gray-100 to-gray-200 hover:from-blue-500 hover:to-blue-600 text-gray-700 hover:text-white font-semibold rounded-lg transition-all duration-200 shadow-md hover:shadow-lg border border-gray-300 text-[14px]">SUBMIT</button>
 					</div>
 				</form>
-			</div>
-
-			<!-- Footer buttons -->
-			<div class="flex justify-end gap-3 mt-8 pt-6 border-t border-gray-100">
-				<button type="button" onclick="closeModal('modalIndigency')" class="px-6 py-2.5 bg-gradient-to-r from-gray-100 to-gray-200 hover:from-gray-200 hover:to-gray-300 text-gray-700 font-semibold rounded-lg transition-all duration-200 border border-gray-300">CANCEL</button>
-				<button type="submit" form="formIndigency" class="px-6 py-2.5 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white font-semibold rounded-lg transition-all duration-200 shadow-md hover:shadow-lg">SUBMIT</button>
 			</div>
 		</div>
 	</div>
@@ -319,7 +335,7 @@
 
 {{-- MODAL 4: Barangay Residency --}}
 <div id="modalResidency" class="modal-container hidden fixed top-[80px] left-0 w-full h-[calc(100vh-80px)] flex items-center justify-center z-[9999] p-4 sm:p-0">
-	<div class="modal-content bg-white -translate-y-3 w-full sm:w-[560px] max-h-[90vh] sm:max-h-none overflow-y-auto sm:overflow-hidden rounded-2xl shadow-2xl overflow-hidden flex flex-col border-2 border-gray-100">
+	<div class="modal-content bg-white -translate-y-5 w-full sm:w-[560px] max-h-[90vh] sm:max-h-none overflow-y-auto sm:overflow-hidden rounded-2xl shadow-2xl overflow-hidden flex flex-col border-2 border-gray-100">
 
 		<!-- Header -->
 		<div class="px-4 sm:px-6 py-4 rounded-t-2xl" style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%);">
@@ -327,51 +343,56 @@
 		</div>
 
 		<!-- Body -->
-		<div class="px-4 sm:px-8 py-6 text-left flex-1 flex flex-col justify-between">
+		<div class="px-4 sm:px-8 py-6 text-left flex-1 flex flex-col justify-between overflow-y-auto">
 			
 			<div>
-				<form id="formResidency" class="space-y-5" data-store-url="{{ route('user.document.store') }}">
+				<form id="formResidency" data-store-url="{{ route('user.document.store') }}">
 					@csrf
 					<input type="hidden" name="document_type" value="Certificate of Residency">
 					<input type="hidden" name="civil_status" value="N/A">
 					<input type="hidden" name="citizenship" value="N/A">
 
-					<div>
-					<label class="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">Length of Residency</label>
-					<input type="text" name="resident_years" class="w-full bg-gray-50 border-2 border-gray-300 rounded-lg px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all" placeholder="e.g., 5 years" required>
+					<div class="space-y-5">
+						<div>
+						<label class="block text-sm font-semibold text-gray-700 mb-2">Length of Residency</label>
+						<input type="text" name="resident_years" class="w-full bg-gray-50 border-2 border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all" placeholder="Enter years of residency (e.g., 5 years)" required>
+						</div>
+
+						<div>
+							<label class="block text-sm font-semibold text-gray-700 mb-2">Valid ID Number</label>
+							<input type="text" name="valid_id_number" class="w-full bg-gray-50 border-2 border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all" placeholder="Enter ID number" required>
+						</div>
+
+						<div>
+							<label class="block text-sm font-semibold text-gray-700 mb-2">Registered Voter</label>
+							<div class="relative">
+								<select name="registered_voter" class="w-full bg-gray-50 border-2 border-gray-300 rounded-lg px-4 sm:px-4 py-3 sm:py-2.5 text-base sm:text-sm text-gray-500 valid:text-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all cursor-pointer appearance-none" style="appearance: none; -webkit-appearance: none; -moz-appearance: none; background-image: none;" required>
+									<option value="" disabled selected hidden>Select option</option>
+									<option value="Yes">Yes</option>
+									<option value="No">No</option>
+								</select>
+								<svg class="w-4 h-4 text-gray-400 absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+									<path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+								</svg>
+							</div>
+						</div>
+
+						<div>
+						<label class="block text-sm font-semibold text-gray-700 mb-2">Purpose of Request</label>
+						<input type="text" name="purpose" required class="w-full bg-gray-50 border-2 border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all" placeholder="State the purpose (Employment, Business, Travel, etc.)">
+						</div>
+						<div class="flex items-start pt-2">
+							<input type="checkbox" required class="mt-1 mr-3 w-3.5 h-3.5 text-blue-600 border-2 border-gray-300 rounded focus:ring-2 focus:ring-blue-500 cursor-pointer">
+							<label class="text-[14px] text-gray-600 leading-relaxed">I certify that the information provided above is accurate and complete to the best of my knowledge.</label>
+						</div>
 					</div>
 
-					<div>
-						<label class="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">Valid ID Number</label>
-						<input type="text" name="valid_id_number" class="w-full bg-gray-50 border-2 border-gray-300 rounded-lg px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all" placeholder="Enter ID number" required>
-					</div>
-
-					<div>
-						<label class="block text-sm font-semibold text-gray-700 mb-2">Registered Voter</label>
-						<select name="registered_voter" class="w-full bg-gray-50 border-2 border-gray-300 rounded-lg px-4 py-3 text-base sm:text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all cursor-pointer appearance-none" required>
-							<option value="" disabled selected hidden>Select option</option>
-							<option value="Yes">Yes</option>
-							<option value="No">No</option>
-						</select>
-					</div>
-
-					<div>
-					<label class="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">Purpose of Request</label>
-					<input type="text" name="purpose" class="w-full bg-gray-50 border-2 border-gray-300 rounded-lg px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all" placeholder="State your purpose" required>
-					</div>
-					<div class="flex items-start pt-2">
-						<input type="checkbox" class="mt-1 mr-3 w-4 h-4 text-blue-600 border-2 border-gray-300 rounded focus:ring-2 focus:ring-blue-500 cursor-pointer">
-						<label class="text-xs text-gray-600 leading-relaxed">I certify that the information provided above is accurate and complete to the best of my knowledge.</label>
+					<div class="flex justify-end gap-3 mt-8 pt-6 border-t border-gray-100">
+						<button type="button" onclick="closeModal('modalResidency')" class="px-6 py-2.5 bg-gradient-to-r from-gray-100 to-gray-200 hover:from-red-500 hover:to-red-600 text-gray-700 hover:text-white font-semibold rounded-lg transition-all duration-200 border border-gray-300 text-[14px]">CANCEL</button>
+						<button type="submit" class="px-6 py-2.5 bg-gradient-to-r from-gray-100 to-gray-200 hover:from-blue-500 hover:to-blue-600 text-gray-700 hover:text-white font-semibold rounded-lg transition-all duration-200 shadow-md hover:shadow-lg border border-gray-300 text-[14px]">SUBMIT</button>
 					</div>
 				</form>
 			</div>
-
-			<!-- Footer buttons -->
-		<div class="flex justify-end gap-3 mt-8 pt-6 border-t border-gray-100">
-			<button type="button" onclick="closeModal('modalResidency')" class="px-6 py-2.5 bg-gradient-to-r from-gray-100 to-gray-200 hover:from-gray-200 hover:to-gray-300 text-gray-700 font-semibold rounded-lg transition-all duration-200 border border-gray-300">CANCEL</button>
-			<button type="submit" form="formResidency" class="px-6 py-2.5 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white font-semibold rounded-lg transition-all duration-200 shadow-md hover:shadow-lg">SUBMIT</button>
-			</div>
-
 		</div>
 	</div>
 </div>
@@ -392,10 +413,10 @@
 			REQUEST SUBMITTED SUCCESSFULLY!
 		</h2>
 		<br>
-		<p class="text-xs sm:text-sm text-black leading-relaxed">
-			Transaction ID: {{ session('success_id') }} <br>
-			Your request will be processed within 1 day. You may claim your
-			document at the barangay once it’s ready for release.
+		<p class="text-xs sm:text-sm text-black leading-relaxed space-y-2">
+			<span class="block font-bold">Transaction ID: {{ session('success_id') }}</span>
+			<span class="block">Your request will be processed within 1 day.</span>
+			<span class="block">You may claim your document at the barangay once it’s ready for release.</span>
 		</p>
 		<button onclick="closeSuccessModal('sessionSuccessModal')"
 			class="mt-6 sm:mt-7 bg-[#A2C4D9] hover:bg-[#94B8CC] px-5 sm:px-7 py-1 rounded-2xl text-xs sm:text-sm font-semibold text-black transition">
@@ -417,7 +438,7 @@
 	<h2 class="font-extrabold text-lg sm:text-2xl mb-2 bg-gradient-to-r from-emerald-600 to-emerald-500 bg-clip-text text-transparent tracking-wide">
 		REQUEST SUBMITTED SUCCESSFULLY!
 	</h2>
-	<p id="ajaxSuccessMessage" class="text-gray-600 text-xs sm:text-sm leading-relaxed mb-4 sm:mb-6"></p>
+	<p id="ajaxSuccessMessage" class="text-gray-600 text-xs sm:text-sm leading-relaxed whitespace-pre-line mb-4 sm:mb-6"></p>
 	<button onclick="window.location.reload()" class="w-full sm:w-auto bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white px-6 sm:px-8 py-2 sm:py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition-all duration-200 shadow-md hover:shadow-lg">
 		CLOSE
 	</button>

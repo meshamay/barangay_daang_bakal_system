@@ -30,7 +30,7 @@
 
 <body class="font-poppins bg-gray-100 text-slate-800 h-screen overflow-auto sm:overflow-auto md:overflow-hidden pt-16 sm:pt-20">
 
-<nav id="top-navbar" class="fixed top-0 left-0 w-full h-16 sm:h-20 font-barlow bg-gradient-to-r from-[#134573] via-[#0f3a5f] to-[#0a2847] text-white shadow-lg z-30 flex items-center justify-between px-3 sm:px-6 border-b border-white/10">
+<nav id="top-navbar" class="fixed top-0 left-0 w-full h-16 sm:h-20 font-poppins bg-gradient-to-r from-[#134573] via-[#0f3a5f] to-[#0a2847] text-white shadow-lg z-30 flex items-center justify-between px-3 sm:px-6 border-b border-white/10">
 
     <div class="flex items-center gap-2 sm:gap-4">
 
@@ -40,8 +40,8 @@
                 <img src="https://tse2.mm.bing.net/th/id/OIP._bP7eQwOSrZjwv-doDDsWAHaHa?rs=1&pid=ImgDetMain&o=7&rm=3" class="w-8 h-8 sm:w-12 sm:h-12 rounded-full object-cover">
 
                 <div>
-                    <h1 class="text-xs sm:text-lg md:text-xl font-semibold leading-tight">Barangay Daang Bakal</h1>
-                    <p class="text-xs sm:text-base md:text-lg font-semibold leading-tight">Mandaluyong City</p>
+                    <h1 class="text-xs sm:text-sm md:text-base font-semibold leading-tight text-white">Barangay Daang Bakal</h1>
+                    <span class="font-poppins text-[10px] sm:text-xs md:text-sm lg:text-base font-semibold text-white">Mandaluyong City</span>
                 </div>
             </a>
         </div>
@@ -154,7 +154,7 @@
                         <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                         </svg>
-                        View profile
+                        View Profile
                     </a>
                     <form method="POST" action="{{ route('logout') }}" class="m-0">
                         @csrf
@@ -162,7 +162,7 @@
                             <svg class="h-4 w-4 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                             </svg>
-                            Sign out
+                            Sign Out
                         </button>
                     </form>
                 </div>
@@ -175,7 +175,7 @@
 
 @auth
     {{-- This is for regular logged-in users (residents) --}}
-    <main class="h-auto sm:h-auto md:h-[calc(100vh-5rem)] overflow-auto md:overflow-hidden max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6 sm:space-y-8">
+    <main class="h-auto sm:h-auto md:h-[calc(100vh-5rem)] overflow-auto md:overflow-hidden max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-3 sm:py-4 space-y-4 sm:space-y-5">
         @yield('content')
     </main>
 @endauth
@@ -208,7 +208,26 @@
                     .then(response => response.json())
                     .then(data => {
                         // Merge unread and read, prioritizing unread
-                        this.notifications = data.unread.concat(data.read);
+                        let merged = data.unread.concat(data.read);
+
+                        // Append claim notice client-side for completed document requests
+                        merged = merged.map(n => {
+                            try {
+                                if (n.data && n.data.type === 'document' && n.data.status && n.data.status.toLowerCase() === 'completed') {
+                                    const claimText = ' You may claim your document at the Barangay Hall during office hours.';
+                                    if (!String(n.data.message || '').includes(claimText.trim())) {
+                                        // Ensure message ends with a period before appending
+                                        n.data.message = String(n.data.message || '').replace(/\.*$/,'');
+                                        n.data.message = n.data.message + '.' + claimText;
+                                    }
+                                }
+                            } catch (e) {
+                                // ignore malformed notification objects
+                            }
+                            return n;
+                        });
+
+                        this.notifications = merged;
                         this.unreadCount = data.unread_count;
                     })
                     .catch(error => console.error('Error fetching notifications:', error));

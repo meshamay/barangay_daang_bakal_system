@@ -73,21 +73,20 @@
     </button>
 </div>
 
-<div class="bg-white rounded-2xl shadow-xl overflow-hidden border-2 border-gray-100 max-h-[calc(100vh-400px)] overflow-y-auto">
-<div class="overflow-x-auto">
-<table class="w-full text-xs sm:text-sm border-collapse min-w-max">
-<thead style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%);" class="text-white">
-    <tr class="font-bold uppercase tracking-wide">
-        <th class="px-3 sm:px-5 py-3 sm:py-4 text-center whitespace-nowrap">TRANSACTION ID</th>
-        <th class="px-3 sm:px-5 py-3 sm:py-4 text-center whitespace-nowrap">LAST NAME</th>
-        <th class="px-3 sm:px-5 py-3 sm:py-4 text-center whitespace-nowrap">FIRST NAME</th>
-        <th class="px-3 sm:px-5 py-3 sm:py-4 text-center whitespace-nowrap">COMPLAINT TYPE</th>
-        <th class="px-3 sm:px-5 py-3 sm:py-4 text-center whitespace-nowrap">DATE FILED</th>
-        <th class="px-3 sm:px-5 py-3 sm:py-4 text-center whitespace-nowrap">DATE RESOLVED</th>
-        <th class="px-3 sm:px-5 py-3 sm:py-4 text-center whitespace-nowrap">STATUS</th>
+<div class="bg-white shadow-xl rounded-lg sm:rounded-2xl overflow-x-auto border border-gray-100">
+<table class="table w-full text-xs sm:text-sm md:text-base border-collapse min-w-max">
+<thead style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%);">
+    <tr class="text-xs sm:text-sm whitespace-nowrap text-white">
+        <th class="px-3 sm:px-5 py-3 sm:py-4 font-bold uppercase tracking-wide text-center">Transaction ID</th>
+        <th class="px-3 sm:px-5 py-3 sm:py-4 font-bold uppercase tracking-wide text-center">Last Name</th>
+        <th class="px-3 sm:px-5 py-3 sm:py-4 font-bold uppercase tracking-wide text-center">First Name</th>
+        <th class="px-3 sm:px-5 py-3 sm:py-4 font-bold uppercase tracking-wide text-center">Complaint Type</th>
+        <th class="px-3 sm:px-5 py-3 sm:py-4 font-bold uppercase tracking-wide text-center">Date Filed</th>
+        <th class="px-3 sm:px-5 py-3 sm:py-4 font-bold uppercase tracking-wide text-center">Date Resolved</th>
+        <th class="px-3 sm:px-5 py-3 sm:py-4 font-bold uppercase tracking-wide text-center">Status</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody class="divide-y divide-gray-100">
       {{-- Assuming $complaints is passed from the controller --}}
       @forelse ($complaints ?? [] as $complaint)
       <tr>
@@ -110,26 +109,33 @@
             @endif
         </td>
       </tr>
-      @empty
-      <tr>8 sm:py-12 text-gray-500">
-              <div class="flex flex-col items-center">
-                  <svg class="w-12 h-12 sm:w-16 sm:h-16 text-gray-300 mb-2 sm:mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          @empty
+          <tr>
+            <td colspan="7" class="text-center py-8 sm:py-12">
+              <div class="flex flex-col items-center justify-center">
+                <div class="w-16 h-16 sm:w-20 sm:h-20 bg-gray-100 rounded-full flex items-center justify-center mb-3 sm:mb-4">
+                  <svg class="w-8 h-8 sm:w-10 sm:h-10 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                   </svg>
-                  <p class="font-semibold text-sm">No complaints filed yet</p>
-                  <p class="text-xs mt-1">Click "File a Complaint" to get started.</p>
+                </div>
+                <p class="text-gray-500 font-medium text-sm sm:text-base">You have no complaints yet.</p>
+                <p class="text-gray-400 text-xs sm:text-sm mt-1">Click "File a Complaint" to get started.</p>
               </div>
-          </td>
-      </tr>
+            </td>
+          </tr>
       @endforelse
     </tbody>
   </table>
 </div>
-</div>
 
 <div class="flex justify-end mt-4 sm:mt-6 px-0">
-  <a href="{{ route('home') }}" class="px-6 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-sm font-semibold transition-all duration-200 border border-gray-300 hover:shadow-md">
-    ← Back
+  <a href="{{ route('home') }}">
+    <button class="bg-gray-200 hover:bg-gray-300 text-[14px] text-gray-700 font-bold px-6 sm:px-8 py-2.5 sm:py-3 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl border border-gray-300 flex items-center gap-2">
+      <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+      </svg>
+      BACK
+    </button>
   </a>
 </div>
 
@@ -137,66 +143,79 @@
 {{-- ======================================================================== --}}
 {{-- USER COMPLAINT MODAL (WITH NAME ATTRIBUTES AND FORM ID) --}}
 {{-- ======================================================================== --}}
-<div id="modalGeneralComplaint" class="modal-container hidden fixed top-[80px] left-0 w-full h-[calc(100vh-80px)] flex items-center justify-center z-[9999] overflow-hidden p-4 sm:p-0" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+<div id="modalGeneralComplaint" class="modal-container hidden fixed inset-0 w-full h-screen flex items-center justify-center z-[9999] p-4 sm:p-0" aria-labelledby="modal-title" role="dialog" aria-modal="true">
   <!-- Modal Panel -->
   <div class="flex min-h-full items-center justify-center text-center z-50 relative pointer-events-none">
-    <div class="bg-white w-full sm:w-[600px] max-h-[90vh] sm:max-h-none overflow-y-auto sm:overflow-hidden rounded-2xl flex flex-col pointer-events-auto shadow-2xl border-2 border-gray-100 relative transform transition-all">
+    <div class="bg-white w-full sm:w-[600px] max-h-[80vh] sm:max-h-none overflow-y-auto sm:overflow-visible rounded-2xl flex flex-col pointer-events-auto shadow-2xl border-2 border-gray-100 relative transform transition-all">
   <div class="px-4 sm:px-6 py-4 rounded-t-2xl" style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%);">
     <h1 class="text-white font-bold text-lg sm:text-xl text-center uppercase tracking-wide">General Complaint Form</h1>
   </div>
-  <div class="px-4 sm:px-6 py-4 flex-1 overflow-y-auto">
+  <div class="px-4 sm:px-6 py-4 flex-1 overflow-visible">
     <form id="complaintForm" class="space-y-3 sm:space-y-4" data-store-url="{{ route('user.complaints.store') }}">
       @csrf
       <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
         <label class="w-full sm:w-40 shrink-0 text-left text-xs sm:text-sm font-semibold text-gray-700 leading-tight">Incident Date</label>
-        <input type="date" name="incident_date" class="w-full sm:flex-1 bg-gray-50 border-2 border-gray-300 rounded-lg px-3 sm:px-4 py-2 text-xs sm:text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all" required>
+        <input type="date" name="incident_date" class="w-full sm:flex-1 bg-gray-50 border-2 border-gray-300 rounded-lg px-3 sm:px-4 py-2 text-xs sm:text-sm text-gray-500 valid:text-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all" required>
       </div>
       <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
         <label class="w-full sm:w-40 shrink-0 text-left text-xs sm:text-sm font-semibold text-gray-700 leading-tight">Incident Time</label>
-        <input type="time" name="incident_time" class="w-full sm:flex-1 bg-gray-50 border-2 border-gray-300 rounded-lg px-3 sm:px-4 py-2 text-xs sm:text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all" required>
+        <input type="time" name="incident_time" class="w-full sm:flex-1 bg-gray-50 border-2 border-gray-300 rounded-lg px-3 sm:px-4 py-2 text-xs sm:text-sm text-gray-500 valid:text-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all" required>
       </div>
       <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
         <label class="w-full sm:w-40 shrink-0 text-left text-xs sm:text-sm font-semibold text-gray-700 leading-tight">Defendant's Name</label>
-        <input type="text" name="defendant_name" class="w-full sm:flex-1 bg-gray-50 border-2 border-gray-300 rounded-lg px-3 sm:px-4 py-2 text-xs sm:text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all" placeholder="Full name" required>
+        <input type="text" name="defendant_name" class="w-full sm:flex-1 bg-gray-50 border-2 border-gray-300 rounded-lg px-3 sm:px-4 py-2 text-xs sm:text-sm placeholder:text-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all" placeholder="Enter full name" required>
       </div>
       <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
         <label class="w-full sm:w-40 shrink-0 text-left text-xs sm:text-sm font-semibold text-gray-700 leading-tight">Defendant's Address</label>
-        <input type="text" name="defendant_address" class="w-full sm:flex-1 bg-gray-50 border-2 border-gray-300 rounded-lg px-3 sm:px-4 py-2 text-xs sm:text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all" placeholder="Complete address" required>
+        <input type="text" name="defendant_address" class="w-full sm:flex-1 bg-gray-50 border-2 border-gray-300 rounded-lg px-3 sm:px-4 py-2 text-xs sm:text-sm placeholder:text-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all" placeholder="Enter complete address" required>
       </div>
       <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
         <label class="w-full sm:w-40 shrink-0 text-left text-xs sm:text-sm font-semibold text-gray-700 leading-tight">Level of Urgency</label>
-        <select id="levelOfUrgency" name="level_urgency" class="w-full sm:flex-1 bg-gray-50 border-2 border-gray-300 rounded-lg px-3 sm:px-4 py-2 text-xs sm:text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all cursor-pointer appearance-none" required>
-          <option value="" disabled selected hidden>Select urgency level</option>
-          <option value="Low">Low (Non-urgent)</option>
-          <option value="Medium">Medium (Normal)</option>
-          <option value="High">High (Urgent)</option>
-        </select>
+        <div class="w-full sm:flex-1 relative">
+          <select id="levelOfUrgency" name="level_urgency" class="w-full bg-gray-50 border-2 border-gray-300 rounded-lg px-3 sm:px-4 py-2 text-xs sm:text-sm text-gray-500 valid:text-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all cursor-pointer appearance-none" style="appearance: none; -webkit-appearance: none; -moz-appearance: none; background-image: none;" required>
+            <option value="" disabled selected hidden>Select urgency level</option>
+            <option value="Low">Low (Non-urgent)</option>
+            <option value="Medium">Medium (Normal)</option>
+            <option value="High">High (Urgent)</option>
+          </select>
+          <svg class="w-4 h-4 text-gray-400 absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+          </svg>
+        </div>
       </div>
       <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
-        <label for="description" class="w-full sm:w-40 shrink-0 text-left text-xs sm:text-sm font-semibold text-gray-700 leading-tight">Type of Complaint</label>
-        <select id="description" name="description" class="w-full sm:flex-1 bg-gray-50 border-2 border-gray-300 rounded-lg px-3 sm:px-4 py-2 text-xs sm:text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all cursor-pointer appearance-none" onchange="toggleSpecifyField()" required>
-          <option value="" disabled selected hidden>Select complaint type</option>
-          <option value="Community Issues">Community Issues (noise, garbage, vandalism)</option>
-          <option value="Physical Harrasments">Physical Harassment (unwanted touching, punching)</option>
-          <option value="Neighbor Dispute">Neighbor Disputes (arguments, property damage)</option>
-          <option value="Money Problems">Money Problems (unpaid debts, loan disputes)</option>
-          <option value="Misbehavior">Misbehavior (insults, bullying, shouting)</option>
-          <option value="Others">Others (please specify)</option>
-        </select>
+        <label class="w-full sm:w-40 shrink-0 text-left text-xs sm:text-sm font-semibold text-gray-700 leading-tight">Complaint Type</label>
+        <div id="complaintTypeWrapper" class="w-full sm:flex-1 relative">
+          <input type="hidden" id="complaintTypeInput" name="description" required>
+          <button type="button" id="complaintTypeButton" onclick="toggleComplaintTypeMenu()" class="w-full bg-gray-50 border-2 border-gray-300 rounded-lg px-3 sm:px-4 py-2 text-xs sm:text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all cursor-pointer flex items-center justify-between">
+            <span id="complaintTypeLabel" class="text-gray-500">Select complaint type</span>
+            <svg class="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div id="complaintTypeMenu" class="hidden absolute z-50 mt-2 w-full bg-white border border-gray-200 rounded-lg shadow-lg max-h-56 overflow-y-auto">
+            <button type="button" class="w-full text-left px-3 sm:px-4 py-2 text-xs sm:text-sm hover:bg-blue-50" onclick="selectComplaintType('Community Issues','Community Issues (Noise Complaints, Improper Waste Disposal, etc.)')">Community Issues<br>(Noise Complaints, Improper Waste Disposal, etc.)</button>
+            <button type="button" class="w-full text-left px-3 sm:px-4 py-2 text-xs sm:text-sm hover:bg-blue-50" onclick="selectComplaintType('Physical Harrasments','Physical Harrasments (Unwanted Physical Contact, Hitting, etc.)')">Physical Harrasments<br>(Unwanted Physical Contact, Hitting, etc.)</button>
+            <button type="button" class="w-full text-left px-3 sm:px-4 py-2 text-xs sm:text-sm hover:bg-blue-50" onclick="selectComplaintType('Neighbor Dispute','Neighbor Dispute (Interpersonal Conflicts, Property-Related Issues, etc.)')">Neighbor Dispute<br>(Interpersonal Conflicts, Property-Related Issues, etc.)</button>
+            <button type="button" class="w-full text-left px-3 sm:px-4 py-2 text-xs sm:text-sm hover:bg-blue-50" onclick="selectComplaintType('Money Problems','Money Problems (Unpaid Debts, Loan Disagreements, etc.)')">Money Problems<br>(Unpaid Debts, Loan Disagreements, etc.)</button>
+            <button type="button" class="w-full text-left px-3 sm:px-4 py-2 text-xs sm:text-sm hover:bg-blue-50" onclick="selectComplaintType('Misbehavior','Misbehavior (Insults, Bullying, Shouting, etc.)')">Misbehavior<br>(Insults, Bullying, Shouting, etc.)</button>
+            <button type="button" class="w-full text-left px-3 sm:px-4 py-2 text-xs sm:text-sm hover:bg-blue-50" onclick="selectComplaintType('Others','Others (Please Specify)')">Others (Please Specify)</button>
+          </div>
+        </div>
       </div>
       <div id="specifyField" class="hidden">
         <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
-          <label class="w-full sm:w-40 shrink-0 text-left text-xs sm:text-sm font-semibold text-gray-700 leading-tight">Specify Complaint</label>
-          <input type="text" id="specifyInput" name="specifyInput" class="w-full sm:flex-1 bg-gray-50 border-2 border-gray-300 rounded-lg px-3 sm:px-4 py-2 text-xs sm:text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all pointer-events-auto" placeholder="Please specify your complaint..." autocomplete="off">
+          <label class="w-full sm:w-40 shrink-0 text-left text-xs sm:text-sm font-semibold text-gray-700 leading-tight">Complaint Details</label>
+          <input type="text" id="specifyInput" name="specifyInput" class="w-full sm:flex-1 bg-gray-50 border-2 border-gray-300 rounded-lg px-3 sm:px-4 py-2 text-xs sm:text-sm placeholder:text-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all pointer-events-auto" placeholder="Specify the nature of your complaint" autocomplete="off">
         </div>
       </div>
       <div class="flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-4">
         <label class="w-full sm:w-40 shrink-0 text-left text-xs sm:text-sm font-semibold text-gray-700 leading-tight pt-2">Complaint Statement</label>
-        <textarea name="complaint_statement" class="w-full sm:flex-1 bg-gray-50 border-2 border-gray-300 rounded-lg px-3 sm:px-4 py-2 text-xs sm:text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all resize-none h-24 sm:h-28" placeholder="Describe your complaint in detail..." required></textarea>
+        <textarea name="complaint_statement" class="w-full sm:flex-1 bg-gray-50 border-2 border-gray-300 rounded-lg px-3 sm:px-4 py-2 text-xs sm:text-sm placeholder:text-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all resize-none h-24 sm:h-28" placeholder="Provide a detailed description of the incident" required></textarea>
       </div>
       <div class="flex items-start pt-2">
         <input type="checkbox" required class="mt-1 mr-3 w-4 h-4 text-blue-600 border-2 border-gray-300 rounded focus:ring-2 focus:ring-blue-500 cursor-pointer flex-shrink-0">
-        <label class="text-xs text-gray-600 leading-relaxed">I certify that the information provided above is accurate and complete to the best of my knowledge.</label>
+        <label class="text-[14px] text-gray-600 leading-relaxed text-left">I certify that the information provided above is accurate and complete to the best of my knowledge.</label>
       </div>
       
       {{-- Validation Error Area --}}
@@ -204,11 +223,11 @@
 
     </form>
   </div>
-<div class="flex flex-col sm:flex-row justify-end gap-2 sm:gap-3 px-4 sm:px-6 py-4 border-t border-gray-100 bg-gray-50 mt-4">
+<div class="flex flex-col sm:flex-row justify-end gap-2 sm:gap-3 px-4 sm:px-6 py-4 border-t border-gray-100 bg-gray-50 rounded-b-2xl">
   <button type="button" onclick="closeModal('modalGeneralComplaint')" 
-          class="w-full sm:w-auto px-4 sm:px-6 py-2 bg-gradient-to-r from-gray-100 to-gray-200 hover:from-gray-200 hover:to-gray-300 text-gray-700 text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 border border-gray-300 order-2 sm:order-1">CANCEL</button>
+          class="w-full sm:w-auto px-4 sm:px-6 py-2 bg-gradient-to-r from-gray-100 to-gray-200 hover:from-red-500 hover:to-red-600 text-gray-700 hover:text-white text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 border border-gray-300 order-2 sm:order-1">CANCEL</button>
   <button type="button" id="submitComplaintBtn" onclick="submitComplaintForm()" 
-          class="w-full sm:w-auto px-4 sm:px-6 py-2 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 shadow-md hover:shadow-lg order-1 sm:order-2">SUBMIT</button>
+          class="w-full sm:w-auto px-4 sm:px-6 py-2 bg-gradient-to-r from-gray-100 to-gray-200 hover:from-blue-500 hover:to-blue-600 text-gray-700 hover:text-white text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 shadow-md hover:shadow-lg border border-gray-300 order-1 sm:order-2">SUBMIT</button>
   </div>
   </div>
   </div>

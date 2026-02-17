@@ -215,9 +215,10 @@
                     </div>
                 </div>
 
-                <h2 class="font-extrabold text-base sm:text-xl mb-2 sm:mb-3 text-white tracking-wide">
-                    Thank you for registering! Your information has been submitted successfully!
+                <h2 class="font-extrabold text-base sm:text-xl mb-2 sm:mb-2 text-white tracking-wide">
+                    Thank you for registering!
                 </h2>
+                <p class="text-sm text-white mb-0">Your information has been submitted successfully!</p>
             </div>
 
             <div class="p-6 sm:p-8 text-center">
@@ -228,6 +229,9 @@
                 <p class="text-sm text-gray-700 leading-relaxed mb-6">
                     You will receive an email or text message once your registration is approved.
                 </p>
+                <div class="flex justify-center">
+                    <a href="/" class="bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-2 rounded-lg font-semibold transition">Close</a>
+                </div>
             </div>
         </div>
     </div>

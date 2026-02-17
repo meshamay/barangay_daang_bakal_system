@@ -54,11 +54,41 @@ function closeSuccessModal() {
 
 function toggleSpecifyField() {
     const select = document.getElementById('description');
+    const complaintTypeInput = document.getElementById('complaintTypeInput');
     const specify = document.getElementById('specifyField');
-    if (specify && select) {
-        specify.classList.toggle('hidden', select.value !== 'Others');
+    const selectedValue = complaintTypeInput?.value || select?.value || '';
+    if (specify) {
+        specify.classList.toggle('hidden', selectedValue !== 'Other Concerns');
     }
 }
+
+function toggleComplaintTypeMenu() {
+    const menu = document.getElementById('complaintTypeMenu');
+    if (menu) menu.classList.toggle('hidden');
+}
+
+function selectComplaintType(value, label) {
+    const input = document.getElementById('complaintTypeInput');
+    const labelEl = document.getElementById('complaintTypeLabel');
+    const menu = document.getElementById('complaintTypeMenu');
+    if (input) input.value = value;
+    if (labelEl) {
+        labelEl.textContent = label;
+        labelEl.classList.remove('text-gray-500');
+        labelEl.classList.add('text-gray-700');
+    }
+    if (menu) menu.classList.add('hidden');
+    toggleSpecifyField();
+}
+
+document.addEventListener('click', function(event) {
+    const wrapper = document.getElementById('complaintTypeWrapper');
+    const menu = document.getElementById('complaintTypeMenu');
+    if (!wrapper || !menu) return;
+    if (!wrapper.contains(event.target)) {
+        menu.classList.add('hidden');
+    }
+});
 
 function removePlaceholder() {
     const specifyInput = document.getElementById('specifyInput');
@@ -75,12 +105,18 @@ async function submitComplaintForm() {
     const form = document.getElementById('complaintForm');
     const submitButton = document.getElementById('submitComplaintBtn');
     const errorsDiv = document.getElementById('validationErrors');
+    const complaintTypeInput = document.getElementById('complaintTypeInput');
     
     if (!form || !submitButton || !errorsDiv) return;
     
     const checkbox = form.querySelector('input[type="checkbox"][required]');
     if (checkbox && !checkbox.checked) {
         alert("Please confirm the accuracy of the information by checking the box.");
+        return;
+    }
+
+    if (complaintTypeInput && !complaintTypeInput.value) {
+        alert("Please select a complaint type.");
         return;
     }
 
@@ -129,8 +165,8 @@ async function submitComplaintForm() {
             const successMessage = document.getElementById('successMessageContent');
             if (successMessage) {
                 successMessage.innerHTML = `
-                    Transaction ID: <strong>${trackingId}</strong><br>
-                    Your complaint has been filed and will be reviewed shortly.
+                    <span class="block font-bold">Transaction ID: ${trackingId}</span>
+                    <span class="block mt-5">Your complaint has been filed and will be reviewed shortly.</span>
                 `;
             }
             

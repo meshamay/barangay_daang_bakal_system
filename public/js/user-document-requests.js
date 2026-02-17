@@ -112,7 +112,11 @@ async function submitForm(form, modalId) {
             const successModal = document.getElementById('ajaxSuccessModal');
             const successMessage = document.getElementById('ajaxSuccessMessage');
             if (successMessage && data.tracking_number) {
-                successMessage.innerHTML = `Transaction ID: ${data.tracking_number} <br> Your request will be processed within 1 day. You may claim your document at the barangay once it's ready for release.`;
+                successMessage.innerHTML = `
+                    <span class="block font-bold">Transaction ID: ${data.tracking_number}</span>
+                    <span class="block mt-2">Your request will be processed within 1 day.</span>
+                    <span class="block">You may claim your document at the barangay once it's ready for release.</span>
+                `;
             }
             showBackdrop();
             if (successModal) successModal.classList.remove('hidden');

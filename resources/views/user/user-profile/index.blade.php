@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>Profile Layout</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
@@ -24,7 +25,7 @@
 
 <body class="bg-gradient-to-br from-slate-50 via-white to-slate-50" style="font-family: 'Poppins', sans-serif;">
 
-<nav id="top-navbar" class="fixed top-0 left-0 w-full h-16 sm:h-20 font-barlow bg-gradient-to-r from-[#134573] via-[#0f3a5f] to-[#0a2847] text-white shadow-lg z-30 flex items-center justify-between px-3 sm:px-6 border-b border-white/10">
+<nav id="top-navbar" class="fixed top-0 left-0 w-full h-16 sm:h-20 font-poppins bg-gradient-to-r from-[#134573] via-[#0f3a5f] to-[#0a2847] text-white shadow-lg z-30 flex items-center justify-between px-3 sm:px-6 border-b border-white/10">
 
     <div class="flex items-center gap-2 sm:gap-4">
 
@@ -34,8 +35,8 @@
                 <img src="https://tse2.mm.bing.net/th/id/OIP._bP7eQwOSrZjwv-doDDsWAHaHa?rs=1&pid=ImgDetMain&o=7&rm=3" class="w-8 h-8 sm:w-12 sm:h-12 rounded-full object-cover">
 
                 <div>
-                    <h1 class="text-xs sm:text-lg md:text-xl font-semibold leading-tight">Barangay Daang Bakal</h1>
-                    <p class="text-xs sm:text-base md:text-lg font-semibold leading-tight">Mandaluyong City</p>
+                    <h1 class="text-xs sm:text-sm md:text-base font-semibold leading-tight text-white">Barangay Daang Bakal</h1>
+                    <span class="font-poppins text-[10px] sm:text-xs md:text-sm lg:text-base font-semibold text-white">Mandaluyong City</span>
                 </div>
             </a>
         </div>
@@ -44,20 +45,74 @@
 
     <div class="flex items-center gap-3 sm:gap-6">
 
-        <div x-data="{ open: false }" class="relative">
-            <button @click="open = !open" class="relative p-1.5 sm:p-2 rounded-lg hover:bg-white/10 transition duration-200">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sm:h-6 sm:w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
-                </svg>
-            </button>
-            
-            <div x-show="open" @click.outside="open = false" class="absolute right-0 mt-2 w-[calc(100vw-1.5rem)] sm:w-96 max-w-md bg-white rounded-2xl shadow-2xl overflow-hidden z-50 text-slate-800 border-2 border-gray-100" style="display: none;">
-                <div class="px-4 sm:px-6 py-3 sm:py-4 rounded-t-2xl" style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%);">
-                    <h3 class="text-base sm:text-lg font-bold text-white">Notifications</h3>
-                </div>
-                <div class="p-6 text-sm text-center text-gray-500">No new notifications</div>
+      <div x-data="notificationHandler()"
+         x-init="init"
+         @click.away="open = false"
+         class="relative">
+
+        <button @click="toggleDropdown" class="relative p-1.5 sm:p-2 rounded-lg hover:bg-white/10 transition duration-200">
+          <span class="sr-only">View notifications</span>
+          <svg class="h-5 w-5 sm:h-6 sm:w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 00-5.982-6H12a6 6 0 00-5 5.917V14.158a2.032 2.032 0 01-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+          </svg>
+          <span x-show="unreadCount > 0" x-text="unreadCount" class="absolute top-0 right-0 block h-4 w-4 sm:h-5 sm:w-5 text-xs text-center rounded-full bg-red-500 ring-2 ring-white font-bold flex items-center justify-center"></span>
+        </button>
+
+        <div x-show="open" class="absolute right-0 mt-2 w-[calc(100vw-1.5rem)] sm:w-96 max-w-md bg-white rounded-2xl shadow-2xl overflow-hidden z-50 text-slate-800 border-2 border-gray-100"
+           x-cloak
+           style="display: none;">
+          <div class="px-4 sm:px-6 py-3 sm:py-4 rounded-t-2xl" style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%);">
+            <div class="flex justify-between items-center">
+              <h3 class="text-base sm:text-lg font-bold text-white">Notifications</h3>
+              <button @click="markAllAsRead" x-show="unreadCount > 0" class="text-xs text-blue-100 hover:text-white transition-colors font-semibold">Mark all as read</button>
             </div>
+          </div>
+          <div class="max-h-[60vh] sm:max-h-96 overflow-y-auto divide-y divide-gray-100">
+            <template x-if="notifications.length > 0">
+              <template x-for="notification in notifications" :key="notification.id">
+                <a :href="notification.data.link"
+                   @click.prevent="markAsRead(notification.id, notification.data.link)"
+                   class="block px-3 sm:px-5 py-3 sm:py-4 transition-all duration-200"
+                   :class="{'bg-blue-50/70 hover:bg-blue-50 border-l-4 border-blue-500': !notification.read_at, 'hover:bg-gray-50': notification.read_at}">
+                  <div class="flex items-start gap-2 sm:gap-3">
+                    <div class="flex-shrink-0">
+                      <template x-if="notification.data.type === 'complaint'">
+                        <div class="h-8 w-8 sm:h-10 sm:w-10 rounded-xl bg-red-100 flex items-center justify-center">
+                          <svg class="h-5 w-5 sm:h-6 sm:w-6 text-red-600" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                          </svg>
+                        </div>
+                      </template>
+                      <template x-if="notification.data.type === 'document'">
+                        <div class="h-8 w-8 sm:h-10 sm:w-10 rounded-xl bg-blue-100 flex items-center justify-center">
+                          <svg class="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
+                            <polyline points="13 2 13 9 20 9"></polyline>
+                          </svg>
+                        </div>
+                      </template>
+                    </div>
+                    <div class="flex-grow">
+                      <p class="text-sm font-semibold" :class="{'text-gray-900': !notification.read_at, 'text-gray-600': notification.read_at}" x-text="notification.data.title"></p>
+                      <p class="text-xs mt-1" :class="{'text-gray-700': !notification.read_at, 'text-gray-500': notification.read_at}" x-text="notification.data.message"></p>
+                      <p class="text-xs text-gray-400 mt-2" x-text="formatDate(notification.created_at)"></p>
+                    </div>
+                  </div>
+                </a>
+              </template>
+            </template>
+            <template x-if="notifications.length === 0">
+              <div class="p-8 text-center">
+                <svg class="h-12 w-12 text-gray-300 mx-auto mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 00-5.982-6H12a6 6 0 00-5 5.917V14.158a2.032 2.032 0 01-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+                </svg>
+                <p class="text-sm text-gray-500 font-medium">No new notifications</p>
+                <p class="text-xs text-gray-400 mt-1">You're all caught up!</p>
+              </div>
+            </template>
+          </div>
         </div>
+      </div>
 
         <div class="flex items-center pl-3 sm:pl-6 border-l border-blue-300/30 h-6 sm:h-8">
 
@@ -87,7 +142,7 @@
                         <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                         </svg>
-                        View profile
+                        View Profile
                     </a>
                     <form method="POST" action="{{ route('logout') }}" class="m-0">
                         @csrf
@@ -95,7 +150,7 @@
                             <svg class="h-4 w-4 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                             </svg>
-                            Sign out
+                            Sign Out
                         </button>
                     </form>
                 </div>
@@ -156,12 +211,12 @@
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
           <div class="group">
-            <label class="block text-xs font-bold text-gray-700 mb-2 uppercase tracking-wider">Age</label>
-            <div class="flex items-center bg-gradient-to-br from-gray-50 to-blue-50/50 text-gray-700 rounded-xl h-10 text-sm font-medium px-4 border border-gray-200 shadow-sm group-hover:shadow-md group-hover:border-blue-300 transition-all duration-300">{{ $user->age }}</div>
-          </div>
-          <div class="group">
             <label class="block text-xs font-bold text-gray-700 mb-2 uppercase tracking-wider">Gender</label>
             <div class="flex items-center bg-gradient-to-br from-gray-50 to-blue-50/50 text-gray-700 rounded-xl h-10 text-sm font-medium px-4 border border-gray-200 shadow-sm group-hover:shadow-md group-hover:border-blue-300 transition-all duration-300">{{ $user->gender }}</div>
+          </div>
+          <div class="group">
+            <label class="block text-xs font-bold text-gray-700 mb-2 uppercase tracking-wider">Age</label>
+            <div class="flex items-center bg-gradient-to-br from-gray-50 to-blue-50/50 text-gray-700 rounded-xl h-10 text-sm font-medium px-4 border border-gray-200 shadow-sm group-hover:shadow-md group-hover:border-blue-300 transition-all duration-300">{{ $user->age }}</div>
           </div>
         </div>
 
@@ -204,13 +259,18 @@
       <div class="space-y-3 sm:space-y-4">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
           <div class="group">
-            <label class="block text-xs font-bold text-gray-700 mb-2 uppercase tracking-wider">Email</label>
-            <div class="flex items-center bg-gradient-to-br from-gray-50 to-blue-50/50 text-gray-700 rounded-xl h-10 text-sm font-medium px-4 border border-gray-200 shadow-sm group-hover:shadow-md group-hover:border-emerald-300 transition-all duration-300 break-all">{{ $user->email }}</div>
-          </div>
-          <div class="group">
-            <label class="block text-xs font-bold text-gray-700 mb-2 uppercase tracking-wider">Phone Number</label>
+            <label class="block text-xs font-bold text-gray-700 mb-2 uppercase tracking-wider">Contact Number</label>
             <div class="flex items-center bg-gradient-to-br from-gray-50 to-blue-50/50 text-gray-700 rounded-xl h-10 text-sm font-medium px-4 border border-gray-200 shadow-sm group-hover:shadow-md group-hover:border-emerald-300 transition-all duration-300">{{ $user->contact_number }}</div>
           </div>
+          <div class="group">
+            <label class="block text-xs font-bold text-gray-700 mb-2 uppercase tracking-wider">Email Address</label>
+            <div class="flex items-center bg-gradient-to-br from-gray-50 to-blue-50/50 text-gray-700 rounded-xl h-10 text-sm font-medium px-4 border border-gray-200 shadow-sm group-hover:shadow-md group-hover:border-emerald-300 transition-all duration-300 break-all">{{ $user->email }}</div>
+          </div>
+        </div>
+
+        <div class="group">
+          <label class="block text-xs font-bold text-gray-700 mb-2 uppercase tracking-wider">House/Unit Number, Street</label>
+          <div class="flex items-center bg-gradient-to-br from-gray-50 to-blue-50/50 text-gray-700 rounded-xl h-10 text-sm font-medium px-4 border border-gray-200 shadow-sm group-hover:shadow-md group-hover:border-emerald-300 transition-all duration-300">{{ $user->address }}</div>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
@@ -224,13 +284,8 @@
           </div>
         </div>
 
-        <div class="group">
-          <label class="block text-xs font-bold text-gray-700 mb-2 uppercase tracking-wider">Address</label>
-          <div class="flex items-center bg-gradient-to-br from-gray-50 to-blue-50/50 text-gray-700 rounded-xl h-10 text-sm font-medium px-4 border border-gray-200 shadow-sm group-hover:shadow-md group-hover:border-emerald-300 transition-all duration-300">{{ $user->address }}</div>
-        </div>
-
         <div class="pt-4 border-t border-gray-200/50">
-          <label class="block text-xs font-bold text-gray-700 mb-3 uppercase tracking-wider">Valid ID</label>
+          <label class="block text-xs font-bold text-gray-700 mb-3 uppercase tracking-wider">ID/CERTIFICATE OF LIVE BIRTH ATTACHMENT</label>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
             <div class="group">
               <p class="text-xs text-gray-600 mb-2 font-bold uppercase tracking-wide">Front</p>
@@ -245,7 +300,7 @@
 
         <div class="flex justify-end mt-5 sm:mt-6 pt-4 border-t border-gray-200/50">
             <a href="{{ route('home') }}">
-                <button class="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-xs sm:text-sm text-white font-bold px-6 sm:px-8 py-2.5 sm:py-3 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl border border-emerald-400/50 flex items-center gap-2">
+              <button class="bg-gray-200 hover:bg-gray-300 text-xs sm:text-sm text-gray-700 font-bold px-6 sm:px-8 py-2.5 sm:py-3 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl border border-gray-300 flex items-center gap-2">
                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                     </svg>
@@ -257,6 +312,89 @@
 
     </section>
 </main>
+
+<script>
+  function notificationHandler() {
+    return {
+      open: false,
+      notifications: [],
+      unreadCount: 0,
+
+      init() {
+        this.fetchNotifications();
+        setInterval(() => this.fetchNotifications(), 5000);
+      },
+
+      toggleDropdown() {
+        this.open = !this.open;
+      },
+
+      formatDate(dateString) {
+        const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+        return new Date(dateString).toLocaleDateString(undefined, options);
+      },
+
+      fetchNotifications() {
+        fetch("{{ route('api.notifications.index') }}")
+          .then(response => response.json())
+          .then(data => {
+            this.notifications = data.unread.concat(data.read);
+            this.unreadCount = data.unread_count;
+          })
+          .catch(error => console.error('Error fetching notifications:', error));
+      },
+
+      markAsRead(notificationId, redirectLink) {
+        fetch(`/api/notifications/${notificationId}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+          }
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            setTimeout(() => {
+              this.fetchNotifications();
+              if (redirectLink) {
+                setTimeout(() => {
+                  window.location.href = redirectLink;
+                }, 500);
+              }
+            }, 100);
+          }
+        })
+        .catch(error => console.error('Error marking as read:', error));
+      },
+
+      markAllAsRead() {
+        const unreadNotifications = this.notifications.filter(n => !n.read_at);
+
+        if (unreadNotifications.length === 0) {
+          this.open = false;
+          return;
+        }
+
+        unreadNotifications.forEach(n => {
+          fetch(`/api/notifications/${n.id}`, {
+            method: 'PATCH',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+            }
+          })
+          .then(response => response.json())
+          .catch(error => console.error('Error marking as read:', error));
+        });
+
+        setTimeout(() => {
+          this.fetchNotifications();
+        }, 500);
+      }
+    }
+  }
+</script>
 
 <script>
     lucide.createIcons();

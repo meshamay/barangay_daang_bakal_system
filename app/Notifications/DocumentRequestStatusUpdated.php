@@ -29,11 +29,16 @@ class DocumentRequestStatusUpdated extends Notification
         $transactionId = $this->documentRequest->tracking_number;
         $status = $this->documentRequest->status;
 
+        $message = "Your request {$transactionId} is now {$status}.";
+        if (strtolower($status) === 'completed') {
+            $message .= ' You may claim your document at the Barangay Hall during office hours.';
+        }
+
         return [
             'type' => 'document',
             'category' => 'document_status_update',
             'title' => 'Request Status Update',
-            'message' => "Your request {$transactionId} is now {$status}.",
+            'message' => $message,
             'link' => route('user.document-requests.index'),
             'transaction_id' => $transactionId,
             'status' => $status,
