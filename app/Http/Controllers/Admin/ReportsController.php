@@ -24,7 +24,10 @@ class ReportsController extends Controller
         // Stats for cards
         $stats = [
             'totalUsers' => User::count(),
-            'totalResidents' => User::whereIn('role', ['user', 'resident'])->whereNull('deleted_at')->count(),
+            // Only users with status 'accepted' (or 'approved'/'Active') are counted as registered residents
+            'registeredResidents' => User::whereIn('role', ['user', 'resident'])
+                ->where('status', 'approved')
+                ->whereNull('deleted_at')->count(),
             'totalStaff' => User::whereIn('role', ['admin', 'superadmin'])->whereNull('deleted_at')->count(),
             'archivedAccounts' => User::whereIn('role', ['user', 'resident'])->onlyTrashed()->count(),
         ];
@@ -108,7 +111,10 @@ class ReportsController extends Controller
 
         $stats = [
             'totalUsers' => User::count(),
-            'totalResidents' => User::where('role', 'user')->count(),
+            // Only users with status 'accepted' (or 'approved'/'Active') are counted as registered residents
+            'registeredResidents' => User::whereIn('role', ['user', 'resident'])
+                ->where('status', 'approved')
+                ->whereNull('deleted_at')->count(),
             'totalStaff' => User::whereIn('role', ['admin', 'superadmin'])->count(),
             'archivedAccounts' => User::where('role', 'user')->onlyTrashed()->count(),
         ];

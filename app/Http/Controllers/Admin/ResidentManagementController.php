@@ -33,6 +33,12 @@ class ResidentManagementController extends Controller
             ->whereRaw('LOWER(TRIM(gender)) = ?', ['female'])
             ->get();
 
+        // Count only approved residents
+        $registeredResidents = User::where('user_type', 'resident')
+            ->whereRaw('LOWER(status) = ?', ['approved'])
+            ->whereNull('deleted_at')
+            ->count();
+
         $query = User::where('user_type', 'resident')->withTrashed();
 
         if ($request->has('search') && $request->filled('search')) {
@@ -55,13 +61,16 @@ class ResidentManagementController extends Controller
 
         $users = $query->latest()->paginate(10)->withQueryString();
 
-        return view('admin.users.index', compact(
+        // Support both index and index2 views
+        $viewName = $request->has('alt') && $request->alt === '2' ? 'admin.users.index2' : 'admin.users.index';
+        return view($viewName, compact(
             'users',
             'totalResidents',
             'maleCount',
             'femaleCount',
             'archivedCount',
-            'femaleResidents'
+            'femaleResidents',
+            'registeredResidents'
         ));
     }
 

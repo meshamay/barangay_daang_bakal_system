@@ -67,6 +67,8 @@
         </div>
       </div>
     </div>
+
+    {{-- Registered Residents card removed from dashboard --}}
   </div>
 
   {{-- SEARCH AND FILTERS --}}

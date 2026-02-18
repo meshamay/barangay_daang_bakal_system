@@ -19,7 +19,7 @@
     <table>
         <tr><th>Metric</th><th>Value</th></tr>
         <tr><td>Total Users</td><td>{{ $stats['totalUsers'] }}</td></tr>
-        <tr><td>Total Registered Residents</td><td>{{ $stats['totalResidents'] }}</td></tr>
+        <tr><td>Total Registered Residents</td><td>{{ $stats['registeredResidents'] }}</td></tr>
         <tr><td>Total Registered Staffs</td><td>{{ $stats['totalStaff'] }}</td></tr>
         <tr><td>Archived Accounts</td><td>{{ $stats['archivedAccounts'] }}</td></tr>
     </table>

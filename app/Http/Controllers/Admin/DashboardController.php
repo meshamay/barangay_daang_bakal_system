@@ -24,9 +24,13 @@ class DashboardController extends Controller
         
         $stats = [
             'totalUsers'      => User::count(), // Total users in the system
+            // Only users with status 'accepted' (or 'approved'/'Active') are counted as registered residents
+            'registeredResidents' => User::whereIn('role', ['user', 'resident'])
+                ->where('status', 'approved')
+                ->whereNull('deleted_at')
+                ->count(),
             'totalRequests'   => $totalDocumentRequests,
             'totalComplaints' => $totalComplaints,
-            
             'completed'       => DocumentRequest::where('status', 'completed')->count() 
                                + Complaint::where('status', 'completed')->count(),
         ];

@@ -244,7 +244,7 @@
     </div>
   </div>
   <h2 class="font-extrabold text-lg sm:text-2xl mb-2 bg-gradient-to-r from-emerald-600 to-emerald-500 bg-clip-text text-transparent tracking-wide">
-    REQUEST SUBMITTED SUCCESSFULLY!
+    COMPLAINT SUBMITTED SUCCESSFULLY!
   </h2>
   <p id="successMessageContent" class="text-gray-600 text-xs sm:text-sm leading-relaxed mb-4 sm:mb-6">
     Your complaint has been filed and will be reviewed shortly. Barangay officials will get back to you as soon as possible. Expect an initial response within 24-48 hours.

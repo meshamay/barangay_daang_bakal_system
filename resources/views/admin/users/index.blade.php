@@ -25,7 +25,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-gray-500 text-sm font-medium">Registered Residents</p>
-                        <p class="text-4xl font-bold text-gray-900 mt-2">{{ $totalResidents ?? 0 }}</p>
+                        <p class="text-4xl font-bold text-gray-900 mt-2">{{ $registeredResidents ?? 0 }}</p>
                 </div>
                 <div class="bg-blue-100 p-4 rounded-lg">
                     <svg class="h-8 w-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">

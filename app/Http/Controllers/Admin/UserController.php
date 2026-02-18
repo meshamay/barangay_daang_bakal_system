@@ -19,6 +19,23 @@ class UserController extends Controller
         $maleCount      = User::where('role', 'resident')->where('gender', 'Male')->count();
         $femaleCount    = User::where('role', 'resident')->where('gender', 'Female')->count();
         $archivedCount  = User::where('role', 'resident')->onlyTrashed()->count();
+        $registeredResidents = User::whereRaw('LOWER(role) IN (?, ?)', ['user', 'resident'])
+            ->whereRaw('LOWER(status) = ?', ['approved'])
+            ->whereNull('deleted_at')
+            ->count();
+
+
+        // DEBUG: Dump users being counted as registered residents
+        // Remove after debugging
+        $debugResidents = User::whereIn('role', ['user', 'resident'])
+            ->where('status', 'approved')
+            ->whereNull('deleted_at')
+            ->get(['id', 'role', 'status', 'deleted_at']);
+        \Log::info('DEBUG registeredResidents', $debugResidents->toArray());
+
+
+        // DEBUG: Dump all users for troubleshooting
+        \Log::info('DEBUG ALL USERS', User::withTrashed()->get(['id', 'role', 'status', 'deleted_at'])->toArray());
 
 
         // Always start with all users including archived
@@ -59,7 +76,8 @@ class UserController extends Controller
             'totalResidents',
             'maleCount',
             'femaleCount',
-            'archivedCount'
+            'archivedCount',
+            'registeredResidents'
         ));
     }
 
