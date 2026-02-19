@@ -1,8 +1,12 @@
 <?php
 
-$appUrl = env('APP_URL', 'http://localhost');
-$appUrlParts = parse_url($appUrl);
-if (!filter_var($appUrl, FILTER_VALIDATE_URL) || empty($appUrlParts['scheme']) || empty($appUrlParts['host'])) {
+$appUrl = trim((string) env('APP_URL', 'http://localhost'));
+$appUrlParts = parse_url($appUrl) ?: [];
+$appUrlScheme = $appUrlParts['scheme'] ?? '';
+$appUrlHost = $appUrlParts['host'] ?? '';
+$validScheme = in_array($appUrlScheme, ['http', 'https'], true);
+$validHost = $appUrlHost !== '' && filter_var($appUrlHost, FILTER_VALIDATE_DOMAIN, FILTER_FLAG_HOSTNAME);
+if (!$validScheme || !$validHost) {
     $appUrl = 'http://localhost';
 }
 
