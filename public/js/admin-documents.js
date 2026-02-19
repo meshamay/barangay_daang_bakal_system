@@ -94,9 +94,14 @@ function openDocumentModal(modalId, button) {
 function openInprogressModal(requestId) {
     const modal = document.getElementById('inprogressModal');
     const form = document.getElementById('inprogressForm');
+    const input = document.getElementById('inprogressRequestId');
     
     if (form) {
         form.action = "/admin/documents/" + requestId + "/status";
+    }
+    
+    if (input) {
+        input.value = requestId;
     }
     
     showBackdrop();
@@ -113,9 +118,14 @@ function closeInprogressModal() {
 function openCompletedModal(requestId) {
     const modal = document.getElementById('completedModal');
     const form = document.getElementById('completedForm');
+    const input = document.getElementById('completedRequestId');
     
     if (form) {
         form.action = "/admin/documents/" + requestId + "/status";
+    }
+    
+    if (input) {
+        input.value = requestId;
     }
     
     showBackdrop();

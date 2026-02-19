@@ -505,10 +505,11 @@
 		</div>
 		
 		<!-- Action Buttons -->
-		<form id="inprogressForm" method="POST" action="">
+		<form id="inprogressForm" method="POST" action="#">
 			@csrf
 			@method('PUT')
 			<input type="hidden" name="status" value="in progress">
+			<input type="hidden" name="request_id" id="inprogressRequestId" value="">
 			<div class="flex justify-center gap-4 mt-6">
 				<button type="button" onclick="closeInprogressModal()" 
 						class="px-8 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-sm font-semibold transition-all duration-200 hover:shadow-md border border-gray-300">
@@ -547,10 +548,11 @@
 		</div>
 		
 		<!-- Action Buttons -->
-		<form id="completedForm" method="POST" action="">
+		<form id="completedForm" method="POST" action="#">
 			@csrf
 			@method('PUT')
 			<input type="hidden" name="status" value="completed">
+			<input type="hidden" name="request_id" id="completedRequestId" value="">
 			<div class="flex justify-center gap-4 mt-6">
 				<button type="button" onclick="closeCompletedModal()" 
 						class="px-8 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-sm font-semibold transition-all duration-200 hover:shadow-md border border-gray-300">
