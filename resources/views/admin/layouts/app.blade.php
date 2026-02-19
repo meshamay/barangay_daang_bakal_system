@@ -46,10 +46,10 @@
 
     <!-- TOP NAVBAR -->
     <nav id="top-navbar"
-         class="fixed top-0 left-0 w-full h-20 font-poppins bg-gradient-to-r from-[#134573] via-[#0f3a5f] to-[#0a2847]
-         text-white shadow-lg z-30 flex items-center justify-between px-6 border-b border-white/10">
+         class="fixed top-0 left-0 w-full h-16 sm:h-20 font-poppins bg-gradient-to-r from-[#134573] via-[#0f3a5f] to-[#0a2847]
+         text-white shadow-lg z-30 flex items-center justify-between px-3 sm:px-6 border-b border-white/10">
 
-        <div class="flex items-center gap-4">
+        <div class="flex items-center gap-2 sm:gap-4">
             <label for="sidebar-toggle" class="cursor-pointer md:hidden p-2 rounded-lg hover:bg-white/10 transition">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
                      viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -58,20 +58,21 @@
                 </svg>
             </label>
 
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Mandaluyong_seal.svg/1024px-Mandaluyong_seal.svg.png"
-                 class="w-12 h-12 rounded-lg shadow-md">
+            <div class="flex items-center space-x-2 sm:space-x-3">
+                <a href="{{ route('admin.dashboard') }}" class="flex items-center space-x-2 sm:space-x-3">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Mandaluyong_seal.svg/1024px-Mandaluyong_seal.svg.png" class="w-8 h-8 sm:w-12 sm:h-12">
+                    <img src="https://tse2.mm.bing.net/th/id/OIP._bP7eQwOSrZjwv-doDDsWAHaHa" class="w-8 h-8 sm:w-12 sm:h-12 rounded-full object-cover">
 
-            <img src="https://tse2.mm.bing.net/th/id/OIP._bP7eQwOSrZjwv-doDDsWAHaHa"
-                 class="w-12 h-12 rounded-full object-cover ring-2 ring-white/30 shadow-md">
-
-            <div>
-                <h1 class="text-lg font-bold bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent">Barangay Daang Bakal</h1>
-                <p class="text-sm text-blue-100 font-medium">Mandaluyong City</p>
+                    <div>
+                        <h1 class="text-xs sm:text-sm md:text-base font-semibold leading-tight text-white">Barangay Daang Bakal</h1>
+                        <span class="font-poppins text-[10px] sm:text-xs md:text-sm lg:text-base font-semibold text-white">Mandaluyong City</span>
+                    </div>
+                </a>
             </div>
         </div>
 
-            <!-- RIGHT SIDE: NOTIFICATION + PROFILE -->
-    <div class="flex items-center gap-5">
+        <!-- RIGHT SIDE: NOTIFICATION + PROFILE -->
+        <div class="flex items-center gap-3 sm:gap-6">
 
         <!-- NOTIFICATION BELL -->
 
@@ -80,42 +81,42 @@
      @click.away="open = false"
      class="relative">
     
-    <button @click="toggleDropdown" class="relative p-2 rounded-lg hover:bg-white/10 transition duration-200">
+    <button @click="toggleDropdown" class="relative p-1.5 sm:p-2 rounded-lg hover:bg-white/10 transition duration-200">
         <span class="sr-only">View notifications</span>
-        <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg class="h-5 w-5 sm:h-6 sm:w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 00-5.982-6H12a6 6 0 00-5 5.917V14.158a2.032 2.032 0 01-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
         </svg>
-        <span x-show="unreadCount > 0" x-text="unreadCount" class="absolute top-0 right-0 block h-5 w-5 text-xs text-center rounded-full bg-red-500 ring-2 ring-white font-bold flex items-center justify-center"></span>
+        <span x-show="unreadCount > 0" x-text="unreadCount" class="absolute top-0 right-0 block h-4 w-4 sm:h-5 sm:w-5 text-xs text-center rounded-full bg-red-500 ring-2 ring-white font-bold flex items-center justify-center"></span>
     </button>
 
-    <div x-show="open" class="absolute right-0 mt-2 w-96 bg-white rounded-2xl shadow-2xl overflow-hidden z-50 text-slate-800 border-2 border-gray-100" 
+    <div x-show="open" class="absolute right-0 mt-2 w-[calc(100vw-1.5rem)] sm:w-96 max-w-md bg-white rounded-2xl shadow-2xl overflow-hidden z-50 text-slate-800 border-2 border-gray-100" 
          x-cloak 
          style="display: none;">
-        <div class="px-6 py-4 rounded-t-2xl" style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%);">
+        <div class="px-4 sm:px-6 py-3 sm:py-4 rounded-t-2xl" style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%);">
             <div class="flex justify-between items-center">
-                <h3 class="text-lg font-bold text-white">Notifications</h3>
+                <h3 class="text-base sm:text-lg font-bold text-white">Notifications</h3>
                 <button @click="markAllAsRead" x-show="unreadCount > 0" class="text-xs text-blue-100 hover:text-white transition-colors font-semibold">Mark all as read</button>
             </div>
         </div>
-        <div class="max-h-96 overflow-y-auto divide-y divide-gray-100">
+        <div class="max-h-[60vh] sm:max-h-96 overflow-y-auto divide-y divide-gray-100">
             <template x-if="notifications.length > 0">
                 <template x-for="notification in notifications" :key="notification.id">
                     <a :href="notification.data.link" 
                        @click.prevent="markAsRead(notification.id, notification.data.link)"
                        class="block px-5 py-4 transition-all duration-200"
                        :class="{'bg-blue-50/70 hover:bg-blue-50 border-l-4 border-blue-500': !notification.read_at, 'hover:bg-gray-50': notification.read_at}">
-                        <div class="flex items-start gap-2">
+                        <div class="flex items-start gap-2 sm:gap-3">
                             <div class="flex-shrink-0">
                                 <template x-if="notification.data.type === 'complaint'">
-                                    <div class="h-10 w-10 rounded-xl bg-red-100 flex items-center justify-center">
-                                        <svg class="h-6 w-6 text-red-600" fill="currentColor" viewBox="0 0 24 24">
+                                    <div class="h-8 w-8 sm:h-10 sm:w-10 rounded-xl bg-red-100 flex items-center justify-center">
+                                        <svg class="h-5 w-5 sm:h-6 sm:w-6 text-red-600" fill="currentColor" viewBox="0 0 24 24">
                                             <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
                                         </svg>
                                     </div>
                                 </template>
                                 <template x-if="notification.data.type === 'document'">
-                                    <div class="h-10 w-10 rounded-xl bg-blue-100 flex items-center justify-center">
-                                        <svg class="h-6 w-6 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+                                    <div class="h-8 w-8 sm:h-10 sm:w-10 rounded-xl bg-blue-100 flex items-center justify-center">
+                                        <svg class="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
                                             <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
                                             <polyline points="13 2 13 9 20 9"></polyline>
                                         </svg>
@@ -149,20 +150,26 @@
 </div>
 
 <!-- PROFILE SECTION -->
-          <div class="flex items-center pl-5 border-l border-white/20 h-10">
+        <div class="flex items-center pl-3 sm:pl-6 border-l border-blue-300/30 h-6 sm:h-8">
 
-           <div class="text-right mr-4 hidden sm:block">
-              <p class="text-sm font-bold text-white leading-none">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</p>
-              <p class="text-xs text-blue-100 font-medium mt-0.5">{{ $isSuperAdmin ? 'Super Admin' : ucfirst(Auth::user()->role) }}</p>
-          </div>
-          <div class="relative" x-data="{ open: false }">
-              <button @click="open = !open" @click.away="open = false"
-              class="h-10 w-10 rounded-lg bg-gradient-to-br from-white/20 to-white/10 border border-white/30 flex items-center justify-center text-white hover:bg-gradient-to-br hover:from-white/30 hover:to-white/20 hover:border-white/50 transition duration-200 shadow-md focus:outline-none focus:ring-2 focus:ring-white/50">
-                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                              d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-            </svg>
-        </button>
+            <div class="text-right mr-2 sm:mr-3 hidden sm:block">
+                <p class="text-sm sm:text-md font-bold text-white leading-none">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</p>
+                <p class="text-xs text-blue-200 font-medium mt-1">{{ $isSuperAdmin ? 'Super Admin' : ucfirst(Auth::user()->role) }}</p>
+            </div>
+
+            <div x-data="{ open: false }" @click.away="open = false" class="relative">
+                <button @click="open = !open" class="h-8 w-8 sm:h-10 sm:w-10 rounded-full overflow-hidden bg-white/10 border border-white/40 flex items-center justify-center hover:bg-white/20 focus:outline-none transition">
+                    @php
+                        $adminPhoto = Auth::user()->photo_path ? asset('storage/' . Auth::user()->photo_path) : null;
+                    @endphp
+                    @if($adminPhoto)
+                        <img src="{{ $adminPhoto }}" class="h-full w-full object-cover">
+                    @else
+                        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                    @endif
+                </button>
         
         <!-- Dropdown Menu -->
         <div x-show="open" x-cloak style="display: none;"
@@ -206,7 +213,7 @@
                        class="flex items-center py-3 px-4 rounded-lg font-semibold text-sm transition duration-200 group
                        {{ request()->routeIs('admin.dashboard') ? 'bg-white/20 text-white border-l-4 border-white' : 'text-gray-200 hover:bg-white/10' }}">
                         <!-- ICON -->
-        <svg class="w-10 h-10 mr-3 shrink-0 {{ request()->routeIs('admin.dashboard') ? 'stroke-white' : 'stroke-gray-300 group-hover:stroke-white' }}" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg">
+        <svg class="w-12 h-12 mr-3 shrink-0 {{ request()->routeIs('admin.dashboard') ? 'stroke-white' : 'stroke-gray-300 group-hover:stroke-white' }}" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg">
             <path fill="none" fill-rule="evenodd" clip-rule="evenodd"
                 d="M9.918 10.0005H7.082C6.66587 9.99708 6.26541 10.1591 5.96873 10.4509C5.67204 10.7427 5.50343 11.1404 5.5 11.5565V17.4455C5.5077 18.3117 6.21584 19.0078 7.082 19.0005H9.918C10.3341 19.004 10.7346 18.842 11.0313 18.5502C11.328 18.2584 11.4966 17.8607 11.5 17.4445V11.5565C11.4966 11.1404 11.328 10.7427 11.0313 10.4509C10.7346 10.1591 10.3341 9.99708 9.918 10.0005Z"
                 stroke="currentColor" stroke-width="1.5" />
@@ -247,7 +254,7 @@
                     <svg class="w-9 h-9 mr-3 shrink-0 {{ request()->routeIs('admin.documents.*') ? 'text-white' : 'text-gray-300 group-hover:text-white' }}" viewBox="0 0 24 24">
                         <path fill="currentColor" fill-rule="evenodd" d="M9.29289 1.29289C9.48043 1.10536 9.73478 1 10 1H18C19.6569 1 21 2.34315 21 4V20C21 21.6569 19.6569 23 18 23H6C4.34315 23 3 21.6569 3 20V8C3 7.73478 3.10536 7.48043 3.29289 7.29289L9.29289 1.29289ZM18 3H11V8C11 8.55228 10.5523 9 10 9H5V20C5 20.5523 5.44772 21 6 21H18C18.5523 21 19 20.5523 19 20V4C19 3.44772 18.5523 3 18 3ZM6.41421 7H9V4.41421L6.41421 7ZM7 13C7 12.4477 7.44772 12 8 12H16C16.5523 12 17 12.4477 17 13C17 13.5523 16.5523 14 16 14H8C7.44772 14 7 13.5523 7 13ZM7 17C7 16.4477 7.44772 16 8 16H16C16.5523 16 17 16.4477 17 17C17 17.5523 16.5523 18 16 18H8C7.44772 18 7 17.5523 7 17Z"></path>
                     </svg>
-                    <span>Document Request</span>
+                    <span>Document Requests</span>
                 </a>
             </li>
 

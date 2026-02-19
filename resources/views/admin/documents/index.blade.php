@@ -92,8 +92,8 @@
 					<option value="">Document Types</option>
 					<option value="Barangay Clearance" {{ request('document_type') == 'Barangay Clearance' ? 'selected' : '' }}>Barangay Clearance</option>
 					<option value="Barangay Certificate" {{ request('document_type') == 'Barangay Certificate' ? 'selected' : '' }}>Barangay Certificate</option>
-					<option value="Certificate of Indigency" {{ request('document_type') == 'Certificate of Indigency' ? 'selected' : '' }}>Certificate of Indigency</option>
-					<option value="Certificate of Residency" {{ request('document_type') == 'Certificate of Residency' ? 'selected' : '' }}>Certificate of Residency</option>
+					<option value="Certificate of Indigency" {{ request('document_type') == 'Certificate of Indigency' ? 'selected' : '' }}>Indigency of Certificate</option>
+					<option value="Certificate of Residency" {{ request('document_type') == 'Certificate of Residency' ? 'selected' : '' }}>Resident of Certificate</option>
 				</select>
 
 				<select name="status" onchange="this.form.submit()" class="h-10 px-4 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition bg-white w-40">
@@ -141,7 +141,13 @@
 					<td class="py-5 px-6 w-1/7 font-semibold text-gray-900">{{ $request->tracking_number ?? $request->id }}</td>
 					<td class="py-5 px-6 w-1/7 text-gray-700">{{ $request->resident->last_name ?? 'N/A' }}</td>
 					<td class="py-5 px-6 w-1/7 text-gray-700">{{ $request->resident->first_name ?? 'N/A' }}</td>
-					<td class="py-5 px-6 w-1/7 text-gray-600">{{ $request->document_type }}</td>
+					@if(strpos($request->document_type, 'Indigency') !== false)
+						<td class="py-5 px-6 w-1/7 text-gray-600">Indigency of Certificate</td>
+					@elseif(strpos($request->document_type, 'Residency') !== false)
+						<td class="py-5 px-6 w-1/7 text-gray-600">Resident of Certificate</td>
+					@else
+						<td class="py-5 px-6 w-1/7 text-gray-600">{{ $request->document_type }}</td>
+					@endif
 					<td class="py-5 px-6 w-1/7 text-gray-600 text-sm">{{ $request->created_at->format('d/m/Y') }}</td>
 					
 					<td class="py-5 px-6 w-1/7">
@@ -386,7 +392,7 @@
 <div id="modalIndigency" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[9999]">
 	<div class="bg-white w-[800px] max-h-[90vh] rounded-3xl overflow-hidden flex flex-col shadow-2xl border-2 border-gray-100">
 		<div class="flex items-center justify-center px-6 py-4" style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%);">
-			<h1 class="text-white text-xl font-bold font-['Barlow_Semi_Condensed'] tracking-wide">Request for Certificate of Indigency</h1>
+			<h1 class="text-white text-xl font-bold font-['Barlow_Semi_Condensed'] tracking-wide">Request for Indigency of Certificate</h1>
 		</div>
 		<div class="px-8 py-6 flex-1 overflow-y-auto">
 			<form class="grid grid-cols-2 gap-x-6 gap-y-4 text-sm">
@@ -438,7 +444,7 @@
 <div id="modalResidency" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[9999]">
 	<div class="bg-white w-[800px] max-h-[90vh] rounded-3xl overflow-hidden flex flex-col shadow-2xl border-2 border-gray-100">
 		<div class="flex items-center justify-center px-6 py-4" style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%);">
-			<h1 class="text-white text-xl font-bold font-['Barlow_Semi_Condensed'] tracking-wide">Request for Certificate of Residency</h1>
+			<h1 class="text-white text-xl font-bold font-['Barlow_Semi_Condensed'] tracking-wide">Request for Resident of Certificate</h1>
 		</div>
 		<div class="px-8 py-6 flex-1 overflow-y-auto">
 			<form class="grid grid-cols-2 gap-x-6 gap-y-4 text-sm">

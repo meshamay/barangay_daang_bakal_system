@@ -29,7 +29,10 @@ class StaffController extends Controller
      */
     public function index(Request $request)
     {
-        $query = User::where('user_type', 'admin');
+        $query = User::where(function ($q) {
+            $q->whereIn('user_type', ['admin', 'super admin', 'super_admin'])
+              ->orWhereIn('role', ['admin', 'super admin', 'super_admin', 'superadmin']);
+        });
 
         if ($request->filled('search')) {
             $term = $request->string('search');

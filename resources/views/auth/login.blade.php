@@ -5,7 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sign In</title>
   <script>
-    if (window.location.protocol !== 'https:' && window.location.hostname !== 'localhost') {
+    if (
+      window.location.protocol !== 'https:' &&
+      window.location.hostname !== 'localhost' &&
+      window.location.hostname !== '127.0.0.1'
+    ) {
       window.location.replace('https://' + window.location.host + window.location.pathname + window.location.search);
     }
   </script>
@@ -56,7 +60,7 @@
               <strong class="font-semibold">Success!</strong> {{ session('success') }}
           </div>
       @endif
-<form id="loginForm" action="{{ url()->secure(route('login.post', [], false)) }}" method="POST" class="space-y-5">
+<form id="loginForm" action="{{ request()->getSchemeAndHttpHost() . route('login.post', [], false) }}" method="POST" class="space-y-5">
         @csrf
         <div>
           <label for="username" class="block text-gray-700 mb-2 font-semibold text-sm">Username or Email Address</label>

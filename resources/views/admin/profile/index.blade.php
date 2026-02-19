@@ -5,7 +5,7 @@
     <div class="max-w-7xl mx-auto">
         <div class="mb-8">
             <h1 class="text-4xl font-bold bg-gradient-to-r from-[#134573] to-[#0f3a5f] bg-clip-text text-transparent">PROFILE SETTINGS</h1>
-            <p class="text-gray-600 mt-2 text-lg">Manage your admin account information</p>
+            <p class="text-gray-600 mt-2 text-lg">Manage your account information.</p>
         </div>
 
         @if($errors->any())
@@ -39,8 +39,20 @@
                         @endif
                     </div>
                     <div>
-                        <h2 class="text-2xl font-bold text-gray-900">{{ $user->first_name }} {{ $user->last_name }}</h2>
-                        <p class="text-gray-600 text-sm mt-1 bg-blue-50 inline-block px-3 py-1 rounded-full font-semibold">{{ ucfirst($user->role) }}</p>
+                        <h2 class="text-2xl font-bold text-gray-900">
+                            @if(in_array($user->user_type, ['super_admin', 'superadmin']) || in_array($user->role, ['super_admin', 'superadmin']))
+                                Super Administrator
+                            @else
+                                {{ $user->first_name }} {{ $user->last_name }}
+                            @endif
+                        </h2>
+                        <p class="text-gray-600 text-sm mt-1 bg-blue-50 inline-block px-3 py-1 rounded-full font-semibold">
+                            @if(in_array($user->user_type, ['super_admin', 'superadmin']) || in_array($user->role, ['super_admin', 'superadmin']))
+                                Super Administrator
+                            @else
+                                {{ ucfirst($user->role) }}
+                            @endif
+                        </p>
                     </div>
                 </div>
 
@@ -67,6 +79,17 @@
 
                     <div class="grid grid-cols-2 gap-4">
                         <div>
+                            <label class="block text-xs font-bold text-gray-600 mb-2 uppercase tracking-wide">Middle Name</label>
+                            <div class="flex items-center bg-gradient-to-r from-gray-50 to-blue-50 text-gray-700 rounded-lg h-11 text-sm font-semibold px-4 border border-gray-200 shadow-sm">{{ $user->middle_name ?? 'N/A' }}</div>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-600 mb-2 uppercase tracking-wide">Suffix</label>
+                            <div class="flex items-center bg-gradient-to-r from-gray-50 to-blue-50 text-gray-700 rounded-lg h-11 text-sm font-semibold px-4 border border-gray-200 shadow-sm">{{ $user->suffix ?? 'N/A' }}</div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
                             <label class="block text-xs font-bold text-gray-600 mb-2 uppercase tracking-wide">Email Address</label>
                             <div class="flex items-center bg-gradient-to-r from-gray-50 to-blue-50 text-gray-700 rounded-lg h-11 text-sm font-semibold px-4 border border-gray-200 shadow-sm">{{ $user->email }}</div>
                         </div>
@@ -76,19 +99,16 @@
                         </div>
                     </div>
 
-                    <div>
-                        <label class="block text-xs font-bold text-gray-600 mb-2 uppercase tracking-wide">Address</label>
-                        <div class="flex items-center bg-gradient-to-r from-gray-50 to-blue-50 text-gray-700 rounded-lg min-h-11 text-sm font-semibold px-4 py-3 border border-gray-200 shadow-sm">{{ $user->address ?? 'N/A' }}</div>
-                    </div>
-
                     <div class="grid grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-xs font-bold text-gray-600 mb-2 uppercase tracking-wide">User Type</label>
-                            <div class="flex items-center bg-gradient-to-r from-gray-50 to-blue-50 text-gray-700 rounded-lg h-11 text-sm font-semibold px-4 border border-gray-200 shadow-sm">{{ ucfirst($user->user_type) }}</div>
-                        </div>
-                        <div>
                             <label class="block text-xs font-bold text-gray-600 mb-2 uppercase tracking-wide">Role</label>
-                            <div class="flex items-center bg-gradient-to-r from-gray-50 to-blue-50 text-gray-700 rounded-lg h-11 text-sm font-semibold px-4 border border-gray-200 shadow-sm">{{ ucfirst($user->role) }}</div>
+                            <div class="flex items-center bg-gradient-to-r from-gray-50 to-blue-50 text-gray-700 rounded-lg h-11 text-sm font-semibold px-4 border border-gray-200 shadow-sm">
+                                @if(in_array($user->user_type, ['super_admin', 'superadmin']) || in_array($user->role, ['super_admin', 'superadmin']))
+                                    Super Administrator
+                                @else
+                                    {{ ucfirst($user->role) }}
+                                @endif
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -132,32 +152,6 @@
                                 <p class="text-xs text-gray-600">{{ $user->updated_at->format('F d, Y \a\t g:i A') }}</p>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="p-6 rounded-xl bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200">
-                        <div class="flex items-center gap-3 mb-3">
-                            <div class="w-10 h-10 bg-amber-500 rounded-lg flex items-center justify-center">
-                                <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m7 8a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                            </div>
-                            <div>
-                                <p class="text-sm font-semibold text-gray-900">Account Status</p>
-                                <p class="text-xs text-gray-600">
-                                    @if($user->deleted_at)
-                                        <span class="text-red-600 font-semibold">Archived</span>
-                                    @else
-                                        <span class="text-green-600 font-semibold">Active</span>
-                                    @endif
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="p-4 rounded-lg bg-blue-50 border border-blue-200">
-                        <p class="text-xs text-blue-800">
-                            <strong>Note:</strong> To update your profile information, please contact the system administrator.
-                        </p>
                     </div>
                 </div>
             </div>

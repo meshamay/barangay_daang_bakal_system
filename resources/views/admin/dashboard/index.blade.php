@@ -57,7 +57,7 @@
     <div class="bg-white rounded-xl shadow-md border border-gray-100 p-6 hover:shadow-lg hover:border-green-200 transition duration-300 ease-in-out">
       <div class="flex items-center justify-between">
         <div>
-          <p class="text-gray-500 text-sm font-medium">Completed</p>
+          <p class="text-gray-500 text-sm font-medium">Completed Transactions</p>
           <p class="text-4xl font-bold text-gray-900 mt-2">{{ $stats['completed'] ?? 0 }}</p>
         </div>
         <div class="bg-green-100 p-4 rounded-lg">
@@ -80,16 +80,16 @@
             <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
         </div>
-        <input type="text" name="search" placeholder="Search transactions..." value="{{ request('search') }}" class="w-full h-10 border border-gray-200 rounded-lg pl-11 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition" />
+        <input type="text" name="search" placeholder="Search" value="{{ request('search') }}" class="w-full h-10 border border-gray-200 rounded-lg pl-11 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition" />
       </div>
 
       <select name="type" class="h-10 px-4 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition bg-white w-44" onchange="this.form.submit()">
-        <option value="">All Types</option>
+        <option value="">Service Type</option>
         <option value="Document Request" {{ request('type') == 'Document Request' ? 'selected' : '' }}>Document Request</option>
         <option value="Complaint" {{ request('type') == 'Complaint' ? 'selected' : '' }}>Complaint</option>
       </select>
       <select name="status" class="h-10 px-4 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition bg-white w-40" onchange="this.form.submit()">
-        <option value="">All Status</option>
+        <option value="">Status</option>
         <option value="Pending" {{ request('status') == 'Pending' ? 'selected' : '' }}>Pending</option>
         <option value="In Progress" {{ request('status') == 'In Progress' ? 'selected' : '' }}>In Progress</option>
         <option value="Completed" {{ request('status') == 'Completed' ? 'selected' : '' }}>Completed</option>
