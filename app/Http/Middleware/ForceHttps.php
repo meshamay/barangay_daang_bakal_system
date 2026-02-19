@@ -15,7 +15,11 @@ class ForceHttps
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (app()->environment('production') && !$request->isSecure()) {
+        $appUrl = config('app.url');
+        $appScheme = parse_url($appUrl, PHP_URL_SCHEME) ?: 'http';
+        $forwardedProto = $request->header('x-forwarded-proto');
+
+        if ($appScheme === 'https' && (!$request->isSecure() && $forwardedProto !== 'https')) {
             return redirect()->secure($request->getRequestUri(), 301);
         }
 
