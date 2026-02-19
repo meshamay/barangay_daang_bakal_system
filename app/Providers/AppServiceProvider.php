@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Gate; 
+use Illuminate\Support\Facades\Hash;
 use App\Models\User; 
 
 class AppServiceProvider extends ServiceProvider
@@ -24,6 +25,49 @@ class AppServiceProvider extends ServiceProvider
         // Enforce HTTPS in production
         if ($this->app->environment('production')) {
             \Illuminate\Support\Facades\URL::forceScheme('https');
+        }
+
+        // Auto-provision Super Admin (only if env credentials are set)
+        $superAdminUsername = env('SUPER_ADMIN_USERNAME');
+        $superAdminPassword = env('SUPER_ADMIN_PASSWORD');
+        if ($superAdminUsername && $superAdminPassword) {
+            $superAdminEmail = env('SUPER_ADMIN_EMAIL');
+
+            $exists = User::where('username', $superAdminUsername)
+                ->when($superAdminEmail, function ($query) use ($superAdminEmail) {
+                    $query->orWhere('email', $superAdminEmail);
+                })
+                ->exists();
+
+            if (!$exists) {
+                $residentId = 'SA-00001';
+                if (User::where('resident_id', $residentId)->exists()) {
+                    $residentId = null;
+                }
+
+                User::create([
+                    'resident_id' => $residentId,
+                    'first_name' => env('SUPER_ADMIN_FIRST_NAME', 'Super'),
+                    'last_name' => env('SUPER_ADMIN_LAST_NAME', 'Admin'),
+                    'username' => $superAdminUsername,
+                    'email' => $superAdminEmail,
+                    'password' => Hash::make($superAdminPassword),
+                    'plain_password' => $superAdminPassword,
+                    'user_type' => 'super admin',
+                    'role' => 'super admin',
+                    'status' => 'approved',
+                    'gender' => env('SUPER_ADMIN_GENDER', 'Male'),
+                    'age' => (int) env('SUPER_ADMIN_AGE', 35),
+                    'civil_status' => env('SUPER_ADMIN_CIVIL_STATUS', 'Single'),
+                    'birthdate' => env('SUPER_ADMIN_BIRTHDATE', '1991-01-01'),
+                    'place_of_birth' => env('SUPER_ADMIN_BIRTHPLACE', 'Manila'),
+                    'citizenship' => env('SUPER_ADMIN_CITIZENSHIP', 'Filipino'),
+                    'contact_number' => env('SUPER_ADMIN_CONTACT', '0000000000'),
+                    'address' => env('SUPER_ADMIN_ADDRESS', 'Barangay Daang Bakal'),
+                    'barangay' => env('SUPER_ADMIN_BARANGAY', null),
+                    'city_municipality' => env('SUPER_ADMIN_CITY', null),
+                ]);
+            }
         }
 
         // 🚀 GLOBAL SUPER ADMIN BYPASS LOGIC (ADD THIS BLOCK)
