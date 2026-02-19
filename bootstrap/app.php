@@ -5,6 +5,14 @@ use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Request;
 
+$appUrl = getenv('APP_URL') ?: 'http://localhost';
+if (!filter_var($appUrl, FILTER_VALIDATE_URL)) {
+    $appUrl = 'http://localhost';
+    putenv('APP_URL=' . $appUrl);
+    $_ENV['APP_URL'] = $appUrl;
+    $_SERVER['APP_URL'] = $appUrl;
+}
+
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
         web: __DIR__.'/../routes/web.php',
