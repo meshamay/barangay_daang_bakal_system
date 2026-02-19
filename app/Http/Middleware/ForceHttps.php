@@ -15,11 +15,11 @@ class ForceHttps
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $appUrl = config('app.url');
-        $appScheme = parse_url($appUrl, PHP_URL_SCHEME) ?: 'http';
         $forwardedProto = $request->header('x-forwarded-proto');
+        $host = $request->getHost();
+        $isLocal = in_array($host, ['localhost', '127.0.0.1'], true);
 
-        if ($appScheme === 'https' && (!$request->isSecure() && $forwardedProto !== 'https')) {
+        if (!$isLocal && !$request->isSecure() && $forwardedProto !== 'https') {
             return redirect()->secure($request->getRequestUri(), 301);
         }
 
