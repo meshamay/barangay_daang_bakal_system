@@ -1,7 +1,8 @@
 <?php
 
 $appUrl = env('APP_URL', 'http://localhost');
-if (!filter_var($appUrl, FILTER_VALIDATE_URL)) {
+$appUrlParts = parse_url($appUrl);
+if (!filter_var($appUrl, FILTER_VALIDATE_URL) || empty($appUrlParts['scheme']) || empty($appUrlParts['host'])) {
     $appUrl = 'http://localhost';
 }
 
