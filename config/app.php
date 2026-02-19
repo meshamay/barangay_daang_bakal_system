@@ -1,5 +1,10 @@
 <?php
 
+$appUrl = env('APP_URL', 'http://localhost');
+if (!filter_var($appUrl, FILTER_VALIDATE_URL)) {
+    $appUrl = 'http://localhost';
+}
+
 return [
 
     /*
@@ -52,7 +57,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => $appUrl,
 
     /*
     |--------------------------------------------------------------------------
