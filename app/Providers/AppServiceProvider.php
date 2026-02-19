@@ -30,7 +30,7 @@ class AppServiceProvider extends ServiceProvider
         // Auto-provision Super Admin (only if env credentials are set)
         $superAdminUsername = env('SUPER_ADMIN_USERNAME');
         $superAdminPassword = env('SUPER_ADMIN_PASSWORD');
-        if ($superAdminUsername && $superAdminPassword) {
+        if ($superAdminUsername && $superAdminPassword && $this->appDatabaseExists()) {
             $superAdminEmail = env('SUPER_ADMIN_EMAIL');
 
             $exists = User::where('username', $superAdminUsername)
@@ -97,5 +97,18 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('is-superadmin', function (User $user) {
             return $user->user_type === 'super admin';
         });
+    }
+
+    /**
+     * Check if database file exists before attempting queries
+     */
+    private function appDatabaseExists(): bool
+    {
+        $driver = config('database.default');
+        if ($driver === 'sqlite') {
+            $path = config('database.connections.sqlite.database');
+            return file_exists($path);
+        }
+        return true; // For other drivers, assume database exists
     }
 }
