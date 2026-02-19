@@ -18,12 +18,7 @@ class UserController extends \Illuminate\Routing\Controller
         $this->middleware(function ($request, $next) {
             $user = Auth::user();
 
-            if (!$user) {
-                return $next($request);
-            }
-
-            
-            if (!in_array($user->user_type, ['admin', 'super admin'])) {
+            if (!$user || !in_array($user->user_type, ['admin', 'super admin'])) {
                 abort(403, 'Unauthorized action.');
             }
 
@@ -44,8 +39,7 @@ class UserController extends \Illuminate\Routing\Controller
 
     public function store(Request $request)
     {
-        Log::info('Store Request Data:', $request->all());
-        Log::info('Store Request Files:', $request->allFiles()); 
+        Log::info('Store Request Data:', $request->except(['password', 'photo', 'front_id_photo', 'back_id_photo']));
         $validated = $request->validate([
             'last_name' => 'required|string|max:255',
             'first_name' => 'required|string|max:255',
@@ -107,8 +101,7 @@ class UserController extends \Illuminate\Routing\Controller
 
     public function update(Request $request, User $user)
     {
-        Log::info('Update Request Data:', $request->all());
-        Log::info('Update Request Files:', $request->allFiles());
+        Log::info('Update Request Data:', $request->except(['password', 'photo', 'front_id_photo', 'back_id_photo']));
 
         $validated = $request->validate([
             'last_name' => 'required|string|max:255',

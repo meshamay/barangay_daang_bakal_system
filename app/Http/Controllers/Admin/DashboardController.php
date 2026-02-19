@@ -53,17 +53,17 @@ class DashboardController extends Controller
         // Apply search filter
         if ($search) {
             $documentsQuery->where(function($q) use ($search) {
-                $q->where('tracking_code', 'like', "%{$search}%")
+                $q->where('tracking_code', 'like', '%' . $search . '%')
                   ->orWhereHas('resident', function($q2) use ($search) {
-                      $q2->where('first_name', 'like', "%{$search}%")
-                         ->orWhere('last_name', 'like', "%{$search}%");
+                      $q2->where('first_name', 'like', '%' . $search . '%')
+                         ->orWhere('last_name', 'like', '%' . $search . '%');
                   });
             });
             $complaintsQuery->where(function($q) use ($search) {
-                $q->where('transaction_no', 'like', "%{$search}%")
+                $q->where('transaction_no', 'like', '%' . $search . '%')
                   ->orWhereHas('user', function($q2) use ($search) {
-                      $q2->where('first_name', 'like', "%{$search}%")
-                         ->orWhere('last_name', 'like', "%{$search}%");
+                      $q2->where('first_name', 'like', '%' . $search . '%')
+                         ->orWhere('last_name', 'like', '%' . $search . '%');
                   });
             });
         }

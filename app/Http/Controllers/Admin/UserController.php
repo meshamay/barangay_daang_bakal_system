@@ -31,11 +31,7 @@ class UserController extends Controller
             ->where('status', 'approved')
             ->whereNull('deleted_at')
             ->get(['id', 'role', 'status', 'deleted_at']);
-        \Log::info('DEBUG registeredResidents', $debugResidents->toArray());
 
-
-        // DEBUG: Dump all users for troubleshooting
-        \Log::info('DEBUG ALL USERS', User::withTrashed()->get(['id', 'role', 'status', 'deleted_at'])->toArray());
 
 
         // Always start with all users including archived
@@ -59,12 +55,12 @@ class UserController extends Controller
         if (request('search')) {
             $search = request('search');
             $query->where(function($q) use ($search) {
-                $q->where('first_name', 'like', "%$search%")
-                  ->orWhere('last_name', 'like', "%$search%")
-                  ->orWhere('email', 'like', "%$search%")
-                  ->orWhere('address', 'like', "%$search%")
-                  ->orWhere('contact_number', 'like', "%$search%")
-                  ->orWhere('username', 'like', "%$search%")
+                $q->where('first_name', 'like', '%' . $search . '%')
+                  ->orWhere('last_name', 'like', '%' . $search . '%')
+                  ->orWhere('email', 'like', '%' . $search . '%')
+                  ->orWhere('address', 'like', '%' . $search . '%')
+                  ->orWhere('contact_number', 'like', '%' . $search . '%')
+                  ->orWhere('username', 'like', '%' . $search . '%')
                   ;
             });
         }

@@ -27,11 +27,12 @@
 
         @if($activeAnnouncements->count())
             <!-- Announcements Carousel -->
-            <div class="relative">
-                <div class="pointer-events-none absolute inset-y-0 left-0 w-8 sm:w-12 bg-gradient-to-r from-slate-50 to-transparent z-10"></div>
-                <div class="pointer-events-none absolute inset-y-0 right-0 w-8 sm:w-12 bg-gradient-to-l from-slate-50 to-transparent z-10"></div>
+            <div class="relative w-full flex justify-center mx-auto">
+                <div class="w-full relative">
+                    <div class="pointer-events-none absolute inset-y-0 left-0 w-8 sm:w-12 bg-gradient-to-r from-slate-50 to-transparent z-10"></div>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 w-8 sm:w-12 bg-gradient-to-l from-slate-50 to-transparent z-10"></div>
 
-                <div class="announcements-carousel flex gap-6 md:gap-8 py-4 px-2 md:px-6 overflow-x-auto no-scrollbar snap-x snap-mandatory scroll-smooth">
+                    <div class="announcements-carousel flex gap-6 md:gap-8 py-4 px-2 md:px-6 overflow-x-auto no-scrollbar snap-x snap-mandatory scroll-smooth">
                         @foreach($activeAnnouncements as $announcement)
                             @php
                                 $createdDate = \Carbon\Carbon::parse($announcement->created_at);
@@ -92,17 +93,18 @@
                         @endforeach
                     </div>
 
-                <div class="pointer-events-none absolute left-0 right-0 top-1/2 -translate-y-1/2 flex items-center justify-between px-0 z-20">
-                    <button type="button" aria-label="Previous announcements" class="carousel-prev pointer-events-auto inline-flex items-center justify-center w-9 h-9 rounded-full border border-slate-200 bg-white/90 backdrop-blur hover:border-blue-300 hover:text-blue-700 transition shadow-sm -translate-x-6 sm:-translate-x-10">
-                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                        </svg>
-                    </button>
-                    <button type="button" aria-label="Next announcements" class="carousel-next pointer-events-auto inline-flex items-center justify-center w-9 h-9 rounded-full border border-slate-200 bg-white/90 backdrop-blur hover:border-blue-300 hover:text-blue-700 transition shadow-sm translate-x-4 sm:translate-x-6">
-                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                        </svg>
-                    </button>
+                    <div class="pointer-events-none absolute left-0 right-0 top-1/2 -translate-y-1/2 flex items-center justify-between px-0 z-20">
+                        <button type="button" aria-label="Previous announcements" class="carousel-prev pointer-events-auto inline-flex items-center justify-center w-9 h-9 rounded-full border border-slate-200 bg-white/90 backdrop-blur hover:border-blue-300 hover:text-blue-700 transition shadow-sm -translate-x-6 sm:-translate-x-10">
+                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                            </svg>
+                        </button>
+                        <button type="button" aria-label="Next announcements" class="carousel-next pointer-events-auto inline-flex items-center justify-center w-9 h-9 rounded-full border border-slate-200 bg-white/90 backdrop-blur hover:border-blue-300 hover:text-blue-700 transition shadow-sm translate-x-4 sm:translate-x-6">
+                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                    </div>
                 </div>
             </div>
         @else

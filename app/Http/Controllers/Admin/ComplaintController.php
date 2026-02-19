@@ -23,11 +23,11 @@ class ComplaintController extends Controller
         if ($request->filled('search')) {
             $search = $request->search;
             $query->where(function ($q) use ($search) {
-                $q->where('transaction_no', 'like', "%{$search}%")
+                $q->where('transaction_no', 'like', '%' . $search . '%')
                   ->orWhereHas('user', function ($uq) use ($search) {
-                      $uq->where('first_name', 'like', "%{$search}%")
-                          ->orWhere('last_name', 'like', "%{$search}%")
-                          ->orWhere('resident_id', 'like', "%{$search}%");
+                      $uq->where('first_name', 'like', '%' . $search . '%')
+                          ->orWhere('last_name', 'like', '%' . $search . '%')
+                          ->orWhere('resident_id', 'like', '%' . $search . '%');
                   });
             });
         }

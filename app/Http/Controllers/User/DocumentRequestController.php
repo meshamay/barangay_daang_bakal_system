@@ -36,9 +36,9 @@ class DocumentRequestController extends Controller
         // Apply search filter
         if ($search) {
             $query->where(function($q) use ($search) {
-                $q->where('tracking_number', 'like', "%{$search}%")
-                  ->orWhere('document_type', 'like', "%{$search}%")
-                  ->orWhere('purpose', 'like', "%{$search}%");
+                $q->where('tracking_number', 'like', '%' . $search . '%')
+                  ->orWhere('document_type', 'like', '%' . $search . '%')
+                  ->orWhere('purpose', 'like', '%' . $search . '%');
             });
         }
 

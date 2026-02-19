@@ -31,9 +31,9 @@ class DocumentManagementController extends Controller
         if ($request->filled('search')) {
             $search = $request->search;
             $query->whereHas('resident', function($q) use ($search) {
-                $q->where('first_name', 'like', "%{$search}%")
-                  ->orWhere('last_name', 'like', "%{$search}%")
-                  ->orWhere('resident_id', 'like', "%{$search}%");
+                $q->where('first_name', 'like', '%' . $search . '%')
+                  ->orWhere('last_name', 'like', '%' . $search . '%')
+                  ->orWhere('resident_id', 'like', '%' . $search . '%');
             });
         }
 

@@ -34,11 +34,11 @@ class StaffController extends Controller
         if ($request->filled('search')) {
             $term = $request->string('search');
             $query->where(function ($q) use ($term) {
-                $q->where('username', 'like', "%{$term}%")
-                  ->orWhere('email', 'like', "%{$term}%")
-                  ->orWhere('first_name', 'like', "%{$term}%")
-                  ->orWhere('last_name', 'like', "%{$term}%")
-                  ->orWhere('resident_id', 'like', "%{$term}%");
+                $q->where('username', 'like', '%' . $term . '%')
+                  ->orWhere('email', 'like', '%' . $term . '%')
+                  ->orWhere('first_name', 'like', '%' . $term . '%')
+                  ->orWhere('last_name', 'like', '%' . $term . '%')
+                  ->orWhere('resident_id', 'like', '%' . $term . '%');
             });
         }
 

@@ -44,9 +44,9 @@ class ResidentManagementController extends Controller
         if ($request->has('search') && $request->filled('search')) {
             $search = $request->search;
             $query->where(function ($q) use ($search) {
-                $q->where('first_name', 'LIKE', "%{$search}%")
-                    ->orWhere('last_name', 'LIKE', "%{$search}%")
-                    ->orWhere('resident_id', 'LIKE', "%{$search}%");
+                $q->where('first_name', 'LIKE', '%' . $search . '%')
+                    ->orWhere('last_name', 'LIKE', '%' . $search . '%')
+                    ->orWhere('resident_id', 'LIKE', '%' . $search . '%');
             });
         }
 
