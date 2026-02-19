@@ -3,7 +3,7 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
-use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 
 $appUrl = getenv('APP_URL') ?: 'http://localhost';
 if (!filter_var($appUrl, FILTER_VALIDATE_URL)) {
@@ -24,7 +24,10 @@ return Application::configure(basePath: dirname(__DIR__))
         // Trust Railway/Proxy headers so HTTPS is detected correctly
         $middleware->trustProxies(
             at: '*',
-            headers: Request::HEADER_X_FORWARDED_ALL
+            headers: SymfonyRequest::HEADER_X_FORWARDED_FOR
+                | SymfonyRequest::HEADER_X_FORWARDED_HOST
+                | SymfonyRequest::HEADER_X_FORWARDED_PORT
+                | SymfonyRequest::HEADER_X_FORWARDED_PROTO
         );
 
         // Force HTTPS in production (redirect http -> https)
