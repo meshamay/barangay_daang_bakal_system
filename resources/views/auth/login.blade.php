@@ -51,7 +51,7 @@
               <strong class="font-semibold">Success!</strong> {{ session('success') }}
           </div>
       @endif
-<form id="loginForm" action="{{ route('login.post') }}" method="POST" class="space-y-5">
+<form id="loginForm" action="{{ url()->secure(route('login.post', [], false)) }}" method="POST" class="space-y-5">
         @csrf
         <div>
           <label for="username" class="block text-gray-700 mb-2 font-semibold text-sm">Username or Email Address</label>
