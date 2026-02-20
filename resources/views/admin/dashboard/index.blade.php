@@ -143,9 +143,9 @@
                 
                 // Transform display names for certain document types
                 $description = match($rawDescription) {
-                    'Certificate of Indigency' => 'Indigency of Certificate',
-                    'Certificate of Residency' => 'Residency of Certificate',
-                    default => $rawDescription
+                  'Certificate of Indigency' => 'Indigency Clearance',
+                  'Certificate of Residency' => 'Resident Certificate',
+                  default => $rawDescription
                 };
                 
                 // Status Color Logic (case-insensitive)

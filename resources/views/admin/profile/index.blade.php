@@ -39,19 +39,19 @@
                         @endif
                     </div>
                     <div>
+                        @php
+                            $roleRaw = strtolower($user->role ?? '');
+                            $userTypeRaw = strtolower($user->user_type ?? '');
+                            $isSuperAdmin = in_array($roleRaw, ['super admin', 'super_admin', 'superadmin'])
+                                || in_array($userTypeRaw, ['super admin', 'super_admin', 'superadmin']);
+                            $isAdmin = in_array($roleRaw, ['admin']) || in_array($userTypeRaw, ['admin']);
+                            $roleLabel = $isSuperAdmin ? 'Super Administrator' : ($isAdmin ? 'Administrator' : ucfirst($user->role ?? $user->user_type ?? ''));
+                        @endphp
                         <h2 class="text-2xl font-bold text-gray-900">
-                            @if(in_array($user->user_type, ['super_admin', 'superadmin']) || in_array($user->role, ['super_admin', 'superadmin']))
-                                Super Administrator
-                            @else
-                                {{ $user->first_name }} {{ $user->last_name }}
-                            @endif
+                            {{ $user->first_name }} {{ $user->last_name }}
                         </h2>
                         <p class="text-gray-600 text-sm mt-1 bg-blue-50 inline-block px-3 py-1 rounded-full font-semibold">
-                            @if(in_array($user->user_type, ['super_admin', 'superadmin']) || in_array($user->role, ['super_admin', 'superadmin']))
-                                Super Administrator
-                            @else
-                                {{ ucfirst($user->role) }}
-                            @endif
+                            {{ $roleLabel }}
                         </p>
                     </div>
                 </div>
@@ -103,11 +103,7 @@
                         <div>
                             <label class="block text-xs font-bold text-gray-600 mb-2 uppercase tracking-wide">Role</label>
                             <div class="flex items-center bg-gradient-to-r from-gray-50 to-blue-50 text-gray-700 rounded-lg h-11 text-sm font-semibold px-4 border border-gray-200 shadow-sm">
-                                @if(in_array($user->user_type, ['super_admin', 'superadmin']) || in_array($user->role, ['super_admin', 'superadmin']))
-                                    Super Administrator
-                                @else
-                                    {{ ucfirst($user->role) }}
-                                @endif
+                                {{ $roleLabel }}
                             </div>
                         </div>
                     </div>

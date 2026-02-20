@@ -5,7 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @php
-        $isSuperAdmin = Auth::check() && (strtolower(Auth::user()->user_type ?? '') === 'super admin' || strtolower(Auth::user()->role ?? '') === 'superadmin');
+        $roleRaw = strtolower(Auth::user()->role ?? '');
+        $userTypeRaw = strtolower(Auth::user()->user_type ?? '');
+        $isSuperAdmin = Auth::check() && (in_array($roleRaw, ['super admin', 'super_admin', 'superadmin']) || in_array($userTypeRaw, ['super admin', 'super_admin', 'superadmin']));
+        $isAdminUser = Auth::check() && (in_array($roleRaw, ['admin']) || in_array($userTypeRaw, ['admin']));
+        $topRoleLabel = $isSuperAdmin ? 'Super Administrator' : ($isAdminUser ? 'Administrator' : ucfirst(Auth::user()->role ?? Auth::user()->user_type ?? ''));
     @endphp
     <title>{{ $isSuperAdmin ? 'Super Admin Panel' : 'Admin Panel' }}</title>
     <script src="//unpkg.com/alpinejs" defer></script>
@@ -154,7 +158,7 @@
 
             <div class="text-right mr-2 sm:mr-3 hidden sm:block">
                 <p class="text-sm sm:text-md font-bold text-white leading-none">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</p>
-                <p class="text-xs text-blue-200 font-medium mt-1">{{ $isSuperAdmin ? 'Super Administrator' : ucfirst(Auth::user()->role) }}</p>
+                <p class="text-xs text-blue-200 font-medium mt-1">{{ $topRoleLabel }}</p>
             </div>
 
             <div x-data="{ open: false }" @click.away="open = false" class="relative">
