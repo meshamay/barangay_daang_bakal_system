@@ -19,8 +19,8 @@ class UserController extends Controller
                             ->where('status', 'approved')
                             ->whereNull('deleted_at')
                             ->count();
-        $maleCount      = User::where('role', 'resident')->where('gender', 'Male')->count();
-        $femaleCount    = User::where('role', 'resident')->where('gender', 'Female')->count();
+        $maleCount      = User::where('role', 'resident')->where('gender', 'Male')->where('status', 'approved')->count();
+        $femaleCount    = User::where('role', 'resident')->where('gender', 'Female')->where('status', 'approved')->count();
         $archivedCount  = User::where('role', 'resident')->onlyTrashed()->count();
         $registeredResidents = User::whereRaw('LOWER(role) IN (?, ?)', ['user', 'resident'])
             ->whereRaw('LOWER(status) = ?', ['approved'])

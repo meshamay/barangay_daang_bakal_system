@@ -15,29 +15,51 @@ class ResidentManagementController extends Controller
      */
     public function index(Request $request)
     {
-        
-        $totalResidents = User::where('user_type', 'resident')
-            ->withTrashed()
+        $superAdminTerms = ['super admin', 'super_admin', 'superadmin'];
+        $adminTerms = ['admin'];
+
+        // Count only approved residents (registered residents)
+        $registeredResidents = User::where('user_type', 'resident')
+            ->whereRaw('LOWER(status) = ?', ['approved'])
+            ->whereNull('deleted_at')
             ->count();
-        $maleCount      = User::where('user_type', 'resident')
-            ->withTrashed()
+
+        $maleCount = User::where('user_type', 'resident')
+            ->whereRaw('LOWER(status) = ?', ['approved'])
+            ->whereNull('deleted_at')
             ->whereRaw('LOWER(TRIM(gender)) = ?', ['male'])
             ->count();
-        $femaleCount    = User::where('user_type', 'resident')
-            ->withTrashed()
+
+        $femaleCount = User::where('user_type', 'resident')
+            ->whereRaw('LOWER(status) = ?', ['approved'])
+            ->whereNull('deleted_at')
             ->whereRaw('LOWER(TRIM(gender)) = ?', ['female'])
             ->count();
-        $archivedCount  = User::where('user_type', 'resident')->onlyTrashed()->count();
+
+        $archivedCount = User::where('user_type', 'resident')->onlyTrashed()->count();
+
         $femaleResidents = User::where('user_type', 'resident')
             ->withTrashed()
             ->whereRaw('LOWER(TRIM(gender)) = ?', ['female'])
             ->get();
 
-        // Count only approved residents
-        $registeredResidents = User::where('user_type', 'resident')
-            ->whereRaw('LOWER(status) = ?', ['approved'])
+        $superAdminCount = User::where(function ($q) use ($superAdminTerms) {
+                $q->whereIn('role', $superAdminTerms)
+                  ->orWhereIn('user_type', $superAdminTerms);
+            })
+            ->whereRaw('LOWER(status) IN (?, ?)', ['approved', 'active'])
             ->whereNull('deleted_at')
             ->count();
+
+        $adminStaffCount = User::where(function ($q) use ($adminTerms) {
+                $q->whereIn('role', $adminTerms)
+                  ->orWhereIn('user_type', $adminTerms);
+            })
+            ->whereRaw('LOWER(status) IN (?, ?)', ['approved', 'active'])
+            ->whereNull('deleted_at')
+            ->count();
+
+        $totalUsers = $superAdminCount + $adminStaffCount + $registeredResidents;
 
         $query = User::where('user_type', 'resident')->withTrashed();
 
@@ -65,7 +87,9 @@ class ResidentManagementController extends Controller
         $viewName = $request->has('alt') && $request->alt === '2' ? 'admin.users.index2' : 'admin.users.index';
         return view($viewName, compact(
             'users',
-            'totalResidents',
+            'totalUsers',
+            'superAdminCount',
+            'adminStaffCount',
             'maleCount',
             'femaleCount',
             'archivedCount',
