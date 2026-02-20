@@ -115,213 +115,298 @@
 
   {{-- Charts Grid --}}
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {{-- CHART 1 --}}
-            <div class="bg-white p-6 rounded-xl shadow-xl border border-gray-100">
-                <h2 class="text-xl text-center font-bold mb-4 text-gray-800">POPULATION BY GENDER</h2>
-                <div class="relative flex flex-col justify-end" style="height: 450px;">
+            {{-- CHART 1: PIE CHART --}}
+            <div class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-2xl shadow-2xl border border-gray-200">
+                <h2 class="text-lg font-bold mb-6 text-gray-800 text-center">POPULATION BY GENDER</h2>
+                <div class="relative flex flex-col items-center justify-center" style="height: 380px;">
                     @php
-                        $maxGender = max($populationByGender['female'], $populationByGender['male'], 1);
+                        $total = $populationByGender['female'] + $populationByGender['male'];
+                        $femalePercent = $total > 0 ? ($populationByGender['female'] / $total) * 100 : 0;
+                        $malePercent = $total > 0 ? ($populationByGender['male'] / $total) * 100 : 0;
                     @endphp
-                    <div class="flex h-full border-b border-gray-300 relative">
-                        <div class="flex flex-col justify-between text-right text-xs text-gray-500 pt-1" style="width: 50px;">
-                            <span>{{ $maxGender }}</span><span>{{ round($maxGender * 0.75) }}</span><span>{{ round($maxGender * 0.5) }}</span><span>{{ round($maxGender * 0.25) }}</span><span>0</span>
+                    <svg viewBox="0 0 200 200" style="width: 260px; height: 260px;" class="mb-6 drop-shadow-lg">
+                        <defs>
+                            <linearGradient id="femaleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#FF6B9D;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#C2185B;stop-opacity:1" />
+                            </linearGradient>
+                            <linearGradient id="maleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#42A5F5;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#1E88E5;stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                        <circle cx="100" cy="100" r="90" fill="none" stroke="url(#femaleGradient)" stroke-width="50" stroke-dasharray="{{ $femalePercent * 5.65 }} 565" stroke-linecap="round" transform="rotate(-90 100 100)"></circle>
+                        <circle cx="100" cy="100" r="90" fill="none" stroke="url(#maleGradient)" stroke-width="50" stroke-dasharray="{{ $malePercent * 5.65 }} 565" stroke-linecap="round" stroke-dashoffset="{{ -$femalePercent * 5.65 }}" transform="rotate(-90 100 100)"></circle>
+                    </svg>
+                    <div class="flex gap-8 justify-center">
+                        <div class="text-center p-3 rounded-xl bg-gradient-to-br from-pink-50 to-transparent">
+                            <p class="text-xs font-semibold text-gray-600 mb-2">Female</p>
+                            <p class="text-2xl font-bold bg-gradient-to-r from-pink-600 to-rose-600 bg-clip-text text-transparent">{{ $populationByGender['female'] }}</p>
+                            <p class="text-xs text-gray-500 mt-1">{{ number_format($femalePercent, 1) }}%</p>
                         </div>
-                        <div class="flex-grow flex justify-around items-end pl-2 border-l border-gray-300">
-                            <div class="flex flex-col items-center h-full justify-end group relative">
-                                <span class="text-xs font-bold mb-1">{{ $populationByGender['female'] }}</span>
-                                <div class="bg-[#F9D3DA] w-16 rounded-t-lg group-hover:shadow-lg transition-all cursor-pointer" style="height: {{ $maxGender > 0 ? ($populationByGender['female'] / $maxGender) * 100 : 0 }}%;"></div>
-                            </div>
-                            <div class="flex flex-col items-center h-full justify-end group relative">
-                                <span class="text-xs font-bold mb-1">{{ $populationByGender['male'] }}</span>
-                                <div class="bg-[#A2C4D9] w-16 rounded-t-lg group-hover:shadow-lg transition-all cursor-pointer" style="height: {{ $maxGender > 0 ? ($populationByGender['male'] / $maxGender) * 100 : 0 }}%;"></div>
-                            </div>
+                        <div class="text-center p-3 rounded-xl bg-gradient-to-br from-blue-50 to-transparent">
+                            <p class="text-xs font-semibold text-gray-600 mb-2">Male</p>
+                            <p class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">{{ $populationByGender['male'] }}</p>
+                            <p class="text-xs text-gray-500 mt-1">{{ number_format($malePercent, 1) }}%</p>
                         </div>
                     </div>
-                    <div class="flex justify-around mt-2 text-xs font-semibold text-gray-700 text-center">
-                        <span class="ml-20">Female</span><span class="mr-5">Male</span>
-                    </div>
-                    <div class="text-center text-sm font-bold text-gray-700 mt-1">Month of {{ $monthName }}</div>
+                    <div class="text-center text-xs font-semibold text-gray-500 mt-4">{{ $monthName }} | Total: {{ $total }}</div>
                 </div>
             </div>
 
 
-            {{-- CHART 2 --}}
+            {{-- CHART 2: DONUT CHART --}}
             <div class="bg-white p-6 rounded-xl shadow-xl border border-gray-100">
                 <h2 class="text-xl text-center font-bold mb-4 text-gray-800">TOTAL REQUEST & COMPLAINTS</h2>
-                <div class="relative flex flex-col justify-end" style="height: 450px;">
+                <div class="relative flex flex-col items-center justify-center" style="height: 450px;">
                     @php
-                        $maxValue = max($requestsComplaints['documents'], $requestsComplaints['complaints'], 1);
+                        $total = $requestsComplaints['documents'] + $requestsComplaints['complaints'];
+                        $docPercent = $total > 0 ? ($requestsComplaints['documents'] / $total) * 100 : 0;
+                        $complPercent = $total > 0 ? ($requestsComplaints['complaints'] / $total) * 100 : 0;
                     @endphp
-                    <div class="flex h-full border-b border-gray-300 relative">
-                        <div class="flex flex-col justify-between text-right text-xs text-gray-500 pt-1" style="width: 50px;">
-                            <span>{{ $maxValue }}</span><span>{{ round($maxValue * 0.8) }}</span><span>{{ round($maxValue * 0.6) }}</span><span>{{ round($maxValue * 0.4) }}</span><span>{{ round($maxValue * 0.2) }}</span><span>0</span>
+                    <svg viewBox="0 0 200 200" style="width: 300px; height: 300px;" class="mb-4">
+                        <circle cx="100" cy="100" r="80" fill="none" stroke="#FCE6C9" stroke-width="35" stroke-dasharray="{{ $docPercent * 5.03 }} 503" stroke-dashoffset="0" transform="rotate(-90 100 100)"></circle>
+                        <circle cx="100" cy="100" r="80" fill="none" stroke="#C5E3B1" stroke-width="35" stroke-dasharray="{{ $complPercent * 5.03 }} 503" stroke-dashoffset="{{ -$docPercent * 5.03 }}" transform="rotate(-90 100 100)"></circle>
+                        <circle cx="100" cy="100" r="50" fill="white"></circle>
+                        <text x="100" y="105" text-anchor="middle" font-size="18" font-weight="bold" fill="#1e2e3d">{{ $total }}</text>
+                        <text x="100" y="125" text-anchor="middle" font-size="10" fill="#666">Total</text>
+                    </svg>
+                    <div class="flex gap-8 justify-center">
+                        <div class="text-center p-3 rounded-lg">
+                            <div class="w-6 h-6 bg-[#FCE6C9] rounded mb-2 mx-auto"></div>
+                            <p class="text-xs font-semibold text-gray-700">Document Requests</p>
+                            <p class="text-sm font-bold text-gray-900">{{ $requestsComplaints['documents'] }} ({{ number_format($docPercent, 1) }}%)</p>
                         </div>
-                        <div class="flex-grow flex justify-around items-end pl-2 border-l border-gray-300">
-                            <div class="flex flex-col items-center h-full justify-end group relative">
-                                <span class="text-xs font-bold mb-1">{{ $requestsComplaints['documents'] }}</span>
-                                <div class="bg-[#FCE6C9] w-16 rounded-t-lg group-hover:shadow-lg transition-all cursor-pointer" style="height: {{ $maxValue > 0 ? ($requestsComplaints['documents'] / $maxValue) * 100 : 0 }}%;"></div>
-                            </div>
-                            <div class="flex flex-col items-center h-full justify-end group relative">
-                                <span class="text-xs font-bold mb-1">{{ $requestsComplaints['complaints'] }}</span>
-                                <div class="bg-[#C5E3B1] w-16 rounded-t-lg group-hover:shadow-lg transition-all cursor-pointer" style="height: {{ $maxValue > 0 ? ($requestsComplaints['complaints'] / $maxValue) * 100 : 0 }}%;"></div>
-                            </div>
+                        <div class="text-center p-3 rounded-lg">
+                            <div class="w-6 h-6 bg-[#C5E3B1] rounded mb-2 mx-auto"></div>
+                            <p class="text-xs font-semibold text-gray-700">Complaints</p>
+                            <p class="text-sm font-bold text-gray-900">{{ $requestsComplaints['complaints'] }} ({{ number_format($complPercent, 1) }}%)</p>
                         </div>
                     </div>
-                    <div class="flex justify-around mt-2 text-xs font-semibold text-gray-700 text-center">
-                        <span class="ml-10">Document Requests</span><span class="mr-3">Complaints</span>
-                    </div>
-                    <div class="text-center text-sm font-bold text-gray-700 mt-1">Month of {{ $monthName }}</div>
+                    <div class="text-center text-sm font-bold text-gray-700 mt-2">Month of {{ $monthName }}</div>
                 </div>
             </div>
 
 
-            {{-- CHART 3 --}}
-            <div class="bg-white p-6 rounded-xl shadow-xl border border-gray-100">
-                <h2 class="text-xl text-center font-bold mb-4 text-gray-800">MOST REQUESTED DOCUMENT</h2>
-                <div class="relative flex flex-col justify-end" style="height: 450px;">
+            {{-- CHART 3: HORIZONTAL BAR CHART --}}
+            <div class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-2xl shadow-2xl border border-gray-200">
+                <h2 class="text-lg font-bold mb-6 text-gray-800 text-center">MOST REQUESTED DOCUMENT</h2>
+                <div class="relative flex flex-col justify-center p-4" style="height: 380px;">
                     @php
                         $maxDoc = max(array_values($documentTypes));
                         $maxDoc = $maxDoc > 0 ? $maxDoc : 1;
                     @endphp
-                    <div class="flex h-full border-b border-gray-300 relative">
-                        <div class="flex flex-col justify-between text-right text-xs text-gray-500 pt-1" style="width: 50px;">
-                            <span>{{ $maxDoc }}</span><span>{{ round($maxDoc * 0.75) }}</span><span>{{ round($maxDoc * 0.5) }}</span><span>{{ round($maxDoc * 0.25) }}</span><span>0</span>
+                    <div class="space-y-5">
+                        <div class="flex items-center gap-3">
+                            <span class="text-xs font-bold w-32 text-right text-gray-600">Barangay Clearance</span>
+                            <div class="flex-grow bg-gradient-to-r from-gray-200 to-gray-100 rounded-full h-10 relative overflow-hidden shadow-md">
+                                <div class="bg-gradient-to-r from-red-400 to-red-500 h-full rounded-full flex items-center justify-end pr-3 shadow-lg" style="width: {{ ($documentTypes['Barangay Clearance'] / $maxDoc) * 100 }}%;"><span class="text-xs font-bold text-white">{{ $documentTypes['Barangay Clearance'] }}</span></div>
+                            </div>
                         </div>
-                        <div class="flex-grow flex justify-around items-end pl-2 border-l border-gray-300 gap-1">
-                            <div class="flex flex-col items-center h-full justify-end group relative">
-                                <span class="text-xs font-bold mb-1">{{ $documentTypes['Barangay Clearance'] }}</span>
-                                <div class="bg-[#FFD4CD] w-14 rounded-t-lg group-hover:shadow-lg transition-all cursor-pointer" style="height: {{ ($documentTypes['Barangay Clearance'] / $maxDoc) * 100 }}%;"></div>
+                        <div class="flex items-center gap-3">
+                            <span class="text-xs font-bold w-32 text-right text-gray-600">Barangay Certificate</span>
+                            <div class="flex-grow bg-gradient-to-r from-gray-200 to-gray-100 rounded-full h-10 relative overflow-hidden shadow-md">
+                                <div class="bg-gradient-to-r from-blue-400 to-blue-500 h-full rounded-full flex items-center justify-end pr-3 shadow-lg" style="width: {{ ($documentTypes['Barangay Certificate'] / $maxDoc) * 100 }}%;"><span class="text-xs font-bold text-white">{{ $documentTypes['Barangay Certificate'] }}</span></div>
                             </div>
-                            <div class="flex flex-col items-center h-full justify-end group relative">
-                                <span class="text-xs font-bold mb-1">{{ $documentTypes['Barangay Certificate'] }}</span>
-                                <div class="bg-[#BFD7ED] w-14 rounded-t-lg group-hover:shadow-lg transition-all cursor-pointer" style="height: {{ ($documentTypes['Barangay Certificate'] / $maxDoc) * 100 }}%;"></div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="text-xs font-bold w-32 text-right text-gray-600">Indigency</span>
+                            <div class="flex-grow bg-gradient-to-r from-gray-200 to-gray-100 rounded-full h-10 relative overflow-hidden shadow-md">
+                                <div class="bg-gradient-to-r from-green-400 to-green-500 h-full rounded-full flex items-center justify-end pr-3 shadow-lg" style="width: {{ ($documentTypes['Indigency'] / $maxDoc) * 100 }}%;"><span class="text-xs font-bold text-white">{{ $documentTypes['Indigency'] }}</span></div>
                             </div>
-                            <div class="flex flex-col items-center h-full justify-end group relative">
-                                <span class="text-xs font-bold mb-1">{{ $documentTypes['Indigency'] }}</span>
-                                <div class="bg-[#BFD7ED] w-14 rounded-t-lg group-hover:shadow-lg transition-all cursor-pointer" style="height: {{ ($documentTypes['Indigency'] / $maxDoc) * 100 }}%;"></div>
-                            </div>
-                            <div class="flex flex-col items-center h-full justify-end group relative">
-                                <span class="text-xs font-bold mb-1">{{ $documentTypes['Certificate of Residency'] }}</span>
-                                <div class="bg-[#BFD7ED] w-14 rounded-t-lg group-hover:shadow-lg transition-all cursor-pointer" style="height: {{ ($documentTypes['Certificate of Residency'] / $maxDoc) * 100 }}%;"></div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="text-xs font-bold w-32 text-right text-gray-600">Residency</span>
+                            <div class="flex-grow bg-gradient-to-r from-gray-200 to-gray-100 rounded-full h-10 relative overflow-hidden shadow-md">
+                                <div class="bg-gradient-to-r from-purple-400 to-purple-500 h-full rounded-full flex items-center justify-end pr-3 shadow-lg" style="width: {{ ($documentTypes['Certificate of Residency'] / $maxDoc) * 100 }}%;"><span class="text-xs font-bold text-white">{{ $documentTypes['Certificate of Residency'] }}</span></div>
                             </div>
                         </div>
                     </div>
-                    <div class="flex justify-around mt-1 text-xs font-semibold text-gray-700" style="font-size: 9px;">
-                        <span>Barangay<br>Clearance</span>
-                        <span>Barangay<br>Certificate</span>
-                        <span>Indigency<br>Certificate</span>
-                        <span>Resident<br>Certificate</span>
-                    </div>
-                    <div class="text-center text-sm font-bold text-gray-700 mt-1">Month of {{ $monthName }}</div>
+                    <div class="text-center text-xs font-semibold text-gray-500 mt-6">{{ $monthName }}</div>
                 </div>
             </div>
 
 
-            {{-- CHART 4 --}}
-            <div class="bg-white p-6 rounded-xl shadow-xl border border-gray-100">
-                <h2 class="text-xl text-center font-bold mb-4 text-gray-800">REQUEST STATUS SUMMARY</h2>
-                <div class="relative flex flex-col justify-end" style="height: 450px;">
+            {{-- CHART 4: AREA CHART --}}
+            <div class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-2xl shadow-2xl border border-gray-200">
+                <h2 class="text-lg font-bold mb-6 text-gray-800 text-center">REQUEST STATUS SUMMARY</h2>
+                <div class="relative flex flex-col justify-center" style="height: 380px;">
                     @php
                         $maxStatus = max(array_values($requestStatusSummary));
                         $maxStatus = $maxStatus > 0 ? $maxStatus : 1;
+                        $pendingHeight = ($requestStatusSummary['pending'] / $maxStatus) * 250;
+                        $processingHeight = ($requestStatusSummary['processing'] / $maxStatus) * 250;
+                        $approvedHeight = ($requestStatusSummary['approved'] / $maxStatus) * 250;
                     @endphp
-                    <div class="flex h-full border-b border-gray-300 relative">
-                        <div class="flex flex-col justify-between text-right text-xs text-gray-500 pt-1" style="width: 50px;">
-                            <span>{{ $maxStatus }}</span><span>{{ round($maxStatus * 0.75) }}</span><span>{{ round($maxStatus * 0.5) }}</span><span>{{ round($maxStatus * 0.25) }}</span><span>0</span>
+                    <svg viewBox="0 0 400 300" style="width: 100%; height: 300px;" preserveAspectRatio="xMidYMid meet" class="mb-4 drop-shadow-lg">
+                        <defs>
+                            <linearGradient id="areaGradient1" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" style="stop-color:#C084FC;stop-opacity:0.6" />
+                                <stop offset="100%" style="stop-color:#C084FC;stop-opacity:0.1" />
+                            </linearGradient>
+                            <linearGradient id="areaGradient2" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" style="stop-color:#60A5FA;stop-opacity:0.6" />
+                                <stop offset="100%" style="stop-color:#60A5FA;stop-opacity:0.1" />
+                            </linearGradient>
+                        </defs>
+                        <!-- Grid -->
+                        <line x1="50" y1="50" x2="50" y2="280" stroke="#e5e7eb" stroke-width="2"/>
+                        <line x1="50" y1="280" x2="400" y2="280" stroke="#e5e7eb" stroke-width="2"/>
+                        <!-- Areas with gradients -->
+                        <path d="M 80 {{ 280 - $pendingHeight }} L 150 {{ 280 - $pendingHeight }} L 220 {{ 280 - $pendingHeight }} L 280 {{ 280 - $pendingHeight }} L 350 {{ 280 - $pendingHeight }} L 350 280 L 80 280 Z" fill="url(#areaGradient1)" stroke="#C084FC" stroke-width="2" stroke-linejoin="round"/>
+                        <path d="M 80 {{ 280 - $processingHeight }} L 150 {{ 280 - $processingHeight }} L 220 {{ 280 - $processingHeight }} L 280 {{ 280 - $processingHeight }} L 350 {{ 280 - $processingHeight }} L 350 280 L 80 280 Z" fill="url(#areaGradient2)" stroke="#60A5FA" stroke-width="2" stroke-linejoin="round"/>
+                        <!-- Data points -->
+                        <circle cx="80" cy="{{ 280 - $pendingHeight }}" r="4" fill="#C084FC" stroke="#fff" stroke-width="2"/>
+                        <circle cx="150" cy="{{ 280 - $pendingHeight }}" r="4" fill="#C084FC" stroke="#fff" stroke-width="2"/>
+                    </svg>
+                    <div class="flex gap-6 justify-center mt-4 flex-wrap">
+                        <div class="flex items-center gap-3 bg-purple-50 px-4 py-2 rounded-lg">
+                            <div class="w-3 h-3 bg-purple-500 rounded"></div>
+                            <div>
+                                <p class="text-xs font-semibold text-gray-600">Pending</p>
+                                <p class="text-lg font-bold text-purple-600">{{ $requestStatusSummary['pending'] }}</p>
+                            </div>
                         </div>
-                        <div class="flex-grow flex justify-around items-end pl-2 border-l border-gray-300 gap-2">
-                            <div class="flex flex-col items-center h-full justify-end group relative">
-                                <span class="text-xs font-bold mb-1">{{ $requestStatusSummary['pending'] }}</span>
-                                <div class="bg-[#E5D3F9] w-16 rounded-t-lg group-hover:shadow-lg transition-all cursor-pointer" style="height: {{ ($requestStatusSummary['pending'] / $maxStatus) * 100 }}%;"></div>
+                        <div class="flex items-center gap-3 bg-blue-50 px-4 py-2 rounded-lg">
+                            <div class="w-3 h-3 bg-blue-500 rounded"></div>
+                            <div>
+                                <p class="text-xs font-semibold text-gray-600">In Progress</p>
+                                <p class="text-lg font-bold text-blue-600">{{ $requestStatusSummary['processing'] }}</p>
                             </div>
-                            <div class="flex flex-col items-center h-full justify-end group relative">
-                                <span class="text-xs font-bold mb-1">{{ $requestStatusSummary['processing'] }}</span>
-                                <div class="bg-[#C9E8FF] w-16 rounded-t-lg group-hover:shadow-lg transition-all cursor-pointer" style="height: {{ ($requestStatusSummary['processing'] / $maxStatus) * 100 }}%;"></div>
-                            </div>
-                            <div class="flex flex-col items-center h-full justify-end group relative">
-                                <span class="text-xs font-bold mb-1">{{ $requestStatusSummary['approved'] }}</span>
-                                <div class="bg-[#C9E8FF] w-16 rounded-t-lg group-hover:shadow-lg transition-all cursor-pointer" style="height: {{ ($requestStatusSummary['approved'] / $maxStatus) * 100 }}%;"></div>
+                        </div>
+                        <div class="flex items-center gap-3 bg-green-50 px-4 py-2 rounded-lg">
+                            <div class="w-3 h-3 bg-green-500 rounded"></div>
+                            <div>
+                                <p class="text-xs font-semibold text-gray-600">Completed</p>
+                                <p class="text-lg font-bold text-green-600">{{ $requestStatusSummary['approved'] }}</p>
                             </div>
                         </div>
                     </div>
-                    <div class="flex justify-around mt-1 text-xs font-semibold text-gray-700">
-                        <span>Pending</span><span>In Progress</span><span>Completed</span>
-                    </div>
-                    <div class="text-center text-sm font-bold text-gray-700 mt-1">Month of {{ $monthName }}</div>
+                    <div class="text-center text-xs font-semibold text-gray-500 mt-4">{{ $monthName }}</div>
                 </div>
             </div>
 
 
-            {{-- CHART 5 --}}
-            <div class="bg-white p-6 rounded-xl shadow-xl border border-gray-100">
-                <h2 class="text-xl text-center font-bold mb-4 text-gray-800">MOST REPORTED COMPLAINTS</h2>
-                <div class="relative flex flex-col justify-end" style="height: 450px;">
+            {{-- CHART 5: BUBBLE CHART --}}
+            <div class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-2xl shadow-2xl border border-gray-200">
+                <h2 class="text-lg font-bold mb-6 text-gray-800 text-center">MOST REPORTED COMPLAINTS</h2>
+                <div class="relative flex flex-col items-center justify-center" style="height: 380px;">
                     @php
                         $maxComplaint = max(array_values($complaintTypes));
                         $maxComplaint = $maxComplaint > 0 ? $maxComplaint : 1;
                     @endphp
-                    <div class="flex h-full border-b border-gray-300 relative">
-                        <div class="flex flex-col justify-between text-right text-xs text-gray-500 pt-1" style="width: 50px;">
-                            <span>{{ $maxComplaint }}</span><span>{{ round($maxComplaint * 0.75) }}</span><span>{{ round($maxComplaint * 0.5) }}</span><span>{{ round($maxComplaint * 0.25) }}</span><span>0</span>
-                        </div>
-                        <div class="flex-grow flex justify-around items-end pl-2 border-l border-gray-300">
+                    <svg viewBox="0 0 500 350" style="width: 100%; height: 350px;" preserveAspectRatio="xMidYMid meet" class="mb-4">
+                        <!-- Background circles -->
+                        <circle cx="250" cy="175" r="150" fill="#f3f4f6" opacity="0.5"/>
+                        <!-- Bubbles -->
+                        @php
+                            $complaints = $complaintTypes;
+                            $positions = [
+                                ['x' => 100, 'y' => 80],
+                                ['x' => 250, 'y' => 50],
+                                ['x' => 400, 'y' => 100],
+                                ['x' => 150, 'y' => 230],
+                                ['x' => 350, 'y' => 260],
+                                ['x' => 250, 'y' => 180],
+                            ];
+                            $colors = ['#F9D3DA', '#A2C4D9', '#FCE6C9', '#C5E3B1', '#D4A5F9', '#F9E5A5'];
+                            $index = 0;
+                        @endphp
+                        @foreach($complaints as $type => $count)
                             @php
-                                $colors = ['#F9D3DA', '#A2C4D9', '#A2C4D9', '#A2C4D9', '#D4A5F9', '#F9E5A5'];
-                                $colorIndex = 0;
+                                $radius = ($count / $maxComplaint) * 45 + 15;
+                                $pos = $positions[$index] ?? ['x' => 250, 'y' => 175];
                             @endphp
-                            @foreach($complaintTypes as $type => $count)
-                                <div class="flex flex-col items-center h-full justify-end flex-1 max-w-fit group relative">
-                                    <span class="text-xs font-bold mb-1 text-center">{{ $count }}</span>
-                                    <div class="w-full rounded-t-lg group-hover:shadow-lg transition-all cursor-pointer" style="background-color: {{ $colors[$colorIndex] }}; height: {{ ($count / $maxComplaint) * 100 }}%; min-width: 35px;"></div>
-                                </div>
-                                @php $colorIndex++; @endphp
-                            @endforeach
-                        </div>
-                    </div>
-                    <div class="flex justify-around mt-2 text-xs font-semibold text-gray-700" style="font-size: 10px; gap: 2px;">
+                            <circle cx="{{ $pos['x'] }}" cy="{{ $pos['y'] }}" r="{{ $radius }}" fill="{{ $colors[$index] }}" opacity="0.8" stroke="#fff" stroke-width="2"/>
+                            <text x="{{ $pos['x'] }}" y="{{ $pos['y'] - 5 }}" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">{{ $count }}</text>
+                            @php $index++; @endphp
+                        @endforeach
+                    </svg>
+                    <div class="grid grid-cols-3 gap-3 mt-4 w-full px-4">
+                        @php $index = 0; @endphp
                         @foreach($complaintTypes as $type => $count)
                             @php
                                 $shortType = str_replace(['Community Issues', 'Physical Harrasments', 'Neighbor Dispute', 'Money Problems', 'Misbehavior'], ['Community', 'Physical', 'Neighbor', 'Money', 'Misbehavior'], $type);
                             @endphp
-                            <span class="flex-1 text-center">{{ $shortType }}</span>
+                            <div class="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-100 transition-colors duration-200 cursor-pointer">
+                                <div class="w-4 h-4 rounded-full" style="background-color: {{ $colors[$index] }};"></div>
+                                <p class="text-xs font-semibold text-gray-700">{{ $shortType }}</p>
+                            </div>
+                            @php $index++; @endphp
                         @endforeach
                     </div>
-                    <div class="text-center text-sm font-bold text-gray-700 mt-1">Month of {{ $monthName }}</div>
+                    <div class="text-center text-sm font-bold text-gray-700 mt-3">Month of {{ $monthName }}</div>
                 </div>
             </div>
 
 
-            {{-- CHART 6 --}}
-            <div class="bg-white p-6 rounded-xl shadow-md">
+            {{-- CHART 6: STACKED BAR CHART --}}
+            <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100">
                 <h2 class="text-xl text-center font-bold mb-4">COMPLAINTS STATUS SUMMARY</h2>
-                <div class="relative flex flex-col justify-end" style="height: 450px;">
+                <div class="relative flex flex-col justify-center p-4" style="height: 450px;">
                     @php
                         $maxComplaintStatus = max(array_values($complaintsStatusSummary));
                         $maxComplaintStatus = $maxComplaintStatus > 0 ? $maxComplaintStatus : 1;
+                        $total = array_sum($complaintsStatusSummary);
+                        $pendingPct = $total > 0 ? ($complaintsStatusSummary['pending'] / $total) * 100 : 0;
+                        $investigatingPct = $total > 0 ? ($complaintsStatusSummary['investigating'] / $total) * 100 : 0;
+                        $resolvedPct = $total > 0 ? ($complaintsStatusSummary['resolved'] / $total) * 100 : 0;
                     @endphp
-                    <div class="flex h-full border-b border-gray-300 relative">
-                        <div class="flex flex-col justify-between text-right text-xs text-gray-500 pt-1" style="width: 50px;">
-                            <span>{{ $maxComplaintStatus }}</span><span>{{ round($maxComplaintStatus * 0.75) }}</span><span>{{ round($maxComplaintStatus * 0.5) }}</span><span>{{ round($maxComplaintStatus * 0.25) }}</span><span>0</span>
+                    <div class="space-y-8">
+                        <!-- Stacked Bar 1 -->
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="text-sm font-semibold text-gray-700">Status Distribution</span>
+                                <span class="text-sm font-bold text-gray-900">Total: {{ $total }}</span>
+                            </div>
+                            <div class="flex h-12 rounded-lg overflow-hidden shadow-md">
+                                <div class="bg-[#FCE6C9] flex items-center justify-center" style="width: {{ $pendingPct }}%;">
+                                    @if($pendingPct > 15)
+                                        <span class="text-xs font-bold text-gray-700">{{ $complaintsStatusSummary['pending'] }}</span>
+                                    @endif
+                                </div>
+                                <div class="bg-[#C5E3B1] flex items-center justify-center" style="width: {{ $investigatingPct }}%;">
+                                    @if($investigatingPct > 15)
+                                        <span class="text-xs font-bold text-gray-700">{{ $complaintsStatusSummary['investigating'] }}</span>
+                                    @endif
+                                </div>
+                                <div class="bg-[#A8F5D8] flex items-center justify-center" style="width: {{ $resolvedPct }}%;">
+                                    @if($resolvedPct > 15)
+                                        <span class="text-xs font-bold text-gray-700">{{ $complaintsStatusSummary['resolved'] }}</span>
+                                    @endif
+                                </div>
+                            </div>
                         </div>
-                        <div class="flex-grow flex justify-around items-end pl-2 border-l border-gray-300 gap-2">
-                            <div class="flex flex-col items-center h-full justify-end group relative">
-                                <span class="text-xs font-bold mb-1">{{ $complaintsStatusSummary['pending'] }}</span>
-                                <div class="bg-[#FCE6C9] w-16 rounded-t-lg group-hover:bg-[#EBD4B7] transition-colors cursor-pointer" style="height: {{ ($complaintsStatusSummary['pending'] / $maxComplaintStatus) * 100 }}%;" title="Pending: {{ $complaintsStatusSummary['pending'] }}"></div>
+
+                        <!-- Legend -->
+                        <div class="grid grid-cols-3 gap-4 pt-4">
+                            <div class="border border-gray-200 rounded-lg p-3">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <div class="w-3 h-3 bg-[#FCE6C9] rounded-full"></div>
+                                    <p class="text-xs font-semibold text-gray-700">Pending</p>
+                                </div>
+                                <p class="text-lg font-bold text-gray-900">{{ $complaintsStatusSummary['pending'] }}</p>
+                                <p class="text-xs text-gray-500">{{ number_format($pendingPct, 1) }}%</p>
                             </div>
-                            <div class="flex flex-col items-center h-full justify-end group relative">
-                                <span class="text-xs font-bold mb-1">{{ $complaintsStatusSummary['investigating'] }}</span>
-                                <div class="bg-[#C5E3B1] w-16 rounded-t-lg group-hover:bg-[#B3D19F] transition-colors cursor-pointer" style="height: {{ ($complaintsStatusSummary['investigating'] / $maxComplaintStatus) * 100 }}%;" title="In Progress: {{ $complaintsStatusSummary['investigating'] }}"></div>
+                            <div class="border border-gray-200 rounded-lg p-3">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <div class="w-3 h-3 bg-[#C5E3B1] rounded-full"></div>
+                                    <p class="text-xs font-semibold text-gray-700">Investigating</p>
+                                </div>
+                                <p class="text-lg font-bold text-gray-900">{{ $complaintsStatusSummary['investigating'] }}</p>
+                                <p class="text-xs text-gray-500">{{ number_format($investigatingPct, 1) }}%</p>
                             </div>
-                            <div class="flex flex-col items-center h-full justify-end group relative">
-                                <span class="text-xs font-bold mb-1">{{ $complaintsStatusSummary['resolved'] }}</span>
-                                <div class="bg-[#C5E3B1] w-16 rounded-t-lg group-hover:bg-[#B3D19F] transition-colors cursor-pointer" style="height: {{ ($complaintsStatusSummary['resolved'] / $maxComplaintStatus) * 100 }}%;" title="Completed: {{ $complaintsStatusSummary['resolved'] }}"></div>
+                            <div class="border border-gray-200 rounded-lg p-3">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <div class="w-3 h-3 bg-[#A8F5D8] rounded-full"></div>
+                                    <p class="text-xs font-semibold text-gray-700">Resolved</p>
+                                </div>
+                                <p class="text-lg font-bold text-gray-900">{{ $complaintsStatusSummary['resolved'] }}</p>
+                                <p class="text-xs text-gray-500">{{ number_format($resolvedPct, 1) }}%</p>
                             </div>
                         </div>
                     </div>
-                    <div class="flex justify-around mt-1 text-xs font-semibold text-gray-700">
-                        <span>Pending</span><span>In Progress</span><span>Completed</span>
-                    </div>
-                    <div class="text-center text-sm font-bold text-gray-700 mt-1">Month of {{ $monthName }}</div>
+                    <div class="text-center text-sm font-bold text-gray-700 mt-4">Month of {{ $monthName }}</div>
                 </div>
             </div>
         </div>
