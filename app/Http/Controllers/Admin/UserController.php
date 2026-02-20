@@ -15,7 +15,10 @@ class UserController extends Controller
      */
     public function index()
     {
-        $totalResidents = User::where('role', 'resident')->count();
+        $totalResidents = User::whereIn('role', ['user', 'resident'])
+                            ->where('status', 'approved')
+                            ->whereNull('deleted_at')
+                            ->count();
         $maleCount      = User::where('role', 'resident')->where('gender', 'Male')->count();
         $femaleCount    = User::where('role', 'resident')->where('gender', 'Female')->count();
         $archivedCount  = User::where('role', 'resident')->onlyTrashed()->count();
