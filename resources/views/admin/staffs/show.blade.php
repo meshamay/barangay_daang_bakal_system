@@ -39,11 +39,6 @@
       </div>
 
       <div>
-        <label class="block text-sm font-medium text-gray-700">Role</label>
-        <p class="mt-1 text-sm text-gray-900">{{ ucfirst($staff->role) }}</p>
-      </div>
-
-      <div>
         <label class="block text-sm font-medium text-gray-700">Status</label>
         <p class="mt-1 text-sm text-gray-900">{{ ucfirst($staff->status) }}</p>
       </div>
