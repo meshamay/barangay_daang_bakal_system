@@ -417,17 +417,53 @@
 
     // Initialize Map
     document.addEventListener('DOMContentLoaded', () => {
-        // Use user coordinates or default to Mandaluyong Hall
-        const lat = {{ $user->latitude ?? 14.5794 }};
-        const lng = {{ $user->longitude ?? 121.0359 }};
+        const fallbackLat = 14.5794;
+        const fallbackLng = 121.0359;
+        const lat = {{ $user->latitude ?? 'null' }};
+        const lng = {{ $user->longitude ?? 'null' }};
+        const address = @json($user->address ?? '');
 
-        const map = L.map('map').setView([lat, lng], 16);
+        const map = L.map('map').setView([fallbackLat, fallbackLng], 16);
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
         }).addTo(map);
 
-        L.marker([lat, lng]).addTo(map);
+        const marker = L.marker([fallbackLat, fallbackLng]).addTo(map);
+        let mapLink = '';
+
+        const setMapLocation = (latitude, longitude) => {
+            map.setView([latitude, longitude], 16);
+            marker.setLatLng([latitude, longitude]);
+            mapLink = `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`;
+        };
+
+        if (lat !== null && lng !== null) {
+            setMapLocation(lat, lng);
+        } else if (address && address.trim().length > 0) {
+            const query = encodeURIComponent(address);
+            mapLink = `https://www.google.com/maps/search/?api=1&query=${query}`;
+            fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${query}`)
+                .then(response => response.json())
+                .then(results => {
+                    if (Array.isArray(results) && results.length > 0) {
+                        const resultLat = parseFloat(results[0].lat);
+                        const resultLng = parseFloat(results[0].lon);
+                        if (!Number.isNaN(resultLat) && !Number.isNaN(resultLng)) {
+                            setMapLocation(resultLat, resultLng);
+                        }
+                    }
+                })
+                .catch(() => {
+                    // Keep fallback location if geocoding fails
+                });
+        }
+
+        map.on('click', () => {
+            const fallbackQuery = encodeURIComponent(address || 'Mandaluyong City');
+            const target = mapLink || `https://www.google.com/maps/search/?api=1&query=${fallbackQuery}`;
+            window.open(target, '_blank', 'noopener');
+        });
 
         // Disable zoom/scroll for display only
         map.dragging.disable();

@@ -17,11 +17,11 @@
                     <span>Our Location</span>
                 </h6>
                 
-                <a href="https://www.google.com/maps/place/Daang+Bakal+Barangay+Hall/@14.5916363,121.0244769,17.25z/data=!4m6!3m5!1s0x3397c9d1e1d1726f:0xbf347c81708454e1!8m2!3d14.5916105!4d121.0286076!16s%2Fg%2F1pzr9z8pz?entry=ttu"
+                <a href="https://www.google.com/maps/search/?api=1&query=553-J.+Fabella+St.,+Brgy.+Daang+Bakal,+Mandaluyong+City"
                     target="_blank" rel="noopener"
                     class="block group rounded-lg sm:rounded-xl md:rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 border-2 border-white/10 hover:border-blue-400/50 relative h-40 sm:h-48 md:h-56">
                     <iframe
-                        src="https://maps.google.com/maps?q=Daang+Bakal+Barangay+Hall&t=&z=17&ie=UTF8&iwloc=&output=embed"
+                        src="https://maps.google.com/maps?q=553-J.+Fabella+St.,+Brgy.+Daang+Bakal,+Mandaluyong+City&t=&z=17&ie=UTF8&iwloc=&output=embed"
                         class="w-full h-full object-cover opacity-60 group-hover:opacity-90 transition-opacity duration-300 pointer-events-none"
                         style="border:0;" loading="lazy">
                     </iframe>
