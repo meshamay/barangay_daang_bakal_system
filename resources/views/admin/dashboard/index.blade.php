@@ -139,7 +139,14 @@
                 // Fields mapping
                 $transNo = $isDoc ? ($item->tracking_number ?? 'N/A') : ($item->transaction_no ?? 'N/A');
                 $serviceType = $isDoc ? 'Document Request' : 'Complaint';
-                $description = $isDoc ? ($item->document_type ?? 'N/A') : ($item->complaint_type ?? 'N/A');
+                $rawDescription = $isDoc ? ($item->document_type ?? 'N/A') : ($item->complaint_type ?? 'N/A');
+                
+                // Transform display names for certain document types
+                $description = match($rawDescription) {
+                    'Certificate of Indigency' => 'Indigency of Certificate',
+                    'Certificate of Residency' => 'Residency of Certificate',
+                    default => $rawDescription
+                };
                 
                 // Status Color Logic (case-insensitive)
                 $statusLower = strtolower($item->status);

@@ -22,20 +22,41 @@ class ReportsController extends Controller
         $endOfMonth = Carbon::createFromDate($year, $month, 1)->endOfMonth();
 
         // Stats for cards
+        // Count staff accounts
+        $totalStaff = User::where(function ($q) {
+                            $q->whereIn('user_type', ['admin', 'super admin', 'super_admin'])
+                              ->orWhereIn('role', ['admin', 'super admin', 'super_admin', 'superadmin']);
+                        })
+                        ->whereRaw('LOWER(status) IN (?, ?)', ['approved', 'active'])
+                        ->whereNull('deleted_at')
+                        ->count();
+        
+        // Count approved residents
+        $totalApprovedResidents = User::whereIn('role', ['user', 'resident'])
+                                ->where('status', 'approved')
+                                ->whereNull('deleted_at')
+                                ->count();
+        
         $stats = [
-            'totalUsers' => User::count(),
+            'totalUsers' => $totalStaff + $totalApprovedResidents,
             // Only users with status 'accepted' (or 'approved'/'Active') are counted as registered residents
-            'registeredResidents' => User::whereIn('role', ['user', 'resident'])
-                ->where('status', 'approved')
-                ->whereNull('deleted_at')->count(),
-            'totalStaff' => User::whereIn('role', ['admin', 'superadmin'])->whereNull('deleted_at')->count(),
+            'registeredResidents' => $totalApprovedResidents,
+            'totalStaff' => $totalStaff,
             'archivedAccounts' => User::whereIn('role', ['user', 'resident'])->onlyTrashed()->count(),
         ];
 
-        // Population by Gender (filtered by year and month)
+        // Population by Gender (filtered by year and month - residents only)
         $populationByGender = [
-            'male' => User::whereRaw('LOWER(gender) = ?', ['male'])->whereBetween('created_at', [$startOfMonth, $endOfMonth])->count(),
-            'female' => User::whereRaw('LOWER(gender) = ?', ['female'])->whereBetween('created_at', [$startOfMonth, $endOfMonth])->count(),
+            'male' => User::whereIn('role', ['user', 'resident'])
+                        ->where('status', 'approved')
+                        ->whereRaw('LOWER(gender) = ?', ['male'])
+                        ->whereBetween('created_at', [$startOfMonth, $endOfMonth])
+                        ->count(),
+            'female' => User::whereIn('role', ['user', 'resident'])
+                        ->where('status', 'approved')
+                        ->whereRaw('LOWER(gender) = ?', ['female'])
+                        ->whereBetween('created_at', [$startOfMonth, $endOfMonth])
+                        ->count(),
         ];
 
         $requestsComplaints = [
@@ -109,13 +130,26 @@ class ReportsController extends Controller
             ];
         }
 
+        // Count staff accounts
+        $totalStaff = User::where(function ($q) {
+                            $q->whereIn('user_type', ['admin', 'super admin', 'super_admin'])
+                              ->orWhereIn('role', ['admin', 'super admin', 'super_admin', 'superadmin']);
+                        })
+                        ->whereRaw('LOWER(status) IN (?, ?)', ['approved', 'active'])
+                        ->whereNull('deleted_at')
+                        ->count();
+        
+        // Count approved residents
+        $totalApprovedResidents = User::whereIn('role', ['user', 'resident'])
+                                ->where('status', 'approved')
+                                ->whereNull('deleted_at')
+                                ->count();
+        
         $stats = [
-            'totalUsers' => User::count(),
+            'totalUsers' => $totalStaff + $totalApprovedResidents,
             // Only users with status 'accepted' (or 'approved'/'Active') are counted as registered residents
-            'registeredResidents' => User::whereIn('role', ['user', 'resident'])
-                ->where('status', 'approved')
-                ->whereNull('deleted_at')->count(),
-            'totalStaff' => User::whereIn('role', ['admin', 'superadmin'])->count(),
+            'registeredResidents' => $totalApprovedResidents,
+            'totalStaff' => $totalStaff,
             'archivedAccounts' => User::where('role', 'user')->onlyTrashed()->count(),
         ];
 

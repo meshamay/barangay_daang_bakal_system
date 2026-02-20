@@ -30,9 +30,10 @@ class StaffController extends Controller
     public function index(Request $request)
     {
         $query = User::where(function ($q) {
-            $q->whereIn('user_type', ['admin', 'super admin', 'super_admin'])
-              ->orWhereIn('role', ['admin', 'super admin', 'super_admin', 'superadmin']);
-        });
+            $q->whereIn('user_type', ['admin'])
+              ->orWhereIn('role', ['admin']);
+        })
+        ->whereNull('deleted_at'); // Exclude soft deleted staff
 
         if ($request->filled('search')) {
             $term = $request->string('search');
@@ -52,6 +53,9 @@ class StaffController extends Controller
             } elseif ($status === 'inactive') {
                 $query->whereIn(DB::raw('LOWER(status)'), ['inactive', 'archived', 'reject', 'blocked', 'disabled', 'pending']);
             }
+        } else {
+            // Default: Show only active/approved staff when no status filter is applied
+            $query->whereIn(DB::raw('LOWER(status)'), ['approved', 'active']);
         }
 
         $staff = $query->orderBy('last_name')->get();
@@ -100,21 +104,19 @@ class StaffController extends Controller
             'username' => 'required|string|max:255|unique:users',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
-            'role' => 'required|in:admin,superadmin',
         ]);
 
-        $rawRole = strtolower($request->role);
-        $isSuperAdmin = in_array($rawRole, ['superadmin', 'super admin', 'super_admin']);
-        $normalizedRole = $isSuperAdmin ? 'super admin' : 'admin';
+        // Automatically set role as 'admin'
+        $normalizedRole = 'admin';
 
-        // Generate unique resident_id
+        // Generate unique resident_id with 'A-' prefix for admin staff
         $maxNumber = 0;
         $existingIds = User::withTrashed()
-            ->where('resident_id', 'like', 'RS-%')
+            ->where('resident_id', 'like', 'A-%')
             ->pluck('resident_id');
 
         foreach ($existingIds as $id) {
-            $numberPart = substr($id, 3);
+            $numberPart = substr($id, 2);
             if (ctype_digit($numberPart)) {
                 $currentNumber = (int) $numberPart;
                 if ($currentNumber > $maxNumber) {
@@ -123,7 +125,7 @@ class StaffController extends Controller
             }
         }
         $nextNumber = $maxNumber + 1;
-        $residentId = 'RS-' . str_pad($nextNumber, 5, '0', STR_PAD_LEFT);
+        $residentId = 'A-' . str_pad($nextNumber, 5, '0', STR_PAD_LEFT);
 
         User::create([
             'resident_id' => $residentId,
@@ -135,7 +137,7 @@ class StaffController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'plain_password' => $request->password,
-            'user_type' => $isSuperAdmin ? 'super admin' : 'admin',
+            'user_type' => 'admin',
             'role' => $normalizedRole,
             'status' => 'approved',
             'gender' => 'Male', 

@@ -79,18 +79,6 @@
           <label for="password_confirmation" class="block text-sm font-medium text-gray-700">Confirm Password</label>
           <input type="password" name="password_confirmation" id="password_confirmation" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
         </div>
-
-        <!-- Role -->
-        <div>
-          <label for="role" class="block text-sm font-medium text-gray-700">Role</label>
-          <select name="role" id="role" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
-            <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
-            <option value="superadmin" {{ old('role') == 'superadmin' ? 'selected' : '' }}>Super Admin</option>
-          </select>
-          @error('role')
-            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-          @enderror
-        </div>
       </div>
 
       <div class="mt-6 flex justify-end space-x-4">

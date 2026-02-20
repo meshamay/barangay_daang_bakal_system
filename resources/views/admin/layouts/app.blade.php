@@ -154,7 +154,7 @@
 
             <div class="text-right mr-2 sm:mr-3 hidden sm:block">
                 <p class="text-sm sm:text-md font-bold text-white leading-none">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</p>
-                <p class="text-xs text-blue-200 font-medium mt-1">{{ $isSuperAdmin ? 'Super Admin' : ucfirst(Auth::user()->role) }}</p>
+                <p class="text-xs text-blue-200 font-medium mt-1">{{ $isSuperAdmin ? 'Super Administrator' : ucfirst(Auth::user()->role) }}</p>
             </div>
 
             <div x-data="{ open: false }" @click.away="open = false" class="relative">

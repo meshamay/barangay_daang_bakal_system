@@ -22,13 +22,25 @@ class DashboardController extends Controller
         $totalDocumentRequests = DocumentRequest::count();
         $totalComplaints = Complaint::count();
         
+        // Count staff accounts
+        $totalStaff = User::where(function ($q) {
+                            $q->whereIn('user_type', ['admin', 'super admin', 'super_admin'])
+                              ->orWhereIn('role', ['admin', 'super admin', 'super_admin', 'superadmin']);
+                        })
+                        ->whereRaw('LOWER(status) IN (?, ?)', ['approved', 'active'])
+                        ->whereNull('deleted_at')
+                        ->count();
+        
+        // Count approved residents
+        $totalApprovedResidents = User::whereIn('role', ['user', 'resident'])
+                                ->where('status', 'approved')
+                                ->whereNull('deleted_at')
+                                ->count();
+        
         $stats = [
-            'totalUsers'      => User::count(), // Total users in the system
+            'totalUsers'      => $totalStaff + $totalApprovedResidents, // Count staff + approved residents
             // Only users with status 'accepted' (or 'approved'/'Active') are counted as registered residents
-            'registeredResidents' => User::whereIn('role', ['user', 'resident'])
-                ->where('status', 'approved')
-                ->whereNull('deleted_at')
-                ->count(),
+            'registeredResidents' => $totalApprovedResidents,
             'totalRequests'   => $totalDocumentRequests,
             'totalComplaints' => $totalComplaints,
             'completed'       => DocumentRequest::where('status', 'completed')->count() 
