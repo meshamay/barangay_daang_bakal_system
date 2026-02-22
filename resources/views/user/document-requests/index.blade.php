@@ -51,6 +51,8 @@
 	</div>
 </div>
 
+<!-- Filter controls removed as requested -->
+
 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4 sm:mb-6 relative">
 	<h3 class="text-lg sm:text-xl md:text-2xl font-bold text-[#134573] flex items-center gap-2 sm:gap-3">
 		<div class="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center shadow-md flex-shrink-0">
@@ -265,16 +267,16 @@
                     <div class="flex items-start pt-2">
 						<input type="checkbox" required class="mt-1 mr-3 w-3.5 h-3.5 text-blue-600 border-2 border-gray-300 rounded focus:ring-2 focus:ring-blue-500 cursor-pointer">
 						<label class="text-[14px] text-gray-600 leading-relaxed">I certify that the information provided above is accurate and complete to the best of my knowledge.</label>
-                    </div>
-                </div>
+					</div>
+				</div>
 
-                <div class="flex justify-end gap-3 mt-8 pt-6 border-t border-gray-100">
-                    <button type="button" onclick="closeModal('modalClearance')" class="px-6 py-2.5 bg-gradient-to-r from-gray-100 to-gray-200 hover:from-red-500 hover:to-red-600 text-gray-700 hover:text-white font-semibold rounded-lg transition-all duration-200 border border-gray-300 text-[14px]">CANCEL</button>
-                    <button type="submit" class="px-6 py-2.5 bg-gradient-to-r from-gray-100 to-gray-200 hover:from-blue-500 hover:to-blue-600 text-gray-700 hover:text-white font-semibold rounded-lg transition-all duration-200 shadow-md hover:shadow-lg border border-gray-300 text-[14px]">SUBMIT</button>
-                </div>
-            </form>
-            </div>
-        </div>
+				<div class="flex justify-end gap-3 mt-8 pt-6 border-t border-gray-100">
+					<button type="button" onclick="closeModal('modalClearance')" class="px-6 py-2.5 bg-gradient-to-r from-gray-100 to-gray-200 hover:from-red-500 hover:to-red-600 text-gray-700 hover:text-white font-semibold rounded-lg transition-all duration-200 border border-gray-300 text-[14px]">CANCEL</button>
+					<button type="submit" class="px-6 py-2.5 bg-gradient-to-r from-gray-100 to-gray-200 hover:from-blue-500 hover:to-blue-600 text-gray-700 hover:text-white font-semibold rounded-lg transition-all duration-200 shadow-md hover:shadow-lg border border-gray-300 text-[14px]">SUBMIT</button>
+				</div>
+			</form>
+			</div>
+		</div>
 </div>
 </div>
 
@@ -292,7 +294,7 @@
 			<div>
 				<form id="formIndigency" enctype="multipart/form-data" data-store-url="{{ route('user.document.store') }}">
 					@csrf
-				<input type="hidden" name="document_type" value="Indigency Clearance">
+				   <input type="hidden" name="document_type" value="Certificate of Indigency">
 
 					<div class="space-y-5">
 						<div>

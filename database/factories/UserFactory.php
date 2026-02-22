@@ -10,26 +10,26 @@ use Illuminate\Support\Facades\Hash;
  */
 class UserFactory extends Factory
 {
+
     public function definition(): array
     {
+        $faker = $this->faker ?: \Faker\Factory::create();
         return [
-            'last_name' => fake()->lastName(),
-            'first_name' => fake()->firstName(),
-            'middle_name' => fake()->optional()->lastName(),
-            
-            'age' => fake()->numberBetween(18, 80), 
-            
-            'birthdate' => fake()->date(),
-            'place_of_birth' => fake()->city(),
-            'gender' => fake()->randomElement(['Male', 'Female']),
-            'civil_status' => fake()->randomElement(['Single', 'Married', 'Divorced', 'Widowed']),
+            'last_name' => $faker->lastName(),
+            'first_name' => $faker->firstName(),
+            'middle_name' => $faker->optional()->lastName(),
+            'age' => $faker->numberBetween(18, 80),
+            'birthdate' => $faker->date(),
+            'place_of_birth' => $faker->city(),
+            'gender' => $faker->randomElement(['Male', 'Female']),
+            'civil_status' => $faker->randomElement(['Single', 'Married', 'Divorced', 'Widowed']),
             'citizenship' => 'Filipino',
-            'email' => fake()->unique()->safeEmail(),
-            'contact_number' => '09' . fake()->randomNumber(9, true),
-            'address' => fake()->address(),
-            'username' => fake()->unique()->userName(),
+            'email' => $faker->unique()->safeEmail(),
+            'contact_number' => '09' . $faker->randomNumber(9, true),
+            'address' => $faker->address(),
+            'username' => $faker->unique()->userName(),
             'password' => Hash::make('password123'),
-            'user_type' => 'user', 
+            'user_type' => 'user',
         ];
     }
 }

@@ -26,18 +26,30 @@
                             <h3 class="mb-2 sm:mb-3 text-xl sm:text-2xl font-bold text-gray-800">PERSONAL INFORMATION</h3>
                             <p class="mb-2 sm:mb-3 text-xs sm:text-sm text-gray-700">All fields marked with <span class="text-red-500 font-semibold">*</span> are required.</p>
                             <div class="grid grid-cols-1 gap-x-8 gap-y-4 md:grid-cols-2">
-                                <div>
-                                    <label for="last_name" class="mb-1 block text-sm font-semibold text-gray-700">Last Name <span class="text-red-500">*</span></label>
-                                    <input type="text" name="last_name" id="last_name" autocomplete="family-name" class="h-10 w-full rounded-lg border-2 border-gray-300 px-3 py-2 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
-                                </div>
-                                <div class="row-span-3">
-                                    <label for="photo-upload" id="photo-upload-label" class="relative flex h-[220px] w-full cursor-pointer flex-col items-center justify-center overflow-hidden rounded-lg border-4 border-blue-300 bg-blue-50 transition hover:bg-blue-100">
+                                <!-- Photo Upload for Phone View -->
+                                <div class="block md:hidden mb-4">
+                                    <label for="photo-upload-phone" id="photo-upload-label-phone" class="relative flex h-[220px] w-full cursor-pointer flex-col items-center justify-center overflow-hidden rounded-lg border-4 border-blue-300 bg-blue-50 transition hover:bg-blue-100">
                                         <div class="upload-placeholder-content text-center">
                                             <svg class="mx-auto h-10 w-10 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.437 4h3.126a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                                             <span class="mt-2 text-sm text-gray-600">Upload 1 x 1 Photo <span class="text-red-500">*</span></span>
                                         </div>
+                                        <img id="photo-preview-phone" src="#" alt="Photo Preview" class="hidden absolute top-0 left-0 w-full h-full object-cover rounded-lg border-4 border-blue-300 bg-blue-50" />
                                     </label>
-                                    <input id="photo-upload" name="photo" type="file" class="hidden" accept="image/*" required>
+                                    <input id="photo-upload-phone" name="photo" type="file" class="hidden" accept="image/*" required onchange="previewPhoto(event, 'photo-preview-phone')">
+                                </div>
+                                <div>
+                                    <label for="last_name" class="mb-1 block text-sm font-semibold text-gray-700">Last Name <span class="text-red-500">*</span></label>
+                                    <input type="text" name="last_name" id="last_name" autocomplete="family-name" class="h-10 w-full rounded-lg border-2 border-gray-300 px-3 py-2 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                                </div>
+                                <div class="row-span-3 hidden md:block">
+                                    <label for="photo-upload-desktop" id="photo-upload-label-desktop" class="relative flex h-[220px] w-full cursor-pointer flex-col items-center justify-center overflow-hidden rounded-lg border-4 border-blue-300 bg-blue-50 transition hover:bg-blue-100">
+                                        <div class="upload-placeholder-content text-center">
+                                            <svg class="mx-auto h-10 w-10 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.437 4h3.126a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                                            <span class="mt-2 text-sm text-gray-600">Upload 1 x 1 Photo <span class="text-red-500">*</span></span>
+                                        </div>
+                                        <img id="photo-preview-desktop" src="#" alt="Photo Preview" class="hidden absolute top-0 left-0 w-full h-full object-cover rounded-lg border-4 border-blue-300 bg-blue-50" />
+                                    </label>
+                                    <input id="photo-upload-desktop" name="photo" type="file" class="hidden" accept="image/*" required onchange="previewPhoto(event, 'photo-preview-desktop')">
                                 </div>
                                 <div>
                                     <label for="first_name" class="mb-1 block text-sm font-semibold text-gray-700">First Name <span class="text-red-500">*</span></label>
@@ -88,10 +100,10 @@
                                     <input type="text" name="place_of_birth" id="place_of_birth" autocomplete="off" class="h-10 w-full rounded-lg border-2 border-gray-300 px-3 py-2 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
                                 </div>
                             </div>
-                        </div>
-                        <div class="flex shrink-0 justify-end items-center gap-2 sm:gap-3 px-3 sm:px-4 -mt-6 mb-6">
-                            <a href="/" class="rounded-lg bg-gray-200 hover:bg-red-600 px-4 sm:px-6 py-2 sm:py-2.5 text-sm font-semibold text-gray-700 hover:text-white flex items-center border border-gray-300 transition-all duration-200 shadow-md">CANCEL</a>
-                            <button id="next-button" type="button" class="rounded-lg bg-gray-200 hover:bg-blue-600 px-4 sm:px-6 py-2 sm:py-2.5 text-sm font-semibold text-gray-700 hover:text-white flex items-center border border-gray-300 transition-all duration-200 shadow-md">NEXT</button>
+                            <div class="flex shrink-0 justify-end items-center gap-2 sm:gap-3 px-3 sm:px-4 mt-6 mb-6">
+                                <a href="/" class="rounded-lg bg-gray-200 hover:bg-red-600 px-4 md:px-6 py-2 md:py-2.5 text-sm md:text-base font-semibold text-gray-700 hover:text-white flex items-center border border-gray-300 transition-all duration-200 shadow-md">CANCEL</a>
+                                <button id="next-button" type="button" class="rounded-lg bg-gray-200 hover:bg-blue-600 px-4 md:px-6 py-2 md:py-2.5 text-sm md:text-base font-semibold text-gray-700 hover:text-white flex items-center border border-gray-300 transition-all duration-200 shadow-md">NEXT</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -106,23 +118,6 @@
                             <h3 class="mb-2 sm:mb-3 text-xl sm:text-2xl font-bold text-gray-800">CONTACT INFORMATION</h3>
                              <p class="mb-2 sm:mb-3 text-xs sm:text-sm text-gray-700">All fields marked with <span class="text-red-500 font-semibold">*</span> are required.</p>
                             <div class="grid grid-cols-1 gap-x-8 gap-y-4 md:grid-cols-2">
-                                <div class="flex flex-col space-y-4">
-                                    <div>
-                                        <label for="contact_number" class="mb-1 block text-sm font-semibold text-gray-700">Contact Number <span class="text-red-500">*</span></label>
-                                        <div class="relative">
-                                            <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3"><span>+63</span></div>
-                                            <input type="tel" name="contact_number" id="contact_number" autocomplete="tel-national" class="h-10 w-full rounded-lg border-2 border-gray-300 bg-gray-50 py-2 pl-12 pr-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" maxlength="10" inputmode="numeric" required>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <label for="email" class="mb-1 block text-sm font-semibold text-gray-700">Email Address</label>
-                                        <input type="email" name="email" id="email" autocomplete="email" class="h-10 w-full rounded-lg border-2 border-gray-300 bg-gray-50 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                                    </div>
-                                    <div>
-                                        <label for="address" class="mb-1 block text-sm font-semibold text-gray-700">House/Unit Number, Street <span class="text-red-500">*</span></label>
-                                        <input type="text" name="address" id="address" autocomplete="street-address" class="h-10 w-full rounded-lg border-2 border-gray-300 bg-gray-50 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
-                                    </div>
-                                </div>
                                 <div class="flex flex-col space-y-4">
                                     <div class="grid grid-cols-2 gap-4">
                                         <label for="id-front-upload" id="id-front-label" class="relative flex h-36 cursor-pointer flex-col items-center justify-center overflow-hidden rounded-lg border-4 border-blue-300 bg-blue-50 text-center transition hover:bg-blue-100">
@@ -142,6 +137,21 @@
                                         <input type="file" name="id_back" id="id-back-upload" class="hidden" accept="image/*" required>
                                     </div>
                                     <p class="px-1 text-justify text-xs text-gray-600">All government-issued valid IDs are accepted. For students, present a School ID. For applicants below 5 years old, a Certificate of Live Birth is required. Accepted file formats are JPG or PNG, with a maximum file size of 5 MB.</p>
+                                    <div>
+                                        <label for="contact_number" class="mb-1 block text-sm font-semibold text-gray-700">Contact Number <span class="text-red-500">*</span></label>
+                                        <div class="relative">
+                                            <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3"><span>+63</span></div>
+                                            <input type="tel" name="contact_number" id="contact_number" autocomplete="tel-national" class="h-10 w-full rounded-lg border-2 border-gray-300 bg-gray-50 py-2 pl-12 pr-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" maxlength="10" inputmode="numeric" required>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label for="email" class="mb-1 block text-sm font-semibold text-gray-700">Email Address</label>
+                                        <input type="email" name="email" id="email" autocomplete="email" class="h-10 w-full rounded-lg border-2 border-gray-300 bg-gray-50 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    </div>
+                                    <div>
+                                        <label for="address" class="mb-1 block text-sm font-semibold text-gray-700">House/Unit Number, Street <span class="text-red-500">*</span></label>
+                                        <input type="text" name="address" id="address" autocomplete="street-address" class="h-10 w-full rounded-lg border-2 border-gray-300 bg-gray-50 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                                    </div>
                                 </div>
                             </div>
                             <div class="pt-20">
@@ -238,4 +248,21 @@
 </div>
 
 <script src="{{ asset('js/auth-register.js') }}" defer></script>
+<script>
+function previewPhoto(event, previewId) {
+    const input = event.target;
+    const preview = document.getElementById(previewId);
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+            preview.classList.remove('hidden');
+        };
+        reader.readAsDataURL(input.files[0]);
+    } else {
+        preview.src = '#';
+        preview.classList.add('hidden');
+    }
+}
+</script>
 @endsection

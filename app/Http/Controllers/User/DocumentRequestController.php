@@ -125,27 +125,26 @@ class DocumentRequestController extends Controller
                     $validated = $request->validate([
                         'document_type'    => 'required|string',
                         'purpose'          => 'required|string',
-                        'resident_years'   => 'required|string',
                         'indigency_category' => 'nullable|string',
                         'other_purpose'    => 'nullable|string',
                         'proof_file'       => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
                     ]);
 
                     $docRequestData = array_merge($docRequestData, [
-                        'length_of_residency' => $validated['resident_years'],
+                        'length_of_residency' => null,
                         'valid_id_number'     => 'N/A',
                         'registered_voter'    => 'N/A',
                         'purpose'             => $validated['purpose'],
                     ]);
 
                     if ($request->hasFile('proof_file')) {
-                        $request->file('proof_file')->store('documents', 'public');
+                        $path = $request->file('proof_file')->store('documents', 'public');
+                        $docRequestData['proof_file_path'] = $path;
                     }
 
                     $childRelation = 'indigencyData';
                     $childData = [
                         'purpose'           => $validated['purpose'],
-                        'resident_years'    => $validated['resident_years'],
                         'indigency_category'=> $request->input('indigency_category'),
                         'other_purpose'     => $request->input('other_purpose'),
                     ];
@@ -223,11 +222,10 @@ class DocumentRequestController extends Controller
 
         } catch (\Exception $e) {
             DB::rollBack();
-            
             Log::error('DOCUMENT SUBMISSION FAILED: ' . $e->getMessage(), ['exception' => $e]);
-            
-            $message = property_exists($e, 'validator') ? $e->validator->errors()->all() : $e->getMessage();
-            
+            $message = property_exists($e, 'validator')
+                ? implode("\n", $e->validator->errors()->all())
+                : $e->getMessage();
             return response()->json([
                 'message' => 'Server Error: ' . $message,
                 'type' => 'diagnostic'

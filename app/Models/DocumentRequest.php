@@ -30,6 +30,7 @@ class DocumentRequest extends Model
         'length_of_residency',
         'valid_id_number',   
         'registered_voter',
+        'proof_file_path',
     ];
 
     /**

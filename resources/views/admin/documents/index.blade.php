@@ -6,9 +6,12 @@
 @endpush
 
 <style>
-	.justify-start {
-		justify-content: center;
-	}
+   .justify-start {
+	   justify-content: center;
+   }
+   .modal-container * {
+	   font-family: 'Poppins', sans-serif !important;
+   }
 </style>
 
 <main class="flex-1 p-8 fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] overflow-y-auto bg-gradient-to-br from-gray-50 to-gray-100"> 
@@ -92,18 +95,17 @@
 
 			<div class="flex gap-2 w-fit">
 				<select name="document_type" onchange="this.form.submit()" class="h-10 px-4 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition bg-white w-52">
-					<option value="">Document Types</option>
+					<option value="">Document Type</option>
 					<option value="Barangay Clearance" {{ request('document_type') == 'Barangay Clearance' ? 'selected' : '' }}>Barangay Clearance</option>
 					<option value="Barangay Certificate" {{ request('document_type') == 'Barangay Certificate' ? 'selected' : '' }}>Barangay Certificate</option>
 					<option value="Certificate of Indigency" {{ request('document_type') == 'Certificate of Indigency' ? 'selected' : '' }}>Indigency Clearance</option>
-					<option value="Indigency Clearance" {{ request('document_type') == 'Indigency Clearance' ? 'selected' : '' }}>Indigency Clearance</option>
+					<option value="Indigency Clearance" {{ request('document_type') == 'Indigency Clearance' ? 'selected' : '' }}>Resident Certificate</option>
 				</select>
 				<select name="status" onchange="this.form.submit()" class="h-10 px-4 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition bg-white w-40">
 					<option value="">Status</option>
 					<option value="pending" {{ request('status') === 'pending' ? 'selected' : '' }}>Pending</option>
 					<option value="in progress" {{ request('status') === 'in progress' ? 'selected' : '' }}>In Progress</option>
 					<option value="completed" {{ request('status') === 'completed' ? 'selected' : '' }}>Completed</option>
-					<option value="rejected" {{ request('status') === 'rejected' ? 'selected' : '' }}>Rejected</option>
 				</select>
 
 				@if(request('search') || request('document_type') || request('status'))
@@ -310,9 +312,9 @@
 
 {{-- Modal 1: Clearance --}}
 <div id="modalClearance" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[9999]">
-	<div class="bg-white w-[800px] max-h-[90vh] rounded-3xl overflow-hidden flex flex-col shadow-2xl border-2 border-gray-100">
+<div class="bg-white w-[800px] max-h-[90vh] rounded-3xl overflow-hidden flex flex-col shadow-2xl border-2 border-gray-100" style="font-family: 'Poppins', sans-serif;">
 		<div class="flex items-center justify-center px-6 py-4" style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%);">
-			<h1 class="text-white text-xl font-bold font-['Barlow_Semi_Condensed'] tracking-wide">Request for Barangay Clearance</h1>
+			<h1 class="text-white text-xl font-bold font-['Barlow_Semi_Condensed'] tracking-wide">REQUEST FORM FOR BARANGAY CLEARANCE</h1>
 		</div>
 		<div class="px-8 py-6 flex-1 overflow-y-auto">
 			<form class="grid grid-cols-2 gap-x-6 gap-y-4 text-sm">
@@ -328,14 +330,14 @@
 				<div><label class="font-semibold text-gray-700 block mb-1">Citizenship:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" disabled></div>
 				<div class="col-span-2 mt-4"><label class="font-semibold text-gray-700 block mb-2">Valid ID Attachment</label>
 					<div class="mt-2 grid grid-cols-2 gap-4">
-						<button type="button" class="border-2 border-dashed border-blue-300 rounded-xl py-8 flex flex-col items-center text-sm w-full bg-blue-50/50 overflow-hidden hover:bg-blue-50 transition-colors">
-							<img src="https://cdn-icons-png.flaticon.com/512/685/685655.png" class="js-id-front w-12 opacity-70 mb-2 object-contain transition-all duration-300">
-							<span class="mt-2 text-gray-700 font-medium">Front of Valid ID</span>
-						</button>
-						<button type="button" class="border-2 border-dashed border-blue-300 rounded-xl py-8 flex flex-col items-center text-sm w-full bg-blue-50/50 overflow-hidden hover:bg-blue-50 transition-colors">
-							<img src="https://cdn-icons-png.flaticon.com/512/685/685655.png" class="js-id-back w-12 opacity-70 mb-2 object-contain transition-all duration-300">
-							<span class="mt-2 text-gray-700 font-medium">Back of Valid ID</span>
-						</button>
+											<button type="button" class="border-2 border-dashed border-blue-300 rounded-xl py-4 flex flex-col items-center text-sm w-full bg-blue-50/50 overflow-hidden hover:bg-blue-50 transition-colors">
+												<img src="https://cdn-icons-png.flaticon.com/512/685/685655.png" class="js-id-front w-10 h-10 opacity-70 mb-2 object-contain transition-all duration-300">
+												<span class="mt-2 text-gray-700 font-medium text-xs">Front of Valid ID</span>
+											</button>
+											<button type="button" class="border-2 border-dashed border-blue-300 rounded-xl py-4 flex flex-col items-center text-sm w-full bg-blue-50/50 overflow-hidden hover:bg-blue-50 transition-colors">
+												<img src="https://cdn-icons-png.flaticon.com/512/685/685655.png" class="js-id-back w-10 h-10 opacity-70 mb-2 object-contain transition-all duration-300">
+												<span class="mt-2 text-gray-700 font-medium text-xs">Back of Valid ID</span>
+											</button>
 					</div>
 				</div>
 				<div class="col-span-2 my-4"><div class="border-t border-gray-200"></div></div>
@@ -351,9 +353,9 @@
 
 {{-- Modal 2: Certificate --}}
 <div id="modalCertificate" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[9999]">
-	<div class="bg-white w-[800px] max-h-[90vh] rounded-3xl overflow-hidden flex flex-col shadow-2xl border-2 border-gray-100">
+<div class="bg-white w-[800px] max-h-[90vh] rounded-3xl overflow-hidden flex flex-col shadow-2xl border-2 border-gray-100" style="font-family: 'Poppins', sans-serif;">
 		<div class="flex items-center justify-center px-6 py-4" style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%);">
-			<h1 class="text-white text-xl font-bold font-['Barlow_Semi_Condensed'] tracking-wide">Request for Barangay Certificate</h1>
+			<h1 class="text-white text-xl font-bold font-['Barlow_Semi_Condensed'] tracking-wide">REQUEST FORM FOR BARANGAY CERTIFICATE</h1>
 		</div>
 		<div class="px-8 py-6 flex-1 overflow-y-auto">
 			<form class="grid grid-cols-2 gap-x-6 gap-y-4 text-sm">
@@ -392,9 +394,9 @@
 
 {{-- Modal 3: Indigency --}}
 <div id="modalIndigency" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[9999]">
-	<div class="bg-white w-[800px] max-h-[90vh] rounded-3xl overflow-hidden flex flex-col shadow-2xl border-2 border-gray-100">
+<div class="bg-white w-[800px] max-h-[90vh] rounded-3xl overflow-hidden flex flex-col shadow-2xl border-2 border-gray-100" style="font-family: 'Poppins', sans-serif;">
 		<div class="flex items-center justify-center px-6 py-4" style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%);">
-			<h1 class="text-white text-xl font-bold font-['Barlow_Semi_Condensed'] tracking-wide">Request for Indigency of Certificate</h1>
+			<h1 class="text-white text-xl font-bold font-['Barlow_Semi_Condensed'] tracking-wide">REQUEST FORM FOR INDIGENCY CLEARANCE</h1>
 		</div>
 		<div class="px-8 py-6 flex-1 overflow-y-auto">
 			<form class="grid grid-cols-2 gap-x-6 gap-y-4 text-sm">
@@ -444,9 +446,9 @@
 
 {{-- Modal 4: Residency --}}
 <div id="modalResidency" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[9999]">
-	<div class="bg-white w-[800px] max-h-[90vh] rounded-3xl overflow-hidden flex flex-col shadow-2xl border-2 border-gray-100">
+<div class="bg-white w-[800px] max-h-[90vh] rounded-3xl overflow-hidden flex flex-col shadow-2xl border-2 border-gray-100" style="font-family: 'Poppins', sans-serif;">
 		<div class="flex items-center justify-center px-6 py-4" style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%);">
-			<h1 class="text-white text-xl font-bold font-['Barlow_Semi_Condensed'] tracking-wide">Request for Resident of Certificate</h1>
+			<h1 class="text-white text-xl font-bold tracking-wide" style="font-family: 'Poppins', sans-serif;">REQUEST FORM FOR RESIDENCY CERTIFICATE</h1>
 		</div>
 		<div class="px-8 py-6 flex-1 overflow-y-auto">
 			<form class="grid grid-cols-2 gap-x-6 gap-y-4 text-sm">
@@ -485,7 +487,7 @@
 
 {{-- Modal 5: Process Confirmation --}}
 <div id="inprogressModal" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[9999]">
-	<div class="bg-white w-[520px] rounded-3xl shadow-2xl p-10 relative text-center border-2 border-gray-100 transform transition-all">
+<div class="bg-white w-[520px] rounded-3xl shadow-2xl p-10 relative text-center border-2 border-gray-100 transform transition-all" style="font-family: 'Poppins', sans-serif;">
 		
 		<!-- Icon Badge -->
 		<div class="flex justify-center mb-6">
@@ -528,7 +530,7 @@
 
 {{-- Modal 6: Complete Confirmation --}}
 <div id="completedModal" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[9999]">
-	<div class="bg-white w-[520px] rounded-3xl shadow-2xl p-10 relative text-center border-2 border-gray-100 transform transition-all">
+<div class="bg-white w-[520px] rounded-3xl shadow-2xl p-10 relative text-center border-2 border-gray-100 transform transition-all" style="font-family: 'Poppins', sans-serif;">
 		
 		<!-- Icon Badge -->
 		<div class="flex justify-center mb-6">
