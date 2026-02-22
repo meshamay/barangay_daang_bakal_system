@@ -105,11 +105,13 @@
 					<p class="text-gray-500 text-sm font-medium">Pending</p>
 					<p class="text-4xl font-bold text-gray-900 mt-2">{{ $stats['pending'] ?? 0 }}</p>
 				</div>
-				<div class="bg-amber-100 p-4 rounded-lg">
-					<svg class="h-8 w-8 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4v.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-					</svg>
-				</div>
+                   <div class="bg-amber-100 p-4 rounded-lg flex items-center justify-center">
+                       <span class="inline-flex space-x-1">
+                           <span class="w-2 h-2 bg-amber-600 rounded-full animate-bounce" style="animation-delay:0s"></span>
+                           <span class="w-2 h-2 bg-amber-600 rounded-full animate-bounce" style="animation-delay:0.2s"></span>
+                           <span class="w-2 h-2 bg-amber-600 rounded-full animate-bounce" style="animation-delay:0.4s"></span>
+                       </span>
+                   </div>
 			</div>
 		</div>
 		<div class="bg-white rounded-xl shadow-md border border-gray-100 p-6 hover:shadow-lg hover:border-blue-200 transition duration-300 ease-in-out">
@@ -118,11 +120,12 @@
 					<p class="text-gray-500 text-sm font-medium">In Progress</p>
 					<p class="text-4xl font-bold text-gray-900 mt-2">{{ $stats['in_progress'] ?? 0 }}</p>
 				</div>
-				<div class="bg-blue-100 p-4 rounded-lg">
-					<svg class="h-8 w-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6l4 2" />
-					</svg>
-				</div>
+                   <div class="bg-blue-100 p-4 rounded-lg flex items-center justify-center">
+                       <svg class="h-8 w-8 text-blue-600 animate-spin" fill="none" viewBox="0 0 24 24">
+                           <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                           <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                       </svg>
+                   </div>
 			</div>
 		</div>
 		<div class="bg-white rounded-xl shadow-md border border-gray-100 p-6 hover:shadow-lg hover:border-emerald-200 transition duration-300 ease-in-out">
@@ -149,17 +152,15 @@
 						<path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
 					</svg>
 				</div>
-				<input type="text" name="search" value="{{ request('search') }}" placeholder="Search ID or name..." class="w-full h-10 border border-gray-200 rounded-lg pl-11 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition" />
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="Search" class="w-full h-10 border border-gray-200 rounded-lg pl-11 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition" />
 			</div>
 
 			<div class="flex gap-2 w-fit">
 				<select name="complaint_type" onchange="this.form.submit()" class="h-10 px-4 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition bg-white w-52">
 					<option value="">Complaint Type</option>
 					<option value="Community Issues" @selected(request('complaint_type') == 'Community Issues')>Community Issues</option>
-					<option value="Physical Harrasments" @selected(request('complaint_type') == 'Physical Harrasments')>Physical Harrasments</option>
-					<option value="Neighbor Dispute" @selected(request('complaint_type') == 'Neighbor Dispute')>Neighbor Dispute</option>
-					<option value="Money Problems" @selected(request('complaint_type') == 'Money Problems')>Money Problems</option>
-					<option value="Misbehavior" @selected(request('complaint_type') == 'Misbehavior')>Misbehavior</option>
+				<option value="Physical Harrasments" @selected(request('complaint_type') == 'Physical Harrasments')>Physical Harassment</option>
+				<option value="Physical Harassment" @selected(request('complaint_type') == 'Physical Harassment')>Physical Harassment</option>
 					<option value="Others" @selected(request('complaint_type') == 'Others')>Others</option>
 				</select>
 
@@ -187,7 +188,7 @@
 		{{-- Fixed Header --}}
 		<table class="w-full text-sm" style="table-layout: fixed;">
 			<thead style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%); color: white;" class="shadow-sm">
-				<tr class="text-xs font-semibold uppercase tracking-widest text-center">
+                <tr class="text-sm font-semibold uppercase tracking-widest text-center">
 					<th class="py-5 px-6 w-1/8">Transaction No.</th>
 					<th class="py-5 px-6 w-1/8">Last Name</th>
 					<th class="py-5 px-6 w-1/8">First Name</th>
@@ -200,10 +201,10 @@
 			</thead>
 		</table>
 		{{-- Scrollable Body --}}
-		<div class="overflow-x-auto overflow-y-auto max-h-[360px]">
+        <div class="overflow-x-auto overflow-y-auto max-h-[367px]">
 			<table class="w-full text-sm" style="table-layout: fixed;">
 				<tbody class="divide-y divide-gray-100">
-                @forelse ($complaints->take(4) as $complaint)
+                @forelse ($complaints as $complaint)
 				@php
 				    $status_color = [
 				        'Pending' => 'bg-amber-100 text-amber-800 border border-amber-300',
@@ -216,11 +217,11 @@
 				    <td class="py-5 px-6 w-1/8 font-semibold text-gray-900">{{ $complaint->transaction_no }}</td>
 				    <td class="py-5 px-6 w-1/8 text-gray-700">{{ $user->last_name ?? 'N/A' }}</td>
 				    <td class="py-5 px-6 w-1/8 text-gray-700">{{ $user->first_name ?? 'N/A' }}</td>
-				    <td class="py-5 px-6 w-1/8 text-gray-600">{{ $complaint->complaint_type }}</td>
+			    <td class="py-5 px-6 w-1/8 text-gray-600">{{ str_replace('Physical Harrasments', 'Physical Harassment', $complaint->complaint_type) }}</td>
 				    <td class="py-5 px-6 w-1/8 text-gray-600 text-sm">{{ $complaint->created_at->format('d/m/Y') }}</td>
 				    <td class="py-5 px-6 w-1/8 text-gray-600 text-sm">{{ $complaint->date_completed ? \Carbon\Carbon::parse($complaint->date_completed)->format('d/m/Y') : '—' }}</td>
 				    <td class="py-5 px-6 w-1/8">
-				        <span class="{{ $status_color }} text-xs font-bold px-3 py-2 rounded-full inline-block shadow-sm">
+                        <span class="{{ $status_color }} text-xs font-bold px-3 py-2 rounded-full inline-block shadow-sm">
 				            {{ $complaint->status }}
 				        </span>
 				    </td>

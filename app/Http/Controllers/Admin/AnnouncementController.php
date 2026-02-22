@@ -47,7 +47,7 @@ class AnnouncementController extends Controller
             }
         }
 
-        $announcements = $query->latest()->paginate(10)->appends($request->query());
+        $announcements = $query->latest()->paginate(100)->appends($request->query());
         $totalAnnouncements = Announcement::count();
         $ongoingCount = Announcement::ongoing()->count();
         $endedCount = Announcement::ended()->count();

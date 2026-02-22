@@ -44,7 +44,7 @@ class DashboardController extends Controller
             'totalRequests'   => $totalDocumentRequests,
             'totalComplaints' => $totalComplaints,
             'completed'       => DocumentRequest::where('status', 'completed')->count() 
-                               + Complaint::where('status', 'completed')->count(),
+                               + Complaint::where('status', 'Completed')->count(),
         ];
 
         // Get filter parameters

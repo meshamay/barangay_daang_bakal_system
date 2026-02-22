@@ -40,7 +40,7 @@ class ComplaintController extends Controller
             $query->where('status', $request->status);
         }
 
-        $complaints = $query->latest()->paginate(10)->withQueryString();
+        $complaints = $query->latest()->paginate(100)->withQueryString();
 
         $stats = [
             'total'       => Complaint::count(),

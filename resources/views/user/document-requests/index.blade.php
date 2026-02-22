@@ -85,45 +85,54 @@
 
 
 
-<div class="bg-white shadow-xl rounded-lg sm:rounded-2xl overflow-x-auto border border-gray-100">
-<table class="table w-full text-xs sm:text-sm md:text-base border-collapse min-w-max">
-<thead style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%);">
-	<tr class="text-xs sm:text-sm whitespace-nowrap text-white">
-		<th class="px-3 sm:px-5 py-3 sm:py-4 font-bold uppercase tracking-wide text-center">Transaction ID</th>
-		<th class="px-3 sm:px-5 py-3 sm:py-4 font-bold uppercase tracking-wide text-center">Last Name</th>
-		<th class="px-3 sm:px-5 py-3 sm:py-4 font-bold uppercase tracking-wide text-center">First Name</th>
-		<th class="px-3 sm:px-5 py-3 sm:py-4 font-bold uppercase tracking-wide text-center">Document Type</th>
-		<th class="px-3 sm:px-5 py-3 sm:py-4 font-bold uppercase tracking-wide text-center">Purpose</th>
-		<th class="px-3 sm:px-5 py-3 sm:py-4 font-bold uppercase tracking-wide text-center">Date Requested</th>
-		<th class="px-3 sm:px-5 py-3 sm:py-4 font-bold uppercase tracking-wide text-center">Status</th>
-	</tr>
-</thead>
-	<tbody class="divide-y divide-gray-100">
+<div class="bg-white shadow-xl rounded-xl border border-gray-100 overflow-hidden">
+    
+    <table class="w-full text-sm" style="table-layout: fixed;">
+      <thead style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%); color: white;" class="shadow-sm">
+        <tr class="text-sm font-semibold uppercase tracking-widest text-center">
+          <th class="py-5 px-4 whitespace-nowrap" style="width: 12%;">Transaction ID</th>
+          <th class="py-5 px-4 whitespace-nowrap" style="width: 10%;">Last Name</th>
+          <th class="py-5 px-4 whitespace-nowrap" style="width: 10%;">First Name</th>
+          <th class="py-5 px-4 whitespace-nowrap" style="width: 18%;">Document Type</th>
+          <th class="py-5 px-4 whitespace-nowrap" style="width: 20%;">Purpose</th>
+          <th class="py-5 px-4 whitespace-nowrap" style="width: 12%;">Date Requested</th>
+          <th class="py-5 px-4 whitespace-nowrap" style="width: 12%;">Status</th>
+        </tr>
+      </thead>
+    </table>
+    
+    <div class="overflow-x-auto overflow-y-auto" style="max-height: 391px;">
+      <table class="w-full text-sm" style="table-layout: fixed;">
+        <tbody class="divide-y divide-gray-100">
 		@forelse($myRequests as $request)
-		<tr class="text-xs sm:text-sm hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 transition-all duration-200">
-			<td class="px-3 sm:px-5 py-3 sm:py-4 font-mono font-bold text-blue-600 whitespace-nowrap text-center">{{ $request->tracking_number ?? 'N/A' }}</td>
-			<td class="px-3 sm:px-5 py-3 sm:py-4 font-medium text-gray-700 whitespace-nowrap text-center">{{ Auth::user()->last_name }}</td>
-			<td class="px-3 sm:px-5 py-3 sm:py-4 font-medium text-gray-700 whitespace-nowrap text-center">{{ Auth::user()->first_name }}</td>
-			<td class="px-3 sm:px-5 py-3 sm:py-4 font-semibold text-gray-800 text-center">{{ $request->document_type }}</td>
-			
-			<td class="px-3 sm:px-5 py-3 sm:py-4 text-gray-600 whitespace-nowrap text-center">
-				{{ \Illuminate\Support\Str::before($request->purpose, ' |') }}
+		<tr class="hover:bg-blue-50/70 transition-colors duration-150 ease-in-out text-center">
+			<td class="py-5 px-4 font-semibold text-blue-600 whitespace-nowrap" style="width: 12%;">{{ $request->tracking_number ?? 'N/A' }}</td>
+			<td class="py-5 px-4 text-gray-700 whitespace-nowrap" style="width: 10%;">{{ Auth::user()->last_name }}</td>
+			<td class="py-5 px-4 text-gray-700 whitespace-nowrap" style="width: 10%;">{{ Auth::user()->first_name }}</td>
+			<td class="py-5 px-4 font-semibold text-gray-800" style="width: 18%;">
+				<div class="overflow-hidden text-ellipsis whitespace-nowrap">
+				{{ str_replace(['Certificate of Indigency', 'Certificate of Residency'], ['Indigency Clearance', 'Resident Certificate'], $request->document_type) }}
+				</div>
 			</td>
-
-			<td class="px-3 sm:px-5 py-3 sm:py-4 text-gray-600 whitespace-nowrap text-center">{{ $request->created_at->format('d/m/Y') }}</td>
-			<td class="px-3 sm:px-5 py-3 sm:py-4 text-center">
+			<td class="py-5 px-4 text-gray-600" style="width: 20%;">
+				<div class="overflow-hidden text-ellipsis whitespace-nowrap">
+					{{ \Illuminate\Support\Str::before($request->purpose, ' |') }}
+				</div>
+			</td>
+			<td class="py-5 px-4 text-gray-600 text-sm whitespace-nowrap" style="width: 12%;">{{ $request->created_at->format('d/m/Y') }}</td>
+			<td class="py-5 px-4 whitespace-nowrap" style="width: 12%;">
 				@php
 					$statusLower = strtolower($request->status);
 					$statusColor = match($statusLower) {
-						'pending' => 'bg-amber-500/10 text-amber-700 border border-amber-200',
-						'in progress' => 'bg-blue-500/10 text-blue-700 border border-blue-200',
-						'completed' => 'bg-emerald-500/10 text-emerald-700 border border-emerald-200',
-						'rejected' => 'bg-red-500/10 text-red-700 border border-red-200',
-						default => 'bg-gray-500/10 text-gray-700 border border-gray-200'
+						'pending' => 'bg-amber-100 text-amber-800 border border-amber-300',
+						'in progress' => 'bg-blue-100 text-blue-800 border border-blue-300',
+						'completed' => 'bg-emerald-100 text-emerald-800 border border-emerald-300',
+						'rejected' => 'bg-red-100 text-red-800 border border-red-300',
+						default => 'bg-gray-100 text-gray-800 border border-gray-300'
 					};
-					$statusDisplay = ucfirst(strtolower($request->status));
+					$statusDisplay = $statusLower === 'in progress' ? 'In Progress' : ucfirst(strtolower($request->status));
 				@endphp
-				<span class="{{ $statusColor }} text-xs font-bold px-2 sm:px-3 py-1 sm:py-1.5 rounded-full inline-flex items-center justify-center whitespace-nowrap">
+				<span class="{{ $statusColor }} text-sm font-bold px-3 py-2 rounded-full inline-block whitespace-nowrap shadow-sm">
 					{{ $statusDisplay }}
 				</span>
 			</td>
@@ -143,9 +152,10 @@
 			</td>
 		</tr>
 		@endforelse
-	</tbody>
-	</table>
-</div>
+        </tbody>
+      </table>
+    </div>
+  </div>
 
 <div class="flex justify-end mt-4 sm:mt-6 px-0">
 	<a href="{{ route('home') }}">
@@ -282,8 +292,7 @@
 			<div>
 				<form id="formIndigency" enctype="multipart/form-data" data-store-url="{{ route('user.document.store') }}">
 					@csrf
-					<input type="hidden" name="document_type" value="Certificate of Indigency">
-					<input type="hidden" name="resident_years" value="N/A">
+				<input type="hidden" name="document_type" value="Indigency Clearance">
 
 					<div class="space-y-5">
 						<div>
@@ -309,8 +318,8 @@
 						</div>
 
 						<div>
-						<label class="block text-sm font-semibold text-gray-700 mb-2">Proof of Request (Optional)</label>
-						<input type="file" name="proof_file" class="w-full bg-gray-50 border-2 border-gray-300 rounded-lg px-4 py-2.5 text-sm text-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all file:mr-2 sm:file:mr-4 file:py-1 file:px-2 sm:file:px-3 file:rounded-md file:border-0 file:text-xs sm:file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer">
+						<label class="block text-sm font-semibold text-gray-700 mb-2">Proof of Request</label>
+						<input type="file" name="proof_file" required class="w-full bg-gray-50 border-2 border-gray-300 rounded-lg px-4 py-2.5 text-sm text-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all file:mr-2 sm:file:mr-4 file:py-1 file:px-2 sm:file:px-3 file:rounded-md file:border-0 file:text-xs sm:file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer">
 						</div>
 
 						<div>
@@ -348,7 +357,7 @@
 			<div>
 				<form id="formResidency" data-store-url="{{ route('user.document.store') }}">
 					@csrf
-					<input type="hidden" name="document_type" value="Certificate of Residency">
+					<input type="hidden" name="document_type" value="Resident Certificate">
 					<input type="hidden" name="civil_status" value="N/A">
 					<input type="hidden" name="citizenship" value="N/A">
 

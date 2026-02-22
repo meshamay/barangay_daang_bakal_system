@@ -40,7 +40,7 @@ class ComplaintSubmitted extends Notification
             'type' => 'complaint',
             'category' => 'complaint_submitted',
             'title' => 'Complaint Filed',
-            'message' => "Your complaint request {$transactionId} has been submitted successfully.",
+            'message' => "Your complaint {$transactionId} has been submitted successfully.",
             'link' => route('user.complaints.index'), 
             'transaction_id' => $transactionId,
         ];

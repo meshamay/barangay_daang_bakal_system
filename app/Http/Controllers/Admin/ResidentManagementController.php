@@ -81,7 +81,7 @@ class ResidentManagementController extends Controller
         }
 
 
-        $users = $query->latest()->paginate(10)->withQueryString();
+        $users = $query->latest()->paginate(100)->withQueryString();
 
         // Support both index and index2 views
         $viewName = $request->has('alt') && $request->alt === '2' ? 'admin.users.index2' : 'admin.users.index';

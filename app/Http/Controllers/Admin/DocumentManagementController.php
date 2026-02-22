@@ -45,7 +45,7 @@ class DocumentManagementController extends Controller
             $query->where('document_type', $request->document_type);
         }
 
-        $documentRequests = $query->latest()->paginate(10)->withQueryString();
+        $documentRequests = $query->latest()->paginate(100)->withQueryString();
 
         $totalRequests   = DocumentRequest::count();
         $pendingCount    = DocumentRequest::where('status', 'pending')->count();
@@ -90,7 +90,18 @@ class DocumentManagementController extends Controller
         $user = $documentRequest->resident; 
         
         if ($user) {
+            \Log::info('Sending notification to user', [
+                'user_id' => $user->id,
+                'user_name' => $user->first_name . ' ' . $user->last_name,
+                'document_tracking' => $documentRequest->tracking_number,
+                'new_status' => $request->status
+            ]);
             $user->notify(new DocumentRequestStatusUpdated($documentRequest));
+        } else {
+            \Log::warning('Could not find resident for document request', [
+                'document_id' => $documentRequest->id,
+                'resident_id_field' => $documentRequest->resident_id
+            ]);
         }
 
         return back()->with('success', "Request updated to '{$request->status}' successfully.");

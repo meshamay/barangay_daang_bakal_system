@@ -94,7 +94,7 @@
                     </div>
                     <div class="flex-grow">
                       <p class="text-sm font-semibold" :class="{'text-gray-900': !notification.read_at, 'text-gray-600': notification.read_at}" x-text="notification.data.title"></p>
-                      <p class="text-xs mt-1" :class="{'text-gray-700': !notification.read_at, 'text-gray-500': notification.read_at}" x-text="notification.data.message"></p>
+                    <p class="text-xs mt-1" :class="{'text-gray-700': !notification.read_at, 'text-gray-500': notification.read_at}" x-text="notification.data.message.replace('a Certificate of Indigency', 'an Indigency Clearance').replace('a Certificate of Residency', 'a Resident Certificate').replace('complaint request', 'complaint').replace('Physical Harrasments', 'Physical Harassment').replace('Harassments', 'Harassment')"></p>
                       <p class="text-xs text-gray-400 mt-2" x-text="formatDate(notification.created_at)"></p>
                     </div>
                   </div>

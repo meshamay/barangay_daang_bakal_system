@@ -209,9 +209,9 @@ class ReportsController extends Controller
 
         if (in_array('complaint_status_summary', $sections)) {
             $data['complaintsStatusSummary'] = [
-                'pending' => Complaint::where('status', 'pending')->whereBetween('created_at', [$startOfMonth, $endOfMonth])->count(),
-                'investigating' => Complaint::where('status', 'in progress')->whereBetween('created_at', [$startOfMonth, $endOfMonth])->count(),
-                'resolved' => Complaint::where('status', 'completed')->whereBetween('created_at', [$startOfMonth, $endOfMonth])->count(),
+                'pending' => Complaint::where('status', 'Pending')->whereBetween('created_at', [$startOfMonth, $endOfMonth])->count(),
+                'investigating' => Complaint::where('status', 'In Progress')->whereBetween('created_at', [$startOfMonth, $endOfMonth])->count(),
+                'resolved' => Complaint::where('status', 'Completed')->whereBetween('created_at', [$startOfMonth, $endOfMonth])->count(),
             ];
         }
 

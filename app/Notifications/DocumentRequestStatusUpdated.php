@@ -28,8 +28,15 @@ class DocumentRequestStatusUpdated extends Notification
     {
         $transactionId = $this->documentRequest->tracking_number;
         $status = $this->documentRequest->status;
+        
+        // Normalize document type name
+        $documentType = str_replace(
+            ['Certificate of Indigency', 'Certificate of Residency'],
+            ['Indigency Clearance', 'Resident Certificate'],
+            $this->documentRequest->document_type
+        );
 
-        $message = "Your request {$transactionId} is now {$status}.";
+        $message = "Your {$documentType} request {$transactionId} is now {$status}.";
         if (strtolower($status) === 'completed') {
             $message .= ' You may claim your document at the Barangay Hall during office hours.';
         }

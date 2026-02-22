@@ -39,7 +39,7 @@ class AuditLogController extends Controller
             });
         }
 
-        $auditLogs = $query->orderBy('created_at', 'desc')->paginate(10);
+        $auditLogs = $query->orderBy('created_at', 'desc')->paginate(100);
 
         return view('admin.auditlogs.index', compact('auditLogs'));
     }

@@ -14,14 +14,14 @@
 <main class="flex-1 p-8 fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100">
     <div class="flex items-center justify-between mb-8">
         <div>
-            <h1 class="text-4xl font-bold bg-gradient-to-r from-[#134573] to-[#0f3a5f] bg-clip-text text-transparent">USERS</h1>
+            <h1 class="text-4xl font-bold bg-gradient-to-r from-[#134573] to-[#0f3a5f] bg-clip-text text-transparent">USERS MANAGEMENT</h1>
             <p class="text-gray-500 text-sm mt-1">Manage resident accounts and statuses.</p>
         </div>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
 
-        <div class="bg-white rounded-xl shadow-md border border-gray-100 p-6 hover:shadow-lg hover:border-emerald-200 transition duration-300 ease-in-out">
+        <div class="bg-white rounded-xl shadow-md border border-gray-100 p-6 hover:shadow-lg hover:border-green-200 transition duration-300 ease-in-out">
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-gray-500 text-sm font-medium">Registered Residents</p>
@@ -35,28 +35,28 @@
             </div>
         </div>
 
-        <div class="bg-white rounded-xl shadow-md border border-gray-100 p-6 hover:shadow-lg hover:border-emerald-200 transition duration-300 ease-in-out">
+        <div class="bg-white rounded-xl shadow-md border border-gray-100 p-6 hover:shadow-lg hover:border-blue-300 transition duration-300 ease-in-out">
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-gray-500 text-sm font-medium">Male</p>
                     <p class="text-4xl font-bold text-gray-900 mt-2">{{ $maleCount ?? 0 }}</p>
                 </div>
-                <div class="bg-emerald-100 p-4 rounded-lg">
-                    <svg class="h-8 w-8 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div class="bg-blue-100 p-4 rounded-lg">
+                    <svg class="h-8 w-8 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4a4 4 0 110 8 4 4 0 010-8zm0 8c-3.5 0-6 2.5-6 5.5V19h12v-1.5C18 14.5 15.5 12 12 12z" />
                     </svg>
                 </div>
             </div>
         </div>
 
-        <div class="bg-white rounded-xl shadow-md border border-gray-100 p-6 hover:shadow-lg hover:border-amber-200 transition duration-300 ease-in-out">
+        <div class="bg-white rounded-xl shadow-md border border-gray-100 p-6 hover:shadow-lg hover:border-pink-300 transition duration-300 ease-in-out">
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-gray-500 text-sm font-medium">Female</p>
                     <p class="text-4xl font-bold text-gray-900 mt-2">{{ $femaleCount ?? 0 }}</p>
                 </div>
-                <div class="bg-amber-100 p-4 rounded-lg">
-                    <svg class="h-8 w-8 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div class="bg-pink-100 p-4 rounded-lg">
+                    <svg class="h-8 w-8 text-pink-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4a4 4 0 110 8 4 4 0 010-8zm0 8c-3.5 0-6 2.5-6 5.5V19h12v-1.5C18 14.5 15.5 12 12 12z" />
                     </svg>
                 </div>
@@ -88,22 +88,23 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
                 </div>
-                <input type="text" name="search" value="{{ request('search') }}" placeholder="Search residents..." class="w-full h-10 border border-gray-200 rounded-lg pl-11 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition" />
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="Search" class="w-full h-10 border border-gray-200 rounded-lg pl-11 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition" />
                 <button type="submit" class="hidden"></button>
             </div>
 
             <div class="flex gap-2 w-fit">
 
-                <select name="gender" onchange="this.form.submit()" class="h-10 px-4 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition bg-white w-32">
+                <select name="gender" onchange="this.form.submit()" class="h-10 px-4 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition bg-white w-44">
                     <option value="">Gender</option> <option value="Male" {{ request('gender') == 'Male' ? 'selected' : '' }}>Male</option>
                     <option value="Female" {{ request('gender') == 'Female' ? 'selected' : '' }}>Female</option>
                     <option value="Non Binary" {{ request('gender') == 'Non Binary' ? 'selected' : '' }}>Non Binary</option>
+                    <option value="Prefer not to say" {{ request('gender') == 'Prefer not to say' ? 'selected' : '' }}>Prefer not to say</option>
                 </select>
 
                 <select name="status" onchange="this.form.submit()" class="h-10 px-4 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition bg-white w-32">
                     <option value="">Status</option> <option value="Pending" {{ request('status') == 'Pending' ? 'selected' : '' }}>Pending</option>
                     <option value="Approved" {{ request('status') == 'Approved' ? 'selected' : '' }}>Approved</option>
-                    <option value="Reject" {{ request('status') == 'Reject' ? 'selected' : '' }}>Reject</option>
+                    <option value="Reject" {{ request('status') == 'Reject' ? 'selected' : '' }}>Rejected</option>
                     <option value="Archived" {{ request('status') == 'Archived' ? 'selected' : '' }}>Archived</option>
                 </select>
 
@@ -126,10 +127,10 @@
             {{-- Fixed Header --}}
             <table class="w-full text-sm relative z-10" style="table-layout: fixed;">
                 <thead style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%); color: white;" class="shadow-sm">
-                    <tr class="text-xs font-semibold uppercase tracking-widest text-center">
+                    <tr class="text-sm font-semibold uppercase tracking-widest text-center">
                         <th class="py-5 px-6 w-1/7">Resident ID No.</th>
-                        <th class="py-5 px-6 w-1/7">Last Name</th>
                         <th class="py-5 px-6 w-1/7">First Name</th>
+                        <th class="py-5 px-6 w-1/7">Last Name</th>
                         <th class="py-5 px-6 w-1/7">Gender</th>
                         <th class="py-5 px-6 w-1/7">Date Registered</th>
                         <th class="py-5 px-6 w-1/7">Status</th>
@@ -138,7 +139,7 @@
                 </thead>
             </table>
             {{-- Scrollable Body --}}
-            <div class="overflow-x-auto overflow-y-auto max-h-[360px] relative z-0">
+            <div class="overflow-x-auto overflow-y-auto max-h-[367px] relative z-0">
             <table class="w-full text-sm" style="table-layout: fixed;">
                 <tbody class="divide-y divide-gray-100">
                 @forelse($users as $user)
@@ -146,8 +147,8 @@
                     <td class="py-5 px-6 w-1/7 font-semibold text-gray-900">
                         {{ $user->resident_id ?? 'N/A' }}
                     </td>
-                    <td class="py-5 px-6 w-1/7 text-gray-700">{{ $user->last_name }}</td>
                     <td class="py-5 px-6 w-1/7 text-gray-700">{{ $user->first_name }}</td>
+                    <td class="py-5 px-6 w-1/7 text-gray-700">{{ $user->last_name }}</td>
                     <td class="py-5 px-6 w-1/7 text-gray-600">{{ $user->gender }}</td>
                     <td class="py-5 px-6 w-1/7 text-gray-600 text-sm">{{ $user->created_at->format('m/d/Y') }}</td>
                     <td class="py-5 px-6 w-1/7">
@@ -163,10 +164,13 @@
                                 };
                         @endphp
                         <span class="{{ $colorClass }} text-xs font-bold px-3 py-2 rounded-full inline-block capitalize shadow-sm">
-                            {{ $isArchived ? 'archived' : $status }}
+                            {{ $isArchived ? 'archived' : ($status === 'reject' ? 'Rejected' : $status) }}
                         </span>
                     </td>
                     <td class="py-5 px-6 w-1/7 text-center">
+                        @php
+                            $statusLower = strtolower($user->status ?? 'pending');
+                        @endphp
                         <div class="flex items-center justify-center gap-1 relative z-30">
                             {{-- View Button --}}
                             <div class="relative group">
@@ -178,6 +182,7 @@
                                 </a>
                                 <span class="absolute z-[100] top-full mt-1 left-1/2 transform -translate-x-1/2 px-2 py-1 text-xs text-white bg-gray-800 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">View</span>
                             </div>
+                            @if(!$isArchived && $statusLower !== 'reject')
                             {{-- Archive Button --}}
                             <div class="relative group">
                                 <button type="button" onclick="openArchiveModal('{{ route('admin.users.archive', $user->id) }}')" class="w-9 h-9 flex items-center justify-center rounded-lg bg-transparent hover:bg-gray-200 transition-all duration-200 hover:shadow-md" @if($isArchived) disabled style="opacity:0.5;cursor:not-allowed;" @endif>
@@ -187,6 +192,8 @@
                                 </button>
                                 <span class="absolute z-[100] top-full mt-1 left-1/2 transform -translate-x-1/2 px-2 py-1 text-xs text-white bg-gray-800 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">Archive</span>
                             </div>
+                            @endif
+                            @if(!$isArchived && $statusLower !== 'reject' && !in_array($statusLower, ['approved', 'accepted']))
                             {{-- Accept Button --}}
                             <div class="relative group inline-block">
                                 <button type="button" onclick="openApproveModal('{{ route('admin.users.approve', $user->id) }}')" class="w-9 h-9 flex items-center justify-center rounded-lg bg-transparent hover:bg-emerald-100 transition-all duration-200 hover:shadow-md" title="Accept">
@@ -207,6 +214,7 @@
                                 </button>
                                 <span class="absolute z-[100] top-full mt-1 left-1/2 transform -translate-x-1/2 px-2 py-1 text-xs text-white bg-gray-800 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">Reject</span>
                             </div>
+                            @endif
                         </div>
                     </td>
 
@@ -249,12 +257,12 @@
                 </div>
                 
                 <!-- Title -->
-                <h2 class="font-bold text-2xl mb-2 text-gray-800 tracking-tight">Archive User Account</h2>
+                <h2 class="font-bold text-2xl mb-2 text-gray-800 tracking-tight">Archive Resident Account</h2>
                 
                 <!-- Description -->
                 <div class="bg-gray-50 rounded-xl p-4 mb-4 border border-gray-200">
                     <p class="text-sm text-gray-700 leading-relaxed">
-                        This action will temporarily deactivate the user's account. The user will not be able to access the system until the account is restored.
+                        Archiving will deactivate the user's account, but their data will still remain stored in the system.
                     </p>
                 </div>
                 
@@ -269,7 +277,7 @@
                         </button>
                         <button type="submit" 
                                 class="px-8 py-3 bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white rounded-xl text-sm font-semibold transition-all duration-200 hover:shadow-lg transform hover:scale-105">
-                            Archive User
+                            Archive
                         </button>
                     </div> 
                 </form>
@@ -297,7 +305,7 @@
                 <!-- Description -->
                 <div class="bg-green-50 rounded-xl p-4 mb-4 border border-green-200">
                     <p class="text-sm text-gray-700 leading-relaxed">
-                        This action will approve the resident's registration and grant them full access to the system.
+                        Once approved, they will gain access to the system according to their role.
                     </p>
                 </div>
                 
@@ -336,12 +344,12 @@
                 </div>
                 
                 <!-- Title -->
-                <h2 class="font-bold text-2xl mb-2 text-gray-800 tracking-tight">Reject Registration</h2>
+                <h2 class="font-bold text-2xl mb-2 text-gray-800 tracking-tight">Reject Resident Registration</h2>
                 
                 <!-- Description -->
                 <div class="bg-red-50 rounded-xl p-4 mb-4 border border-red-200">
                     <p class="text-sm text-gray-700 leading-relaxed">
-                        This action will permanently reject the user's registration. This cannot be undone.
+                        Please note that the data will not be automatically deleted and can still be viewed in the system.
                     </p>
                 </div>
                 

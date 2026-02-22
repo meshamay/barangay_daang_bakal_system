@@ -7,7 +7,7 @@
 <main class="fflex-1 p-11 fixed top-[60px] left-[220px]
     w-[calc(100vw-200px)] h-[calc(100vh-60px)]
     overflow-hidden bg-gray-100" >
-  <h1 class="text-3xl font-bold mb-6">DOCUMENT REQUEST</h1>
+  <h1 class="text-3xl font-bold mb-6">DOCUMENT REQUESTS</h1>
 
   <!-- CARDS -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">

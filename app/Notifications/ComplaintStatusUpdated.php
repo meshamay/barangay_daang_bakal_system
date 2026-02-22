@@ -35,13 +35,18 @@ class ComplaintStatusUpdated extends Notification
     public function toDatabase(object $notifiable): array
     {
         $transactionId = $this->complaint->transaction_no;
-        $status = $this->complaint->status;
+        $status = strtolower($this->complaint->status);
+        $complaintType = str_replace(
+            ['Physical Harrasments', 'Harassments'],
+            ['Physical Harassment', 'Harassment'],
+            $this->complaint->complaint_type
+        );
 
         return [
             'type' => 'complaint',
             'category' => 'complaint_status_update',
             'title' => 'Complaint Status Update',
-            'message' => "Your complaint {$transactionId} regarding {$this->complaint->complaint_type} is now {$status}.",
+            'message' => "Your complaint {$transactionId} regarding {$complaintType} is now {$status}.",
             'link' => route('user.complaints.index'),
             'transaction_id' => $transactionId,
             'status' => $status,

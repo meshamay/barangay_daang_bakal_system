@@ -58,14 +58,14 @@
 
 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-0 mb-6 sm:mb-8">
     <h3 class="text-xl sm:text-2xl font-bold text-[#134573] flex items-center gap-2 sm:gap-3">
-        <div class="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center shadow-md">
+      <div class="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-red-400 to-red-500 rounded-lg flex items-center justify-center shadow-md">
             <svg class="w-5 h-5 sm:w-6 sm:h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
             </svg>
         </div>
         Complaints
     </h3>
-    <button id="addButton" class="w-full sm:w-auto bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-4 sm:px-6 py-2 sm:py-2.5 text-xs sm:text-sm rounded-lg font-semibold shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200 flex items-center justify-center sm:justify-start gap-2" onclick="openModal('modalGeneralComplaint')">
+    <button id="addButton" class="w-full sm:w-auto bg-gradient-to-r from-red-400 to-red-500 hover:from-red-500 hover:to-red-600 text-white px-4 sm:px-6 py-2 sm:py-2.5 text-xs sm:text-sm rounded-lg font-semibold shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200 flex items-center justify-center sm:justify-start gap-2" onclick="openModal('modalGeneralComplaint')">
         <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
         </svg>
@@ -73,40 +73,53 @@
     </button>
 </div>
 
-<div class="bg-white shadow-xl rounded-lg sm:rounded-2xl overflow-x-auto border border-gray-100">
-<table class="table w-full text-xs sm:text-sm md:text-base border-collapse min-w-max">
-<thead style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%);">
-    <tr class="text-xs sm:text-sm whitespace-nowrap text-white">
-        <th class="px-3 sm:px-5 py-3 sm:py-4 font-bold uppercase tracking-wide text-center">Transaction ID</th>
-        <th class="px-3 sm:px-5 py-3 sm:py-4 font-bold uppercase tracking-wide text-center">Last Name</th>
-        <th class="px-3 sm:px-5 py-3 sm:py-4 font-bold uppercase tracking-wide text-center">First Name</th>
-        <th class="px-3 sm:px-5 py-3 sm:py-4 font-bold uppercase tracking-wide text-center">Complaint Type</th>
-        <th class="px-3 sm:px-5 py-3 sm:py-4 font-bold uppercase tracking-wide text-center">Date Filed</th>
-        <th class="px-3 sm:px-5 py-3 sm:py-4 font-bold uppercase tracking-wide text-center">Date Resolved</th>
-        <th class="px-3 sm:px-5 py-3 sm:py-4 font-bold uppercase tracking-wide text-center">Status</th>
-      </tr>
-    </thead>
-    <tbody class="divide-y divide-gray-100">
+<div class="bg-white shadow-xl rounded-xl border border-gray-100 overflow-hidden">
+    
+    <table class="w-full text-sm" style="table-layout: fixed;">
+      <thead style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%); color: white;" class="shadow-sm">
+        <tr class="text-sm font-semibold uppercase tracking-widest text-center">
+          <th class="py-5 px-4 whitespace-nowrap" style="width: 12%;">Transaction ID</th>
+          <th class="py-5 px-4 whitespace-nowrap" style="width: 10%;">Last Name</th>
+          <th class="py-5 px-4 whitespace-nowrap" style="width: 10%;">First Name</th>
+          <th class="py-5 px-4 whitespace-nowrap" style="width: 18%;">Complaint Type</th>
+          <th class="py-5 px-4 whitespace-nowrap" style="width: 12%;">Date Filed</th>
+          <th class="py-5 px-4 whitespace-nowrap" style="width: 12%;">Date Resolved</th>
+          <th class="py-5 px-4 whitespace-nowrap" style="width: 12%;">Status</th>
+        </tr>
+      </thead>
+    </table>
+    
+    <div class="overflow-x-auto overflow-y-auto" style="max-height: 391px;">
+      <table class="w-full text-sm" style="table-layout: fixed;">
+        <tbody class="divide-y divide-gray-100">
       {{-- Assuming $complaints is passed from the controller --}}
       @forelse ($complaints ?? [] as $complaint)
-      <tr>
-        <td class="px-3 sm:px-5 py-3 sm:py-4 text-center font-mono font-semibold text-blue-600 whitespace-nowrap">{{ $complaint->transaction_no ?? 'N/A' }}</td>
+      <tr class="hover:bg-blue-50/70 transition-colors duration-150 ease-in-out text-center">
+        <td class="py-5 px-4 font-semibold text-red-500 whitespace-nowrap" style="width: 12%;">{{ $complaint->transaction_no ?? 'N/A' }}</td>
         {{-- Displaying current user's name as they are the filer --}}
-        <td class="px-3 sm:px-5 py-3 sm:py-4 text-center whitespace-nowrap">{{ Auth::user()->last_name ?? 'N/A' }}</td>
-        <td class="px-3 sm:px-5 py-3 sm:py-4 text-center whitespace-nowrap">{{ Auth::user()->first_name ?? 'N/A' }}</td>
-        <td class="px-3 sm:px-5 py-3 sm:py-4 text-center whitespace-nowrap">{{ $complaint->complaint_type ?? 'N/A' }}</td>
-        <td class="px-3 sm:px-5 py-3 sm:py-4 text-center whitespace-nowrap">{{ $complaint->created_at->format('m/d/Y') }}</td>
-        <td class="px-3 sm:px-5 py-3 sm:py-4 text-center whitespace-nowrap">{{ $complaint->date_completed ? \Carbon\Carbon::parse($complaint->date_completed)->format('m/d/Y') : '--/--/----' }}</td>
-        <td class="px-3 sm:px-5 py-3 sm:py-4 text-center">
-            @if($complaint->status == 'Pending')
-                <span class="inline-block px-3 py-1 rounded-full text-xs font-bold bg-amber-500/10 text-amber-700 border border-amber-200">Pending</span>
-            @elseif($complaint->status == 'In Progress')
-                <span class="inline-block px-3 py-1 rounded-full text-xs font-bold bg-blue-500/10 text-blue-700 border border-blue-200">In Progress</span>
-            @elseif($complaint->status == 'Completed')
-                <span class="inline-block px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/10 text-emerald-700 border border-emerald-200">Completed</span>
-            @else
-                <span class="inline-block px-3 py-1 rounded-full text-xs font-bold bg-gray-500/10 text-gray-700 border border-gray-200">{{ $complaint->status ?? 'N/A' }}</span>
-            @endif
+        <td class="py-5 px-4 text-gray-700 whitespace-nowrap" style="width: 10%;">{{ Auth::user()->last_name ?? 'N/A' }}</td>
+        <td class="py-5 px-4 text-gray-700 whitespace-nowrap" style="width: 10%;">{{ Auth::user()->first_name ?? 'N/A' }}</td>
+        <td class="py-5 px-4 font-semibold text-gray-800" style="width: 18%;">
+            <div class="overflow-hidden text-ellipsis whitespace-nowrap">
+                {{ str_replace('Physical Harrasments', 'Physical Harassment', str_replace('Harassments', 'Harassment', $complaint->complaint_type ?? 'N/A')) }}
+            </div>
+        </td>
+        <td class="py-5 px-4 text-gray-600 text-sm whitespace-nowrap" style="width: 12%;">{{ $complaint->created_at->format('d/m/Y') }}</td>
+        <td class="py-5 px-4 text-gray-600 text-sm whitespace-nowrap" style="width: 12%;">{{ $complaint->date_completed ? \Carbon\Carbon::parse($complaint->date_completed)->format('d/m/Y') : '—' }}</td>
+        <td class="py-5 px-4 whitespace-nowrap" style="width: 12%;">
+            @php
+                $statusLower = strtolower($complaint->status ?? '');
+                $statusColor = match($statusLower) {
+                    'pending' => 'bg-amber-100 text-amber-800 border border-amber-300',
+                    'in progress' => 'bg-blue-100 text-blue-800 border border-blue-300',
+                    'completed' => 'bg-emerald-100 text-emerald-800 border border-emerald-300',
+                    default => 'bg-gray-100 text-gray-800 border border-gray-300'
+                };
+                $statusDisplay = $statusLower === 'in progress' ? 'In Progress' : ucfirst($statusLower);
+            @endphp
+            <span class="{{ $statusColor }} text-sm font-bold px-3 py-2 rounded-full inline-block whitespace-nowrap shadow-sm">
+                {{ $statusDisplay }}
+            </span>
         </td>
       </tr>
           @empty
@@ -124,9 +137,10 @@
             </td>
           </tr>
       @endforelse
-    </tbody>
-  </table>
-</div>
+        </tbody>
+      </table>
+    </div>
+  </div>
 
 <div class="flex justify-end mt-4 sm:mt-6 px-0">
   <a href="{{ route('home') }}">
@@ -194,12 +208,12 @@
             </svg>
           </button>
           <div id="complaintTypeMenu" class="hidden absolute z-50 mt-2 w-full bg-white border border-gray-200 rounded-lg shadow-lg max-h-56 overflow-y-auto">
-            <button type="button" class="w-full text-left px-3 sm:px-4 py-2 text-xs sm:text-sm hover:bg-blue-50" onclick="selectComplaintType('Community Issues','Community Issues (Noise Complaints, Improper Waste Disposal, etc.)')">Community Issues<br>(Noise Complaints, Improper Waste Disposal, etc.)</button>
-            <button type="button" class="w-full text-left px-3 sm:px-4 py-2 text-xs sm:text-sm hover:bg-blue-50" onclick="selectComplaintType('Physical Harrasments','Physical Harrasments (Unwanted Physical Contact, Hitting, etc.)')">Physical Harrasments<br>(Unwanted Physical Contact, Hitting, etc.)</button>
-            <button type="button" class="w-full text-left px-3 sm:px-4 py-2 text-xs sm:text-sm hover:bg-blue-50" onclick="selectComplaintType('Neighbor Dispute','Neighbor Dispute (Interpersonal Conflicts, Property-Related Issues, etc.)')">Neighbor Dispute<br>(Interpersonal Conflicts, Property-Related Issues, etc.)</button>
-            <button type="button" class="w-full text-left px-3 sm:px-4 py-2 text-xs sm:text-sm hover:bg-blue-50" onclick="selectComplaintType('Money Problems','Money Problems (Unpaid Debts, Loan Disagreements, etc.)')">Money Problems<br>(Unpaid Debts, Loan Disagreements, etc.)</button>
-            <button type="button" class="w-full text-left px-3 sm:px-4 py-2 text-xs sm:text-sm hover:bg-blue-50" onclick="selectComplaintType('Misbehavior','Misbehavior (Insults, Bullying, Shouting, etc.)')">Misbehavior<br>(Insults, Bullying, Shouting, etc.)</button>
-            <button type="button" class="w-full text-left px-3 sm:px-4 py-2 text-xs sm:text-sm hover:bg-blue-50" onclick="selectComplaintType('Others','Others (Please Specify)')">Others (Please Specify)</button>
+            <button type="button" class="w-full text-left px-3 sm:px-4 py-2 text-xs sm:text-sm hover:bg-blue-50" onclick="selectComplaintType('Community Issues','Community Issues (loud noise, garbage dumping, etc.)')">Community Issues<br>(loud noise, garbage dumping, etc.)</button>
+            <button type="button" class="w-full text-left px-3 sm:px-4 py-2 text-xs sm:text-sm hover:bg-blue-50" onclick="selectComplaintType('Physical Harassment','Physical Harassment (physical assault, threats, etc.)')">Physical Harassment<br>(physical assault, threats, etc.)</button>
+            <button type="button" class="w-full text-left px-3 sm:px-4 py-2 text-xs sm:text-sm hover:bg-blue-50" onclick="selectComplaintType('Neighbor Dispute','Neighbor Dispute (boundary issue, parking conflict, etc.)')">Neighbor Dispute<br>(boundary issue, parking conflict, etc.)</button>
+            <button type="button" class="w-full text-left px-3 sm:px-4 py-2 text-xs sm:text-sm hover:bg-blue-50" onclick="selectComplaintType('Money Problems','Money Problems (unpaid debt, borrowed money, etc.)')">Money Problems<br>(unpaid debt, borrowed money, etc.)</button>
+            <button type="button" class="w-full text-left px-3 sm:px-4 py-2 text-xs sm:text-sm hover:bg-blue-50" onclick="selectComplaintType('Misbehavior','Misbehavior (public intoxication, trespassing, etc.)')">Misbehavior<br>(public intoxication, trespassing, etc.)</button>
+            <button type="button" class="w-full text-left px-3 sm:px-4 py-2 text-xs sm:text-sm hover:bg-blue-50" onclick="selectComplaintType('Others','Others (please specify)')">Others (please specify)</button>
           </div>
         </div>
       </div>

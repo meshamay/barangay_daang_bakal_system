@@ -66,7 +66,7 @@
                             <a href="{{ route('user.document-requests.index') }}" class="p-3 sm:p-4 hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 transition-all duration-200 group block border-l-2 sm:border-l-4 border-l-blue-500">
                                 <div class="flex justify-between items-start gap-2">
                                     <div class="flex-1 min-w-0">
-                                        <h3 class="font-bold text-slate-800 group-hover:text-blue-600 transition-colors text-xs sm:text-sm truncate">{{ $activity->document_type }}</h3>
+                                        <h3 class="font-bold text-slate-800 group-hover:text-blue-600 transition-colors text-xs sm:text-sm truncate">{{ str_replace(['Certificate of Indigency', 'Certificate of Residency'], ['Indigency Clearance', 'Resident Certificate'], $activity->document_type) }}</h3>
                                         <div class="flex items-center gap-1 sm:gap-2 mt-1 sm:mt-1.5 text-xs sm:text-sm text-slate-500 flex-wrap">
                                             <span class="font-mono bg-blue-50 px-1.5 sm:px-2 py-0.5 rounded text-blue-700 font-semibold text-xs">{{ $activity->tracking_number }}</span>
                                             <span>&bull;</span>
@@ -77,9 +77,9 @@
                                     <span @class([
                                         'inline-flex items-center px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-xs font-bold flex-shrink-0',
                                         'bg-amber-500/10 text-amber-600' => strtolower($activity->status) == 'pending',
-                                        'bg-[#4A6F95]/10 text-[#4A6F95]' => strtolower($activity->status) == 'in progress',
                                         'bg-green-500/10 text-green-600' => strtolower($activity->status) == 'completed',
                                         'bg-red-500/10 text-red-600' => strtolower($activity->status) == 'rejected',
+                                        'bg-blue-100 text-blue-800 text-xs font-bold px-3 py-2 rounded-full inline-block whitespace-nowrap shadow-sm' => strtolower($activity->status) == 'in progress',
                                     ])>
                                         {{ ucwords($activity->status) }}
                                     </span>
@@ -93,7 +93,7 @@
                             <a href="{{ route('user.complaints.index') }}" class="p-3 sm:p-4 hover:bg-gradient-to-r hover:from-red-50 hover:to-pink-50 transition-all duration-200 group block border-l-2 sm:border-l-4 border-l-red-500">
                                 <div class="flex justify-between items-start gap-2">
                                     <div class="flex-1 min-w-0">
-                                        <h3 class="font-bold text-slate-800 group-hover:text-red-600 transition-colors text-xs sm:text-sm truncate">{{ $activity->complaint_type }}</h3>
+                                        <h3 class="font-bold text-slate-800 group-hover:text-red-600 transition-colors text-xs sm:text-sm truncate">{{ str_replace('Physical Harrasments', 'Physical Harassment', $activity->complaint_type) }}</h3>
                                         <div class="flex items-center gap-1 sm:gap-2 mt-1 sm:mt-1.5 text-xs sm:text-sm text-slate-500 flex-wrap">
                                             {{-- 🚀 FIX: Changed $activity->id to $activity->transaction_no --}}
                                             <span class="font-mono bg-red-50 px-1.5 sm:px-2 py-0.5 rounded text-red-700 font-semibold text-xs">{{ $activity->transaction_no }}</span>
@@ -107,13 +107,12 @@
                                         'inline-flex items-center px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-xs font-bold flex-shrink-0',
                                         // Pending Status
                                         'bg-amber-500/10 text-amber-600' => $activity->status === 'Pending',
-                                        // In Progress Status
-                                        'bg-yellow-500/10 text-yellow-600' => $activity->status === 'In Progress',
                                         // Completed Status
                                         'bg-green-500/10 text-green-600' => $activity->status === 'Completed',
                                         // Fallback/Default
                                         'bg-gray-500/10 text-gray-600' => !in_array($activity->status, ['Pending', 'In Progress', 'Completed']),
-                                    ])>
+                                    ])
+                                    @if($activity->status === 'In Progress') style="background-color: rgba(14, 165, 233, 0.12); color: #0284c7;" @endif>
                                         {{ ucwords($activity->status) }}
                                     </span>
                                 </div>

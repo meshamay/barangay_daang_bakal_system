@@ -84,7 +84,7 @@
                 <div class="grid grid-cols-2 gap-6 text-sm mb-6 bg-gray-50 p-4 rounded-lg">
                     <div>
                         <p class="text-gray-500 text-xs uppercase font-bold">Complaint Type</p>
-                        <p class="text-lg font-semibold text-gray-800">{{ $complaint->complaint_type }}</p>
+                        <p class="text-lg font-semibold text-gray-800">{{ str_replace('Physical Harrasments', 'Physical Harassment', $complaint->complaint_type) }}</p>
                     </div>
                     <div>
                         <p class="text-gray-500 text-xs uppercase font-bold">Urgency Level</p>
