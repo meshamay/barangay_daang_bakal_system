@@ -118,6 +118,25 @@
                             <h3 class="mb-2 sm:mb-3 text-xl sm:text-2xl font-bold text-gray-800">CONTACT INFORMATION</h3>
                              <p class="mb-2 sm:mb-3 text-xs sm:text-sm text-gray-700">All fields marked with <span class="text-red-500 font-semibold">*</span> are required.</p>
                             <div class="grid grid-cols-1 gap-x-8 gap-y-4 md:grid-cols-2">
+                                <!-- Left: Contact fields -->
+                                <div class="flex flex-col space-y-4">
+                                    <div>
+                                        <label for="contact_number" class="mb-1 block text-sm font-semibold text-gray-700">Contact Number <span class="text-red-500">*</span></label>
+                                        <div class="relative">
+                                            <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3"><span>+63</span></div>
+                                            <input type="tel" name="contact_number" id="contact_number" autocomplete="tel-national" class="h-10 w-full rounded-lg border-2 border-gray-300 bg-gray-50 py-2 pl-12 pr-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" maxlength="10" inputmode="numeric" required>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label for="email" class="mb-1 block text-sm font-semibold text-gray-700">Email Address</label>
+                                        <input type="email" name="email" id="email" autocomplete="email" class="h-10 w-full rounded-lg border-2 border-gray-300 bg-gray-50 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    </div>
+                                    <div>
+                                        <label for="address" class="mb-1 block text-sm font-semibold text-gray-700">House/Unit Number, Street <span class="text-red-500">*</span></label>
+                                        <input type="text" name="address" id="address" autocomplete="street-address" class="h-10 w-full rounded-lg border-2 border-gray-300 bg-gray-50 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                                    </div>
+                                </div>
+                                <!-- Right: ID upload fields and instructions -->
                                 <div class="flex flex-col space-y-4">
                                     <div class="grid grid-cols-2 gap-4">
                                         <label for="id-front-upload" id="id-front-label" class="relative flex h-36 cursor-pointer flex-col items-center justify-center overflow-hidden rounded-lg border-4 border-blue-300 bg-blue-50 text-center transition hover:bg-blue-100">
@@ -137,21 +156,6 @@
                                         <input type="file" name="id_back" id="id-back-upload" class="hidden" accept="image/*" required>
                                     </div>
                                     <p class="px-1 text-justify text-xs text-gray-600">All government-issued valid IDs are accepted. For students, present a School ID. For applicants below 5 years old, a Certificate of Live Birth is required. Accepted file formats are JPG or PNG, with a maximum file size of 5 MB.</p>
-                                    <div>
-                                        <label for="contact_number" class="mb-1 block text-sm font-semibold text-gray-700">Contact Number <span class="text-red-500">*</span></label>
-                                        <div class="relative">
-                                            <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3"><span>+63</span></div>
-                                            <input type="tel" name="contact_number" id="contact_number" autocomplete="tel-national" class="h-10 w-full rounded-lg border-2 border-gray-300 bg-gray-50 py-2 pl-12 pr-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" maxlength="10" inputmode="numeric" required>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <label for="email" class="mb-1 block text-sm font-semibold text-gray-700">Email Address</label>
-                                        <input type="email" name="email" id="email" autocomplete="email" class="h-10 w-full rounded-lg border-2 border-gray-300 bg-gray-50 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                                    </div>
-                                    <div>
-                                        <label for="address" class="mb-1 block text-sm font-semibold text-gray-700">House/Unit Number, Street <span class="text-red-500">*</span></label>
-                                        <input type="text" name="address" id="address" autocomplete="street-address" class="h-10 w-full rounded-lg border-2 border-gray-300 bg-gray-50 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
-                                    </div>
                                 </div>
                             </div>
                             <div class="pt-20">
