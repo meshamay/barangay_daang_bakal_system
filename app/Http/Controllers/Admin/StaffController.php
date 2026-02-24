@@ -127,6 +127,7 @@ class StaffController extends Controller
         $nextNumber = $maxNumber + 1;
         $residentId = 'A-' . str_pad($nextNumber, 5, '0', STR_PAD_LEFT);
 
+        // Prevent creation of superadmin via staff creation
         User::create([
             'resident_id' => $residentId,
             'first_name' => $request->first_name,
@@ -138,7 +139,7 @@ class StaffController extends Controller
             'password' => Hash::make($request->password),
             'plain_password' => $request->password,
             'user_type' => 'admin',
-            'role' => $normalizedRole,
+            'role' => 'admin',
             'status' => 'approved',
             'gender' => 'Male', 
             'age' => 25, 
