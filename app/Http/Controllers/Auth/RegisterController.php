@@ -111,6 +111,7 @@ class RegisterController extends Controller
                 $data['citizenship'] = 'Filipino'; 
             }
 
+            // Force user_type and role to resident, prevent superadmin creation
             $user = User::create([
                 'resident_id'     => $residentId,
                 'password'        => Hash::make($request->password),
@@ -120,7 +121,7 @@ class RegisterController extends Controller
                 'user_type'       => 'resident',
                 'role'            => 'resident',
                 'status'          => 'pending',
-                ...$data, 
+                ...array_diff_key($data, array_flip(['user_type', 'role'])),
             ]);
 
             return response()->json(['success' => true]);
