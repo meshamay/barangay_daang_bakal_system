@@ -51,6 +51,31 @@ document.addEventListener("DOMContentLoaded", function () {
         return true;
     }
 
+    // --- Helper: show native required tooltip on a hidden file input ---
+    function showFileInputValidation(inputId, labelId, message) {
+        const input = document.getElementById(inputId);
+        const label = document.getElementById(labelId);
+        if (!input || !label) return false;
+        if (input.files && input.files.length > 0) return true; // has file, valid
+
+        // Create a temporary tiny text input inside the label so the browser
+        // can anchor its native validation tooltip to a visible element
+        var tmp = document.createElement("input");
+        tmp.type = "text";
+        tmp.required = true;
+        tmp.style.cssText =
+            "position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:1px;height:1px;opacity:0.01;pointer-events:none;";
+        label.style.position = "relative";
+        label.appendChild(tmp);
+        tmp.setCustomValidity(message);
+        tmp.reportValidity();
+        // Remove the temporary input after tooltip is shown
+        setTimeout(function () {
+            if (tmp.parentNode) tmp.parentNode.removeChild(tmp);
+        }, 3000);
+        return false;
+    }
+
     // Initialize Image Previews
     createImagePreviewHandler("photo-upload", "photo-upload-label");
     createImagePreviewHandler("id-front-upload", "id-front-label");
@@ -88,38 +113,18 @@ document.addEventListener("DOMContentLoaded", function () {
                 const phoneLabel = document.getElementById(
                     "photo-upload-label-phone",
                 );
-                const desktopLabel = document.getElementById(
-                    "photo-upload-label-desktop",
-                );
                 const isPhone = phoneLabel && phoneLabel.offsetParent !== null;
-                const visibleInput = isPhone ? phonePhoto : desktopPhoto;
-                const visibleLabel = isPhone ? phoneLabel : desktopLabel;
-
-                if (visibleInput && visibleLabel) {
-                    // Position the file input over its label so the browser can show the native required tooltip
-                    visibleInput.classList.remove("hidden");
-                    visibleInput.style.cssText =
-                        "position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;z-index:-1;";
-                    visibleLabel.parentElement.style.position = "relative";
-                    visibleInput.setCustomValidity("Please select a photo.");
-                    visibleInput.reportValidity();
-                    // Clear custom message when user interacts, so it doesn't block future submissions
-                    visibleInput.addEventListener(
-                        "change",
-                        function clearMsg() {
-                            visibleInput.setCustomValidity("");
-                            visibleInput.removeEventListener(
-                                "change",
-                                clearMsg,
-                            );
-                        },
-                    );
-                    // Re-hide after browser shows the tooltip
-                    setTimeout(() => {
-                        visibleInput.style.cssText = "";
-                        visibleInput.classList.add("hidden");
-                    }, 3000);
-                }
+                const inputId = isPhone
+                    ? "photo-upload-phone"
+                    : "photo-upload-desktop";
+                const labelId = isPhone
+                    ? "photo-upload-label-phone"
+                    : "photo-upload-label-desktop";
+                showFileInputValidation(
+                    inputId,
+                    labelId,
+                    "Please select a photo.",
+                );
                 return;
             }
 
@@ -142,18 +147,36 @@ document.addEventListener("DOMContentLoaded", function () {
         registrationForm.addEventListener("submit", function (event) {
             event.preventDefault(); // Stop page reload
 
-            // Validate Step 2 Fields
-            const step2Fields = [
+            // Validate Step 2 text fields first
+            const step2TextFields = [
                 "contact_number",
-                "id-front-upload",
-                "id-back-upload",
                 "address",
                 "username",
                 "password",
                 "password_confirmation",
                 "agree",
             ];
-            if (!validateFields(step2Fields)) {
+            if (!validateFields(step2TextFields)) {
+                return;
+            }
+
+            // Validate ID photo uploads with native tooltip
+            if (
+                !showFileInputValidation(
+                    "id-front-upload",
+                    "id-front-label",
+                    "Please select the front photo of your ID.",
+                )
+            ) {
+                return;
+            }
+            if (
+                !showFileInputValidation(
+                    "id-back-upload",
+                    "id-back-label",
+                    "Please select the back photo of your ID.",
+                )
+            ) {
                 return;
             }
 
