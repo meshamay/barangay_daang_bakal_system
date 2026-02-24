@@ -359,7 +359,7 @@
 			<div>
 				<form id="formResidency" data-store-url="{{ route('user.document.store') }}">
 					@csrf
-					<input type="hidden" name="document_type" value="Resident Certificate">
+					<input type="hidden" name="document_type" value="Certificate of Residency">
 					<input type="hidden" name="civil_status" value="N/A">
 					<input type="hidden" name="citizenship" value="N/A">
 

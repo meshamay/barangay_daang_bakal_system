@@ -311,6 +311,7 @@
 {{-- ================= MODALS START HERE ================= --}}
 
 {{-- Modal 1: Clearance --}}
+@if(isset($request))
 <div id="modalClearance" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[9999]">
 <div class="bg-white w-[800px] max-h-[90vh] rounded-3xl overflow-hidden flex flex-col shadow-2xl border-2 border-gray-100" style="font-family: 'Poppins', sans-serif;">
 		<div class="flex items-center justify-center px-6 py-4" style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%);">
@@ -318,28 +319,29 @@
 		</div>
 		<div class="px-8 py-6 flex-1 overflow-y-auto">
 			<form class="grid grid-cols-2 gap-x-6 gap-y-4 text-sm">
-				<div><label class="font-semibold text-gray-700 block mb-1">Last Name:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" disabled></div>
-				<div><label class="font-semibold text-gray-700 block mb-1">First Name:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" disabled></div>
-				<div><label class="font-semibold text-gray-700 block mb-1">Middle Name:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" disabled></div>
-				<div><label class="font-semibold text-gray-700 block mb-1">Suffix:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" disabled></div>
-				<div><label class="font-semibold text-gray-700 block mb-1">Age:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" disabled></div>
-				<div><label class="font-semibold text-gray-700 block mb-1">Date of Birth:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" disabled></div>
-				<div><label class="font-semibold text-gray-700 block mb-1">Place of Birth:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" disabled></div>
-				<div><label class="font-semibold text-gray-700 block mb-1">Gender:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" disabled></div>
-				<div><label class="font-semibold text-gray-700 block mb-1">Civil Status:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" disabled></div>
-				<div><label class="font-semibold text-gray-700 block mb-1">Citizenship:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" disabled></div>
-				<div class="col-span-2 mt-4"><label class="font-semibold text-gray-700 block mb-2">Valid ID Attachment</label>
+					<div><label class="font-semibold text-gray-700 block mb-1">Last Name:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->resident->last_name ?? '' }}" disabled></div>
+					<div><label class="font-semibold text-gray-700 block mb-1">First Name:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->resident->first_name ?? '' }}" disabled></div>
+					<div><label class="font-semibold text-gray-700 block mb-1">Middle Name:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->resident->middle_name ?? '' }}" disabled></div>
+					<div><label class="font-semibold text-gray-700 block mb-1">Suffix:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->resident->suffix ?? '' }}" disabled></div>
+					   <div><label class="font-semibold text-gray-700 block mb-1">Age:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->resident->age ?? '' }}" disabled></div>
+					   <div><label class="font-semibold text-gray-700 block mb-1">Date of Birth:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->resident?->birthdate?->format('F d, Y') ?? '' }}" disabled></div>
+					   <div><label class="font-semibold text-gray-700 block mb-1">Place of Birth:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->resident->place_of_birth ?? '' }}" disabled></div>
+					<div><label class="font-semibold text-gray-700 block mb-1">Gender:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->resident->gender ?? '' }}" disabled></div>
+					<div><label class="font-semibold text-gray-700 block mb-1">Civil Status:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->resident->civil_status ?? '' }}" disabled></div>
+						<div><label class="font-semibold text-gray-700 block mb-1">House/Unit Number, Street:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->resident->address ?? '' }}" disabled></div>
+				   <div class="col-span-2 mt-4"><label class="font-semibold text-gray-700 block mb-2">ID/Certificate of Live Birth Attachment</label>
 					<div class="mt-2 grid grid-cols-2 gap-4">
 											<button type="button" class="border-2 border-dashed border-blue-300 rounded-xl py-4 flex flex-col items-center text-sm w-full bg-blue-50/50 overflow-hidden hover:bg-blue-50 transition-colors">
-												<img src="https://cdn-icons-png.flaticon.com/512/685/685655.png" class="js-id-front w-10 h-10 opacity-70 mb-2 object-contain transition-all duration-300">
-												<span class="mt-2 text-gray-700 font-medium text-xs">Front of Valid ID</span>
+												   <img src="https://cdn-icons-png.flaticon.com/512/685/685655.png" class="js-id-front opacity-70 object-contain transition-all duration-300" style="width:100%;height:100%;">
+
 											</button>
 											<button type="button" class="border-2 border-dashed border-blue-300 rounded-xl py-4 flex flex-col items-center text-sm w-full bg-blue-50/50 overflow-hidden hover:bg-blue-50 transition-colors">
-												<img src="https://cdn-icons-png.flaticon.com/512/685/685655.png" class="js-id-back w-10 h-10 opacity-70 mb-2 object-contain transition-all duration-300">
-												<span class="mt-2 text-gray-700 font-medium text-xs">Back of Valid ID</span>
+												   <img src="https://cdn-icons-png.flaticon.com/512/685/685655.png" class="js-id-back opacity-70 object-contain transition-all duration-300" style="width:100%;height:100%;">
+
 											</button>
+						</div>
 					</div>
-				</div>
+					@endif
 				<div class="col-span-2 my-4"><div class="border-t border-gray-200"></div></div>
 				<div><label class="font-semibold text-gray-700 block mb-1">Length of Residency:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" disabled></div>
 				<div><label class="font-semibold text-gray-700 block mb-1">Valid ID Number:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" disabled></div>
@@ -352,47 +354,50 @@
 </div>
 
 {{-- Modal 2: Certificate --}}
+
+@if(isset($request))
 <div id="modalCertificate" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[9999]">
-<div class="bg-white w-[800px] max-h-[90vh] rounded-3xl overflow-hidden flex flex-col shadow-2xl border-2 border-gray-100" style="font-family: 'Poppins', sans-serif;">
+	<div class="bg-white w-[800px] max-h-[90vh] rounded-3xl overflow-hidden flex flex-col shadow-2xl border-2 border-gray-100" style="font-family: 'Poppins', sans-serif;">
 		<div class="flex items-center justify-center px-6 py-4" style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%);">
 			<h1 class="text-white text-xl font-bold font-['Barlow_Semi_Condensed'] tracking-wide">REQUEST FORM FOR BARANGAY CERTIFICATE</h1>
 		</div>
 		<div class="px-8 py-6 flex-1 overflow-y-auto">
 			<form class="grid grid-cols-2 gap-x-6 gap-y-4 text-sm">
-				<div><label class="font-semibold text-gray-700">Last Name:</label><input class="w-full border border-gray-700 rounded-md px-3 py-1.5 mt-1" disabled></div>
-				<div><label class="font-semibold text-gray-700">First Name:</label><input class="w-full border border-gray-700 rounded-md px-3 py-1.5 mt-1" disabled></div>
-				<div><label class="font-semibold text-gray-700">Middle Name:</label><input class="w-full border border-gray-700 rounded-md px-3 py-1.5 mt-1" disabled></div>
-				<div><label class="font-semibold text-gray-700">Suffix:</label><input class="w-full border border-gray-700 rounded-md px-3 py-1.5 mt-1" disabled></div>
-				<div><label class="font-semibold text-gray-700">Age:</label><input class="w-full border border-gray-700 rounded-md px-3 py-1.5 mt-1" disabled></div>
-				<div><label class="font-semibold text-gray-700">Date of Birth:</label><input class="w-full border border-gray-700 rounded-md px-3 py-1.5 mt-1" disabled></div>
-				<div><label class="font-semibold text-gray-700">Place of Birth:</label><input class="w-full border border-gray-700 rounded-md px-3 py-1.5 mt-1" disabled></div>
-				<div><label class="font-semibold text-gray-700">Gender:</label><input class="w-full border border-gray-700 rounded-md px-3 py-1.5 mt-1" disabled></div>
-				<div><label class="font-semibold text-gray-700">Civil Status:</label><input class="w-full border border-gray-700 rounded-md px-3 py-1.5 mt-1" disabled></div>
-				<div><label class="font-semibold text-gray-700">Citizenship:</label><input class="w-full border border-gray-700 rounded-md px-3 py-1.5 mt-1" disabled></div>
-				<div class="col-span-2 mt-4"><label class="font-semibold text-gray-700">Valid ID Attachment</label>
+				   <div><label class="font-semibold text-gray-700 block mb-1">Last Name:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->resident->last_name ?? '' }}" disabled></div>
+				   <div><label class="font-semibold text-gray-700 block mb-1">First Name:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->resident->first_name ?? '' }}" disabled></div>
+				   <div><label class="font-semibold text-gray-700 block mb-1">Middle Name:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->resident->middle_name ?? '' }}" disabled></div>
+				   <div><label class="font-semibold text-gray-700 block mb-1">Suffix:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->resident->suffix ?? '' }}" disabled></div>
+				   <div><label class="font-semibold text-gray-700 block mb-1">Age:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->resident->age ?? '' }}" disabled></div>
+				   <div><label class="font-semibold text-gray-700 block mb-1">Date of Birth:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->resident?->birthdate?->format('F d, Y') ?? '' }}" disabled></div>
+				   <div><label class="font-semibold text-gray-700 block mb-1">Place of Birth:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->resident->place_of_birth ?? '' }}" disabled></div>
+				   <div><label class="font-semibold text-gray-700 block mb-1">Gender:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->resident->gender ?? '' }}" disabled></div>
+				   <div><label class="font-semibold text-gray-700 block mb-1">Civil Status:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->resident->civil_status ?? '' }}" disabled></div>
+				   <div><label class="font-semibold text-gray-700 block mb-1">House/Unit Number, Street:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->resident->address ?? $request->resident->house_unit_number_street ?? '' }}" disabled></div>
+				<div class="col-span-2 mt-4"><label class="font-semibold text-gray-700 block mb-2">ID/Certificate of Live Birth Attachment:</label>
 					<div class="mt-2 grid grid-cols-2 gap-4">
-						<button type="button" class="border-2 border-dashed border-gray-500 rounded-xl py-6 flex flex-col items-center text-sm w-full bg-white overflow-hidden">
-							<img src="https://cdn-icons-png.flaticon.com/512/685/685655.png" class="js-id-front w-10 opacity-70 mb-2 object-contain transition-all duration-300">
-							<span class="mt-2">Front of Valid ID</span>
+						<button type="button" class="border-2 border-dashed border-blue-300 rounded-xl py-4 flex flex-col items-center text-sm w-full bg-blue-50/50 overflow-hidden hover:bg-blue-50 transition-colors">
+							<img src="{{ ($request->resident && $request->resident->id_front_path) ? asset('storage/' . $request->resident->id_front_path) : 'https://cdn-icons-png.flaticon.com/512/685/685655.png' }}" class="js-id-front opacity-70 object-contain transition-all duration-300" style="width:100%;height:100%;">
 						</button>
-						<button type="button" class="border-2 border-dashed border-gray-500 rounded-xl py-6 flex flex-col items-center text-sm w-full bg-white overflow-hidden">
-							<img src="https://cdn-icons-png.flaticon.com/512/685/685655.png" class="js-id-back w-10 opacity-70 mb-2 object-contain transition-all duration-300">
-							<span class="mt-2">Back of Valid ID</span>
+						<button type="button" class="border-2 border-dashed border-blue-300 rounded-xl py-4 flex flex-col items-center text-sm w-full bg-blue-50/50 overflow-hidden hover:bg-blue-50 transition-colors">
+							<img src="{{ ($request->resident && $request->resident->id_back_path) ? asset('storage/' . $request->resident->id_back_path) : 'https://cdn-icons-png.flaticon.com/512/685/685655.png' }}" class="js-id-back opacity-70 object-contain transition-all duration-300" style="width:100%;height:100%;">
 						</button>
 					</div>
 				</div>
 				<div class="col-span-2 my-4"><div class="border-t border-gray-200"></div></div>
-				<div><label class="font-semibold text-gray-700">Length of Residency:</label><input class="w-full border border-gray-700 rounded-md px-3 py-1.5 mt-1" disabled></div>
-				<div><label class="font-semibold text-gray-700">Valid ID Number:</label><input class="w-full border border-gray-700 rounded-md px-3 py-1.5 mt-1" disabled></div>
-				<div><label class="font-semibold text-gray-700">Registered Voter:</label><input class="w-full border border-gray-700 rounded-md px-3 py-1.5 mt-1" disabled></div>
-				<div><label class="font-semibold text-gray-700">Purpose of Request:</label><input class="w-full border border-gray-700 rounded-md px-3 py-6 mt-1" disabled></div>
+				   <div><label class="font-semibold text-gray-700 block mb-1">Length of Residency:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->length_of_residency ?? 'N/A' }}" disabled></div>
+				   <div><label class="font-semibold text-gray-700 block mb-1">Valid ID Number:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->valid_id_number ?? 'N/A' }}" disabled></div>
+				   <div><label class="font-semibold text-gray-700 block mb-1">Registered Voter:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->registered_voter ?? 'N/A' }}" disabled></div>
+				   <div><label class="font-semibold text-gray-700 block mb-1">Purpose of Request:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->purpose ?? 'N/A' }}" disabled></div>
 			</form>
 			<div class="flex justify-end mt-6"><button onclick="closeModal('modalCertificate')" class="px-6 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-sm font-semibold transition-all duration-200 border border-gray-300 hover:shadow-md">Close</button></div>
 		</div>
 	</div>
+	</div>
 </div>
+@endif
 
 {{-- Modal 3: Indigency --}}
+@if(isset($request))
 <div id="modalIndigency" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[9999]">
 <div class="bg-white w-[800px] max-h-[90vh] rounded-3xl overflow-hidden flex flex-col shadow-2xl border-2 border-gray-100" style="font-family: 'Poppins', sans-serif;">
 		<div class="flex items-center justify-center px-6 py-4" style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%);">
@@ -400,90 +405,85 @@
 		</div>
 		<div class="px-8 py-6 flex-1 overflow-y-auto">
 			<form class="grid grid-cols-2 gap-x-6 gap-y-4 text-sm">
-				<div><label class="font-semibold text-gray-700">Last Name:</label><input class="w-full border border-gray-700 rounded-md px-3 py-1.5 mt-1" disabled></div>
-				<div><label class="font-semibold text-gray-700">First Name:</label><input class="w-full border border-gray-700 rounded-md px-3 py-1.5 mt-1" disabled></div>
-				<div><label class="font-semibold text-gray-700">Middle Name:</label><input class="w-full border border-gray-700 rounded-md px-3 py-1.5 mt-1" disabled></div>
-				<div><label class="font-semibold text-gray-700">Suffix:</label><input class="w-full border border-gray-700 rounded-md px-3 py-1.5 mt-1" disabled></div>
-				<div><label class="font-semibold text-gray-700">Age:</label><input class="w-full border border-gray-700 rounded-md px-3 py-1.5 mt-1" disabled></div>
-				<div><label class="font-semibold text-gray-700">Date of Birth:</label><input class="w-full border border-gray-700 rounded-md px-3 py-1.5 mt-1" disabled></div>
-				<div><label class="font-semibold text-gray-700">Place of Birth:</label><input class="w-full border border-gray-700 rounded-md px-3 py-1.5 mt-1" disabled></div>
-				<div><label class="font-semibold text-gray-700">Gender:</label><input class="w-full border border-gray-700 rounded-md px-3 py-1.5 mt-1" disabled></div>
-				<div><label class="font-semibold text-gray-700">Civil Status:</label><input class="w-full border border-gray-700 rounded-md px-3 py-1.5 mt-1" disabled></div>
-				<div><label class="font-semibold text-gray-700">Citizenship:</label><input class="w-full border border-gray-700 rounded-md px-3 py-1.5 mt-1" disabled></div>
-				<div class="col-span-2 mt-4"><label class="font-semibold text-gray-700">Valid ID Attachment</label>
+					<div><label class="font-semibold text-gray-700 block mb-1">Last Name:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->resident->last_name ?? '' }}" disabled></div>
+					<div><label class="font-semibold text-gray-700 block mb-1">First Name:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->resident->first_name ?? '' }}" disabled></div>
+					<div><label class="font-semibold text-gray-700 block mb-1">Middle Name:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->resident->middle_name ?? '' }}" disabled></div>
+					<div><label class="font-semibold text-gray-700 block mb-1">Suffix:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->resident->suffix ?? '' }}" disabled></div>
+					<div><label class="font-semibold text-gray-700 block mb-1">House/Unit Number, Street:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->resident->address ?? '' }}" disabled></div>
+				   <div class="col-span-2 mt-4"><label class="font-semibold text-gray-700">ID/Certificate of Live Birth Attachment</label>
 					<div class="mt-2 grid grid-cols-2 gap-4">
-						<button type="button" class="border-2 border-dashed border-gray-500 rounded-xl py-6 flex flex-col items-center text-sm w-full bg-white overflow-hidden">
-							<img src="https://cdn-icons-png.flaticon.com/512/685/685655.png" class="js-id-front w-10 opacity-70 mb-2 object-contain transition-all duration-300">
-							<span class="mt-2">Front of Valid ID</span>
+						<button type="button" class="border-2 border-dashed border-blue-300 rounded-xl py-4 flex flex-col items-center text-sm w-full bg-blue-50/50 overflow-hidden hover:bg-blue-50 transition-colors">
+							<img src="{{ ($request->resident && $request->resident->id_front_path) ? asset('storage/' . $request->resident->id_front_path) : 'https://cdn-icons-png.flaticon.com/512/685/685655.png' }}" class="js-id-front opacity-70 object-contain transition-all duration-300" style="width:100%;height:100%;">
 						</button>
-						<button type="button" class="border-2 border-dashed border-gray-500 rounded-xl py-6 flex flex-col items-center text-sm w-full bg-white overflow-hidden">
-							<img src="https://cdn-icons-png.flaticon.com/512/685/685655.png" class="js-id-back w-10 opacity-70 mb-2 object-contain transition-all duration-300">
-							<span class="mt-2">Back of Valid ID</span>
+						<button type="button" class="border-2 border-dashed border-blue-300 rounded-xl py-4 flex flex-col items-center text-sm w-full bg-blue-50/50 overflow-hidden hover:bg-blue-50 transition-colors">
+							<img src="{{ ($request->resident && $request->resident->id_back_path) ? asset('storage/' . $request->resident->id_back_path) : 'https://cdn-icons-png.flaticon.com/512/685/685655.png' }}" class="js-id-back opacity-70 object-contain transition-all duration-300" style="width:100%;height:100%;">
 						</button>
 					</div>
 				</div>
 				<div class="col-span-2 my-4"><div class="border-t border-gray-200"></div></div>
-				<div><label class="font-semibold text-gray-700">Certificate of Being Indigent:</label><input class="w-full border border-gray-700 rounded-md px-3 py-1.5 mt-1" disabled></div>
-				<div><label class="font-semibold text-gray-700">Other Purpose:</label><input class="w-full border border-gray-700 rounded-md px-3 py-1.5 mt-1" disabled></div>
+				<div><label class="font-semibold text-gray-700 block mb-1">Certificate of being Indigent:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->indigencyData->certificate_of_being_indigent ?? '' }}"></div>
+				<div><label class="font-semibold text-gray-700 block mb-1">Other Purpose:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" disabled></div>
 				<div class="col-span-2 mt-4 grid grid-cols-2 gap-4 items-start">
 					
 					{{-- INDIGENCY PROOF SECTION --}}
 					<div>
-						<label class="font-semibold text-gray-700 mb-2 block">Proof of Request</label>
-						<button type="button" class="border-2 border-dashed border-gray-500 rounded-xl py-6 flex flex-col items-center text-sm w-full bg-white overflow-hidden">
-							<img src="https://cdn-icons-png.flaticon.com/512/685/685655.png" class="js-proof-img w-10 opacity-70 mb-2 object-contain transition-all duration-300">
-							<span class="mt-2">Uploaded Photo/File</span>
-						</button>
+<label class="font-semibold text-gray-700 mb-2 block">Proof of Request:</label>
+						<a href="{{ ($request->proof_file_path) ? asset('storage/' . $request->proof_file_path) : 'https://cdn-icons-png.flaticon.com/512/685/685655.png' }}" target="_blank" class="border-2 border-dashed border-blue-300 rounded-xl py-4 flex flex-col items-center text-sm w-full bg-blue-50/50 overflow-hidden hover:bg-blue-50 transition-colors">
+							<img src="{{ ($request->proof_file_path) ? asset('storage/' . $request->proof_file_path) : 'https://cdn-icons-png.flaticon.com/512/685/685655.png' }}" class="js-proof-img opacity-70 object-contain transition-all duration-300" style="width:240px;height:240px;max-width:100%;max-height:100%;">
+						</a>
 					</div>
 					
-					<div><label class="font-semibold text-gray-700 mb-2 block">Purpose of Request:</label><input class="w-full border border-gray-700 rounded-md px-3 py-12" disabled></div>
+					<div><label class="font-semibold text-gray-700 mb-2 block">Purpose of Request:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" disabled></div>
 				</div>
 			</form>
-			<div class="flex justify-end"><button onclick="closeModal('modalIndigency')" class="bg-[#A2C4D9] mt-4 hover:bg-gray-400 text-gray-900 px-5 py-1.5 rounded-xl text-[12px] font-bold">CLOSE</button></div>
+			<div class="flex justify-end mt-6"><button onclick="closeModal('modalIndigency')" class="px-6 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-sm font-semibold transition-all duration-200 border border-gray-300 hover:shadow-md">Close</button></div>
 		</div>
 	</div>
+	</div>
 </div>
+@endif
 
 {{-- Modal 4: Residency --}}
+@if(isset($request))
 <div id="modalResidency" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[9999]">
 <div class="bg-white w-[800px] max-h-[90vh] rounded-3xl overflow-hidden flex flex-col shadow-2xl border-2 border-gray-100" style="font-family: 'Poppins', sans-serif;">
 		<div class="flex items-center justify-center px-6 py-4" style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%);">
-			<h1 class="text-white text-xl font-bold tracking-wide" style="font-family: 'Poppins', sans-serif;">REQUEST FORM FOR RESIDENCY CERTIFICATE</h1>
+			<h1 class="text-white text-xl font-bold tracking-wide" style="font-family: 'Poppins', sans-serif;">REQUEST FORM FOR RESIDENT CERTIFICATE</h1>
 		</div>
 		<div class="px-8 py-6 flex-1 overflow-y-auto">
 			<form class="grid grid-cols-2 gap-x-6 gap-y-4 text-sm">
-				<div><label class="font-semibold text-gray-700">Last Name:</label><input class="w-full border border-gray-700 rounded-md px-3 py-1.5 mt-1" disabled></div>
-				<div><label class="font-semibold text-gray-700">First Name:</label><input class="w-full border border-gray-700 rounded-md px-3 py-1.5 mt-1" disabled></div>
-				<div><label class="font-semibold text-gray-700">Middle Name:</label><input class="w-full border border-gray-700 rounded-md px-3 py-1.5 mt-1" disabled></div>
-				<div><label class="font-semibold text-gray-700">Suffix:</label><input class="w-full border border-gray-700 rounded-md px-3 py-1.5 mt-1" disabled></div>
-				<div><label class="font-semibold text-gray-700">Age:</label><input class="w-full border border-gray-700 rounded-md px-3 py-1.5 mt-1" disabled></div>
-				<div><label class="font-semibold text-gray-700">Date of Birth:</label><input class="w-full border border-gray-700 rounded-md px-3 py-1.5 mt-1" disabled></div>
-				<div><label class="font-semibold text-gray-700">Place of Birth:</label><input class="w-full border border-gray-700 rounded-md px-3 py-1.5 mt-1" disabled></div>
-				<div><label class="font-semibold text-gray-700">Gender:</label><input class="w-full border border-gray-700 rounded-md px-3 py-1.5 mt-1" disabled></div>
-				<div><label class="font-semibold text-gray-700">Civil Status:</label><input class="w-full border border-gray-700 rounded-md px-3 py-1.5 mt-1" disabled></div>
-				<div><label class="font-semibold text-gray-700">Citizenship:</label><input class="w-full border border-gray-700 rounded-md px-3 py-1.5 mt-1" disabled></div>
-				<div class="col-span-2 mt-4"><label class="font-semibold text-gray-700">Valid ID Attachment</label>
+					<div><label class="font-semibold text-gray-700 block mb-1">Last Name:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->resident->last_name ?? '' }}" disabled></div>
+					<div><label class="font-semibold text-gray-700 block mb-1">First Name:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->resident->first_name ?? '' }}" disabled></div>
+					<div><label class="font-semibold text-gray-700 block mb-1">Middle Name:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->resident->middle_name ?? '' }}" disabled></div>
+					<div><label class="font-semibold text-gray-700 block mb-1">Suffix:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->resident->suffix ?? '' }}" disabled></div>
+					<div><label class="font-semibold text-gray-700 block mb-1">Age:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->resident->age ?? '' }}" disabled></div>
+					<div><label class="font-semibold text-gray-700 block mb-1">Date of Birth:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->resident?->birthdate?->format('F d, Y') ?? '' }}" disabled></div>
+					<div><label class="font-semibold text-gray-700 block mb-1">Place of Birth:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->resident->place_of_birth ?? '' }}" disabled></div>
+					<div><label class="font-semibold text-gray-700 block mb-1">Gender:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->resident->gender ?? '' }}" disabled></div>
+					<div><label class="font-semibold text-gray-700 block mb-1">Civil Status:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->resident->civil_status ?? '' }}" disabled></div>
+						<div><label class="font-semibold text-gray-700 block mb-1">House/Unit Number, Street:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->resident->address ?? '' }}" disabled></div>
+				<div cl12q	ass="col-span-2 mt-4"><label class="font-semibold text-gray-700">ID/Certificate of Live Birth Attachment:</label>
 					<div class="mt-2 grid grid-cols-2 gap-4">
-						<button type="button" class="border-2 border-dashed border-gray-500 rounded-xl py-6 flex flex-col items-center text-sm w-full bg-white overflow-hidden">
-							<img src="https://cdn-icons-png.flaticon.com/512/685/685655.png" class="js-id-front w-10 opacity-70 mb-2 object-contain transition-all duration-300">
-							<span class="mt-2">Front of Valid ID</span>
+						<button type="button" class="border-2 border-dashed border-blue-300 rounded-xl py-4 flex flex-col items-center text-sm w-full bg-blue-50/50 overflow-hidden hover:bg-blue-50 transition-colors">
+							<img src="{{ ($request->resident && $request->resident->id_front_path) ? asset('storage/' . $request->resident->id_front_path) : 'https://cdn-icons-png.flaticon.com/512/685/685655.png' }}" class="js-id-front opacity-70 object-contain transition-all duration-300" style="width:100%;height:100%;">
 						</button>
-						<button type="button" class="border-2 border-dashed border-gray-500 rounded-xl py-6 flex flex-col items-center text-sm w-full bg-white overflow-hidden">
-							<img src="https://cdn-icons-png.flaticon.com/512/685/685655.png" class="js-id-back w-10 opacity-70 mb-2 object-contain transition-all duration-300">
-							<span class="mt-2">Back of Valid ID</span>
+						<button type="button" class="border-2 border-dashed border-blue-300 rounded-xl py-4 flex flex-col items-center text-sm w-full bg-blue-50/50 overflow-hidden hover:bg-blue-50 transition-colors">
+							<img src="{{ ($request->resident && $request->resident->id_back_path) ? asset('storage/' . $request->resident->id_back_path) : 'https://cdn-icons-png.flaticon.com/512/685/685655.png' }}" class="js-id-back opacity-70 object-contain transition-all duration-300" style="width:100%;height:100%;">
 						</button>
 					</div>
 				</div>
 			<div class="col-span-2 my-4"><div class="border-t border-gray-200"></div></div>
-				<div><label class="font-semibold text-gray-700">Length of Residency:</label><input class="w-full border border-gray-700 rounded-md px-3 py-1.5 mt-1" disabled></div>
-				<div><label class="font-semibold text-gray-700">Valid ID Number:</label><input class="w-full border border-gray-700 rounded-md px-3 py-1.5 mt-1" disabled></div>
-				<div><label class="font-semibold text-gray-700">Registered Voter:</label><input class="w-full border border-gray-700 rounded-md px-3 py-1.5 mt-1" disabled></div>
-				<div><label class="font-semibold text-gray-700">Purpose of Request:</label><input class="w-full border border-gray-700 rounded-md px-3 py-6 mt-1" disabled></div>
+				   <div><label class="font-semibold text-gray-700 block mb-1">Length of Residency:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->length_of_residency ?? 'N/A' }}" disabled></div>
+				   <div><label class="font-semibold text-gray-700 block mb-1">Valid ID Number:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->valid_id_number ?? 'N/A' }}" disabled></div>
+				   <div><label class="font-semibold text-gray-700 block mb-1">Registered Voter:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->registered_voter ?? 'N/A' }}" disabled></div>
+				   <div><label class="font-semibold text-gray-700 block mb-1">Purpose of Request:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->purpose ?? 'N/A' }}" disabled></div>
 			</form>
 			<div class="flex justify-end mt-6"><button onclick="closeModal('modalResidency')" class="px-6 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-sm font-semibold transition-all duration-200 border border-gray-300 hover:shadow-md">Close</button></div>
 		</div>
 	</div>
+	</div>
 </div>
+@endif
 
 {{-- Modal 5: Process Confirmation --}}
 <div id="inprogressModal" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[9999]">

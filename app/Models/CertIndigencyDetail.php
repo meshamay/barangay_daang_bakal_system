@@ -14,7 +14,10 @@ class CertIndigencyDetail extends Model
     protected $fillable = [
         'document_request_id',
         'purpose',
-        'resident_years'
+        'resident_years',
+        'certificate_of_being_indigent',
+        'other_purpose',
+        'indigency_category'
     ];
 
     public function documentRequest()
