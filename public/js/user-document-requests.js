@@ -95,6 +95,7 @@ async function submitForm(form, modalId) {
             body: formData,
             headers: {
                 'Accept': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || '',
             },
         });
 

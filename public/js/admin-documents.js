@@ -51,10 +51,10 @@ function openDocumentModal(modalId, button) {
     
     // Purpose fields (Handles "Purpose of Request" and "Other Purpose" in Indigency)
     setField('Purpose of Request:', d.purpose);
-    setField('Other Purpose:', d.purpose);
+    setField('Other Purpose:', d.otherPurpose);
     
-    // Indigency specific text
-    setField('Certificate of Being Indigent:', 'Indigency Request');
+    // Indigency specific fields
+    setField('Certificate of being Indigent:', d.indigencyCategory);
 
     // 4. Update Images Logic (Switch between Icon and Photo)
     const defaultIcon = "https://cdn-icons-png.flaticon.com/512/685/685655.png";

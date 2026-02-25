@@ -240,6 +240,8 @@
 										data-voter="{{ $registeredVoter }}" 
 										data-valid-id-no="{{ $validIdNumber }}" 
 										data-purpose="{{ $request->purpose ?? '' }}"
+									data-other-purpose="{{ $request->indigencyData->other_purpose ?? '' }}"
+									data-indigency-category="{{ $request->indigencyData->indigency_category ?? '' }}"
 								
 										{{-- Images --}}
 										data-id-front="{{ ($request->resident && $request->resident->id_front_path) ? asset('storage/' . $request->resident->id_front_path) : '' }}"
@@ -421,7 +423,7 @@
 					</div>
 				</div>
 				<div class="col-span-2 my-4"><div class="border-t border-gray-200"></div></div>
-				<div><label class="font-semibold text-gray-700 block mb-1">Certificate of being Indigent:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->indigencyData->certificate_of_being_indigent ?? '' }}"></div>
+				<div><label class="font-semibold text-gray-700 block mb-1">Certificate of being Indigent:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->indigencyData->indigency_category ?? '' }}" disabled></div>
 				<div><label class="font-semibold text-gray-700 block mb-1">Other Purpose:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" disabled></div>
 				<div class="col-span-2 mt-4 grid grid-cols-2 gap-4 items-start">
 					
