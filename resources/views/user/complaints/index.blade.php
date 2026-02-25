@@ -117,8 +117,8 @@
                 };
                 $statusDisplay = $statusLower === 'in progress' ? 'In Progress' : ucfirst($statusLower);
             @endphp
-            <span class="{{ $statusColor }} text-sm font-bold px-3 py-2 rounded-full inline-block whitespace-nowrap shadow-sm">
-                {{ $statusDisplay }}
+            <span class="bg-amber-100 text-amber-800 border border-amber-300 text-xs font-bold px-3 py-2 rounded-full inline-block whitespace-nowrap shadow-sm" style="font-size:12px;line-height:1.2;">
+              {{ $statusDisplay }}
             </span>
         </td>
       </tr>

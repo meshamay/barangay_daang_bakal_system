@@ -160,7 +160,7 @@
           </div>
           <div>
             <label class="block text-sm font-semibold mb-2">Birthdate <span class="text-red-500">*</span></label>
-            <input type="date" name="birthdate" value="{{ old('birthdate', $user->birthdate) }}" 
+            <input type="date" name="birthdate" value="{{ old('birthdate', $user->birthdate ? \Carbon\Carbon::parse($user->birthdate)->format('Y-m-d') : '' ) }}" 
                 class="w-full bg-white text-gray-700 rounded-lg h-11 text-sm font-medium px-3 border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all @error('birthdate') border-red-500 @enderror" 
                 required>
             @error('birthdate')

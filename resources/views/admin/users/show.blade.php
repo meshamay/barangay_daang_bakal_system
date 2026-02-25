@@ -232,13 +232,41 @@
 
 <main id="main-content" class="grow flex px-12 py-6 gap-8 text-[#1e2e3d] text-[1.05rem] pt-24 max-w-7xl mx-auto w-full overflow-y-auto bg-gradient-to-br from-gray-50 to-gray-100">
 
+
     @if(session('success'))
-        <div class="fixed top-24 right-8 bg-green-500 text-white px-6 py-4 rounded-xl shadow-2xl z-50 animate-fade-in-down flex items-center gap-3">
-            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-            </svg>
-            <span class="font-semibold">{{ session('success') }}</span>
+        <!-- Modern Success Modal -->
+        <div id="successModal" class="fixed inset-0 flex items-center justify-center z-[9999] bg-black/40 backdrop-blur-sm">
+            <div class="relative bg-gradient-to-br from-white via-[#e0f7fa] to-[#dbeafe] w-full max-w-md rounded-3xl shadow-2xl p-10 text-center border-4 border-[#A2C4D9] animate-fade-in-up">
+                <div class="flex justify-center mb-6">
+                    <div class="w-20 h-20 rounded-full bg-gradient-to-br from-blue-100 to-blue-300 border-4 border-blue-400 flex items-center justify-center shadow-lg animate-bounce-in">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-blue-600 animate-pulse" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor">
+                            <circle cx="12" cy="12" r="10" class="text-blue-200" fill="currentColor" opacity="0.2" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                        </svg>
+                    </div>
+                </div>
+                <h2 class="font-extrabold text-2xl mb-2 text-blue-700 tracking-wide animate-fade-in">Success!</h2>
+                <p class="text-base text-gray-700 mb-6 animate-fade-in-slow">{{ session('success') }}</p>
+                <button onclick="window.location.href='/admin/users'" class="w-full bg-gradient-to-r from-[#A2C4D9] to-[#94B8CC] hover:from-[#94B8CC] hover:to-[#A2C4D9] text-black font-bold py-3 rounded-2xl text-base shadow-md transition-all duration-200 animate-fade-in">CLOSE</button>
+                <span class="absolute top-3 right-5 text-gray-400 cursor-pointer text-2xl hover:text-gray-600 transition" onclick="document.getElementById('successModal').remove();document.body.style.overflow='auto';">&times;</span>
+            </div>
+            <style>
+                @keyframes fade-in-up { from { opacity: 0; transform: translateY(40px);} to { opacity: 1; transform: translateY(0);} }
+                .animate-fade-in-up { animation: fade-in-up 0.5s cubic-bezier(.4,0,.2,1) both; }
+                @keyframes bounce-in { 0% { transform: scale(0.7);} 60% { transform: scale(1.1);} 80% { transform: scale(0.95);} 100% { transform: scale(1);} }
+                .animate-bounce-in { animation: bounce-in 0.7s cubic-bezier(.4,0,.2,1) both; }
+                @keyframes fade-in { from { opacity: 0;} to { opacity: 1;} }
+                .animate-fade-in { animation: fade-in 0.7s 0.2s both; }
+                .animate-fade-in-slow { animation: fade-in 1.2s 0.4s both; }
+                .animate-pulse { animation: pulse 1.5s infinite; }
+                @keyframes pulse { 0%, 100% { opacity: 1;} 50% { opacity: 0.5;} }
+            </style>
         </div>
+        <script>
+          document.addEventListener('DOMContentLoaded', function() {
+            document.body.style.overflow = 'hidden';
+          });
+        </script>
     @endif
 
     <section class="w-1/2 flex flex-col pr-4">
@@ -271,7 +299,7 @@
 
           @php
             $statusColor = match(strtolower($user->status)) {
-                'approved' => 'bg-green-100 text-green-800 border-green-200',
+                'approved' => 'bg-blue-100 text-blue-800 border-blue-200',
                 'archived' => 'bg-gray-100 text-gray-800 border-gray-200',
                 'reject'   => 'bg-red-100 text-red-800 border-red-200',
                 default    => 'bg-orange-100 text-orange-800 border-orange-200', // Pending
@@ -434,27 +462,23 @@
 
 <div id="approveModal" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[9999] pointer-events-none">
     <div class="bg-white w-[450px] rounded-3xl shadow-2xl overflow-hidden border-2 border-gray-100 relative animate-fade-in-up pointer-events-auto">
-        
         {{-- Content Body --}}
         <div class="px-8 py-8 bg-white text-center">
             <!-- Icon Badge -->
             <div class="flex justify-center mb-6">
-                <div class="w-24 h-24 rounded-full bg-gradient-to-br from-green-50 to-green-100 border-4 border-green-500 flex items-center justify-center shadow-lg">
-                    <svg class="w-12 h-12 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <div class="w-24 h-24 rounded-full bg-gradient-to-br from-blue-50 to-blue-100 border-4 border-blue-500 flex items-center justify-center shadow-lg">
+                    <svg class="w-12 h-12 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                 </div>
             </div>
-            
             <h2 class="font-bold text-2xl mb-4 text-gray-800 tracking-tight">Confirm Approval?</h2>
-            
-            <div class="bg-green-50 rounded-xl p-4 mb-6 border border-green-200">
+            <div class="bg-blue-50 rounded-xl p-4 mb-6 border border-blue-200">
                 <p class="text-sm text-gray-700 text-center">
                     Approve <span class="font-bold text-gray-900">{{ $user->first_name }} {{ $user->last_name }}</span> to access the system. 
                     They will be notified via email.
                 </p>
             </div>
-
             <form action="{{ route('admin.users.accept', $user->id) }}" method="POST">
                 @csrf
                 @method('PUT')
@@ -467,7 +491,7 @@
                     </button>
                     <button 
                         type="submit" 
-                        class="flex-1 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white px-6 py-3 rounded-xl font-bold text-sm transition-all duration-200 transform hover:scale-105 shadow-md hover:shadow-lg">
+                        class="flex-1 bg-gradient-to-r from-blue-600 to-blue-400 hover:from-blue-700 hover:to-blue-500 text-white px-6 py-3 rounded-xl font-bold text-sm transition-all duration-200 transform hover:scale-105 shadow-md hover:shadow-lg">
                         APPROVE
                     </button>
                 </div>
