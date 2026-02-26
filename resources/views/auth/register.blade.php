@@ -39,7 +39,7 @@
                                 </div>
                                 <div>
                                     <label for="last_name" class="mb-1 block text-sm font-semibold text-gray-700">Last Name <span class="text-red-500">*</span></label>
-                                    <input type="text" name="last_name" id="last_name" autocomplete="family-name" class="h-10 w-full rounded-lg border-2 border-gray-300 px-3 py-2 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                                        <input type="text" name="last_name" id="last_name" autocomplete="family-name" class="h-9 w-full rounded-lg border-2 border-gray-300 px-3 py-1 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
                                 </div>
                                 <div class="row-span-3 hidden md:block">
                                     <label for="photo-upload-desktop" id="photo-upload-label-desktop" class="relative flex h-[220px] w-full cursor-pointer flex-col items-center justify-center overflow-hidden rounded-lg border-4 border-blue-300 bg-blue-50 transition hover:bg-blue-100">
@@ -53,19 +53,19 @@
                                 </div>
                                 <div>
                                     <label for="first_name" class="mb-1 block text-sm font-semibold text-gray-700">First Name <span class="text-red-500">*</span></label>
-                                    <input type="text" name="first_name" id="first_name" autocomplete="given-name" class="h-10 w-full rounded-lg border-2 border-gray-300 px-3 py-2 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                                        <input type="text" name="first_name" id="first_name" autocomplete="given-name" class="h-9 w-full rounded-lg border-2 border-gray-300 px-3 py-1 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
                                 </div>
                                 <div>
                                     <label for="middle_name" class="mb-1 block text-sm font-semibold text-gray-700">Middle Name</label>
-                                    <input type="text" name="middle_name" id="middle_name" autocomplete="additional-name" class="h-10 w-full rounded-lg border-2 border-gray-300 px-3 py-2 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                        <input type="text" name="middle_name" id="middle_name" autocomplete="additional-name" class="h-9 w-full rounded-lg border-2 border-gray-300 px-3 py-1 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                                 </div>
                                 <div>
                                     <label for="suffix" class="mb-1 block text-sm font-semibold text-gray-700">Suffix</label>
-                                    <input type="text" name="suffix" id="suffix" autocomplete="honorific-suffix" class="h-10 w-full rounded-lg border-2 border-gray-300 px-3 py-2 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                        <input type="text" name="suffix" id="suffix" autocomplete="honorific-suffix" class="h-9 w-full rounded-lg border-2 border-gray-300 px-3 py-1 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                                 </div>
                                 <div>
                                     <label for="gender" class="mb-1 block text-sm font-semibold text-gray-700">Gender <span class="text-red-500">*</span></label>
-                                    <select name="gender" id="gender" class="h-10 w-full rounded-lg border-2 border-gray-300 px-3 py-2 bg-gray-50 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent cursor-pointer appearance-none" required>
+                                        <select name="gender" id="gender" class="h-9 w-full rounded-lg border-2 border-gray-300 px-3 py-1 bg-gray-50 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent cursor-pointer appearance-none" required>
                                         <option value="" disabled selected>Select Gender</option>
                                         <option value="Male">Male</option>
                                         <option value="Female">Female</option>
@@ -75,11 +75,11 @@
                                 </div>
                                 <div>
                                     <label for="age" class="mb-1 block text-sm font-semibold text-gray-700">Age <span class="text-red-500">*</span></label>
-                                    <input type="number" name="age" id="age" autocomplete="off" class="h-10 w-full rounded-lg border-2 border-gray-300 px-3 py-2 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none" required>
+                                        <input type="number" name="age" id="age" autocomplete="off" class="h-9 w-full rounded-lg border-2 border-gray-300 px-3 py-1 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none" required>
                                 </div>
                                 <div>
                                     <label for="civil_status" class="mb-1 block text-sm font-semibold text-gray-700">Civil Status <span class="text-red-500">*</span></label>
-                                    <select name="civil_status" id="civil_status" class="h-10 w-full rounded-lg border-2 border-gray-300 px-3 py-2 bg-gray-50 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent cursor-pointer appearance-none" required>
+                                        <select name="civil_status" id="civil_status" class="h-9 w-full rounded-lg border-2 border-gray-300 px-3 py-1 bg-gray-50 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent cursor-pointer appearance-none" required>
                                         <option value="" disabled selected>Select Civil Status</option>
                                         <option value="Single">Single</option>
                                         <option value="Married">Married</option>
@@ -89,20 +89,20 @@
                                 </div>
                                 <div>
                                     <label for="dob" class="mb-1 block text-sm font-semibold text-gray-700">Date of Birth <span class="text-red-500">*</span></label>
-                                    <input type="date" name="dob" id="dob" autocomplete="bday" class="h-10 w-full rounded-lg border-2 border-gray-300 px-3 py-2 bg-gray-50 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent cursor-pointer" required>
+                                        <input type="date" name="dob" id="dob" autocomplete="bday" class="h-9 w-full rounded-lg border-2 border-gray-300 px-3 py-1 bg-gray-50 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent cursor-pointer" required>
                                 </div>
                                 <div>
                                     <label for="citizenship" class="mb-1 block text-sm font-semibold text-gray-700">Citizenship</label>
-                                    <input type="text" name="citizenship" id="citizenship" autocomplete="off" class="h-10 w-full rounded-lg border-2 border-gray-300 px-3 py-2 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                        <input type="text" name="citizenship" id="citizenship" autocomplete="off" class="h-9 w-full rounded-lg border-2 border-gray-300 px-3 py-1 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                                 </div>
                                 <div>
                                     <label for="place_of_birth" class="mb-1 block text-sm font-semibold text-gray-700">Place of Birth <span class="text-red-500">*</span></label>
-                                    <input type="text" name="place_of_birth" id="place_of_birth" autocomplete="off" class="h-10 w-full rounded-lg border-2 border-gray-300 px-3 py-2 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
+                                        <input type="text" name="place_of_birth" id="place_of_birth" autocomplete="off" class="h-9 w-full rounded-lg border-2 border-gray-300 px-3 py-1 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
                                 </div>
                             </div>
-                            <div class="flex shrink-0 justify-end items-center gap-2 sm:gap-3 px-3 sm:px-4 mt-6 mb-6">
-                                <a href="/" class="rounded-lg bg-gray-200 hover:bg-red-600 px-4 md:px-6 py-2 md:py-2.5 text-sm md:text-base font-semibold text-gray-700 hover:text-white flex items-center border border-gray-300 transition-all duration-200 shadow-md">CANCEL</a>
-                                <button id="next-button" type="button" class="rounded-lg bg-gray-200 hover:bg-blue-600 px-4 md:px-6 py-2 md:py-2.5 text-sm md:text-base font-semibold text-gray-700 hover:text-white flex items-center border border-gray-300 transition-all duration-200 shadow-md">NEXT</button>
+                            <div class="flex shrink-0 justify-end items-center gap-2 sm:gap-3 px-3 sm:px-4 mb-6 ml-4 mt-40 sm:mt-4" style="margin-top:-0.1rem;">
+                                <button id="cancel-button" type="button" onclick="window.location.href='/'" class="rounded-lg bg-gray-200 hover:bg-red-600 hover:text-white px-4 sm:px-6 py-2 sm:py-2.5 text-sm font-semibold text-gray-700 flex items-center border border-gray-300 transition-all duration-200 shadow-md">CANCEL</button>
+                                <button id="next-button" type="button" class="rounded-lg bg-gray-200 hover:bg-blue-600 hover:text-white px-4 sm:px-6 py-2 sm:py-2.5 text-sm font-semibold text-gray-700 flex items-center border border-gray-300 transition-all duration-200 shadow-md">NEXT</button>
                             </div>
                         </div>
                     </div>
