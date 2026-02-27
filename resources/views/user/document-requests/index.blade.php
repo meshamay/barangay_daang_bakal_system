@@ -321,7 +321,7 @@
 
 						<div>
 						<label class="block text-sm font-semibold text-gray-700 mb-2">Proof of Request</label>
-						<input type="file" name="proof_file" required class="w-full bg-gray-50 border-2 border-gray-300 rounded-lg px-4 py-2.5 text-sm text-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all file:mr-2 sm:file:mr-4 file:py-1 file:px-2 sm:file:px-3 file:rounded-md file:border-0 file:text-xs sm:file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer">
+						<input type="file" name="proof_file" accept="image/png,image/jpeg,image/jpg" required class="w-full bg-gray-50 border-2 border-gray-300 rounded-lg px-4 py-2.5 text-sm text-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all file:mr-2 sm:file:mr-4 file:py-1 file:px-2 sm:file:px-3 file:rounded-md file:border-0 file:text-xs sm:file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer">
 						</div>
 
 						<div>

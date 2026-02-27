@@ -127,7 +127,7 @@ class DocumentRequestController extends Controller
                         'purpose'          => 'required|string',
                         'indigency_category' => 'nullable|string',
                         'other_purpose'    => 'nullable|string',
-                        'proof_file'       => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
+                        'proof_file'       => 'nullable|file|mimes:jpg,jpeg,png|max:2048',
                     ]);
 
                     $docRequestData = array_merge($docRequestData, [
