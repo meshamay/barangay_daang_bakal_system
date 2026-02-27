@@ -110,8 +110,14 @@ async function submitComplaintForm() {
     if (!form || !submitButton || !errorsDiv) return;
     
     const checkbox = form.querySelector('input[type="checkbox"][required]');
+    const tooltip = document.getElementById('checkboxTooltip');
     if (checkbox && !checkbox.checked) {
-        alert("Please confirm the accuracy of the information by checking the box.");
+        // show tooltip next to unchecked checkbox
+        if (tooltip) {
+            tooltip.classList.remove('hidden');
+            // automatically hide when they click checkbox
+            checkbox.addEventListener('change', () => tooltip.classList.add('hidden'), { once: true });
+        }
         return;
     }
 

@@ -51,9 +51,9 @@
                     onchange="this.form.submit()" 
                     class="px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white cursor-pointer">
                     <option value="">All Roles</option>
-                    <option value="resident" {{ request('role') == 'resident' ? 'selected' : '' }}>Resident</option>
+                    <option value="superadmin" {{ request('role') == 'superadmin' ? 'selected' : '' }}>Super Admin</option>
                     <option value="admin" {{ request('role') == 'admin' ? 'selected' : '' }}>Admin</option>
-                    <option value="superadmin" {{ request('role') == 'superadmin' ? 'selected' : '' }}>Superadmin</option>
+                    <option value="resident" {{ request('role') == 'resident' ? 'selected' : '' }}>Resident</option>
                 </select>
             </form>
 
@@ -75,19 +75,23 @@
 
     {{-- Data Table --}}
     <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg overflow-hidden border border-gray-100">
-        <div class="overflow-x-auto">
-            <table class="w-full">
-                <thead style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%); color: white;">
-                    <tr>
-                        <th class="py-4 px-6 text-center text-xs font-semibold uppercase tracking-wider">User ID</th>
-                        <th class="py-4 px-6 text-center text-xs font-semibold uppercase tracking-wider">Last Name</th>
-                        <th class="py-4 px-6 text-center text-xs font-semibold uppercase tracking-wider">First Name</th>
-                        <th class="py-4 px-6 text-center text-xs font-semibold uppercase tracking-wider">Role</th>
-                        <th class="py-4 px-6 text-center text-xs font-semibold uppercase tracking-wider">Date</th>
-                        <th class="py-4 px-6 text-center text-xs font-semibold uppercase tracking-wider">Time</th>
-                        <th class="py-4 px-6 text-center text-xs font-semibold uppercase tracking-wider">Action Performed</th>
-                    </tr>
-                </thead>
+        {{-- Fixed Header --}}
+        <table class="w-full" style="table-layout: fixed;">
+            <thead style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%); color: white; position: sticky; top: 0; z-index: 10;">
+                <tr>
+                    <th class="py-4 px-6 text-center text-xs font-semibold uppercase tracking-wider">User ID</th>
+                    <th class="py-4 px-6 text-center text-xs font-semibold uppercase tracking-wider">Last Name</th>
+                    <th class="py-4 px-6 text-center text-xs font-semibold uppercase tracking-wider">First Name</th>
+                    <th class="py-4 px-6 text-center text-xs font-semibold uppercase tracking-wider">Role</th>
+                    <th class="py-4 px-6 text-center text-xs font-semibold uppercase tracking-wider">Date</th>
+                    <th class="py-4 px-6 text-center text-xs font-semibold uppercase tracking-wider">Time</th>
+                    <th class="py-4 px-6 text-center text-xs font-semibold uppercase tracking-wider">Action Performed</th>
+                </tr>
+            </thead>
+        </table>
+        {{-- Scrollable Body --}}
+        <div class="overflow-x-auto overflow-y-auto" style="max-height: 460px;">
+            <table class="w-full" style="table-layout: fixed;">
                 <tbody class="divide-y divide-gray-200">
                     @forelse($auditLogs as $log)
                     <tr class="hover:bg-blue-50/70 transition-all duration-200 ease-in-out">
@@ -116,7 +120,44 @@
                         </td>
                         <td class="py-4 px-6 text-sm text-gray-600 text-center">{{ $log->created_at->setTimezone('Asia/Manila')->format('F d, Y') }}</td>
                         <td class="py-4 px-6 text-sm text-gray-600 text-center">{{ $log->created_at->setTimezone('Asia/Manila')->format('g:i A') }}</td>
-                        <td class="py-4 px-6 text-sm text-gray-600 text-center">{{ $log->action }}@if($log->description) - {{ $log->description }}@endif</td>
+                        <td class="py-4 px-6 text-sm text-gray-600 text-center">
+                            @php
+                                $action = $log->action;
+                                $desc = $log->description;
+                                if ($action === 'Complaint Submitted' && strtolower($roleLabel) === 'resident') {
+                                    $complaintMap = [
+                                        'Community Issues' => 'Complaint Submitted - Community Issues',
+                                        'Physical Harassment' => 'Complaint Submitted - Physical Harassment',
+                                        'Neighbor Dispute' => 'Complaint Submitted - Neighbor Dispute',
+                                        'Money Problems' => 'Complaint Submitted - Money Problems',
+                                        'Misbehavior' => 'Complaint Submitted - Misbehavior',
+                                        'Others' => 'Complaint Submitted - Others',
+                                    ];
+                                    if (isset($complaintMap[$desc])) {
+                                        echo $complaintMap[$desc];
+                                    } else {
+                                        echo 'Complaint Submitted - ' . $desc;
+                                    }
+                                } else if ($action === 'Document Request Submitted' && strtolower($roleLabel) === 'resident') {
+                                    $docMap = [
+                                        'Indigency Clearance' => 'Document Request Submitted - Indigency Clearance',
+                                        'Resident Certificate' => 'Document Request Submitted - Resident Certificate',
+                                    ];
+                                    if (isset($docMap[$desc])) {
+                                        echo $docMap[$desc];
+                                    } else {
+                                        echo $action . ' - ' . $desc;
+                                    }
+                                } else if ($action === 'Log In' && strtolower($roleLabel) === 'resident') {
+                                    echo 'Log In - Resident logged in';
+                                } else if ($action === 'Log Out' && strtolower($roleLabel) === 'resident') {
+                                    echo 'Log Out - Resident logged out';
+                                } else {
+                                    echo $action;
+                                    if ($desc) echo ' - ' . $desc;
+                                }
+                            @endphp
+                        </td>
                     </tr>
                     @empty
                     <tr>
@@ -135,8 +176,30 @@
     </div>
 
     {{-- Pagination --}}
-    <div class="mt-8 flex justify-end pb-8">
-        {{ $auditLogs->links() }}
+    <div class="mt-6 flex justify-end pb-8">
+        <div style="background: white; border-radius: 0.5rem; padding: 0.25rem 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border: 1px solid #e5e7eb;">
+            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center; align-items: center;">
+                @if ($auditLogs->onFirstPage())
+                    <span style="padding: 0.5rem 0.75rem; color: #9ca3af; cursor: default; font-size: 14px; border-radius: 0.375rem; background: #f3f4f6; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">« Previous</span>
+                @else
+                    <a href="{{ $auditLogs->previousPageUrl() }}" style="padding: 0.5rem 0.75rem; background: linear-gradient(90deg,#1e293b,#134573); color: white; border-radius: 0.375rem; text-decoration: none; font-size: 14px; box-shadow: 0 2px 8px rgba(37,99,235,0.12); transition: background 0.2s;">« Previous</a>
+                @endif
+
+                @foreach ($auditLogs->getUrlRange(1, $auditLogs->lastPage()) as $page => $url)
+                    @if ($page == $auditLogs->currentPage())
+                        <span style="padding: 0.5rem 0.75rem; background: #1e293b; color: white; border-radius: 0.375rem; font-weight: bold; font-size: 14px; box-shadow: 0 2px 8px rgba(30,41,59,0.18); transition: background 0.2s;">{{ $page }}</span>
+                    @else
+                        <a href="{{ $url }}" style="padding: 0.5rem 0.75rem; background: #f3f4f6; color: #374151; border-radius: 0.375rem; text-decoration: none; font-size: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); transition: background 0.2s;">{{ $page }}</a>
+                    @endif
+                @endforeach
+
+                @if ($auditLogs->hasMorePages())
+                    <a href="{{ $auditLogs->nextPageUrl() }}" style="padding: 0.5rem 0.75rem; background: linear-gradient(90deg,#2563eb,#3b82f6); color: white; border-radius: 0.375rem; text-decoration: none; font-size: 14px; box-shadow: 0 2px 8px rgba(37,99,235,0.12); transition: background 0.2s;">Next »</a>
+                @else
+                    <span style="padding: 0.5rem 0.75rem; color: #9ca3af; cursor: default; font-size: 14px; border-radius: 0.375rem; background: #f3f4f6; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">Next »</span>
+                @endif
+            </div>
+        </div>
     </div>
     
     </div>

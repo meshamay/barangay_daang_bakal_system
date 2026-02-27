@@ -58,14 +58,14 @@
 
 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-0 mb-6 sm:mb-8">
     <h3 class="text-xl sm:text-2xl font-bold text-[#134573] flex items-center gap-2 sm:gap-3">
-      <div class="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-red-400 to-red-500 rounded-lg flex items-center justify-center shadow-md">
+      <div class="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center shadow-md">
             <svg class="w-5 h-5 sm:w-6 sm:h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
             </svg>
         </div>
         Complaints
     </h3>
-    <button id="addButton" class="w-full sm:w-auto bg-gradient-to-r from-red-400 to-red-500 hover:from-red-500 hover:to-red-600 text-white px-4 sm:px-6 py-2 sm:py-2.5 text-xs sm:text-sm rounded-lg font-semibold shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200 flex items-center justify-center sm:justify-start gap-2" onclick="openModal('modalGeneralComplaint')">
+    <button id="addButton" class="w-full sm:w-auto bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-4 sm:px-6 py-2 sm:py-2.5 text-xs sm:text-sm rounded-lg font-semibold shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200 flex items-center justify-center sm:justify-start gap-2" onclick="openModal('modalGeneralComplaint')">
         <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
         </svg>
@@ -117,7 +117,7 @@
                 };
                 $statusDisplay = $statusLower === 'in progress' ? 'In Progress' : ucfirst($statusLower);
             @endphp
-            <span class="bg-amber-100 text-amber-800 border border-amber-300 text-xs font-bold px-3 py-2 rounded-full inline-block whitespace-nowrap shadow-sm" style="font-size:12px;line-height:1.2;">
+            <span class="{{ $statusColor }} text-xs font-bold px-3 py-2 rounded-full inline-block whitespace-nowrap shadow-sm" style="font-size:12px;line-height:1.2;">
               {{ $statusDisplay }}
             </span>
         </td>
@@ -227,13 +227,21 @@
         <label class="w-full sm:w-40 shrink-0 text-left text-xs sm:text-sm font-semibold text-gray-700 leading-tight pt-2">Complaint Statement</label>
         <textarea name="complaint_statement" class="w-full sm:flex-1 bg-gray-50 border-2 border-gray-300 rounded-lg px-3 sm:px-4 py-2 text-xs sm:text-sm placeholder:text-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all resize-none h-24 sm:h-28" placeholder="Provide a detailed description of the incident" required></textarea>
       </div>
-      <div class="flex items-start pt-2">
-        <input type="checkbox" required class="mt-1 mr-3 w-4 h-4 text-blue-600 border-2 border-gray-300 rounded focus:ring-2 focus:ring-blue-500 cursor-pointer flex-shrink-0">
-        <label class="text-[14px] text-gray-600 leading-relaxed text-left">I certify that the information provided above is accurate and complete to the best of my knowledge.</label>
+      <div class="flex items-start pt-2 relative">
+        <input id="complaintCheckbox" type="checkbox" required class="mt-1 mr-3 w-4 h-4 text-blue-600 border-2 border-gray-300 rounded focus:ring-2 focus:ring-blue-500 cursor-pointer flex-shrink-0">
+        <label for="complaintCheckbox" class="text-[14px] text-gray-600 leading-relaxed text-left">I certify that the information provided above is accurate and complete to the best of my knowledge.</label>
+        <span id="checkboxTooltip" class="absolute left-0 top-full mt-2 hidden w-full max-w-xs bg-amber-50 border-l-4 border-amber-500 px-4 py-3 rounded-lg text-sm text-amber-800 flex items-start gap-3 shadow-md" role="alert">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-amber-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+            </svg>
+            <div>Please check this box if you want to proceed.</div>
+        </span>
       </div>
       
       {{-- Validation Error Area --}}
       <div id="validationErrors" class="text-red-500 text-xs hidden"></div>
+
+
 
     </form>
   </div>

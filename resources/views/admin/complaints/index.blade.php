@@ -159,8 +159,10 @@
 				<select name="complaint_type" onchange="this.form.submit()" class="h-10 px-4 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition bg-white w-52">
 					<option value="">Complaint Type</option>
 					<option value="Community Issues" @selected(request('complaint_type') == 'Community Issues')>Community Issues</option>
-				<option value="Physical Harrasments" @selected(request('complaint_type') == 'Physical Harrasments')>Physical Harassment</option>
-				<option value="Physical Harassment" @selected(request('complaint_type') == 'Physical Harassment')>Physical Harassment</option>
+					<option value="Physical Harassment" @selected(request('complaint_type') == 'Physical Harassment')>Physical Harassment</option>
+					<option value="Neighbor Dispute" @selected(request('complaint_type') == 'Neighbor Dispute')>Neighbor Dispute</option>
+					<option value="Money Problems" @selected(request('complaint_type') == 'Money Problems')>Money Problems</option>
+					<option value="Misbehavior" @selected(request('complaint_type') == 'Misbehavior')>Misbehavior</option>
 					<option value="Others" @selected(request('complaint_type') == 'Others')>Others</option>
 				</select>
 
@@ -249,7 +251,7 @@
                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 3a9 9 0 110 18 9 9 0 010-18z" />
                                             </svg>
                                         </button>
-                                        <span class="absolute top-full mt-1 left-1/2 transform -translate-x-1/2 px-2 py-1 text-xs text-white bg-gray-800 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-30">In progress</span>
+                                        <span class="absolute top-full mt-1 left-1/2 transform -translate-x-1/2 px-2 py-1 text-xs text-white bg-gray-800 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-30">Process</span>
                                     </div>
                                 @endif
 
@@ -262,7 +264,7 @@
                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.5l2 2 4-4" />
                                             </svg>
                                         </button>
-                                        <span class="absolute top-full mt-1 left-1/2 transform -translate-x-1/2 px-2 py-1 text-xs text-white bg-gray-800 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-30">Completed</span>
+                                        <span class="absolute top-full mt-1 left-1/2 transform -translate-x-1/2 px-2 py-1 text-xs text-white bg-gray-800 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-30">Complete</span>
                                     </div>
                                 @endif
 

@@ -32,10 +32,23 @@ class AuditLogController extends Controller
         if ($request->filled('role') && $request->role !== 'ROLE') {
             $query->whereHas('user', function ($q) use ($request) {
                 $role = strtolower($request->role);
-                $q->where(function($subQuery) use ($role) {
-                    $subQuery->where('role', $role)
-                             ->orWhere('user_type', $role);
-                });
+
+                // handle various representations of super admin
+                if ($role === 'superadmin') {
+                    $q->where(function($sub) {
+                        $sub->where('role', 'super admin')
+                            ->orWhere('role', 'super_admin')
+                            ->orWhere('role', 'superadmin')
+                            ->orWhere('user_type', 'super admin')
+                            ->orWhere('user_type', 'super_admin')
+                            ->orWhere('user_type', 'superadmin');
+                    });
+                } else {
+                    $q->where(function($subQuery) use ($role) {
+                        $subQuery->where('role', $role)
+                                 ->orWhere('user_type', $role);
+                    });
+                }
             });
         }
 

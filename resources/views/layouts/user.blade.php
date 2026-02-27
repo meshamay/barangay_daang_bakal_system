@@ -150,7 +150,7 @@
 
                 <!-- Profile Dropdown Menu -->
                 <div x-show="profileOpen" class="absolute right-0 mt-2 w-44 sm:w-48 bg-white rounded-lg shadow-xl overflow-hidden z-50" style="display: none;">
-                    <a href="{{ route('user.profile') }}" class="block px-3 sm:px-4 py-2.5 sm:py-3 text-[16px] text-gray-700 hover:bg-gray-100 transition flex items-center gap-2 border-b border-gray-200">
+                    <a href="{{ route('user.profile') }}" class="block px-3 sm:px-4 py-2.5 sm:py-3 text-sm text-gray-700 hover:bg-gray-100 transition flex items-center gap-2 border-b border-gray-200">
                         <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                         </svg>
@@ -158,7 +158,7 @@
                     </a>
                     <form method="POST" action="{{ route('logout') }}" class="m-0">
                         @csrf
-                        <button type="submit" class="block w-full text-left px-3 sm:px-4 py-2.5 sm:py-3 text-[16px] text-red-600 hover:bg-red-50 transition flex items-center gap-2">
+                        <button type="submit" class="block w-full text-left px-3 sm:px-4 py-2.5 sm:py-3 text-sm text-red-600 hover:bg-red-50 transition flex items-center gap-2">
                             <svg class="h-4 w-4 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                             </svg>

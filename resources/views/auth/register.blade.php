@@ -100,7 +100,7 @@
                                         <input type="text" name="place_of_birth" id="place_of_birth" autocomplete="off" class="h-9 w-full rounded-lg border-2 border-gray-300 px-3 py-1 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
                                 </div>
                             </div>
-                            <div class="flex shrink-0 justify-end items-center gap-2 sm:gap-3 px-3 sm:px-4 mb-6 ml-4 mt-40 sm:mt-4" style="margin-top:-0.1rem;">
+                            <div class="flex shrink-0 justify-end items-center gap-2 sm:gap-3 px-3 sm:px-2 mb-4 ml-2 mt-2 sm:mt-4" style="margin-top:-1rem;">
                                 <button id="cancel-button" type="button" onclick="window.location.href='/'" class="rounded-lg bg-gray-200 hover:bg-red-600 hover:text-white px-4 sm:px-6 py-2 sm:py-2.5 text-sm font-semibold text-gray-700 flex items-center border border-gray-300 transition-all duration-200 shadow-md">CANCEL</button>
                                 <button id="next-button" type="button" class="rounded-lg bg-gray-200 hover:bg-blue-600 hover:text-white px-4 sm:px-6 py-2 sm:py-2.5 text-sm font-semibold text-gray-700 flex items-center border border-gray-300 transition-all duration-200 shadow-md">NEXT</button>
                             </div>

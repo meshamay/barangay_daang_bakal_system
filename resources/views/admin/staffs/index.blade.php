@@ -27,7 +27,7 @@
 						<path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
 					</svg>
 				</div>
-				<input type="text" name="search" value="{{ request('search') }}" placeholder="Search staff..." class="w-full h-10 border border-gray-200 rounded-lg pl-11 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition" />
+				<input type="text" name="search" value="{{ request('search') }}" placeholder="Search" class="w-full h-10 border border-gray-200 rounded-lg pl-11 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition" />
 			</div>
 
 			<div class="flex gap-2 w-fit">

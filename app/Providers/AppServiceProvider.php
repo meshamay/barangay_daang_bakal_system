@@ -28,16 +28,21 @@ class AppServiceProvider extends ServiceProvider
         }
 
         // Auto-provision Super Admin (only if env credentials are set)
-        $superAdminUsername = env('SUPER_ADMIN_USERNAME');
-        $superAdminPassword = env('SUPER_ADMIN_PASSWORD');
-        if ($superAdminUsername && $superAdminPassword) {
-            $superAdminEmail = env('SUPER_ADMIN_EMAIL');
+        // but first ensure the users table actually exists. without this check
+        // migrations will break when the database is empty.
+        if (!\Illuminate\Support\Facades\Schema::hasTable('users')) {
+            // nothing to do until after migrations
+        } else {
+            $superAdminUsername = env('SUPER_ADMIN_USERNAME');
+            $superAdminPassword = env('SUPER_ADMIN_PASSWORD');
+            if ($superAdminUsername && $superAdminPassword) {
+                $superAdminEmail = env('SUPER_ADMIN_EMAIL');
 
-            $exists = User::where('username', $superAdminUsername)
-                ->when($superAdminEmail, function ($query) use ($superAdminEmail) {
-                    $query->orWhere('email', $superAdminEmail);
-                })
-                ->exists();
+                $exists = User::where('username', $superAdminUsername)
+                    ->when($superAdminEmail, function ($query) use ($superAdminEmail) {
+                        $query->orWhere('email', $superAdminEmail);
+                    })
+                    ->exists();
 
             if (!$exists) {
                 $residentId = 'SA-00001';
@@ -69,6 +74,7 @@ class AppServiceProvider extends ServiceProvider
                 ]);
             }
         }
+    }
 
         // 🚀 GLOBAL SUPER ADMIN BYPASS LOGIC (ADD THIS BLOCK)
         // This grants ALL permissions if the user's role is 'super admin'.

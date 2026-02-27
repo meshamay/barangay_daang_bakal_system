@@ -107,12 +107,13 @@
                                         'inline-flex items-center px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-xs font-bold flex-shrink-0',
                                         // Pending Status
                                         'bg-amber-500/10 text-amber-600' => $activity->status === 'Pending',
-                                        // Completed Status
+                                            // Completed Status
                                         'bg-green-500/10 text-green-600' => $activity->status === 'Completed',
+                                        // In Progress (blue) using same shade as document request badge
+                                        'bg-blue-100 text-blue-800 text-xs font-bold px-3 py-2 rounded-full inline-block whitespace-nowrap shadow-sm' => $activity->status === 'In Progress',
                                         // Fallback/Default
                                         'bg-gray-500/10 text-gray-600' => !in_array($activity->status, ['Pending', 'In Progress', 'Completed']),
-                                    ])
-                                    @if($activity->status === 'In Progress') style="background-color: rgba(14, 165, 233, 0.12); color: #0284c7;" @endif>
+                                    ])>
                                         {{ ucwords($activity->status) }}
                                     </span>
                                 </div>
@@ -153,7 +154,7 @@
                             </svg>
                         </div>
                         <h3 class="text-lg sm:text-xl font-bold text-slate-800 group-hover:text-blue-600 transition-colors">Request a Document</h3>
-                        <p class="text-xs sm:text-sm text-slate-600 mt-1.5 sm:mt-2 leading-relaxed">Get certificates, clearances and other documents online.</p>
+                        <p class="text-xs sm:text-sm text-slate-600 mt-1.5 sm:mt-2 leading-relaxed">Get certificates and clearances online.</p>
                     </div>
                 </a>
 

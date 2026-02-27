@@ -81,6 +81,19 @@ async function submitForm(form, modalId) {
     if (!submitButton) {
         submitButton = document.querySelector(`button[form="${form.id}"][type="submit"]`);
     }
+    
+    // Check if checkbox is unchecked and show tooltip
+    const checkbox = form.querySelector('input[type="checkbox"][required]');
+    const tooltip = form.querySelector('.checkboxTooltip');
+    if (checkbox && !checkbox.checked) {
+        if (tooltip) {
+            tooltip.classList.remove('hidden');
+            // Auto-hide when user checks the box
+            checkbox.addEventListener('change', () => tooltip.classList.add('hidden'), { once: true });
+        }
+        return;
+    }
+    
     if (submitButton) {
         submitButton.disabled = true;
         submitButton.textContent = 'SUBMITTING...';

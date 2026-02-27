@@ -333,15 +333,13 @@
 						<div><label class="font-semibold text-gray-700 block mb-1">House/Unit Number, Street:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->resident->address ?? '' }}" disabled></div>
 				   <div class="col-span-2 mt-4"><label class="font-semibold text-gray-700 block mb-2">ID/Certificate of Live Birth Attachment</label>
 					<div class="mt-2 grid grid-cols-2 gap-4">
-											<button type="button" class="border-2 border-dashed border-blue-300 rounded-xl py-4 flex flex-col items-center text-sm w-full bg-blue-50/50 overflow-hidden hover:bg-blue-50 transition-colors">
-												   <img src="https://cdn-icons-png.flaticon.com/512/685/685655.png" class="js-id-front opacity-70 object-contain transition-all duration-300" style="width:100%;height:100%;">
-
-											</button>
-											<button type="button" class="border-2 border-dashed border-blue-300 rounded-xl py-4 flex flex-col items-center text-sm w-full bg-blue-50/50 overflow-hidden hover:bg-blue-50 transition-colors">
-												   <img src="https://cdn-icons-png.flaticon.com/512/685/685655.png" class="js-id-back opacity-70 object-contain transition-all duration-300" style="width:100%;height:100%;">
-
-											</button>
-						</div>
+    <button type="button" class="border-2 border-dashed border-blue-300 rounded-xl py-4 flex flex-col items-center text-sm w-full bg-blue-50/50 overflow-hidden hover:bg-blue-50 transition-colors" style="max-width:400px;max-height:400px;">
+        <img src="{{ ($request->resident && $request->resident->id_front_path) ? asset('storage/' . $request->resident->id_front_path) : 'https://cdn-icons-png.flaticon.com/512/685/685655.png' }}" class="js-id-front opacity-70 object-contain transition-all duration-300" style="width:100%;height:100%;max-width:380px;max-height:380px;">
+    </button>
+    <button type="button" class="border-2 border-dashed border-blue-300 rounded-xl py-4 flex flex-col items-center text-sm w-full bg-blue-50/50 overflow-hidden hover:bg-blue-50 transition-colors" style="max-width:400px;max-height:400px;">
+        <img src="{{ ($request->resident && $request->resident->id_back_path) ? asset('storage/' . $request->resident->id_back_path) : 'https://cdn-icons-png.flaticon.com/512/685/685655.png' }}" class="js-id-back opacity-70 object-contain transition-all duration-300" style="width:100%;height:100%;max-width:380px;max-height:380px;">
+    </button>
+</div>
 					</div>
 					@endif
 				<div class="col-span-2 my-4"><div class="border-t border-gray-200"></div></div>
@@ -464,7 +462,7 @@
 					<div><label class="font-semibold text-gray-700 block mb-1">Gender:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->resident->gender ?? '' }}" disabled></div>
 					<div><label class="font-semibold text-gray-700 block mb-1">Civil Status:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->resident->civil_status ?? '' }}" disabled></div>
 						<div><label class="font-semibold text-gray-700 block mb-1">House/Unit Number, Street:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->resident->address ?? '' }}" disabled></div>
-				<div cl12q	ass="col-span-2 mt-4"><label class="font-semibold text-gray-700">ID/Certificate of Live Birth Attachment:</label>
+				<div class="col-span-2 mt-4"><label class="font-semibold text-gray-700">ID/Certificate of Live Birth Attachment:</label>
 					<div class="mt-2 grid grid-cols-2 gap-4">
 						<button type="button" class="border-2 border-dashed border-blue-300 rounded-xl py-4 flex flex-col items-center text-sm w-full bg-blue-50/50 overflow-hidden hover:bg-blue-50 transition-colors">
 							<img src="{{ ($request->resident && $request->resident->id_front_path) ? asset('storage/' . $request->resident->id_front_path) : 'https://cdn-icons-png.flaticon.com/512/685/685655.png' }}" class="js-id-front opacity-70 object-contain transition-all duration-300" style="width:100%;height:100%;">
