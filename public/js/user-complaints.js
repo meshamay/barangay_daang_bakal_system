@@ -110,11 +110,15 @@ async function submitComplaintForm() {
     if (!form || !submitButton || !errorsDiv) return;
     
     const checkbox = form.querySelector('input[type="checkbox"][required]');
-    const tooltip = document.getElementById('checkboxTooltip');
+    const tooltip = form.querySelector('.checkboxTooltip');
     if (checkbox && !checkbox.checked) {
         // show tooltip next to unchecked checkbox
         if (tooltip) {
             tooltip.classList.remove('hidden');
+            // Hide after 3 seconds if not checked
+            setTimeout(() => {
+                if (!checkbox.checked) tooltip.classList.add('hidden');
+            }, 3000);
             // automatically hide when they click checkbox
             checkbox.addEventListener('change', () => tooltip.classList.add('hidden'), { once: true });
         }

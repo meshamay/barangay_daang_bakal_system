@@ -12,56 +12,50 @@
 
     {{-- Filter Section --}}
     <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg p-6 mb-8 border border-gray-100">
-        <div class="flex flex-wrap items-end gap-4">
-            
+        <div class="flex flex-row flex-wrap items-end gap-6">
             {{-- Date Range Filter --}}
-            <form method="GET" action="{{ route('admin.auditlogs.index') }}" class="flex items-end gap-4">
-                <div class="flex flex-col">
-                    <label class="text-sm font-medium text-gray-700 mb-2">From Date</label>
+            <form method="GET" action="{{ route('admin.auditlogs.index') }}" class="flex flex-row items-end gap-4">
+                <div class="flex flex-col min-w-[150px]">
+                    <label class="text-sm font-medium text-gray-700 mb-1">From Date</label>
                     <input
                         type="date"
                         name="from_date"
                         value="{{ request('from_date') }}"
-                        class="px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                        class="px-4 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                     >
                 </div>
-
-                <div class="flex flex-col">
-                    <label class="text-sm font-medium text-gray-700 mb-2">To Date</label>
+                <div class="flex flex-col min-w-[150px]">
+                    <label class="text-sm font-medium text-gray-700 mb-1">To Date</label>
                     <input
                         type="date"
                         name="to_date"
                         value="{{ request('to_date') }}"
-                        class="px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                        class="px-4 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                     >
                 </div>
-
                 <button
                     type="submit"
-                    class="px-6 py-2.5 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg text-sm font-medium hover:from-green-700 hover:to-green-800 transform hover:scale-105 transition-all duration-200 shadow-md hover:shadow-lg">
+                    class="px-6 py-2 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg text-sm font-medium hover:from-green-700 hover:to-green-800 transform hover:scale-105 transition-all duration-200 shadow-md hover:shadow-lg mt-5">
                     Apply Filter
                 </button>
             </form>
-
             {{-- Role Filter --}}
-            <form method="GET" action="{{ route('admin.auditlogs.index') }}" class="flex flex-col">
-                <label class="text-sm font-medium text-gray-700 mb-2">Role</label>
+            <form method="GET" action="{{ route('admin.auditlogs.index') }}" class="flex flex-col min-w-[150px]">
                 <select 
                     name="role" 
                     onchange="this.form.submit()" 
-                    class="px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white cursor-pointer">
-                    <option value="">All Roles</option>
+                    class="px-4 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white cursor-pointer">
+                    <option value="">Role</option>
                     <option value="superadmin" {{ request('role') == 'superadmin' ? 'selected' : '' }}>Super Admin</option>
                     <option value="admin" {{ request('role') == 'admin' ? 'selected' : '' }}>Admin</option>
                     <option value="resident" {{ request('role') == 'resident' ? 'selected' : '' }}>Resident</option>
                 </select>
             </form>
-
             {{-- Clear Filter --}}
             @if(request('from_date') || request('to_date') || request('role'))
-                <div class="flex flex-col">
-                    <label class="text-sm font-medium text-gray-700 mb-2 opacity-0">Clear</label>
-                    <a href="{{ route('admin.auditlogs.index') }}" class="px-6 py-2.5 flex items-center gap-2 text-sm border border-gray-300 rounded-lg bg-white hover:bg-gray-50 text-gray-700 transition">
+                <div class="flex flex-col min-w-[100px] justify-end">
+                    <label class="text-sm font-medium text-gray-700 mb-1 opacity-0">Clear</label>
+                    <a href="{{ route('admin.auditlogs.index') }}" class="px-6 py-2 flex items-center gap-2 text-sm border border-gray-300 rounded-lg bg-white hover:bg-gray-50 text-gray-700 transition mt-1">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                         </svg>
@@ -69,7 +63,6 @@
                     </a>
                 </div>
             @endif
-
         </div>
     </div>
 
@@ -122,9 +115,10 @@
                         <td class="py-4 px-6 text-sm text-gray-600 text-center">{{ $log->created_at->setTimezone('Asia/Manila')->format('g:i A') }}</td>
                         <td class="py-4 px-6 text-sm text-gray-600 text-center">
                             @php
-                                $action = $log->action;
+                                $action = trim(strtolower($log->action));
                                 $desc = $log->description;
-                                if ($action === 'Complaint Submitted' && strtolower($roleLabel) === 'resident') {
+                                $roleLabelNorm = trim(strtolower($roleLabel));
+                                if ($action === 'complaint submitted' && $roleLabelNorm === 'resident') {
                                     $complaintMap = [
                                         'Community Issues' => 'Complaint Submitted - Community Issues',
                                         'Physical Harassment' => 'Complaint Submitted - Physical Harassment',
@@ -138,22 +132,21 @@
                                     } else {
                                         echo 'Complaint Submitted - ' . $desc;
                                     }
-                                } else if ($action === 'Document Request Submitted' && strtolower($roleLabel) === 'resident') {
-                                    $docMap = [
-                                        'Indigency Clearance' => 'Document Request Submitted - Indigency Clearance',
-                                        'Resident Certificate' => 'Document Request Submitted - Resident Certificate',
-                                    ];
-                                    if (isset($docMap[$desc])) {
-                                        echo $docMap[$desc];
+                                } else if ($action === 'document request submitted' && $roleLabelNorm === 'resident') {
+                                    $descNorm = strtolower(trim($desc));
+                                    if ($descNorm === 'indigency clearance') {
+                                        echo 'Document Request Submitted - Indigency Clearance';
+                                    } else if ($descNorm === 'resident certificate') {
+                                        echo 'Document Request Submitted - Resident Certificate';
                                     } else {
-                                        echo $action . ' - ' . $desc;
+                                        echo 'Document Request Submitted - ' . $desc;
                                     }
-                                } else if ($action === 'Log In' && strtolower($roleLabel) === 'resident') {
+                                } else if ($action === 'log in' && $roleLabelNorm === 'resident') {
                                     echo 'Log In - Resident logged in';
-                                } else if ($action === 'Log Out' && strtolower($roleLabel) === 'resident') {
+                                } else if ($action === 'log out' && $roleLabelNorm === 'resident') {
                                     echo 'Log Out - Resident logged out';
                                 } else {
-                                    echo $action;
+                                    echo $log->action;
                                     if ($desc) echo ' - ' . $desc;
                                 }
                             @endphp

@@ -294,20 +294,22 @@
 
         </div>
         <div class="text-left">
-          <h3 class="text-3xl font-bold text-[#1e2e3d]">{{ $user->first_name }} {{ $user->last_name }}</h3>
-          <p class="text-gray-600 text-base font-semibold">{{ $user->resident_id ?? 'N/A' }}</p>
+                    <h3 class="text-3xl font-bold text-[#1e2e3d]">{{ $user->first_name }} {{ $user->last_name }}</h3>
+                    <p class="text-gray-600 text-base font-semibold">{{ $user->resident_id ?? 'N/A' }}</p>
 
-          @php
-            $statusColor = match(strtolower($user->status)) {
-                'approved' => 'bg-blue-100 text-blue-800 border-blue-200',
-                'archived' => 'bg-gray-100 text-gray-800 border-gray-200',
-                'reject'   => 'bg-red-100 text-red-800 border-red-200',
-                default    => 'bg-orange-100 text-orange-800 border-orange-200', // Pending
-            };
-          @endphp
-          <span class="inline-block mt-2 px-3 py-1 text-xs font-bold border rounded-full {{ $statusColor }}">
-            {{ strtoupper($user->status) }}
-          </span>
+                    @php
+                        $status = strtolower($user->status ?? 'pending');
+                        $statusColor = match($status) {
+                                'approved' => 'bg-emerald-100 text-emerald-800 border border-emerald-300',
+                                'reject'   => 'bg-red-100 text-red-800 border border-red-300',
+                                'archive'  => 'bg-gray-100 text-gray-800 border border-gray-300',
+                                default    => 'bg-amber-100 text-amber-800 border border-amber-300', // Pending or others
+                        };
+                        $statusLabel = ucfirst($status);
+                @endphp
+                <span class="inline-block mt-2 px-3 py-1 text-xs font-bold border rounded-full {{ $statusColor }}">
+                        {{ $statusLabel }}
+                </span>
         </div>
       </div>
 

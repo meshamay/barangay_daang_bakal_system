@@ -80,10 +80,11 @@ class LoginController extends Controller
             }
 
             // Create audit log for login
+            $isResident = !$isAdmin && (strtolower($user->role ?? '') === 'resident' || strtolower($user->user_type ?? '') === 'resident');
             AuditLog::create([
                 'user_id' => $user->id,
-                'action' => 'Login',
-                'description' => $isAdmin ? 'Admin/Super Admin logged in' : 'User logged in',
+                'action' => $isResident ? 'Log In' : ($isAdmin ? 'Login' : 'Login'),
+                'description' => $isResident ? 'Resident logged in' : ($isAdmin ? 'Admin/Super Admin logged in' : 'User logged in'),
             ]);
 
             
@@ -108,10 +109,12 @@ class LoginController extends Controller
         
         // Create audit log before logging out
         if ($user) {
+            $isAdmin = in_array(strtolower($user->role ?? ''), ['admin', 'super admin']) || in_array(strtolower($user->user_type ?? ''), ['admin', 'super admin']);
+            $isResident = strtolower($user->role ?? '') === 'resident' || strtolower($user->user_type ?? '') === 'resident';
             AuditLog::create([
                 'user_id' => $user->id,
-                'action' => 'Logout',
-                'description' => 'User logged out',
+                'action' => $isResident ? 'Log Out' : ($isAdmin ? 'Logout' : 'Logout'),
+                'description' => $isResident ? 'Resident logged out' : ($isAdmin ? 'Admin/Super Admin logged out' : 'User logged out'),
             ]);
         }
         

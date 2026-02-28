@@ -160,11 +160,29 @@
                             <p class="text-xs text-blue-200 font-medium mt-1">Resident</p>
                         </div>
 
-
-                        <div class="h-10 w-10 rounded-full bg-white/10 border border-white/40 flex items-center justify-center text-white backdrop-blur-sm hover:bg-white/20 transition cursor-pointer">
+                        <div x-data="{ open: false }" class="relative">
+                          <button @click="open = !open" class="h-10 w-10 rounded-full bg-white/10 border border-white/40 flex items-center justify-center text-white backdrop-blur-sm hover:bg-white/20 transition cursor-pointer focus:outline-none">
                             <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                             </svg>
+                          </button>
+                          <div x-show="open" @click.outside="open = false" class="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-2xl z-50 overflow-hidden border-2 border-gray-100">
+            <a href="http://127.0.0.1:8000/admin/profile" class="block w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 transition duration-200 flex items-center gap-2">
+                <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                </svg>
+                View Profile
+            </a>
+            <form method="POST" action="http://127.0.0.1:8000/logout" class="w-full">
+                <input type="hidden" name="_token" value="n6yQXbuHCfbxOwrdCJVnTZbZZV3PcP2HDdokNX4w" autocomplete="off">                
+                <button type="submit" class="block w-full text-left px-4 py- text-sm text-red-600 hover:bg-red-50 transition duration-200 flex items-center gap-2 border-t border-gray-100">
+                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                    </svg>
+                    <span class="w-full text-center mt-1">Sign Out</span>
+                  </button>
+            </form>
+                          </div>
                         </div>
 
 
