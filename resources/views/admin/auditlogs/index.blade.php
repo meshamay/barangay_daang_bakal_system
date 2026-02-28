@@ -35,7 +35,7 @@
                 </div>
                 <button
                     type="submit"
-                    class="px-6 py-2 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg text-sm font-medium hover:from-green-700 hover:to-green-800 transform hover:scale-105 transition-all duration-200 shadow-md hover:shadow-lg mt-5">
+                    class="px-6 py-2 bg-gradient-to-r from-[#134573] to-[#0d2d47] text-white rounded-lg text-sm font-medium hover:from-[#0f3a5f] hover:to-[#134573] transform hover:scale-105 transition-all duration-200 shadow-md hover:shadow-lg mt-5">
                     Apply Filter
                 </button>
             </form>
@@ -83,7 +83,7 @@
             </thead>
         </table>
         {{-- Scrollable Body --}}
-        <div class="overflow-x-auto overflow-y-auto" style="max-height: 460px;">
+        <div class="overflow-x-auto overflow-y-auto" style="max-height: 2200px; min-height: 800px;">
             <table class="w-full" style="table-layout: fixed;">
                 <tbody class="divide-y divide-gray-200">
                     @forelse($auditLogs as $log)
