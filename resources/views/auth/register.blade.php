@@ -198,6 +198,10 @@
                                 </div>
                                 <p class="mt-2 text-xs text-gray-600">Password must be at least 8 characters long and include an uppercase letter, lowercase letter, number, and special character.</p>
                             </div>
+
+                            {{-- Validation Error Area --}}
+                            <div id="registrationErrors" class="text-red-500 text-xs mt-4 hidden text-center"></div>
+
                             <div class="mt-6 flex items-center">
                                 <input id="agree" name="agree" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500" required>
                                 <label for="agree" class="ml-2 block text-sm text-gray-800">I have read and agree to the collection and use of my personal information as described in the

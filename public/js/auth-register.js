@@ -206,33 +206,59 @@ document.addEventListener("DOMContentLoaded", function () {
                 },
                 body: formData,
             })
-                .then((response) => response.json())
-                .then((data) => {
+                .then((response) =>
+                    response
+                        .json()
+                        .then((data) => ({ status: response.status, data })),
+                )
+                .then(({ status, data }) => {
+                    const errorsDiv =
+                        document.getElementById("registrationErrors");
+                    if (errorsDiv) {
+                        errorsDiv.classList.add("hidden");
+                        errorsDiv.innerHTML = "";
+                    }
+
                     if (data.success) {
                         // SUCCESS: Show the modal
                         if (registrationContainer)
                             registrationContainer.classList.add("hidden");
                         if (successPage) successPage.classList.remove("hidden");
                     } else {
-                        // ERROR: Show validation messages
-                        let errorMessage = "Registration failed:\n";
+                        // ERROR: Show validation messages as red text
+                        let messages = "";
                         if (data.errors) {
-                            for (const [key, messages] of Object.entries(
+                            for (const [key, msgs] of Object.entries(
                                 data.errors,
                             )) {
-                                errorMessage += `• ${messages[0]}\n`;
+                                messages += `• ${msgs[0]}<br>`;
                             }
                         } else {
-                            errorMessage += data.message || "Unknown error";
+                            messages = `• ${data.message || "Registration failed. Please try again."}`;
                         }
-                        alert(errorMessage);
+                        if (errorsDiv) {
+                            errorsDiv.innerHTML = messages;
+                            errorsDiv.classList.remove("hidden");
+                            errorsDiv.scrollIntoView({
+                                behavior: "smooth",
+                                block: "nearest",
+                            });
+                        }
                     }
                 })
                 .catch((error) => {
                     console.error("Error:", error);
-                    alert(
-                        "A system error occurred. Please check your internet connection or try again later.",
-                    );
+                    const errorsDiv =
+                        document.getElementById("registrationErrors");
+                    if (errorsDiv) {
+                        errorsDiv.innerHTML =
+                            "• A system error occurred. Please check your internet connection or try again later.";
+                        errorsDiv.classList.remove("hidden");
+                        errorsDiv.scrollIntoView({
+                            behavior: "smooth",
+                            block: "nearest",
+                        });
+                    }
                 })
                 .finally(() => {
                     // Reset Button

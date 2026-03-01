@@ -48,6 +48,14 @@ class RegisterController extends Controller
             'id_front'       => 'required|image|max:2048',
             'id_back'        => 'required|image|max:2048',
             'agree'          => 'required|accepted',
+        ], [
+            'email.unique'          => 'This email address is already registered.',
+            'username.unique'       => 'This username is already taken. Please choose a different one.',
+            'password.min'          => 'Password must be at least 8 characters long.',
+            'password.mixed'        => 'Password must contain both uppercase and lowercase letters.',
+            'password.numbers'      => 'Password must contain at least one number.',
+            'password.symbols'      => 'Password must contain at least one special character (e.g. @, #, $, !).',
+            'password.confirmed'    => 'Password and confirm password do not match.',
         ]);
 
         if ($validator->fails()) {
