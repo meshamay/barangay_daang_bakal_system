@@ -326,7 +326,7 @@
                         @php $index = 0; @endphp
                         @foreach($complaintTypes as $type => $count)
                             @php
-                                $shortType = str_replace(['Community Issues', 'Physical Harrasments', 'Neighbor Dispute', 'Money Problems', 'Misbehavior'], ['Community', 'Physical', 'Neighbor', 'Money', 'Misbehavior'], $type);
+                                $shortType = str_replace(['Community Issues', 'Physical Harassment', 'Neighbor Dispute', 'Money Problems', 'Misbehavior'], ['Community', 'Physical', 'Neighbor', 'Money', 'Misbehavior'], $type);
                             @endphp
                             <div class="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-100 transition-colors duration-200 cursor-pointer">
                                 <div class="w-4 h-4 rounded-full" style="background-color: {{ $colors[$index] }};"></div>

@@ -219,7 +219,7 @@
 				    <td class="py-5 px-6 w-1/8 font-semibold text-gray-900">{{ $complaint->transaction_no }}</td>
 				    <td class="py-5 px-6 w-1/8 text-gray-700">{{ $user->last_name ?? 'N/A' }}</td>
 				    <td class="py-5 px-6 w-1/8 text-gray-700">{{ $user->first_name ?? 'N/A' }}</td>
-			    <td class="py-5 px-6 w-1/8 text-gray-600">{{ str_replace('Physical Harrasments', 'Physical Harassment', $complaint->complaint_type) }}</td>
+			    <td class="py-5 px-6 w-1/8 text-gray-600">{{ $complaint->complaint_type }}</td>
 				    <td class="py-5 px-6 w-1/8 text-gray-600 text-sm">{{ $complaint->created_at->format('d/m/Y') }}</td>
 				    <td class="py-5 px-6 w-1/8 text-gray-600 text-sm">{{ $complaint->date_completed ? \Carbon\Carbon::parse($complaint->date_completed)->format('d/m/Y') : '—' }}</td>
 				    <td class="py-5 px-6 w-1/8">

@@ -82,7 +82,7 @@ class ReportsController extends Controller
         // Most Reported Complaints
         $complaintTypes = [
             'Community Issues' => Complaint::where('complaint_type', 'Community Issues')->whereBetween('created_at', [$startOfMonth, $endOfMonth])->count(),
-            'Physical Harrasments' => Complaint::where('complaint_type', 'Physical Harrasments')->whereBetween('created_at', [$startOfMonth, $endOfMonth])->count(),
+            'Physical Harassment' => Complaint::where('complaint_type', 'Physical Harassment')->whereBetween('created_at', [$startOfMonth, $endOfMonth])->count(),
             'Neighbor Dispute' => Complaint::where('complaint_type', 'Neighbor Dispute')->whereBetween('created_at', [$startOfMonth, $endOfMonth])->count(),
             'Money Problems' => Complaint::where('complaint_type', 'Money Problems')->whereBetween('created_at', [$startOfMonth, $endOfMonth])->count(),
             'Misbehavior' => Complaint::where('complaint_type', 'Misbehavior')->whereBetween('created_at', [$startOfMonth, $endOfMonth])->count(),
@@ -199,7 +199,7 @@ class ReportsController extends Controller
         if (in_array('most_reported_complaints', $sections)) {
             $data['complaintTypes'] = [
                 'Community Issues' => Complaint::where('complaint_type', 'Community Issues')->whereBetween('created_at', [$startOfMonth, $endOfMonth])->count(),
-                'Physical Harrasments' => Complaint::where('complaint_type', 'Physical Harrasments')->whereBetween('created_at', [$startOfMonth, $endOfMonth])->count(),
+                'Physical Harassment' => Complaint::where('complaint_type', 'Physical Harassment')->whereBetween('created_at', [$startOfMonth, $endOfMonth])->count(),
                 'Neighbor Dispute' => Complaint::where('complaint_type', 'Neighbor Dispute')->whereBetween('created_at', [$startOfMonth, $endOfMonth])->count(),
                 'Money Problems' => Complaint::where('complaint_type', 'Money Problems')->whereBetween('created_at', [$startOfMonth, $endOfMonth])->count(),
                 'Misbehavior' => Complaint::where('complaint_type', 'Misbehavior')->whereBetween('created_at', [$startOfMonth, $endOfMonth])->count(),

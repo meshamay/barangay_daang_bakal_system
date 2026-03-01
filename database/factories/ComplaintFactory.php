@@ -18,7 +18,7 @@ class ComplaintFactory extends Factory
     public function definition(): array
     {
         $status = $this->faker->randomElement(['Pending', 'In Progress', 'Completed']);
-        $complaintType = $this->faker->randomElement(['Community Issues', 'Physical Harrasments', 'Neighbor Dispute', 'Money Problems', 'Misbehavior', 'Others']);
+        $complaintType = $this->faker->randomElement(['Community Issues', 'Physical Harassment', 'Neighbor Dispute', 'Money Problems', 'Misbehavior', 'Others']);
 
         return [
             'user_id' => User::factory(),

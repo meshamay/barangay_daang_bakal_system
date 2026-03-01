@@ -50,7 +50,7 @@
   <select class="h-8 px-3 text-sm focus:outline-none w-55">
     <option>COMPLAINT TYPE</option>
     <option>Community Issues </option>
-    <option>Physical Harrasments</option>
+    <option>Physical Harassment</option>
     <option>Neigbor Dispute</option>
     <option>Money Problems</option>
     <option>Misbehavior</option>

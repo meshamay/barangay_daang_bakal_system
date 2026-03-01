@@ -93,7 +93,7 @@
                             <a href="{{ route('user.complaints.index') }}" class="p-3 sm:p-4 hover:bg-gradient-to-r hover:from-red-50 hover:to-pink-50 transition-all duration-200 group block border-l-2 sm:border-l-4 border-l-red-500">
                                 <div class="flex justify-between items-start gap-2">
                                     <div class="flex-1 min-w-0">
-                                        <h3 class="font-bold text-slate-800 group-hover:text-red-600 transition-colors text-xs sm:text-sm truncate">{{ str_replace('Physical Harrasments', 'Physical Harassment', $activity->complaint_type) }}</h3>
+                                        <h3 class="font-bold text-slate-800 group-hover:text-red-600 transition-colors text-xs sm:text-sm truncate">{{ $activity->complaint_type }}</h3>
                                         <div class="flex items-center gap-1 sm:gap-2 mt-1 sm:mt-1.5 text-xs sm:text-sm text-slate-500 flex-wrap">
                                             {{-- 🚀 FIX: Changed $activity->id to $activity->transaction_no --}}
                                             <span class="font-mono bg-red-50 px-1.5 sm:px-2 py-0.5 rounded text-red-700 font-semibold text-xs">{{ $activity->transaction_no }}</span>

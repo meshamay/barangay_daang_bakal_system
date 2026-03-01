@@ -101,7 +101,7 @@
         <td class="py-5 px-4 text-gray-700 whitespace-nowrap" style="width: 10%;">{{ Auth::user()->first_name ?? 'N/A' }}</td>
         <td class="py-5 px-4 font-semibold text-gray-800" style="width: 18%;">
             <div class="overflow-hidden text-ellipsis whitespace-nowrap">
-                {{ str_replace('Physical Harrasments', 'Physical Harassment', str_replace('Harassments', 'Harassment', $complaint->complaint_type ?? 'N/A')) }}
+                {{ $complaint->complaint_type ?? 'N/A' }}
             </div>
         </td>
         <td class="py-5 px-4 text-gray-600 text-sm whitespace-nowrap" style="width: 12%;">{{ $complaint->created_at->format('d/m/Y') }}</td>

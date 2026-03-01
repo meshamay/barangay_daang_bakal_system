@@ -36,11 +36,7 @@ class ComplaintStatusUpdated extends Notification
     {
         $transactionId = $this->complaint->transaction_no;
         $status = strtolower($this->complaint->status);
-        $complaintType = str_replace(
-            ['Physical Harrasments', 'Harassments'],
-            ['Physical Harassment', 'Harassment'],
-            $this->complaint->complaint_type
-        );
+        $complaintType = $this->complaint->complaint_type;
 
         return [
             'type' => 'complaint',
