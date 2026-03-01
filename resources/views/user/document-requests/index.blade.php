@@ -109,8 +109,8 @@
 		@forelse($myRequests as $request)
 		<tr class="hover:bg-blue-50/70 transition-colors duration-150 ease-in-out text-center">
 			<td class="py-5 px-4 font-semibold text-blue-600 whitespace-nowrap" style="width: 12%;">{{ $request->tracking_number ?? 'N/A' }}</td>
-			<td class="py-5 px-4 text-gray-700 whitespace-nowrap" style="width: 10%;">{{ Auth::user()->last_name }}</td>
-			<td class="py-5 px-4 text-gray-700 whitespace-nowrap" style="width: 10%;">{{ Auth::user()->first_name }}</td>
+			<td class="py-5 px-4 text-gray-700 whitespace-nowrap" style="width: 10%;">{{ Auth::check() && Auth::user() && isset(Auth::user()->last_name) ? Auth::user()->last_name : 'N/A' }}</td>
+			<td class="py-5 px-4 text-gray-700 whitespace-nowrap" style="width: 10%;">{{ Auth::check() && Auth::user() && isset(Auth::user()->first_name) ? Auth::user()->first_name : 'N/A' }}</td>
 			<td class="py-5 px-4 font-semibold text-gray-800" style="width: 18%;">
 				<div class="overflow-hidden text-ellipsis whitespace-nowrap">
 				{{ str_replace(['Certificate of Indigency', 'Certificate of Residency'], ['Indigency Clearance', 'Resident Certificate'], $request->document_type) }}

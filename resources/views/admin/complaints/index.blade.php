@@ -206,34 +206,34 @@
         <div class="overflow-x-auto overflow-y-auto max-h-[367px]">
 			<table class="w-full text-sm" style="table-layout: fixed;">
 				<tbody class="divide-y divide-gray-100">
-                @forelse ($complaints as $complaint)
-				@php
-				    $status_color = [
-				        'Pending' => 'bg-amber-100 text-amber-800 border border-amber-300',
-				        'In Progress' => 'bg-blue-100 text-blue-800 border border-blue-300',
-				        'Completed' => 'bg-emerald-100 text-emerald-800 border border-emerald-300',
-				    ][$complaint->status] ?? 'bg-gray-100 text-gray-800 border border-gray-300';
-				    $user = $complaint->user;
-				@endphp
+                @forelse (($complaints ?? []) as $complaint)
+                @php
+                    $status_color = [
+                        'Pending' => 'bg-amber-100 text-amber-800 border border-amber-300',
+                        'In Progress' => 'bg-blue-100 text-blue-800 border border-blue-300',
+                        'Completed' => 'bg-emerald-100 text-emerald-800 border border-emerald-300',
+                    ][optional($complaint)->status ?? ''] ?? 'bg-gray-100 text-gray-800 border border-gray-300';
+                    $user = optional($complaint)->user;
+                @endphp
 				<tr class="hover:bg-blue-50/70 transition-colors duration-150 ease-in-out text-center">
-				    <td class="py-5 px-6 w-1/8 font-semibold text-gray-900">{{ $complaint->transaction_no }}</td>
-				    <td class="py-5 px-6 w-1/8 text-gray-700">{{ $user->last_name ?? 'N/A' }}</td>
-				    <td class="py-5 px-6 w-1/8 text-gray-700">{{ $user->first_name ?? 'N/A' }}</td>
-			    <td class="py-5 px-6 w-1/8 text-gray-600">{{ $complaint->complaint_type }}</td>
-				    <td class="py-5 px-6 w-1/8 text-gray-600 text-sm">{{ $complaint->created_at->format('d/m/Y') }}</td>
-				    <td class="py-5 px-6 w-1/8 text-gray-600 text-sm">{{ $complaint->date_completed ? \Carbon\Carbon::parse($complaint->date_completed)->format('d/m/Y') : '—' }}</td>
-				    <td class="py-5 px-6 w-1/8">
+                    <td class="py-5 px-6 w-1/8 font-semibold text-gray-900">{{ optional($complaint)->transaction_no ?? 'N/A' }}</td>
+                    <td class="py-5 px-6 w-1/8 text-gray-700">{{ optional($user)->last_name ?? 'N/A' }}</td>
+                    <td class="py-5 px-6 w-1/8 text-gray-700">{{ optional($user)->first_name ?? 'N/A' }}</td>
+                    <td class="py-5 px-6 w-1/8 text-gray-600">{{ optional($complaint)->complaint_type ?? 'N/A' }}</td>
+                    <td class="py-5 px-6 w-1/8 text-gray-600 text-sm">{{ optional($complaint)->created_at ? optional($complaint)->created_at->format('d/m/Y') : 'N/A' }}</td>
+                    <td class="py-5 px-6 w-1/8 text-gray-600 text-sm">{{ optional($complaint)->date_completed ? \Carbon\Carbon::parse(optional($complaint)->date_completed)->format('d/m/Y') : '—' }}</td>
+                    <td class="py-5 px-6 w-1/8">
                         <span class="{{ $status_color }} text-xs font-bold px-3 py-2 rounded-full inline-block shadow-sm">
-				            {{ $complaint->status }}
-				        </span>
-				    </td>
+                            {{ optional($complaint)->status ?? 'N/A' }}
+                        </span>
+                    </td>
 				    <td class="py-5 px-6 w-1/8 text-center">
 				        <div class="flex items-center justify-center">
                             <div class="flex items-center gap-3 relative z-20 hover:z-[60]"> 
 
                                 {{-- View Button - Always visible --}}
                                 <div class="relative group">
-                                    <button type="button" onclick="openModal('viewModal-{{ $complaint->id }}')" class="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-blue-50 transition-all duration-200 hover:shadow-md">
+                                    <button type="button" onclick="openModal('viewModal-{{ optional($complaint)->id ?? '' }}')" class="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-blue-50 transition-all duration-200 hover:shadow-md">
                                         <svg class="w-6 h-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
@@ -243,9 +243,9 @@
                                 </div>
 
                                 {{-- In Progress Button - Only for Pending status --}}
-                                @if(strtolower($complaint->status) === 'pending')
+                                @if(optional($complaint)->status && strtolower(optional($complaint)->status) === 'pending')
                                     <div class="relative group">
-                                        <button onclick="openStatusModal('inprogressModal', '{{ $complaint->id }}')" class="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-amber-50 transition-all duration-200 hover:shadow-md">
+                                        <button onclick="openStatusModal('inprogressModal', '{{ optional($complaint)->id ?? '' }}')" class="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-amber-50 transition-all duration-200 hover:shadow-md">
                                             <svg class="w-6 h-6 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l2.5 1.5" />
                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 3a9 9 0 110 18 9 9 0 010-18z" />
@@ -256,9 +256,9 @@
                                 @endif
 
                                 {{-- Complete Button - For Pending or In Progress status --}}
-                                @if(strtolower($complaint->status) === 'pending' || strtolower($complaint->status) === 'in progress')
+                                @if(optional($complaint)->status && (strtolower(optional($complaint)->status) === 'pending' || strtolower(optional($complaint)->status) === 'in progress'))
                                     <div class="relative group">
-                                        <button onclick="openStatusModal('completedModal', '{{ $complaint->id }}')" class="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-emerald-50 transition-all duration-200 hover:shadow-md">
+                                        <button onclick="openStatusModal('completedModal', '{{ optional($complaint)->id ?? '' }}')" class="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-emerald-50 transition-all duration-200 hover:shadow-md">
                                             <svg class="w-6 h-6 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                                 <circle cx="12" cy="12" r="9" />
                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.5l2 2 4-4" />
@@ -283,7 +283,7 @@
 	</div>
 	
 	<div class="mt-4">
-		{{ $complaints->links() }}
+        {{ isset($complaints) ? $complaints->links() : '' }}
 	</div>
 
     
@@ -375,7 +375,7 @@
     {{--  🚀 DYNAMIC VIEW MODALS LOOP (This generates a unique modal for EACH row) --}}
     {{-- ========================================================================= --}}
     
-    @foreach ($complaints as $c)
+    @foreach (($complaints ?? []) as $c)
         @php $u = $c->user; @endphp
         
         {{-- UNIQUE ID FOR EVERY MODAL --}}
