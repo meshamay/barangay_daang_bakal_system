@@ -126,7 +126,7 @@
 		<table class="w-full text-sm" style="table-layout: fixed;">
 			<thead style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%); color: white;" class="shadow-sm">
 				<tr class="text-sm font-semibold uppercase tracking-widest text-center">
-					<th class="py-5 px-6 w-1/7">Transaction No.</th>
+					<th class="py-5 px-6 w-1/7">Transaction ID</th>
 					<th class="py-5 px-6 w-1/7">Last Name</th>
 					<th class="py-5 px-6 w-1/7">First Name</th>
 					<th class="py-5 px-6 w-1/7">Document Type</th>
