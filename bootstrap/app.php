@@ -33,6 +33,9 @@ return Application::configure(basePath: dirname(__DIR__))
         // Force HTTPS in production (redirect http -> https)
         $middleware->append(\App\Http\Middleware\ForceHttps::class);
 
+        // Fallback to file session storage if SQLite session DB is unavailable.
+        $middleware->append(\App\Http\Middleware\EnsureSessionDriverAvailable::class);
+
         // THIS IS THE ONLY LINE YOU NEED TO ADD.
         // It registers 'check.admin' as a shortcut for your CheckAdmin class.
         $middleware->alias([
