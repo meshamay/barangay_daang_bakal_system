@@ -6,8 +6,8 @@
     <div class="max-w-full">
     {{-- Page Header --}}
     <div class="mb-8">
-        <h1 class="text-4xl font-bold bg-gradient-to-r from-[#134573] to-[#0f3a5f] bg-clip-text text-transparent">Audit Logs</h1>
-        <p class="text-gray-600">Track and monitor all system activities and user actions</p>
+        <h1 class="text-4xl font-bold bg-gradient-to-r from-[#134573] to-[#0f3a5f] bg-clip-text text-transparent">AUDIT LOGS</h1>
+        <p class="text-gray-600 text-[14px]">Track and manage all system activities and user actions.</p>
     </div>
 
     {{-- Filter Section --}}
@@ -72,13 +72,13 @@
         <table class="w-full" style="table-layout: fixed;">
             <thead style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%); color: white; position: sticky; top: 0; z-index: 10;">
                 <tr>
-                    <th class="py-4 px-6 text-center text-xs font-semibold uppercase tracking-wider">User ID</th>
-                    <th class="py-4 px-6 text-center text-xs font-semibold uppercase tracking-wider">Last Name</th>
-                    <th class="py-4 px-6 text-center text-xs font-semibold uppercase tracking-wider">First Name</th>
-                    <th class="py-4 px-6 text-center text-xs font-semibold uppercase tracking-wider">Role</th>
-                    <th class="py-4 px-6 text-center text-xs font-semibold uppercase tracking-wider">Date</th>
-                    <th class="py-4 px-6 text-center text-xs font-semibold uppercase tracking-wider">Time</th>
-                    <th class="py-4 px-6 text-center text-xs font-semibold uppercase tracking-wider">Action Performed</th>
+                    <th class="py-4 px-6 text-center text-[14px] font-semibold uppercase tracking-wider">USER ID NO.</th>
+                    <th class="py-4 px-6 text-center text-[14px] font-semibold uppercase tracking-wider">Last Name</th>
+                    <th class="py-4 px-6 text-center text-[14px] font-semibold uppercase tracking-wider">First Name</th>
+                    <th class="py-4 px-6 text-center text-[14px] font-semibold uppercase tracking-wider">Role</th>
+                    <th class="py-4 px-6 text-center text-[14px] font-semibold uppercase tracking-wider">Date</th>
+                    <th class="py-4 px-6 text-center text-[14px] font-semibold uppercase tracking-wider">Time</th>
+                    <th class="py-4 px-6 text-center text-[14px] font-semibold uppercase tracking-wider">Action Performed</th>
                 </tr>
             </thead>
         </table>
@@ -154,12 +154,13 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="7" class="py-16 px-6 text-center">
-                            <svg class="w-16 h-16 mx-auto mb-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                            </svg>
-                            <p class="text-gray-400 text-base font-medium">No audit logs found</p>
-                            <p class="text-gray-400 text-sm mt-1">Try adjusting your filters</p>
+                        <td colspan="7" class="h-[800px] p-0 text-center text-gray-400 text-sm align-middle">
+                            <div class="h-full w-full flex flex-col items-center justify-center text-center">
+                                <svg class="w-16 h-16 mb-4 text-gray-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                </svg>
+                                <p class="font-medium text-center">No audit logs found.</p>
+                            </div>
                         </td>
                     </tr>
                     @endforelse

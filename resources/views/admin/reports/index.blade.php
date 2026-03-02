@@ -7,13 +7,21 @@
 @endpush
 
 <style>
+.report-month-label {
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+    color: #374151;
+    margin-top: 0.75rem;
+    font-family: 'Poppins', sans-serif;
+}
 </style>
 
 <main class="flex-1 p-8 fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] overflow-y-auto bg-gradient-to-br from-gray-50 to-gray-100">
 
     <div class="flex items-center justify-between mb-8">
         <div>
-            <h1 class="text-4xl font-bold bg-gradient-to-r from-[#134573] to-[#0f3a5f] bg-clip-text text-transparent">Reports & Analytics</h1>
+            <h1 class="text-4xl font-bold bg-gradient-to-r from-[#134573] to-[#0f3a5f] bg-clip-text text-transparent">REPORTS & ANALYTICS</h1>
             <p class="text-gray-500 text-sm mt-1">Explore key metrics, trends, and export monthly summaries.</p>
         </div>
         <button onclick="openModal('exportModal')" class="flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white font-semibold px-6 py-2.5 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105">
@@ -53,14 +61,14 @@
   {{-- KPI Cards --}}
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
 
-      <div class="bg-white rounded-xl shadow-md border border-gray-100 p-6 hover:shadow-lg hover:border-blue-200 transition duration-300 ease-in-out">
+    <div class="bg-white rounded-xl shadow-md border border-gray-100 p-6 hover:shadow-lg hover:border-emerald-200 transition duration-300 ease-in-out">
           <div class="flex items-center justify-between">
               <div>
                   <p class="text-gray-500 text-sm font-medium">Total Users</p>
                   <p class="text-4xl font-bold text-gray-900 mt-2">{{ $stats['totalUsers'] }}</p>
               </div>
-              <div class="bg-blue-100 p-4 rounded-lg">
-                  <svg class="h-8 w-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <div class="bg-emerald-100 p-4 rounded-lg">
+                  <svg class="h-8 w-8 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.856-1.487M15 6a3 3 0 11-6 0 3 3 0 016 0zM6 20h12a6 6 0 00-6-6 6 6 0 00-6 6z" />
                   </svg>
               </div>
@@ -84,7 +92,7 @@
       <div class="bg-white rounded-xl shadow-md border border-gray-100 p-6 hover:shadow-lg hover:border-blue-200 transition duration-300 ease-in-out">
           <div class="flex items-center justify-between">
               <div>
-                  <p class="text-gray-500 text-sm font-medium">Registered Staff</p>
+                  <p class="text-gray-500 text-sm font-medium">Registered Staffs</p>
                   <p class="text-4xl font-bold text-gray-900 mt-2">{{ $stats['totalStaff'] }}</p>
               </div>
               <div class="bg-blue-100 p-4 rounded-lg">
@@ -124,7 +132,7 @@
                         $femalePercent = $total > 0 ? ($populationByGender['female'] / $total) * 100 : 0;
                         $malePercent = $total > 0 ? ($populationByGender['male'] / $total) * 100 : 0;
                     @endphp
-                    <svg viewBox="0 0 200 200" style="width: 260px; height: 260px;" class="mb-6 drop-shadow-lg">
+                    <svg viewBox="-20 -20 240 240" style="width: 260px; height: 260px;" class="mb-6 drop-shadow-lg">
                         <defs>
                             <linearGradient id="femaleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
                                 <stop offset="0%" style="stop-color:#FF6B9D;stop-opacity:1" />
@@ -139,25 +147,25 @@
                         <circle cx="100" cy="100" r="90" fill="none" stroke="url(#maleGradient)" stroke-width="50" stroke-dasharray="{{ $malePercent * 5.65 }} 565" stroke-linecap="round" stroke-dashoffset="{{ -$femalePercent * 5.65 }}" transform="rotate(-90 100 100)"></circle>
                     </svg>
                     <div class="flex gap-8 justify-center">
-                        <div class="text-center p-3 rounded-xl bg-gradient-to-br from-pink-50 to-transparent">
-                            <p class="text-xs font-semibold text-gray-600 mb-2">Female</p>
-                            <p class="text-2xl font-bold bg-gradient-to-r from-pink-600 to-rose-600 bg-clip-text text-transparent">{{ $populationByGender['female'] }}</p>
-                            <p class="text-xs text-gray-500 mt-1">{{ number_format($femalePercent, 1) }}%</p>
-                        </div>
                         <div class="text-center p-3 rounded-xl bg-gradient-to-br from-blue-50 to-transparent">
                             <p class="text-xs font-semibold text-gray-600 mb-2">Male</p>
                             <p class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">{{ $populationByGender['male'] }}</p>
                             <p class="text-xs text-gray-500 mt-1">{{ number_format($malePercent, 1) }}%</p>
                         </div>
+                        <div class="text-center p-3 rounded-xl bg-gradient-to-br from-pink-50 to-transparent">
+                            <p class="text-xs font-semibold text-gray-600 mb-2">Female</p>
+                            <p class="text-2xl font-bold bg-gradient-to-r from-pink-600 to-rose-600 bg-clip-text text-transparent">{{ $populationByGender['female'] }}</p>
+                            <p class="text-xs text-gray-500 mt-1">{{ number_format($femalePercent, 1) }}%</p>
+                        </div>
                     </div>
-                    <div class="text-center text-xs font-semibold text-gray-500 mt-4">{{ $monthName }} | Total: {{ $total }}</div>
+                    <div class="report-month-label">Month of {{ $monthName }}</div>
                 </div>
             </div>
 
 
             {{-- CHART 2: DONUT CHART --}}
             <div class="bg-white p-6 rounded-xl shadow-xl border border-gray-100">
-                <h2 class="text-xl text-center font-bold mb-4 text-gray-800">TOTAL REQUEST & COMPLAINTS</h2>
+                <h2 class="text-lg text-center font-bold mb-4 text-gray-800">TOTAL REQUESTS & COMPLAINTS</h2>
                 <div class="relative flex flex-col items-center justify-center" style="height: 450px;">
                     @php
                         $total = $requestsComplaints['documents'] + $requestsComplaints['complaints'];
@@ -165,25 +173,25 @@
                         $complPercent = $total > 0 ? ($requestsComplaints['complaints'] / $total) * 100 : 0;
                     @endphp
                     <svg viewBox="0 0 200 200" style="width: 300px; height: 300px;" class="mb-4">
-                        <circle cx="100" cy="100" r="80" fill="none" stroke="#FCE6C9" stroke-width="35" stroke-dasharray="{{ $docPercent * 5.03 }} 503" stroke-dashoffset="0" transform="rotate(-90 100 100)"></circle>
-                        <circle cx="100" cy="100" r="80" fill="none" stroke="#C5E3B1" stroke-width="35" stroke-dasharray="{{ $complPercent * 5.03 }} 503" stroke-dashoffset="{{ -$docPercent * 5.03 }}" transform="rotate(-90 100 100)"></circle>
+                        <circle cx="100" cy="100" r="80" fill="none" stroke="#60A5FA" stroke-width="35" stroke-dasharray="{{ $docPercent * 5.03 }} 503" stroke-dashoffset="0" transform="rotate(-90 100 100)"></circle>
+                        <circle cx="100" cy="100" r="80" fill="none" stroke="#F87171" stroke-width="35" stroke-dasharray="{{ $complPercent * 5.03 }} 503" stroke-dashoffset="{{ -$docPercent * 5.03 }}" transform="rotate(-90 100 100)"></circle>
                         <circle cx="100" cy="100" r="50" fill="white"></circle>
                         <text x="100" y="105" text-anchor="middle" font-size="18" font-weight="bold" fill="#1e2e3d">{{ $total }}</text>
                         <text x="100" y="125" text-anchor="middle" font-size="10" fill="#666">Total</text>
                     </svg>
                     <div class="flex gap-8 justify-center">
                         <div class="text-center p-3 rounded-lg">
-                            <div class="w-6 h-6 bg-[#FCE6C9] rounded mb-2 mx-auto"></div>
+                            <div class="w-6 h-6 bg-[#60A5FA] rounded mb-2 mx-auto"></div>
                             <p class="text-xs font-semibold text-gray-700">Document Requests</p>
                             <p class="text-sm font-bold text-gray-900">{{ $requestsComplaints['documents'] }} ({{ number_format($docPercent, 1) }}%)</p>
                         </div>
                         <div class="text-center p-3 rounded-lg">
-                            <div class="w-6 h-6 bg-[#C5E3B1] rounded mb-2 mx-auto"></div>
+                            <div class="w-6 h-6 bg-[#F87171] rounded mb-2 mx-auto"></div>
                             <p class="text-xs font-semibold text-gray-700">Complaints</p>
                             <p class="text-sm font-bold text-gray-900">{{ $requestsComplaints['complaints'] }} ({{ number_format($complPercent, 1) }}%)</p>
                         </div>
                     </div>
-                    <div class="text-center text-sm font-bold text-gray-700 mt-2">Month of {{ $monthName }}</div>
+                    <div class="report-month-label">Month of {{ $monthName }}</div>
                 </div>
             </div>
 
@@ -210,26 +218,26 @@
                             </div>
                         </div>
                         <div class="flex items-center gap-3">
-                            <span class="text-xs font-bold w-32 text-right text-gray-600">Indigency</span>
+                            <span class="text-xs font-bold w-32 text-right text-gray-600">Indigency Clearance</span>
                             <div class="flex-grow bg-gradient-to-r from-gray-200 to-gray-100 rounded-full h-10 relative overflow-hidden shadow-md">
                                 <div class="bg-gradient-to-r from-green-400 to-green-500 h-full rounded-full flex items-center justify-end pr-3 shadow-lg" style="width: {{ ($documentTypes['Indigency'] / $maxDoc) * 100 }}%;"><span class="text-xs font-bold text-white">{{ $documentTypes['Indigency'] }}</span></div>
                             </div>
                         </div>
                         <div class="flex items-center gap-3">
-                            <span class="text-xs font-bold w-32 text-right text-gray-600">Residency</span>
+                            <span class="text-xs font-bold w-32 text-right text-gray-600">Resident Certificate</span>
                             <div class="flex-grow bg-gradient-to-r from-gray-200 to-gray-100 rounded-full h-10 relative overflow-hidden shadow-md">
                                 <div class="bg-gradient-to-r from-purple-400 to-purple-500 h-full rounded-full flex items-center justify-end pr-3 shadow-lg" style="width: {{ ($documentTypes['Certificate of Residency'] / $maxDoc) * 100 }}%;"><span class="text-xs font-bold text-white">{{ $documentTypes['Certificate of Residency'] }}</span></div>
                             </div>
                         </div>
                     </div>
-                    <div class="text-center text-xs font-semibold text-gray-500 mt-6">{{ $monthName }}</div>
+                    <div class="report-month-label">Month of {{ $monthName }}</div>
                 </div>
             </div>
 
 
             {{-- CHART 4: AREA CHART --}}
             <div class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-2xl shadow-2xl border border-gray-200">
-                <h2 class="text-lg font-bold mb-6 text-gray-800 text-center">REQUEST STATUS SUMMARY</h2>
+                <h2 class="text-lg font-bold mb-6 text-gray-800 text-center">REQUESTS STATUS SUMMARY</h2>
                 <div class="relative flex flex-col justify-center" style="height: 380px;">
                     @php
                         $maxStatus = max(array_values($requestStatusSummary));
@@ -241,8 +249,8 @@
                     <svg viewBox="0 0 400 300" style="width: 100%; height: 300px;" preserveAspectRatio="xMidYMid meet" class="mb-4 drop-shadow-lg">
                         <defs>
                             <linearGradient id="areaGradient1" x1="0%" y1="0%" x2="0%" y2="100%">
-                                <stop offset="0%" style="stop-color:#C084FC;stop-opacity:0.6" />
-                                <stop offset="100%" style="stop-color:#C084FC;stop-opacity:0.1" />
+                                <stop offset="0%" style="stop-color:#FACC15;stop-opacity:0.6" />
+                                <stop offset="100%" style="stop-color:#FACC15;stop-opacity:0.1" />
                             </linearGradient>
                             <linearGradient id="areaGradient2" x1="0%" y1="0%" x2="0%" y2="100%">
                                 <stop offset="0%" style="stop-color:#60A5FA;stop-opacity:0.6" />
@@ -253,18 +261,18 @@
                         <line x1="50" y1="50" x2="50" y2="280" stroke="#e5e7eb" stroke-width="2"/>
                         <line x1="50" y1="280" x2="400" y2="280" stroke="#e5e7eb" stroke-width="2"/>
                         <!-- Areas with gradients -->
-                        <path d="M 80 {{ 280 - $pendingHeight }} L 150 {{ 280 - $pendingHeight }} L 220 {{ 280 - $pendingHeight }} L 280 {{ 280 - $pendingHeight }} L 350 {{ 280 - $pendingHeight }} L 350 280 L 80 280 Z" fill="url(#areaGradient1)" stroke="#C084FC" stroke-width="2" stroke-linejoin="round"/>
+                        <path d="M 80 {{ 280 - $pendingHeight }} L 150 {{ 280 - $pendingHeight }} L 220 {{ 280 - $pendingHeight }} L 280 {{ 280 - $pendingHeight }} L 350 {{ 280 - $pendingHeight }} L 350 280 L 80 280 Z" fill="url(#areaGradient1)" stroke="#FACC15" stroke-width="2" stroke-linejoin="round"/>
                         <path d="M 80 {{ 280 - $processingHeight }} L 150 {{ 280 - $processingHeight }} L 220 {{ 280 - $processingHeight }} L 280 {{ 280 - $processingHeight }} L 350 {{ 280 - $processingHeight }} L 350 280 L 80 280 Z" fill="url(#areaGradient2)" stroke="#60A5FA" stroke-width="2" stroke-linejoin="round"/>
                         <!-- Data points -->
-                        <circle cx="80" cy="{{ 280 - $pendingHeight }}" r="4" fill="#C084FC" stroke="#fff" stroke-width="2"/>
-                        <circle cx="150" cy="{{ 280 - $pendingHeight }}" r="4" fill="#C084FC" stroke="#fff" stroke-width="2"/>
+                        <circle cx="80" cy="{{ 280 - $pendingHeight }}" r="4" fill="#FACC15" stroke="#fff" stroke-width="2"/>
+                        <circle cx="150" cy="{{ 280 - $pendingHeight }}" r="4" fill="#FACC15" stroke="#fff" stroke-width="2"/>
                     </svg>
                     <div class="flex gap-6 justify-center mt-4 flex-wrap">
-                        <div class="flex items-center gap-3 bg-purple-50 px-4 py-2 rounded-lg">
-                            <div class="w-3 h-3 bg-purple-500 rounded"></div>
+                        <div class="flex items-center gap-3 bg-yellow-50 px-4 py-2 rounded-lg">
+                            <div class="w-3 h-3 bg-yellow-500 rounded"></div>
                             <div>
                                 <p class="text-xs font-semibold text-gray-600">Pending</p>
-                                <p class="text-lg font-bold text-purple-600">{{ $requestStatusSummary['pending'] }}</p>
+                                <p class="text-lg font-bold text-yellow-600">{{ $requestStatusSummary['pending'] }}</p>
                             </div>
                         </div>
                         <div class="flex items-center gap-3 bg-blue-50 px-4 py-2 rounded-lg">
@@ -282,7 +290,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="text-center text-xs font-semibold text-gray-500 mt-4">{{ $monthName }}</div>
+                    <div class="report-month-label">Month of {{ $monthName }}</div>
                 </div>
             </div>
 
@@ -300,16 +308,21 @@
                         <circle cx="250" cy="175" r="150" fill="#f3f4f6" opacity="0.5"/>
                         <!-- Bubbles -->
                         @php
-                            $complaints = $complaintTypes;
+                            $complaints = [
+                                'Community Issues' => $complaintTypes['Community Issues'] ?? 0,
+                                'Physical Harassment' => $complaintTypes['Physical Harassment'] ?? 0,
+                                'Neighbor Dispute' => $complaintTypes['Neighbor Dispute'] ?? 0,
+                                'Money Problems' => $complaintTypes['Money Problems'] ?? 0,
+                                'Misbehavior' => $complaintTypes['Misbehavior'] ?? 0,
+                            ];
                             $positions = [
                                 ['x' => 100, 'y' => 80],
                                 ['x' => 250, 'y' => 50],
                                 ['x' => 400, 'y' => 100],
                                 ['x' => 150, 'y' => 230],
                                 ['x' => 350, 'y' => 260],
-                                ['x' => 250, 'y' => 180],
                             ];
-                            $colors = ['#F9D3DA', '#A2C4D9', '#FCE6C9', '#C5E3B1', '#D4A5F9', '#F9E5A5'];
+                            $colors = ['#F9D3DA', '#A2C4D9', '#FCE6C9', '#C5E3B1', '#D4A5F9'];
                             $index = 0;
                         @endphp
                         @foreach($complaints as $type => $count)
@@ -324,25 +337,22 @@
                     </svg>
                     <div class="grid grid-cols-3 gap-3 mt-4 w-full px-4">
                         @php $index = 0; @endphp
-                        @foreach($complaintTypes as $type => $count)
-                            @php
-                                $shortType = str_replace(['Community Issues', 'Physical Harassment', 'Neighbor Dispute', 'Money Problems', 'Misbehavior'], ['Community', 'Physical', 'Neighbor', 'Money', 'Misbehavior'], $type);
-                            @endphp
+                        @foreach($complaints as $type => $count)
                             <div class="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-100 transition-colors duration-200 cursor-pointer">
                                 <div class="w-4 h-4 rounded-full" style="background-color: {{ $colors[$index] }};"></div>
-                                <p class="text-xs font-semibold text-gray-700">{{ $shortType }}</p>
+                                <p class="text-xs font-semibold text-gray-700">{{ $type }}</p>
                             </div>
                             @php $index++; @endphp
                         @endforeach
                     </div>
-                    <div class="text-center text-sm font-bold text-gray-700 mt-3">Month of {{ $monthName }}</div>
+                    <div class="report-month-label">Month of {{ $monthName }}</div>
                 </div>
             </div>
 
 
             {{-- CHART 6: STACKED BAR CHART --}}
             <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100">
-                <h2 class="text-xl text-center font-bold mb-4">COMPLAINTS STATUS SUMMARY</h2>
+                <h2 class="text-lg text-center font-bold mb-4 text-gray-800">COMPLAINTS STATUS SUMMARY</h2>
                 <div class="relative flex flex-col justify-center p-4" style="height: 450px;">
                     @php
                         $maxComplaintStatus = max(array_values($complaintsStatusSummary));
@@ -360,17 +370,17 @@
                                 <span class="text-sm font-bold text-gray-900">Total: {{ $total }}</span>
                             </div>
                             <div class="flex h-12 rounded-lg overflow-hidden shadow-md">
-                                <div class="bg-[#FCE6C9] flex items-center justify-center" style="width: {{ $pendingPct }}%;">
+                                <div class="bg-[#FACC15] flex items-center justify-center" style="width: {{ $pendingPct }}%;">
                                     @if($pendingPct > 15)
                                         <span class="text-xs font-bold text-gray-700">{{ $complaintsStatusSummary['pending'] }}</span>
                                     @endif
                                 </div>
-                                <div class="bg-[#C5E3B1] flex items-center justify-center" style="width: {{ $investigatingPct }}%;">
+                                <div class="bg-[#60A5FA] flex items-center justify-center" style="width: {{ $investigatingPct }}%;">
                                     @if($investigatingPct > 15)
                                         <span class="text-xs font-bold text-gray-700">{{ $complaintsStatusSummary['investigating'] }}</span>
                                     @endif
                                 </div>
-                                <div class="bg-[#A8F5D8] flex items-center justify-center" style="width: {{ $resolvedPct }}%;">
+                                <div class="bg-[#22C55E] flex items-center justify-center" style="width: {{ $resolvedPct }}%;">
                                     @if($resolvedPct > 15)
                                         <span class="text-xs font-bold text-gray-700">{{ $complaintsStatusSummary['resolved'] }}</span>
                                     @endif
@@ -382,7 +392,7 @@
                         <div class="grid grid-cols-3 gap-4 pt-4">
                             <div class="border border-gray-200 rounded-lg p-3">
                                 <div class="flex items-center gap-2 mb-1">
-                                    <div class="w-3 h-3 bg-[#FCE6C9] rounded-full"></div>
+                                    <div class="w-3 h-3 bg-[#FACC15] rounded-full"></div>
                                     <p class="text-xs font-semibold text-gray-700">Pending</p>
                                 </div>
                                 <p class="text-lg font-bold text-gray-900">{{ $complaintsStatusSummary['pending'] }}</p>
@@ -390,23 +400,23 @@
                             </div>
                             <div class="border border-gray-200 rounded-lg p-3">
                                 <div class="flex items-center gap-2 mb-1">
-                                    <div class="w-3 h-3 bg-[#C5E3B1] rounded-full"></div>
-                                    <p class="text-xs font-semibold text-gray-700">Investigating</p>
+                                    <div class="w-3 h-3 bg-[#60A5FA] rounded-full"></div>
+                                    <p class="text-xs font-semibold text-gray-700">In Progress</p>
                                 </div>
                                 <p class="text-lg font-bold text-gray-900">{{ $complaintsStatusSummary['investigating'] }}</p>
                                 <p class="text-xs text-gray-500">{{ number_format($investigatingPct, 1) }}%</p>
                             </div>
                             <div class="border border-gray-200 rounded-lg p-3">
                                 <div class="flex items-center gap-2 mb-1">
-                                    <div class="w-3 h-3 bg-[#A8F5D8] rounded-full"></div>
-                                    <p class="text-xs font-semibold text-gray-700">Resolved</p>
+                                    <div class="w-3 h-3 bg-[#22C55E] rounded-full"></div>
+                                    <p class="text-xs font-semibold text-gray-700">Completed</p>
                                 </div>
                                 <p class="text-lg font-bold text-gray-900">{{ $complaintsStatusSummary['resolved'] }}</p>
                                 <p class="text-xs text-gray-500">{{ number_format($resolvedPct, 1) }}%</p>
                             </div>
                         </div>
                     </div>
-                    <div class="text-center text-sm font-bold text-gray-700 mt-4">Month of {{ $monthName }}</div>
+                    <div class="report-month-label">Month of {{ $monthName }}</div>
                 </div>
             </div>
         </div>

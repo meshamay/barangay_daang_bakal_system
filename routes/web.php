@@ -70,15 +70,16 @@ Route::middleware(['auth'])->group(function () {
     // Homepage / Dashboard
     Route::get('/home', function () {
         $user = Auth::user();
+        $userId = Auth::id();
 
         // 1. Fetch Document Requests
-        $documents = DocumentRequest::where('resident_id', $user->id)
+        $documents = DocumentRequest::where('resident_id', $userId)
             ->latest('updated_at')
             ->take(5)
             ->get();
 
         // 2. Fetch Complaints
-        $complaints = Complaint::where('user_id', $user->id)
+        $complaints = Complaint::where('user_id', $userId)
             ->latest('updated_at')
             ->take(5)
             ->get();

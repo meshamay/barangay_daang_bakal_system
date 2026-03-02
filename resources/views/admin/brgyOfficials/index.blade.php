@@ -36,7 +36,7 @@
     <div class="flex items-center justify-between mb-8">
         <div>
             <h1 class="text-4xl font-bold bg-gradient-to-r from-[#134573] to-[#0f3a5f] bg-clip-text text-transparent">BARANGAY OFFICIALS</h1>
-            <p class="text-gray-500 text-sm mt-1">Manage and organize your barangay leadership records.</p>
+            <p class="text-gray-500 text-sm mt-1">Manage and organize barangay leadership records.</p>
         </div>
         <button onclick="openModal('addOfficialModal')" class="flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white font-semibold px-6 py-2.5 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105">
             <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -59,10 +59,10 @@
         </div>
     @endif
 
-    <div class="bg-white shadow-xl rounded-xl overflow-hidden h-[560px] max-h-[560px] overflow-y-auto border border-gray-100">
+    <div class="bg-white shadow-xl rounded-xl h-[700px] overflow-hidden border border-gray-100">
         <table class="w-full text-sm">
             <thead style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%); color: white; position: sticky; top: 0; z-index: 10;" class="shadow-sm">
-                <tr class="text-xs font-semibold uppercase tracking-widest text-center">
+                <tr class="text-[14px] font-semibold uppercase tracking-widest text-center">
                     <th class="py-5 px-6">Last Name</th>
                     <th class="py-5 px-6">First Name</th>
                     <th class="py-5 px-6">Middle Initial</th>
@@ -129,12 +129,12 @@
                     </tr>
                 @empty
                   <tr>
-                    <td colspan="9" class="h-[367px] p-0 text-center text-gray-400 text-sm align-middle">
-                        <div class="h-full w-full flex flex-col items-center justify-center">
-                            <svg class="w-16 h-16 mb-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <td colspan="5" class="h-[367px] p-0 text-center text-gray-400 text-sm align-middle">
+                        <div class="h-full w-full flex flex-col items-center justify-center text-center">
+                            <svg class="w-16 h-16 mb-4 text-gray-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                             </svg>
-                            <p class="font-medium">No barangay officials found.</p>
+                            <p class="font-medium text-center">No barangay officials found.</p>
                         </div>
                     </td>
                 </tr>
@@ -164,7 +164,7 @@
                             </div>
                         </div>
                         <label class="cursor-pointer mt-3 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold py-2.5 px-6 rounded-xl shadow-md text-sm transition-all duration-200 transform hover:scale-105">
-                            UPLOAD PHOTO
+                             Official’s Photo
                             <input type="file" name="photo" id="photoInput" class="hidden" accept="image/*" onchange="previewImage(event, 'addPhotoPreview', 'addCameraIconPlaceholder', 'addPhotoThumb')">
                         </label>
                     </div>
@@ -257,7 +257,7 @@
                             <img id="editPhotoPreview" src="https://via.placeholder.com/400x400.png?text=Add+Photo" alt="Staff Photo" class="absolute inset-0 w-full h-full object-cover">
                         </div>
                         <label class="cursor-pointer mt-3 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold py-2.5 px-6 rounded-xl shadow-md text-sm transition-all duration-200 transform hover:scale-105">
-                            UPLOAD PHOTO
+                             Official’s Photo
                             <input type="file" name="photo" class="hidden" accept="image/*" onchange="previewImage(event, 'editPhotoPreview', 'editCameraIconPlaceholder', 'editPhotoThumb')">
                         </label>
                     </div>
@@ -304,12 +304,12 @@
         </div>
         
         <!-- Title -->
-        <h2 class="font-bold text-2xl mb-4 text-gray-800 tracking-tight">Delete Official</h2>
+        <h2 class="font-bold text-2xl mb-4 text-gray-800 tracking-tight">Delete Barangay Official</h2>
         
         <!-- Description -->
         <div class="bg-red-50 rounded-xl p-4 mb-6 border border-red-200">
             <p class="text-sm text-gray-700 leading-relaxed">
-                Are you sure you want to delete this official? This action cannot be undone and will permanently remove their record.
+                This action cannot be undone and will permanently remove their record.
             </p>
         </div>
 

@@ -29,6 +29,18 @@ class CheckAdmin
 
         $userType = strtolower($user->user_type ?? '');
         $userRole = strtolower($user->role ?? '');
+        $userStatus = strtolower($user->status ?? '');
+
+        $isSuperAdmin = in_array($userType, ['super admin', 'super_admin', 'superadmin'], true)
+            || in_array($userRole, ['super admin', 'super_admin', 'superadmin'], true);
+
+        if (!$isSuperAdmin && !in_array($userStatus, ['approved', 'active'], true)) {
+            Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
+            return redirect()->route('login')->with('error', 'Your account is deactivated. Please contact the administrator.');
+        }
 
         if (in_array($userType, $allowedTypes) || in_array($userRole, $allowedTypes)) {
             return $next($request);

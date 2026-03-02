@@ -10,7 +10,7 @@
         <div class="flex justify-between items-center mb-6 border-b pb-3">
             <div>
                 <h1 class="text-3xl font-bold text-gray-900">Complaint File</h1>
-                <p class="text-gray-500 text-sm">Transaction No: {{ $complaint->transaction_no }}</p>
+                <p class="text-gray-500 text-sm">Transaction ID: {{ $complaint->transaction_no }}</p>
             </div>
             
             {{-- Status Badge --}}

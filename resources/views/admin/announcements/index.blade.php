@@ -38,12 +38,6 @@
             <h1 class="text-4xl font-bold bg-gradient-to-r from-[#134573] to-[#0f3a5f] bg-clip-text text-transparent">ANNOUNCEMENTS</h1>
             <p class="text-gray-500 text-sm mt-1">Create, track, and manage barangay announcements.</p>
         </div>
-        <button onclick="openModal('addAnnouncementModal')" class="flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white font-semibold px-6 py-2.5 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105">
-            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
-            </svg>
-            <span class="text-sm font-semibold">Add Announcement</span>
-        </button>
     </div>
 
     {{-- Stats Cards --}}
@@ -68,9 +62,10 @@
                 <p class="text-gray-500 text-sm font-medium">Ongoing</p>
                 <p class="text-4xl font-bold text-gray-900 mt-2">{{ $ongoingCount }}</p>
             </div>
-            <div class="bg-emerald-100 p-4 rounded-lg">
-                <svg class="h-8 w-8 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            <div class="bg-blue-100 p-4 rounded-lg">
+                <svg class="h-8 w-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5L6 9H3v6h3l5 4V5z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 9l-2 3h2l-2 3" />
                 </svg>
             </div>
         </div>
@@ -84,7 +79,8 @@
             </div>
             <div class="bg-red-100 p-4 rounded-lg">
                 <svg class="h-8 w-8 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4v.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5L6 9H3v6h3l5 4V5z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10l6 6M20 10l-6 6" />
                 </svg>
             </div>
         </div>
@@ -121,6 +117,13 @@
                 @endif
             </div>
         </form>
+
+        <button onclick="openModal('addAnnouncementModal')" class="h-10 flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white font-semibold px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-200">
+            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
+            </svg>
+            <span class="text-sm font-semibold">Add Announcement</span>
+        </button>
     </div>
 
     {{-- Table --}}
@@ -128,7 +131,7 @@
         {{-- Fixed Header --}}
         <table class="w-full text-sm" style="table-layout: fixed;">
             <thead style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%); color: white;" class="shadow-sm">
-                <tr class="text-xs font-semibold uppercase tracking-widest text-center">
+                <tr class="text-[14px] font-semibold uppercase tracking-widest text-center">
                     <th class="py-5 px-6 w-1/5">Title</th>
                     <th class="py-5 px-6 w-1/5">Start Date</th>
                     <th class="py-5 px-6 w-1/5">End Date</th>

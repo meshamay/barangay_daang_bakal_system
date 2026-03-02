@@ -74,7 +74,7 @@
   <table class="table table-zebra w-full text-md">
     <thead style="background-color: #134573; color: white;">
       <tr class="text-sm text-center whitespace-nowrap">
-        <th class="py-1.5 px-4">TRANSACTION NO.</th>
+        <th class="py-1.5 px-4">TRANSACTION ID</th>
         <th class="py-1.5 px-4">LAST NAME</th>
         <th class="py-1.5px-4">FIRST NAME</th>
         <th class="py-1.5 px-4">COMPLAINT TYPE</th>

@@ -35,7 +35,7 @@
 <main class="flex-1 p-8 fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100" style="font-family: 'Poppins', sans-serif;">
 	<div class="flex items-center justify-between mb-8">
 		<div>
-            <h1 class="text-4xl font-bold bg-gradient-to-r from-[#134573] to-[#0f3a5f] bg-clip-text text-transparent" style="font-family: 'Poppins', sans-serif;">STAFF MANAGEMENT</h1>
+            <h1 class="text-4xl font-bold bg-gradient-to-r from-[#134573] to-[#0f3a5f] bg-clip-text text-transparent" style="font-family: 'Poppins', sans-serif;">STAFFS MANAGEMENT</h1>
             <p class="text-gray-500 text-sm mt-1" style="font-family: 'Poppins', sans-serif;">Manage and organize barangay staff members.</p>
 		</div>
 	</div>
@@ -82,9 +82,9 @@
 	{{-- Table --}}
     <div class="bg-white shadow-xl rounded-xl overflow-hidden h-[560px] max-h-[560px] overflow-y-auto border border-gray-100">
         <table class="w-full text-sm" style="font-family: 'Poppins', sans-serif;">
-			<thead style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%); color: white; position: sticky; top: 0; z-index: 10;" class="shadow-sm">
-				<tr class="text-xs font-semibold uppercase tracking-widest text-center">
-                    <th class="py-5 px-6" style="font-family: 'Poppins', sans-serif;">Staff ID</th>
+            <thead style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%); color: white; position: sticky; top: 0; z-index: 10; font-size: 14px;" class="shadow-sm">
+                <tr class="text-[14px] font-semibold uppercase tracking-widest text-center">
+                    <th class="py-5 px-6" style="font-family: 'Poppins', sans-serif;">STAFF ID NO.</th>
                     <th class="py-5 px-6" style="font-family: 'Poppins', sans-serif;">Last Name</th>
                     <th class="py-5 px-6" style="font-family: 'Poppins', sans-serif;">First Name</th>
                     <th class="py-5 px-6" style="font-family: 'Poppins', sans-serif;">Role</th>
@@ -140,7 +140,7 @@
                                 <span class="absolute top-full mt-2 left-1/2 -translate-x-1/2 px-2 py-1 text-xs text-white bg-gray-900 rounded whitespace-nowrap opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-opacity duration-200 z-50">View</span>
                             </div>
                             <div class="relative group">
-                                <button onclick="editStaff('{{ $member->id }}','{{ $member->last_name }}','{{ $member->first_name }}','{{ $member->username }}','{{ $member->created_at->format('d/m/Y') }}')" class="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-gray-50 transition-all duration-200 hover:shadow-md text-gray-600 hover:text-gray-800">
+                                <button onclick='editStaff(@json($member->id), @json($member->last_name), @json($member->first_name), @json($member->username), @json($member->created_at->format("d/m/Y")))' class="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-gray-50 transition-all duration-200 hover:shadow-md text-gray-600 hover:text-gray-800">
                                     <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                                     </svg>
@@ -160,12 +160,12 @@
 				</tr>
 				@empty
                <tr>
-                    <td colspan="9" class="h-[367px] p-0 text-center text-gray-400 text-sm align-middle">
-                        <div class="h-full w-full flex flex-col items-center justify-center">
-                            <svg class="w-16 h-16 mb-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <td colspan="7" class="h-[367px] p-0 text-center text-gray-400 text-sm align-middle">
+                        <div class="h-full w-full flex flex-col items-center justify-center text-center">
+                            <svg class="w-16 h-16 mb-4 text-gray-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                             </svg>
-                            <p class="font-medium">No staffs found.</p>
+                            <p class="font-medium text-center">No staffs found.</p>
                         </div>
                     </td>
                 </tr>
@@ -312,17 +312,17 @@
                 <div class="grid grid-cols-2 gap-5 mb-4">
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-2" style="font-family: 'Poppins', sans-serif;">Last Name:</label>
-                        <input type="text" id="editLastName" class="w-full rounded-lg border border-gray-300 px-3 py-2.5 bg-gray-50 text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" style="font-family: 'Poppins', sans-serif;">
+                        <input type="text" id="editLastName" name="last_name" class="w-full rounded-lg border border-gray-300 px-3 py-2.5 bg-gray-50 text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" style="font-family: 'Poppins', sans-serif;">
                     </div>
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-2" style="font-family: 'Poppins', sans-serif;">First Name:</label>
-                        <input type="text" id="editFirstName" class="w-full rounded-lg border border-gray-300 px-3 py-2.5 bg-gray-50 text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" style="font-family: 'Poppins', sans-serif;">
+                        <input type="text" id="editFirstName" name="first_name" class="w-full rounded-lg border border-gray-300 px-3 py-2.5 bg-gray-50 text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" style="font-family: 'Poppins', sans-serif;">
                     </div>
                 </div>
                 <div class="grid grid-cols-2 gap-5 mb-4">
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-2" style="font-family: 'Poppins', sans-serif;">User Name:</label>
-                        <input type="text" id="editUsername" class="w-full rounded-lg border border-gray-300 px-3 py-2.5 bg-gray-50 text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" style="font-family: 'Poppins', sans-serif;">
+                        <input type="text" id="editUsername" name="username" class="w-full rounded-lg border border-gray-300 px-3 py-2.5 bg-gray-50 text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" style="font-family: 'Poppins', sans-serif;">
                     </div>
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-2" style="font-family: 'Poppins', sans-serif;">Date Created:</label>
@@ -333,7 +333,7 @@
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-2" style="font-family: 'Poppins', sans-serif;">Password:</label>
                         <div class="relative">
-                            <input type="password" id="editPassword" placeholder="Leave blank to keep current" class="w-full border-2 border-gray-300 rounded-xl px-4 py-3 pr-12 bg-gray-50 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200" style="font-family: 'Poppins', sans-serif;">
+                            <input type="password" id="editPassword" name="password" placeholder="Leave blank to keep current" class="w-full border-2 border-gray-300 rounded-xl px-4 py-3 pr-12 bg-gray-50 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200" style="font-family: 'Poppins', sans-serif;">
                             <button type="button" onclick="togglePasswordVisibility('editPassword')" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-blue-600 transition duration-200 p-1">
                                 <svg id="editPassword-eye-open" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
@@ -348,7 +348,7 @@
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-2" style="font-family: 'Poppins', sans-serif;">Confirm Password:</label>
                         <div class="relative">
-                            <input type="password" id="editPasswordConfirm" placeholder="Confirm new password" class="w-full border-2 border-gray-300 rounded-xl px-4 py-3 pr-12 bg-gray-50 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200" style="font-family: 'Poppins', sans-serif;">
+                            <input type="password" id="editPasswordConfirm" name="password_confirmation" placeholder="Confirm new password" class="w-full border-2 border-gray-300 rounded-xl px-4 py-3 pr-12 bg-gray-50 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200" style="font-family: 'Poppins', sans-serif;">
                             <button type="button" onclick="togglePasswordVisibility('editPasswordConfirm')" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-blue-600 transition duration-200 p-1">
                                 <svg id="editPasswordConfirm-eye-open" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
@@ -390,8 +390,7 @@
         <!-- Description -->
         <div class="bg-red-50 rounded-xl p-4 mb-6 border border-red-200">
             <p class="text-sm text-gray-700 leading-relaxed" style="font-family: 'Poppins', sans-serif;">
-                Are you sure you want to deactivate this staff member? Their status will be set to inactive and they won't be able to log in.
-            </p>
+                Their status will be set to inactive and they won’t be able to log in again.</p>
         </div>
 
         <form id="deactivateForm" method="POST" action="">

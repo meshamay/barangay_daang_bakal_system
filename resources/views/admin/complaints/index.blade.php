@@ -80,21 +80,21 @@
 	<div class="flex items-center justify-between mb-8">
 		<div>
 			<h1 class="text-4xl font-bold bg-gradient-to-r from-[#134573] to-[#0f3a5f] bg-clip-text text-transparent">COMPLAINTS</h1>
-			<p class="text-gray-500 text-sm mt-1">Manage and track all resident complaints.</p>
+			<p class="text-gray-500 text-sm mt-1">Track and manage all resident complaints.</p>
 		</div>
 	</div>
 	
 	{{-- Stats Cards --}}
 	<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-		<div class="bg-white rounded-xl shadow-md border border-gray-100 p-6 hover:shadow-lg hover:border-blue-200 transition duration-300 ease-in-out">
+        <div class="bg-white rounded-xl shadow-md border border-gray-100 p-6 hover:shadow-lg hover:border-red-200 transition duration-300 ease-in-out">
 			<div class="flex items-center justify-between">
 				<div>
 					<p class="text-gray-500 text-sm font-medium">Total Complaints</p>
 					<p class="text-4xl font-bold text-gray-900 mt-2">{{ $stats['total'] ?? 0 }}</p>
 				</div>
-				<div class="bg-blue-100 p-4 rounded-lg">
-					<svg class="h-8 w-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                <div class="bg-red-100 p-4 rounded-lg">
+                    <svg class="h-8 w-8 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4v.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
 					</svg>
 				</div>
 			</div>
@@ -191,7 +191,7 @@
 		<table class="w-full text-sm" style="table-layout: fixed;">
 			<thead style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%); color: white;" class="shadow-sm">
                 <tr class="text-sm font-semibold uppercase tracking-widest text-center">
-					<th class="py-5 px-6 w-1/8">Transaction No.</th>
+                    <th class="py-5 px-6 w-1/8">Transaction ID</th>
 					<th class="py-5 px-6 w-1/8">Last Name</th>
 					<th class="py-5 px-6 w-1/8">First Name</th>
 					<th class="py-5 px-6 w-1/8">Complaint Type</th>
