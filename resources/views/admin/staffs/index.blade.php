@@ -319,9 +319,15 @@
                         <input type="text" id="editFirstName" class="w-full rounded-lg border border-gray-300 px-3 py-2.5 bg-gray-50 text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" style="font-family: 'Poppins', sans-serif;">
                     </div>
                 </div>
-                <div class="mb-4">
-                    <label class="block text-sm font-semibold text-gray-700 mb-2" style="font-family: 'Poppins', sans-serif;">User Name:</label>
-                    <input type="text" id="editUsername" class="w-full rounded-lg border border-gray-300 px-3 py-2.5 bg-gray-50 text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" style="font-family: 'Poppins', sans-serif;">
+                <div class="grid grid-cols-2 gap-5 mb-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2" style="font-family: 'Poppins', sans-serif;">User Name:</label>
+                        <input type="text" id="editUsername" class="w-full rounded-lg border border-gray-300 px-3 py-2.5 bg-gray-50 text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" style="font-family: 'Poppins', sans-serif;">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2" style="font-family: 'Poppins', sans-serif;">Date Created:</label>
+                        <input type="text" id="editDateCreated" readonly class="w-full rounded-lg border border-gray-300 px-3 py-2.5 bg-gray-50 text-gray-700" style="font-family: 'Poppins', sans-serif;">
+                    </div>
                 </div>
                 <div class="grid grid-cols-2 gap-5 mb-4">
                     <div>
@@ -355,14 +361,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="grid grid-cols-2 gap-5 mb-6">
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2" style="font-family: 'Poppins', sans-serif;">Date Created:</label>
-                        <input type="text" id="editDateCreated" readonly class="w-full rounded-lg border border-gray-300 px-3 py-2.5 bg-gray-50 text-gray-700" style="font-family: 'Poppins', sans-serif;">
-                    </div>
-                    <div></div>
-                </div>
-
                 <div class="flex justify-end gap-4 mt-6">
                     <button type="button" onclick="closeModal('editStaffModal')" class="px-6 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-sm font-semibold transition-all duration-200 border border-gray-300 hover:shadow-md">Cancel</button>
                     <button type="submit" class="px-6 py-2.5 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-xl text-sm font-semibold transition-all duration-200 hover:shadow-lg transform hover:scale-105">Save Changes</button>
