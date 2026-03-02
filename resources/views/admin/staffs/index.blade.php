@@ -8,6 +8,28 @@
 @endpush
 
 <style>
+.modal-container * {
+    font-family: 'Poppins', sans-serif !important;
+}
+
+.modal-container label,
+.modal-container p,
+.modal-container button {
+    font-size: 0.875rem;
+}
+
+.modal-container input[type="text"],
+.modal-container input[type="email"],
+.modal-container input[type="password"],
+.modal-container input[type="date"],
+.modal-container textarea,
+.modal-container select {
+    border: 1px solid rgb(209 213 219);
+    border-radius: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+}
 </style>
 
 <main class="flex-1 p-8 fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100" style="font-family: 'Poppins', sans-serif;">
@@ -58,7 +80,7 @@
 
 
 	{{-- Table --}}
-	<div class="bg-white shadow-xl rounded-xl overflow-hidden h-[calc(100vh-380px)] overflow-y-auto border border-gray-100">
+    <div class="bg-white shadow-xl rounded-xl overflow-hidden h-[560px] max-h-[560px] overflow-y-auto border border-gray-100">
         <table class="w-full text-sm" style="font-family: 'Poppins', sans-serif;">
 			<thead style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%); color: white; position: sticky; top: 0; z-index: 10;" class="shadow-sm">
 				<tr class="text-xs font-semibold uppercase tracking-widest text-center">
@@ -137,9 +159,16 @@
                     </td>
 				</tr>
 				@empty
-				<tr>
-                    <td colspan="7" class="py-6 px-5 text-center text-gray-500" style="font-family: 'Poppins', sans-serif;">No staff members found.</td>
-				</tr>
+               <tr>
+                    <td colspan="9" class="h-[367px] p-0 text-center text-gray-400 text-sm align-middle">
+                        <div class="h-full w-full flex flex-col items-center justify-center">
+                            <svg class="w-16 h-16 mb-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                            <p class="font-medium">No staffs found.</p>
+                        </div>
+                    </td>
+                </tr>
 				@endforelse
 			</tbody>
 		</table>
@@ -222,7 +251,7 @@
 <div id="viewStaffModal" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[9999]">
     <div class="bg-white w-[650px] rounded-3xl shadow-2xl overflow-hidden border-2 border-gray-100">
         <div class="px-6 py-4 flex items-center gap-3" style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%);">
-            <h2 class="text-white font-bold text-xl tracking-wide" style="font-family: 'Poppins', sans-serif;">Staff Details</h2>
+            <h2 class="text-white font-bold text-xl tracking-wide" style="font-family: 'Poppins', sans-serif;">View Staff Details</h2>
         </div>
         <div class="p-8">
             <div class="grid grid-cols-2 gap-5 mb-4">
@@ -274,7 +303,7 @@
 <div id="editStaffModal" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[9999]">
     <div class="bg-white w-[650px] rounded-3xl shadow-2xl overflow-hidden border-2 border-gray-100">
         <div class="px-6 py-4 flex items-center gap-3" style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%);">
-            <h2 class="text-white font-bold text-xl tracking-wide" style="font-family: 'Poppins', sans-serif;">Edit Staff Member</h2>
+            <h2 class="text-white font-bold text-xl tracking-wide" style="font-family: 'Poppins', sans-serif;">Edit Staff Details</h2>
         </div>
         <div class="p-8">
             <form id="editStaffForm" action="" method="POST" novalidate>

@@ -7,6 +7,31 @@
 	<link rel="stylesheet" href="{{ asset('css/admin-modals.css') }}">
 @endpush
 
+<style>
+.modal-container * {
+    font-family: 'Poppins', sans-serif !important;
+}
+
+.modal-container label,
+.modal-container p,
+.modal-container button {
+    font-size: 0.875rem;
+}
+
+.modal-container input[type="text"],
+.modal-container input[type="email"],
+.modal-container input[type="password"],
+.modal-container input[type="date"],
+.modal-container textarea,
+.modal-container select {
+    border: 1px solid rgb(209 213 219);
+    border-radius: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+}
+</style>
+
 <main class="flex-1 p-8 fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100">
     <div class="flex items-center justify-between mb-8">
         <div>
@@ -113,7 +138,7 @@
             </thead>
         </table>
         {{-- Scrollable Body --}}
-        <div class="overflow-x-auto overflow-y-auto max-h-[360px]">
+        <div class="overflow-x-auto overflow-y-auto h-[367px] max-h-[367px]">
             <table class="w-full text-sm" style="table-layout: fixed;">
                 <tbody class="divide-y divide-gray-100">
                     @forelse($announcements as $announcement)
@@ -170,8 +195,15 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="5" class="py-6 px-5 text-center text-gray-500">No announcements found.</td>
-                    </tr>
+                    <td colspan="9" class="h-[367px] p-0 text-center text-gray-400 text-sm align-middle">
+                        <div class="h-full w-full flex flex-col items-center justify-center">
+                            <svg class="w-16 h-16 mb-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                            <p class="font-medium">No announcements found.</p>
+                        </div>
+                    </td>
+                </tr>
                     @endforelse
                 </tbody>
             </table>
@@ -183,7 +215,7 @@
 <div id="addAnnouncementModal" class="modal-container hidden fixed top-0 left-0 w-full h-full flex items-center justify-center z-[9999]" style="left: 240px; width: calc(100vw - 240px); top: 80px; height: calc(100vh - 80px);">
     <div class="bg-white w-[700px] rounded-3xl shadow-2xl overflow-hidden border-2 border-gray-100">
         <div class="px-6 py-4 flex items-center gap-3" style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%);">
-            <h2 class="text-white font-bold text-xl tracking-wide font-['Barlow_Semi_Condensed']">Add New Announcement</h2>
+            <h2 class="text-white font-bold text-xl tracking-wide">Add New Announcement</h2>
         </div>
         <div class="p-8">
             <form action="{{ route('admin.announcements.store') }}" method="POST" novalidate>
@@ -222,7 +254,7 @@
 <div id="viewAnnouncementModal" class="modal-container hidden fixed top-0 left-0 w-full h-full flex items-center justify-center z-[9999]" style="left: 240px; width: calc(100vw - 240px); top: 80px; height: calc(100vh - 80px);">
     <div class="bg-white w-[700px] rounded-3xl shadow-2xl overflow-hidden border-2 border-gray-100">
         <div class="px-6 py-4 flex items-center gap-3" style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%);">
-            <h2 class="text-white font-bold text-xl tracking-wide font-['Barlow_Semi_Condensed']">Announcement Details</h2>
+            <h2 class="text-white font-bold text-xl tracking-wide">View Announcement Details</h2>
         </div>
         <div class="p-8">
             <form action="" method="POST" novalidate>
@@ -260,7 +292,7 @@
 <div id="editAnnouncementModal" class="modal-container hidden fixed top-0 left-0 w-full h-full flex items-center justify-center z-[9999]" style="left: 240px; width: calc(100vw - 240px); top: 80px; height: calc(100vh - 80px);">
     <div class="bg-white w-[700px] rounded-3xl shadow-2xl overflow-hidden border-2 border-gray-100">
         <div class="px-6 py-4 flex items-center gap-3" style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%);">
-            <h2 class="text-white font-bold text-xl tracking-wide font-['Barlow_Semi_Condensed']">Edit Announcement Details</h2>
+            <h2 class="text-white font-bold text-xl tracking-wide">Edit Announcement Details</h2>
         </div>
         <div class="p-8">
             <form id="editAnnouncementForm" action="" method="POST" novalidate>
