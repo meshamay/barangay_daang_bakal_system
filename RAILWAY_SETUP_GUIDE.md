@@ -49,3 +49,27 @@ php artisan key:generate --show
 ```
 
 Copy the output and use it as your `APP_KEY` value in Railway variables.
+
+## Deployment Consistency Checklist (GitHub → Railway)
+
+If your GitHub changes are pushed but not visible after redeploy, verify these in Railway:
+
+1. **Service Source Branch**
+   - Open your service → **Settings** → **Source**
+   - Ensure branch is `master` (or whichever branch you are actually pushing)
+
+2. **Latest Commit SHA**
+   - Open **Deployments** and click the latest deployment
+   - Confirm the commit SHA matches your latest GitHub commit
+   - If it does not match, Railway is deploying a different branch/commit
+
+3. **Build + Start Commands**
+   - This repo now includes `nixpacks.toml` and `Procfile`
+   - Railway should automatically use these for consistent build/start behavior
+
+4. **Clear Build Cache (if still stale)**
+   - Trigger a redeploy with cache cleared from the deployment options
+
+5. **Laravel Runtime Cache Reset**
+   - Build phase already runs cache clear + cache rebuild commands
+   - If needed, redeploy once more after variable changes
