@@ -64,7 +64,7 @@ If your GitHub changes are pushed but not visible after redeploy, verify these i
    - If it does not match, Railway is deploying a different branch/commit
 
 3. **Build + Start Commands**
-   - This repo now includes `nixpacks.toml` and `Procfile`
+   - This repo now includes `railway.json`, `nixpacks.toml`, and `Procfile`
    - Railway should automatically use these for consistent build/start behavior
 
 4. **Clear Build Cache (if still stale)**
