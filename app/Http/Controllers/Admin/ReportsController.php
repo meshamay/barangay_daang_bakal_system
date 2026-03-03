@@ -86,7 +86,7 @@ class ReportsController extends Controller
             'Neighbor Dispute' => Complaint::where('complaint_type', 'Neighbor Dispute')->whereBetween('created_at', [$startOfMonth, $endOfMonth])->count(),
             'Money Problems' => Complaint::where('complaint_type', 'Money Problems')->whereBetween('created_at', [$startOfMonth, $endOfMonth])->count(),
             'Misbehavior' => Complaint::where('complaint_type', 'Misbehavior')->whereBetween('created_at', [$startOfMonth, $endOfMonth])->count(),
-            'Others' => Complaint::where('complaint_type', 'Others')->whereBetween('created_at', [$startOfMonth, $endOfMonth])->count(),
+            'Others' => Complaint::whereIn('complaint_type', ['Others', 'Other'])->whereBetween('created_at', [$startOfMonth, $endOfMonth])->count(),
         ];
 
         // Complaints Status Summary
@@ -203,7 +203,7 @@ class ReportsController extends Controller
                 'Neighbor Dispute' => Complaint::where('complaint_type', 'Neighbor Dispute')->whereBetween('created_at', [$startOfMonth, $endOfMonth])->count(),
                 'Money Problems' => Complaint::where('complaint_type', 'Money Problems')->whereBetween('created_at', [$startOfMonth, $endOfMonth])->count(),
                 'Misbehavior' => Complaint::where('complaint_type', 'Misbehavior')->whereBetween('created_at', [$startOfMonth, $endOfMonth])->count(),
-                'Others' => Complaint::where('complaint_type', 'Others')->whereBetween('created_at', [$startOfMonth, $endOfMonth])->count(),
+                'Others' => Complaint::whereIn('complaint_type', ['Others', 'Other'])->whereBetween('created_at', [$startOfMonth, $endOfMonth])->count(),
             ];
         }
 
