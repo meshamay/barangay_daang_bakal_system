@@ -511,9 +511,8 @@
 		<!-- Description -->
 		<div class="bg-amber-50 rounded-xl p-4 mb-6 border border-amber-200">
 			<p class="text-sm text-gray-700 leading-relaxed">
-				You are accepting this document request. 
-				Once confirmed, the status will be changed to "In Progress" and the resident will be notified.
-			</p>
+				You are accepting this document request. </p>
+			<p class="text-sm text-gray-700 leading-relaxed">Once confirmed, the status will be changed to "In Progress" and the resident will be notified.</p>
 		</div>
 		
 		<!-- Action Buttons -->
@@ -555,9 +554,8 @@
 		<!-- Description -->
 		<div class="bg-green-50 rounded-xl p-4 mb-6 border border-green-200">
 			<p class="text-sm text-gray-700 leading-relaxed">
-				The document is ready for pickup. 
-				Once confirmed, the status will be changed to "Completed" and the resident will be notified.
-			</p>
+				The document is ready for pickup.</p>
+			<p class="text-sm text-gray-700 leading-relaxed">Once confirmed, the status will be changed to "Completed" and the resident will be notified.</p>
 		</div>
 		
 		<!-- Action Buttons -->
