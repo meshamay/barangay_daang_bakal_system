@@ -164,7 +164,7 @@
                             </div>
                         </div>
                         <label class="cursor-pointer mt-3 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold py-2.5 px-6 rounded-xl shadow-md text-sm transition-all duration-200 transform hover:scale-105">
-                             Official’s Photo
+                             Upload Photo
                             <input type="file" name="photo" id="photoInput" class="hidden" accept="image/*" onchange="previewImage(event, 'addPhotoPreview', 'addCameraIconPlaceholder', 'addPhotoThumb')">
                         </label>
                     </div>
@@ -257,7 +257,7 @@
                             <img id="editPhotoPreview" src="https://via.placeholder.com/400x400.png?text=Add+Photo" alt="Staff Photo" class="absolute inset-0 w-full h-full object-cover">
                         </div>
                         <label class="cursor-pointer mt-3 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold py-2.5 px-6 rounded-xl shadow-md text-sm transition-all duration-200 transform hover:scale-105">
-                             Official’s Photo
+                             Upload Photo
                             <input type="file" name="photo" class="hidden" accept="image/*" onchange="previewImage(event, 'editPhotoPreview', 'editCameraIconPlaceholder', 'editPhotoThumb')">
                         </label>
                     </div>

@@ -125,14 +125,14 @@
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {{-- CHART 1: PIE CHART --}}
             <div class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-2xl shadow-2xl border border-gray-200">
-                <h2 class="text-lg font-bold mb-6 text-gray-800 text-center">POPULATION BY GENDER</h2>
-                <div class="relative flex flex-col items-center justify-center" style="height: 380px;">
+                <h2 class="text-lg font-bold mb-4 text-gray-800 text-center">POPULATION BY GENDER</h2>
+                <div class="relative flex flex-col items-center justify-center" style="height: 450px;">
                     @php
                         $total = $populationByGender['female'] + $populationByGender['male'];
                         $femalePercent = $total > 0 ? ($populationByGender['female'] / $total) * 100 : 0;
                         $malePercent = $total > 0 ? ($populationByGender['male'] / $total) * 100 : 0;
                     @endphp
-                    <svg viewBox="-20 -20 240 240" style="width: 260px; height: 260px;" class="mb-6 drop-shadow-lg">
+                    <svg viewBox="-20 -20 240 240" style="width: 300px; height: 300px;" class="mb-4 drop-shadow-lg">
                         <defs>
                             <linearGradient id="femaleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
                                 <stop offset="0%" style="stop-color:#FF6B9D;stop-opacity:1" />
@@ -204,33 +204,33 @@
                         $maxDoc = max(array_values($documentTypes));
                         $maxDoc = $maxDoc > 0 ? $maxDoc : 1;
                     @endphp
-                    <div class="space-y-5">
+                    <div class="space-y-7">
                         <div class="flex items-center gap-3">
                             <span class="text-xs font-bold w-32 text-right text-gray-600">Barangay Clearance</span>
-                            <div class="flex-grow bg-gradient-to-r from-gray-200 to-gray-100 rounded-full h-10 relative overflow-hidden shadow-md">
+                            <div class="flex-grow bg-gradient-to-r from-gray-200 to-gray-100 rounded-full h-12 relative overflow-hidden shadow-md">
                                 <div class="bg-gradient-to-r from-red-400 to-red-500 h-full rounded-full flex items-center justify-end pr-3 shadow-lg" style="width: {{ ($documentTypes['Barangay Clearance'] / $maxDoc) * 100 }}%;"><span class="text-xs font-bold text-white">{{ $documentTypes['Barangay Clearance'] }}</span></div>
                             </div>
                         </div>
                         <div class="flex items-center gap-3">
                             <span class="text-xs font-bold w-32 text-right text-gray-600">Barangay Certificate</span>
-                            <div class="flex-grow bg-gradient-to-r from-gray-200 to-gray-100 rounded-full h-10 relative overflow-hidden shadow-md">
+                            <div class="flex-grow bg-gradient-to-r from-gray-200 to-gray-100 rounded-full h-12 relative overflow-hidden shadow-md">
                                 <div class="bg-gradient-to-r from-blue-400 to-blue-500 h-full rounded-full flex items-center justify-end pr-3 shadow-lg" style="width: {{ ($documentTypes['Barangay Certificate'] / $maxDoc) * 100 }}%;"><span class="text-xs font-bold text-white">{{ $documentTypes['Barangay Certificate'] }}</span></div>
                             </div>
                         </div>
                         <div class="flex items-center gap-3">
                             <span class="text-xs font-bold w-32 text-right text-gray-600">Indigency Clearance</span>
-                            <div class="flex-grow bg-gradient-to-r from-gray-200 to-gray-100 rounded-full h-10 relative overflow-hidden shadow-md">
+                            <div class="flex-grow bg-gradient-to-r from-gray-200 to-gray-100 rounded-full h-12 relative overflow-hidden shadow-md">
                                 <div class="bg-gradient-to-r from-green-400 to-green-500 h-full rounded-full flex items-center justify-end pr-3 shadow-lg" style="width: {{ ($documentTypes['Indigency'] / $maxDoc) * 100 }}%;"><span class="text-xs font-bold text-white">{{ $documentTypes['Indigency'] }}</span></div>
                             </div>
                         </div>
                         <div class="flex items-center gap-3">
                             <span class="text-xs font-bold w-32 text-right text-gray-600">Resident Certificate</span>
-                            <div class="flex-grow bg-gradient-to-r from-gray-200 to-gray-100 rounded-full h-10 relative overflow-hidden shadow-md">
+                            <div class="flex-grow bg-gradient-to-r from-gray-200 to-gray-100 rounded-full h-12 relative overflow-hidden shadow-md">
                                 <div class="bg-gradient-to-r from-purple-400 to-purple-500 h-full rounded-full flex items-center justify-end pr-3 shadow-lg" style="width: {{ ($documentTypes['Certificate of Residency'] / $maxDoc) * 100 }}%;"><span class="text-xs font-bold text-white">{{ $documentTypes['Certificate of Residency'] }}</span></div>
                             </div>
                         </div>
                     </div>
-                    <div class="report-month-label">Month of {{ $monthName }}</div>
+                    <div class="report-month-label" style="margin-top: 4.5rem;">Month of {{ $monthName }}</div>
                 </div>
             </div>
 
@@ -297,13 +297,13 @@
 
             {{-- CHART 5: BUBBLE CHART --}}
             <div class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-2xl shadow-2xl border border-gray-200">
-                <h2 class="text-lg font-bold mb-6 text-gray-800 text-center">MOST REPORTED COMPLAINTS</h2>
-                <div class="relative flex flex-col items-center justify-center" style="height: 380px;">
+                <h2 class="text-lg font-bold mb-4 text-gray-800 text-center">MOST REPORTED COMPLAINTS</h2>
+                <div class="relative flex flex-col items-center justify-center" style="height: 450px;">
                     @php
                         $maxComplaint = max(array_values($complaintTypes));
                         $maxComplaint = $maxComplaint > 0 ? $maxComplaint : 1;
                     @endphp
-                    <svg viewBox="0 0 500 350" style="width: 100%; height: 350px;" preserveAspectRatio="xMidYMid meet" class="mb-4">
+                    <svg viewBox="0 0 500 350" style="width: 300px; height: 300px;" preserveAspectRatio="xMidYMid meet" class="mb-4">
                         <!-- Background circles -->
                         <circle cx="250" cy="175" r="150" fill="#f3f4f6" opacity="0.5"/>
                         <!-- Bubbles -->
@@ -350,7 +350,7 @@
             </div>
 
 
-            {{-- CHART 6: STACKED BAR CHART --}}
+             {{-- CHART 6: STACKED BAR CHART --}}
             <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100">
                 <h2 class="text-lg text-center font-bold mb-4 text-gray-800">COMPLAINTS STATUS SUMMARY</h2>
                 <div class="relative flex flex-col justify-center p-4" style="height: 450px;">
@@ -362,7 +362,7 @@
                         $investigatingPct = $total > 0 ? ($complaintsStatusSummary['investigating'] / $total) * 100 : 0;
                         $resolvedPct = $total > 0 ? ($complaintsStatusSummary['resolved'] / $total) * 100 : 0;
                     @endphp
-                    <div class="space-y-8">
+                    <div class="space-y-10 mt-20">
                         <!-- Stacked Bar 1 -->
                         <div>
                             <div class="flex justify-between mb-2">
@@ -416,7 +416,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="report-month-label">Month of {{ $monthName }}</div>
+                    <div class="report-month-label" style="margin-top:7rem;">Month of {{ $monthName }}</div>
                 </div>
             </div>
         </div>
@@ -1166,4 +1166,3 @@
 @push('scripts')
 <script src="{{ asset('js/admin-reports.js') }}" defer></script>
 @endpush
-
