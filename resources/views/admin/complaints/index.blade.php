@@ -319,9 +319,8 @@
             <!-- Description -->
             <div class="bg-amber-50 rounded-xl p-4 mb-6 border border-amber-200">
                 <p class="text-sm text-gray-700 leading-relaxed">
-                    You are accepting this complaint. 
-                    Once confirmed, the status will be changed to "In Progress" and the resident will be notified.
-                </p>
+                    You are accepting this complaint.  </p>
+                <p class="text-sm text-gray-700 leading-relaxed"> Once confirmed, the status will be changed to "In Progress" and the resident will be notified.</p>
             </div>
 
             <!-- Action Buttons -->
@@ -359,7 +358,8 @@
             <!-- Description -->
             <div class="bg-green-50 rounded-xl p-4 mb-6 border border-green-200">
                 <p class="text-sm text-gray-700 leading-relaxed">
-                    The complaint case is resolved. 
+                    The complaint case is resolved. </p>
+                <p class="text-sm text-gray-700 leading-relaxed">
                     Once confirmed, the status will be changed to "Completed" and the resident will be notified.
                 </p>
             </div>
@@ -415,7 +415,7 @@
                                 <input value="{{ $u->suffix ?? 'N/A' }}" readonly class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50"></div>
                             <div><label class="font-semibold text-gray-700 block mb-1">Contact Number:</label>
                              <input value="{{ $u->contact_number ?? 'N/A' }}" readonly class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50"></div>
-                            <div class="col-span-2"><label class="font-semibold text-gray-700 block mb-1">House/Unit Number, Street:</label>
+                            <div><label class="font-semibold text-gray-700 block mb-1">House/Unit Number, Street:</label>
                                 <input value="{{ $u->address ?? 'N/A' }}" readonly class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50"></div>
 
                         {{-- DIVIDER --}}
