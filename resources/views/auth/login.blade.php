@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sign In</title>
+  <title>Barangay Daang Bakal</title>
+  <link rel="icon" type="image/png" href="{{ asset('images/BARANGAY LOGO.png') }}">
   <script>
     if (
       window.location.protocol !== 'https:' &&

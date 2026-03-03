@@ -11,7 +11,8 @@
         $isAdminUser = Auth::check() && (in_array($roleRaw, ['admin']) || in_array($userTypeRaw, ['admin']));
         $topRoleLabel = $isSuperAdmin ? 'Super Administrator' : ($isAdminUser ? 'Administrator' : ucfirst(Auth::user()->role ?? Auth::user()->user_type ?? ''));
     @endphp
-    <title>{{ $isSuperAdmin ? 'Super Admin Panel' : 'Admin Panel' }}</title>
+    <title>Barangay Daang Bakal</title>
+    <link rel="icon" type="image/png" href="{{ asset('images/BARANGAY LOGO.png') }}">
     <script src="//unpkg.com/alpinejs" defer></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
