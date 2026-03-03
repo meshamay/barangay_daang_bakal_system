@@ -314,6 +314,7 @@
                                 'Neighbor Dispute' => $complaintTypes['Neighbor Dispute'] ?? 0,
                                 'Money Problems' => $complaintTypes['Money Problems'] ?? 0,
                                 'Misbehavior' => $complaintTypes['Misbehavior'] ?? 0,
+                                'Others' => $complaintTypes['Others'] ?? 0,
                             ];
                             $positions = [
                                 ['x' => 100, 'y' => 80],
@@ -321,8 +322,9 @@
                                 ['x' => 400, 'y' => 100],
                                 ['x' => 150, 'y' => 230],
                                 ['x' => 350, 'y' => 260],
+                                ['x' => 250, 'y' => 175],
                             ];
-                            $colors = ['#F9D3DA', '#A2C4D9', '#FCE6C9', '#C5E3B1', '#D4A5F9'];
+                            $colors = ['#F9D3DA', '#A2C4D9', '#FCE6C9', '#C5E3B1', '#D4A5F9', '#FDE68A'];
                             $index = 0;
                         @endphp
                         @foreach($complaints as $type => $count)
