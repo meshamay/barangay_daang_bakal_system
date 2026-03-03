@@ -290,7 +290,9 @@
 	</div>
 	
 	<div class="mt-4">
-        {{ isset($complaints) ? $complaints->links() : '' }}
+        @if(isset($complaints) && is_object($complaints) && method_exists($complaints, 'links'))
+            {{ $complaints->links() }}
+        @endif
 	</div>
 
     
@@ -317,7 +319,8 @@
             <!-- Description -->
             <div class="bg-amber-50 rounded-xl p-4 mb-6 border border-amber-200">
                 <p class="text-sm text-gray-700 leading-relaxed">
-                    You are accepting this complaint. Once confirmed, the status will be changed to "In Progress" and the resident will be notified.
+                    You are accepting this complaint. 
+                    Once confirmed, the status will be changed to "In Progress" and the resident will be notified.
                 </p>
             </div>
 
@@ -356,7 +359,8 @@
             <!-- Description -->
             <div class="bg-green-50 rounded-xl p-4 mb-6 border border-green-200">
                 <p class="text-sm text-gray-700 leading-relaxed">
-                    The complaint case is resolved. Once confirmed, the status will be changed to "Completed" and the resident will be notified.
+                    The complaint case is resolved. 
+                    Once confirmed, the status will be changed to "Completed" and the resident will be notified.
                 </p>
             </div>
 
@@ -391,7 +395,7 @@
                 
                 {{-- Modal Header --}}
                 <div class="flex items-center px-6 py-4 gap-3" style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%);">
-                    <h1 class="text-white text-xl font-bold font-['Barlow_Semi_Condensed'] tracking-wide">Complaint File - Transaction {{ $c->transaction_no }}</h1>
+                    <h1 class="text-white text-xl font-bold tracking-wide" style="font-family: 'Poppins', sans-serif;">GENERAL COMPLAINT FORM</h1>
                 </div>
 
                 {{-- Modal Body --}}
@@ -405,31 +409,14 @@
                              <input value="{{ $u->last_name ?? 'N/A' }}" readonly class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50"></div>
                         <div><label class="font-semibold text-gray-700 block mb-1">First Name:</label>
                              <input value="{{ $u->first_name ?? 'N/A' }}" readonly class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50"></div>
-                        <div><label class="font-semibold text-gray-700 block mb-1">Resident ID:</label>
-                             <input value="{{ $u->resident_id ?? 'N/A' }}" readonly class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50"></div>
-                        <div><label class="font-semibold text-gray-700 block mb-1">Contact No:</label>
+                            <div><label class="font-semibold text-gray-700 block mb-1">Middle Name:</label>
+                                <input value="{{ $u->middle_name ?? 'N/A' }}" readonly class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50"></div>
+                            <div><label class="font-semibold text-gray-700 block mb-1">Suffix:</label>
+                                <input value="{{ $u->suffix ?? 'N/A' }}" readonly class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50"></div>
+                            <div><label class="font-semibold text-gray-700 block mb-1">Contact Number:</label>
                              <input value="{{ $u->contact_number ?? 'N/A' }}" readonly class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50"></div>
-                        <div><label class="font-semibold text-gray-700 block mb-1">Address:</label>
-                             <input value="{{ $u->address ?? 'N/A' }}" readonly class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50"></div>
-                        <div><label class="font-semibold text-gray-700 block mb-1">Gender/Age:</label>
-                             <input value="{{ $u->gender ?? '' }} / {{ $u->age ?? '' }}" readonly class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50"></div>
-
-                        {{-- ATTACHMENTS --}}
-                        <div class="col-span-2 mt-3">
-                            <label class="font-semibold text-gray-700 block mb-2">Valid ID Attachments</label>
-                            <div class="mt-2 grid grid-cols-2 gap-4">
-                                <div class="border-2 border-dashed border-blue-300 rounded-xl py-3 flex flex-col items-center text-sm w-full h-52 justify-center bg-blue-50/50 hover:bg-blue-50 transition-colors">
-                                    @if($u && $u->id_front_path)
-                                        <img src="{{ asset('storage/' . $u->id_front_path) }}" class="h-full w-auto object-contain cursor-pointer" onclick="window.open(this.src)">
-                                    @else <span class="text-red-500 font-medium">No Front ID</span> @endif
-                                </div>
-                                <div class="border-2 border-dashed border-blue-300 rounded-xl py-3 flex flex-col items-center text-sm w-full h-52 justify-center bg-blue-50/50 hover:bg-blue-50 transition-colors">
-                                    @if($u && $u->id_back_path)
-                                        <img src="{{ asset('storage/' . $u->id_back_path) }}" class="h-full w-auto object-contain cursor-pointer" onclick="window.open(this.src)">
-                                    @else <span class="text-red-500 font-medium">No Back ID</span> @endif
-                                </div>
-                            </div>
-                        </div>
+                            <div class="col-span-2"><label class="font-semibold text-gray-700 block mb-1">House/Unit Number, Street:</label>
+                                <input value="{{ $u->address ?? 'N/A' }}" readonly class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50"></div>
 
                         {{-- DIVIDER --}}
                         <div class="col-span-2 my-3"><div class="border-t border-gray-200"></div></div>
@@ -441,17 +428,17 @@
                              <input value="{{ $c->incident_date }}" readonly class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50"></div>
                         <div><label class="font-semibold text-gray-700 block mb-1">Incident Time:</label>
                              <input value="{{ $c->incident_time }}" readonly class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50"></div>
-                        <div><label class="font-semibold text-gray-700 block mb-1">Defendant Name:</label>
+                            <div><label class="font-semibold text-gray-700 block mb-1">Defendant's Name:</label>
                              <input value="{{ $c->defendant_name }}" readonly class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50"></div>
-                        <div><label class="font-semibold text-gray-700 block mb-1">Defendant Address:</label>
+                            <div><label class="font-semibold text-gray-700 block mb-1">Defendant's Address:</label>
                              <input value="{{ $c->defendant_address }}" readonly class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50"></div>
-                        <div><label class="font-semibold text-gray-700 block mb-1">Urgency:</label>
+                            <div><label class="font-semibold text-gray-700 block mb-1">Level of Urgency:</label>
                              <input value="{{ $c->level_urgency }}" readonly class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50"></div>
                         <div><label class="font-semibold text-gray-700 block mb-1">Complaint Type:</label>
                              <input value="{{ $c->complaint_type }}" readonly class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50"></div>
                         
                         <div class="col-span-2">
-                            <label class="font-semibold text-gray-700 block mb-1">Statement:</label>
+                               <label class="font-semibold text-gray-700 block mb-1">Complainant Statement:</label>
                             <textarea readonly class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50 h-28">{{ $c->complaint_statement }}</textarea>
                         </div>
                     </div>

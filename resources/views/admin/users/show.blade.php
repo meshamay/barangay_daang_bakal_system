@@ -178,7 +178,7 @@
                                     </div>
                                     <div class="flex-grow">
                                         <p class="text-sm font-semibold" :class="{'text-gray-900': !notification.read_at, 'text-gray-600': notification.read_at}" x-text="notification.data.title"></p>
-                                        <p class="text-xs mt-1" :class="{'text-gray-700': !notification.read_at, 'text-gray-500': notification.read_at}" x-text="notification.data.message"></p>
+                                        <p class="text-xs mt-1" :class="{'text-gray-700': !notification.read_at, 'text-gray-500': notification.read_at}" x-text="notification.data.message.replace('Certificate of Indigency', 'Indigency Clearance').replace('Certificate of Residency', 'Resident Certificate')"></p>
                                         <p class="text-xs text-gray-400 mt-2" x-text="formatDate(notification.created_at)"></p>
                                     </div>
                                 </div>

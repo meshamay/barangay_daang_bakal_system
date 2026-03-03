@@ -13,6 +13,19 @@ use App\Models\CertResidencyDetail;
 use App\Models\CertCertificateDetail;
 use App\Models\User;
 
+/**
+ * @property int $id
+ * @property int|null $resident_id
+ * @property string|null $document_type
+ * @property string|null $purpose
+ * @property string|null $status
+ * @property string|null $tracking_number
+ * @property string|null $date_requested
+ * @property int|null $processed_by
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ */
 class DocumentRequest extends Model
 {
     use HasFactory, SoftDeletes, Notifiable;

@@ -132,19 +132,29 @@
                                     } else {
                                         echo 'Complaint Submitted - ' . $desc;
                                     }
-                                } else if ($action === 'document request submitted' && $roleLabelNorm === 'resident') {
+                                } else if ($action === 'document request submitted') {
                                     $descNorm = strtolower(trim($desc));
-                                    if ($descNorm === 'indigency clearance') {
+                                    if (in_array($descNorm, ['indigency clearance', 'certificate of indigency'])) {
                                         echo 'Document Request Submitted - Indigency Clearance';
-                                    } else if ($descNorm === 'resident certificate') {
+                                    } else if (in_array($descNorm, ['resident certificate', 'certificate of residency'])) {
                                         echo 'Document Request Submitted - Resident Certificate';
                                     } else {
                                         echo 'Document Request Submitted - ' . $desc;
                                     }
-                                } else if ($action === 'log in' && $roleLabelNorm === 'resident') {
+                                } else if (in_array($action, ['log in', 'login']) && in_array($roleLabelNorm, ['super admin', 'admin'])) {
+                                    echo 'Log In - Super Admin/Admin logged in';
+                                } else if (in_array($action, ['log in', 'login']) && $roleLabelNorm === 'resident') {
                                     echo 'Log In - Resident logged in';
                                 } else if ($action === 'log out' && $roleLabelNorm === 'resident') {
                                     echo 'Log Out - Resident logged out';
+                                } else if ($action === 'document request status updated') {
+                                    $normalizedDesc = str_replace(
+                                        ["'in progress'", "'completed'", ' in progress ', ' completed '],
+                                        ["'In Progress'", "'Completed'", ' In Progress ', ' Completed '],
+                                        $desc
+                                    );
+                                    echo 'Document Request Status Updated';
+                                    if ($normalizedDesc) echo ' - ' . $normalizedDesc;
                                 } else {
                                     echo $log->action;
                                     if ($desc) echo ' - ' . $desc;

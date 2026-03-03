@@ -8,6 +8,27 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * @property int $id
+ * @property string|null $resident_id
+ * @property string|null $first_name
+ * @property string|null $middle_name
+ * @property string|null $last_name
+ * @property string|null $suffix
+ * @property string|null $username
+ * @property string|null $email
+ * @property string|null $role
+ * @property string|null $user_type
+ * @property string|null $status
+ * @property string|null $contact_number
+ * @property string|null $address
+ * @property string|null $photo_path
+ * @property string|null $id_front_path
+ * @property string|null $id_back_path
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ */
 class User extends Authenticatable
 {
     use HasFactory, Notifiable, SoftDeletes;

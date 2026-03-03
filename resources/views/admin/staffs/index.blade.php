@@ -114,7 +114,7 @@
 						@php
 						    $statusRaw = strtolower($member->status ?? '');
 						    $isActive = in_array($statusRaw, ['approved','active']);
-						    $badge = $isActive ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' : 'bg-gray-100 text-gray-800 border border-gray-300';
+                            $badge = $isActive ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' : 'bg-red-100 text-red-800 border border-red-300';
 						    $label = $isActive ? 'Active' : 'Inactive';
 						@endphp
                         <span class="{{ $badge }} text-xs font-bold px-3 py-2 rounded-full inline-block shadow-sm" style="font-family: 'Poppins', sans-serif;">{{ $label }}</span>
@@ -139,6 +139,7 @@
                                 </button>
                                 <span class="absolute top-full mt-2 left-1/2 -translate-x-1/2 px-2 py-1 text-xs text-white bg-gray-900 rounded whitespace-nowrap opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-opacity duration-200 z-50">View</span>
                             </div>
+                            @if($isActive)
                             <div class="relative group">
                                 <button onclick='editStaff(@json($member->id), @json($member->last_name), @json($member->first_name), @json($member->username), @json($member->created_at->format("d/m/Y")))' class="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-gray-50 transition-all duration-200 hover:shadow-md text-gray-600 hover:text-gray-800">
                                     <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -155,6 +156,7 @@
                                 </button>
                                 <span class="absolute top-full mt-2 left-1/2 -translate-x-1/2 px-2 py-1 text-xs text-white bg-gray-900 rounded whitespace-nowrap opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-opacity duration-200 z-50">Delete</span>
                             </div>
+                            @endif
                         </div>
                     </td>
 				</tr>

@@ -52,7 +52,11 @@ class DocumentRequestSubmittedAdmin extends Notification
     {
         $transactionId = $this->documentRequest->tracking_number;
         $user = $this->documentRequest->resident ?? \App\Models\User::find($this->documentRequest->resident_id);
-        $documentType = $this->documentRequest->document_type;
+        $documentType = str_replace(
+            ['Certificate of Indigency', 'Certificate of Residency'],
+            ['Indigency Clearance', 'Resident Certificate'],
+            $this->documentRequest->document_type
+        );
         
         // Use date_requested if available, otherwise created_at, otherwise now
         $date = $this->documentRequest->date_requested ?? $this->documentRequest->created_at ?? now();

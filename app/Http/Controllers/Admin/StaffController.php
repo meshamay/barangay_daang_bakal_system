@@ -53,9 +53,6 @@ class StaffController extends Controller
             } elseif ($status === 'inactive') {
                 $query->whereIn(DB::raw('LOWER(status)'), ['inactive', 'archived', 'reject', 'blocked', 'disabled', 'pending']);
             }
-        } else {
-            // Default: Show only active/approved staff when no status filter is applied
-            $query->whereIn(DB::raw('LOWER(status)'), ['approved', 'active']);
         }
 
         $staff = $query->orderBy('last_name')->get();

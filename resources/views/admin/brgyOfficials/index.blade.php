@@ -157,7 +157,7 @@
                 <div class="flex gap-8 mb-6">
                     <div class="w-[220px] flex flex-col items-center">
                         <div class="relative flex h-[220px] w-full flex-col items-center justify-center overflow-hidden rounded-xl border-2 border-gray-200 bg-gray-100 shadow-md cursor-pointer">
-                            <img id="addPhotoPreview" src="https://via.placeholder.com/400x400.png?text=Add+Photo" alt="Staff Photo" class="absolute inset-0 w-full h-full object-cover">
+                            <img id="addPhotoPreview" src="https://via.placeholder.com/400x400.png?text=Add+Photo" alt="Barangay Official Photo" class="absolute inset-0 w-full h-full object-cover">
                             <div id="addCameraIconPlaceholder" class="flex items-center justify-center w-full h-full hidden">
                                 <svg class="mx-auto h-10 w-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.437 4h3.126a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
                                 </svg>

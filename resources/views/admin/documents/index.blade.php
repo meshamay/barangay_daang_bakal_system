@@ -99,7 +99,7 @@
 					<option value="Barangay Clearance" {{ request('document_type') == 'Barangay Clearance' ? 'selected' : '' }}>Barangay Clearance</option>
 					<option value="Barangay Certificate" {{ request('document_type') == 'Barangay Certificate' ? 'selected' : '' }}>Barangay Certificate</option>
 					<option value="Certificate of Indigency" {{ request('document_type') == 'Certificate of Indigency' ? 'selected' : '' }}>Indigency Clearance</option>
-					<option value="Indigency Clearance" {{ request('document_type') == 'Indigency Clearance' ? 'selected' : '' }}>Resident Certificate</option>
+					<option value="Certificate of Residency" {{ request('document_type') == 'Certificate of Residency' ? 'selected' : '' }}>Resident Certificate</option>
 				</select>
 				<select name="status" onchange="this.form.submit()" class="h-10 px-4 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition bg-white w-40">
 					<option value="">Status</option>
@@ -506,12 +506,13 @@
 		</div>
 		
 		<!-- Title -->
-		<h2 class="font-bold text-2xl mb-4 text-gray-800 tracking-tight">Process Document Requests</h2>
+		<h2 class="font-bold text-2xl mb-4 text-gray-800 tracking-tight">Process Document Request</h2>
 		
 		<!-- Description -->
 		<div class="bg-amber-50 rounded-xl p-4 mb-6 border border-amber-200">
 			<p class="text-sm text-gray-700 leading-relaxed">
-				You are accepting this document request. Once confirmed, the status will be changed to "In Progress" and the resident will be notified.
+				You are accepting this document request. 
+				Once confirmed, the status will be changed to "In Progress" and the resident will be notified.
 			</p>
 		</div>
 		
@@ -549,12 +550,13 @@
 		</div>
 		
 		<!-- Title -->
-		<h2 class="font-bold text-2xl mb-4 text-gray-800 tracking-tight">Complete Document Requests</h2>
+		<h2 class="font-bold text-2xl mb-4 text-gray-800 tracking-tight">Complete Document Request</h2>
 		
 		<!-- Description -->
 		<div class="bg-green-50 rounded-xl p-4 mb-6 border border-green-200">
 			<p class="text-sm text-gray-700 leading-relaxed">
-				The document is ready for pick up. Once confirmed, the status will be changed to "Completed" and the resident will be notified.
+				The document is ready for pickup. 
+				Once confirmed, the status will be changed to "Completed" and the resident will be notified.
 			</p>
 		</div>
 		

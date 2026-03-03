@@ -97,7 +97,7 @@
                                    x-text="notification.data.title"></p>
                                 <p class="text-xs mt-0.5" 
                                    :class="{'font-medium': !notification.read_at, 'text-gray-500': notification.read_at}" 
-                                   x-text="notification.data.message"></p>
+                                              x-text="notification.data.message.replace('Certificate of Indigency', 'Indigency Clearance').replace('Certificate of Residency', 'Resident Certificate')"></p>
                                 <p class="text-xs text-gray-400 mt-1" x-text="formatDate(notification.created_at)"></p>
                             </a>
                         </template>
