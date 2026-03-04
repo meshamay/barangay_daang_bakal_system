@@ -62,8 +62,8 @@
                 <p class="text-gray-500 text-sm font-medium">Ongoing</p>
                 <p class="text-4xl font-bold text-gray-900 mt-2">{{ $ongoingCount }}</p>
             </div>
-            <div class="bg-blue-100 p-4 rounded-lg">
-                <svg class="h-8 w-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div class="bg-emerald-100 p-4 rounded-lg">
+                <svg class="h-8 w-8 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5L6 9H3v6h3l5 4V5z" />
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 9l-2 3h2l-2 3" />
                 </svg>

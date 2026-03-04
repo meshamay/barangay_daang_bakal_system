@@ -394,8 +394,8 @@
             <div class="bg-white w-[850px] max-h-[90vh] rounded-3xl overflow-hidden flex flex-col shadow-2xl border-2 border-gray-100">
                 
                 {{-- Modal Header --}}
-                <div class="flex items-center px-6 py-4 gap-3" style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%);">
-                    <h1 class="text-white text-xl font-bold tracking-wide" style="font-family: 'Poppins', sans-serif;">GENERAL COMPLAINT FORM</h1>
+                <div class="flex items-center justify-center px-6 py-4" style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%);">
+                    <h1 class="text-white text-xl font-bold tracking-wide text-center" style="font-family: 'Poppins', sans-serif;">GENERAL COMPLAINT FORM</h1>
                 </div>
 
                 {{-- Modal Body --}}

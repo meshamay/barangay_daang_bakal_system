@@ -80,7 +80,7 @@
 
 
 	{{-- Table --}}
-    <div class="bg-white shadow-xl rounded-xl overflow-hidden h-[560px] max-h-[560px] overflow-y-auto border border-gray-100">
+    <div class="bg-white shadow-xl rounded-xl h-[650px] overflow-hidden border border-gray-100">
         <table class="w-full text-sm" style="font-family: 'Poppins', sans-serif;">
             <thead style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%); color: white; position: sticky; top: 0; z-index: 10; font-size: 14px;" class="shadow-sm">
                 <tr class="text-[14px] font-semibold uppercase tracking-widest text-center">
@@ -108,8 +108,8 @@
                             $roleLabel = $isSuper ? 'Super Admin' : 'Admin';
                         @endphp
                         {{ $roleLabel }}
-                        <td class="py-5 px-6 text-gray-600 text-sm" style="font-family: 'Poppins', sans-serif;">{{ $member->created_at->format('d/m/Y') }}</td>
                     </td>
+					<td class="py-5 px-6 text-gray-600 text-sm" style="font-family: 'Poppins', sans-serif;">{{ $member->created_at->format('d/m/Y') }}</td>
 					<td class="py-5 px-6">
 						@php
 						    $statusRaw = strtolower($member->status ?? '');
