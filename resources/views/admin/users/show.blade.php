@@ -254,10 +254,10 @@
 
                 <div class="flex gap-3">
                     <button type="button" onclick="document.getElementById('successModal').remove(); document.body.style.overflow='auto';" class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-2.5 rounded-xl transition">
-                        Stay Here
+                        Stay on Page
                     </button>
                     <button type="button" onclick="window.location.href='/admin/users'" class="flex-1 bg-gradient-to-r from-[#134573] to-[#0f3a5f] hover:from-[#0f3a5f] hover:to-[#0a2847] text-white font-semibold py-2.5 rounded-xl transition">
-                        Back to Users
+                        View all Users
                     </button>
                 </div>
             </div>

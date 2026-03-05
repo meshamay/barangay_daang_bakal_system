@@ -292,29 +292,42 @@
         <div class="grid grid-cols-3 gap-4">
           <div>
             <label class="block text-sm font-semibold mb-2">Gender <span class="text-red-500">*</span></label>
-            <select name="gender" 
-                class="w-full bg-white text-gray-700 rounded-lg h-11 text-sm font-medium px-3 border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all @error('gender') border-red-500 @enderror" 
-                required>
-                <option value="">Select Gender</option>
-                <option value="Male" {{ old('gender', $user->gender) == 'Male' ? 'selected' : '' }}>Male</option>
-                <option value="Female" {{ old('gender', $user->gender) == 'Female' ? 'selected' : '' }}>Female</option>
+          <div class="relative">
+            <select name="gender"
+              class="w-full appearance-none bg-white text-gray-700 rounded-lg h-11 text-sm font-medium px-3 pr-10 border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all @error('gender') border-red-500 @enderror"
+              required>
+              <option value="">Select Gender</option>
+              <option value="Male" {{ old('gender', $user->gender) == 'Male' ? 'selected' : '' }}>Male</option>
+              <option value="Female" {{ old('gender', $user->gender) == 'Female' ? 'selected' : '' }}>Female</option>
             </select>
+            <div class="pointer-events-none absolute inset-y-0 right-3 flex items-center text-gray-500">
+              <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </div>
+          </div>
             @error('gender')
                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
             @enderror
           </div>
           <div>
             <label class="block text-sm font-semibold mb-2">Civil Status <span class="text-red-500">*</span></label>
-            <select name="civil_status" 
-                class="w-full bg-white text-gray-700 rounded-lg h-11 text-sm font-medium px-3 border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all @error('civil_status') border-red-500 @enderror" 
-                required>
-                <option value="">Select Status</option>
-                <option value="Single" {{ old('civil_status', $user->civil_status) == 'Single' ? 'selected' : '' }}>Single</option>
-                <option value="Married" {{ old('civil_status', $user->civil_status) == 'Married' ? 'selected' : '' }}>Married</option>
-                <option value="Widowed" {{ old('civil_status', $user->civil_status) == 'Widowed' ? 'selected' : '' }}>Widowed</option>
-                <option value="Separated" {{ old('civil_status', $user->civil_status) == 'Separated' ? 'selected' : '' }}>Separated</option>
-                <option value="Divorced" {{ old('civil_status', $user->civil_status) == 'Divorced' ? 'selected' : '' }}>Divorced</option>
+          <div class="relative">
+            <select name="civil_status"
+              class="w-full appearance-none bg-white text-gray-700 rounded-lg h-11 text-sm font-medium px-3 pr-10 border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all @error('civil_status') border-red-500 @enderror"
+              required>
+              <option value="">Select Status</option>
+              <option value="Single" {{ old('civil_status', $user->civil_status) == 'Single' ? 'selected' : '' }}>Single</option>
+              <option value="Married" {{ old('civil_status', $user->civil_status) == 'Married' ? 'selected' : '' }}>Married</option>
+              <option value="Widowed" {{ old('civil_status', $user->civil_status) == 'Widowed' ? 'selected' : '' }}>Widowed</option>
+              <option value="Divorced" {{ old('civil_status', $user->civil_status) == 'Divorced' ? 'selected' : '' }}>Divorced</option>
             </select>
+            <div class="pointer-events-none absolute inset-y-0 right-3 flex items-center text-gray-500">
+              <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </div>
+          </div>
             @error('civil_status')
                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
             @enderror
@@ -340,16 +353,19 @@
       <h2 class="text-xl font-bold mb-5 text-gray-800">Contact Information</h2>
 
       <div class="flex gap-5 mb-5">
-        <div class="w-1/2">
-            <p class="text-xs font-bold mb-2">ID Front</p>
-            <div class="w-full h-36 border-2 border-blue-200 rounded-xl flex items-center justify-center overflow-hidden bg-white shadow-sm">
+        <div class="w-full">
+          <p class="text-xs font-bold mb-2">ID/CERTIFICATE OF LIVE BIRTH ATTACHMENT</p>
+          <div class="flex gap-5">
+            <div class="w-1/2">
+              <div class="w-full h-36 border-2 border-blue-200 rounded-xl flex items-center justify-center overflow-hidden bg-white shadow-sm">
                 <img src="{{ $user->id_front_path ? asset('storage/' . $user->id_front_path) : '' }}" alt="Valid ID Front" class="w-full h-full object-cover">
+              </div>
             </div>
-        </div>
-        <div class="w-1/2">
-            <p class="text-xs font-bold mb-2">ID Back</p>
-            <div class="w-full h-36 border-2 border-blue-200 rounded-xl flex items-center justify-center overflow-hidden bg-white shadow-sm">
+            <div class="w-1/2">
+              <div class="w-full h-36 border-2 border-blue-200 rounded-xl flex items-center justify-center overflow-hidden bg-white shadow-sm">
                 <img src="{{ $user->id_back_path ? asset('storage/' . $user->id_back_path) : '' }}" alt="Valid ID Back" class="w-full h-full object-cover">
+              </div>
+            </div>
             </div>
         </div>
       </div>
@@ -357,7 +373,7 @@
       <div class="space-y-5">
         <div class="grid grid-cols-2 gap-4">
           <div>
-            <label class="block text-sm font-semibold mb-2">Contact No. <span class="text-red-500">*</span></label>
+            <label class="block text-sm font-semibold mb-2">Contact Number <span class="text-red-500">*</span></label>
             <input type="text" name="contact_number" value="{{ old('contact_number', $user->contact_number) }}" 
                 class="w-full bg-white text-gray-700 rounded-lg h-11 text-sm font-medium px-3 border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all @error('contact_number') border-red-500 @enderror" 
                 required>
@@ -377,7 +393,7 @@
         </div>
 
         <div>
-            <label class="block text-sm font-semibold mb-2">Address <span class="text-red-500">*</span></label>
+      <label class="block text-sm font-semibold mb-2">House/Unit Number, Street <span class="text-red-500">*</span></label>
             <input type="text" name="address" value="{{ old('address', $user->address) }}" 
                 class="w-full bg-white text-gray-700 rounded-lg h-11 text-sm font-medium px-3 border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all @error('address') border-red-500 @enderror" 
                 required>
@@ -388,12 +404,12 @@
 
         <div class="grid grid-cols-2 gap-4">
             <div>
-                <label class="block text-sm font-semibold mb-2">City/Municipality</label>
-                <div class="flex items-center bg-gray-100 text-gray-500 rounded-lg h-11 text-sm font-medium px-3 border border-gray-200">Mandaluyong</div>
-            </div>
-            <div>
                 <label class="block text-sm font-semibold mb-2">Barangay</label>
-                <div class="flex items-center bg-gray-100 text-gray-500 rounded-lg h-11 text-sm font-medium px-3 border border-gray-200">Daang Bakal</div>
+            <div class="flex items-center bg-gray-50 text-gray-700 rounded-lg h-11 text-sm font-medium px-3 border border-gray-200">Daang Bakal</div>
+          </div>
+          <div>
+            <label class="block text-sm font-semibold mb-2">City/Municipality</label>
+            <div class="flex items-center bg-gray-50 text-gray-700 rounded-lg h-11 text-sm font-medium px-3 border border-gray-200">Mandaluyong</div>
             </div>
         </div>
 
