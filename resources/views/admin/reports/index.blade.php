@@ -36,9 +36,7 @@
   <div class="flex justify-start items-center mb-8 gap-3">
       <form method="GET" action="{{ route('admin.reports.index') }}" class="flex items-center gap-3 flex-wrap">
           <select name="year" onchange="this.form.submit()" class="h-10 px-4 pr-10 text-sm border border-gray-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 min-w-[9rem]">
-              @foreach (range(date('Y'), date('Y') - 4) as $y)
-                  <option value="{{ $y }}" {{ (int) request('year', $year) === (int) $y ? 'selected' : '' }}>{{ $y }}</option>
-              @endforeach
+              <option value="{{ date('Y') }}" selected>{{ date('Y') }}</option>
           </select>
           <select name="month" onchange="this.form.submit()" class="h-10 px-4 pr-10 text-sm border border-gray-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 min-w-[11rem]">
               @for ($i = 1; $i <= 12; $i++)
@@ -174,7 +172,7 @@
                     @endphp
                     <svg viewBox="0 0 200 200" style="width: 300px; height: 300px;" class="mb-4">
                         <circle cx="100" cy="100" r="80" fill="none" stroke="#60A5FA" stroke-width="35" stroke-dasharray="{{ $docPercent * 5.03 }} 503" stroke-dashoffset="0" transform="rotate(-90 100 100)"></circle>
-                        <circle cx="100" cy="100" r="80" fill="none" stroke="#F87171" stroke-width="35" stroke-dasharray="{{ $complPercent * 5.03 }} 503" stroke-dashoffset="{{ -$docPercent * 5.03 }}" transform="rotate(-90 100 100)"></circle>
+                        <circle cx="100" cy="100" r="80" fill="none" stroke="#DC2626" stroke-width="35" stroke-dasharray="{{ $complPercent * 5.03 }} 503" stroke-dashoffset="{{ -$docPercent * 5.03 }}" transform="rotate(-90 100 100)"></circle>
                         <circle cx="100" cy="100" r="50" fill="white"></circle>
                         <text x="100" y="105" text-anchor="middle" font-size="18" font-weight="bold" fill="#1e2e3d">{{ $total }}</text>
                         <text x="100" y="125" text-anchor="middle" font-size="10" fill="#666">Total</text>
@@ -186,7 +184,7 @@
                             <p class="text-sm font-bold text-gray-900">{{ $requestsComplaints['documents'] }} ({{ number_format($docPercent, 1) }}%)</p>
                         </div>
                         <div class="text-center p-3 rounded-lg">
-                            <div class="w-6 h-6 bg-[#F87171] rounded mb-2 mx-auto"></div>
+                            <div class="w-6 h-6 bg-[#DC2626] rounded mb-2 mx-auto"></div>
                             <p class="text-xs font-semibold text-gray-700">Complaints</p>
                             <p class="text-sm font-bold text-gray-900">{{ $requestsComplaints['complaints'] }} ({{ number_format($complPercent, 1) }}%)</p>
                         </div>
@@ -429,16 +427,16 @@
     <!-- 1. EXPORT SETTINGS MODAL -->
     <!-- =============================== -->
     <div id="exportModal" class="modal-container hidden fixed top-0 left-0 w-full h-full flex items-center justify-center z-[9999] font-poppins" style="left: 240px; width: calc(100vw - 240px); top: 80px; height: calc(100vh - 80px);">
-        <div class="bg-white w-[650px] rounded-3xl shadow-2xl overflow-hidden border-2 border-gray-100 flex flex-col relative">
+        <div class="bg-white w-[650px] rounded-3xl shadow-2xl overflow-hidden border-2 border-gray-100 flex flex-col relative font-poppins">
            
             <!-- Gradient Header -->
             <div class="px-6 py-4 flex items-center gap-3" style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%);">
-                <h1 class="text-white font-bold text-xl tracking-wide font-['Barlow_Semi_Condensed']">Export Report</h1>
+                <h1 class="text-white font-bold text-xl tracking-wide font-poppins">Export Report</h1>
             </div>
 
 
             <!-- Body Content -->
-            <form id="exportForm" method="POST" action="{{ route('admin.reports.export') }}" class="p-8">
+            <form id="exportForm" method="POST" action="{{ route('admin.reports.export') }}" class="p-8 font-poppins">
                 @csrf
                 <p class="text-gray-500 text-sm mb-6">Select the format and section to include in your export.</p>
 
@@ -448,9 +446,7 @@
                     <div class="flex-1 relative">
                         <label class="block text-sm font-semibold text-gray-700 mb-2">Year:</label>
                         <select id="exportYear" name="year" class="w-full bg-gray-50 border border-gray-300 rounded-lg px-3 py-2.5 text-sm text-gray-700 font-medium appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer">
-                            @foreach (range(date('Y'), date('Y') - 4) as $y)
-                                <option value="{{ $y }}" {{ (int) request('year', $year) === (int) $y ? 'selected' : '' }}>{{ $y }}</option>
-                            @endforeach
+                            <option value="{{ date('Y') }}" selected>{{ date('Y') }}</option>
                         </select>
                     </div>
                     <div class="flex-1 relative">
@@ -467,13 +463,13 @@
                 <!-- Export Format -->
                 <h3 class="text-sm font-bold text-gray-800 mb-3">Export Format</h3>
                 <div class="space-y-2 mb-6">
-                    <label class="flex items-center p-3 bg-gray-50 rounded-xl border-2 border-gray-200 hover:border-blue-300 hover:bg-blue-50 cursor-pointer transition">
+                    <label class="flex items-center p-3 bg-gray-50 rounded-xl border-2 border-gray-200 hover:border-red-300 hover:bg-red-50 cursor-pointer transition">
                         <div class="w-8 h-8 mr-3 flex-shrink-0">
                             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" fill="#EA4335"/><path d="M14 2V8H20" fill="#E6E6E6"/><text x="6" y="17" fill="white" font-size="6" font-weight="bold">PDF</text></svg>
                         </div>
                         <div>
-                            <p class="font-semibold text-gray-800 text-sm">PDF Document</p>
-                            <p class="text-gray-500 text-xs">Print friendly format with charts and tables.</p>
+                            <p class="font-semibold text-gray-800 text-sm">PDF</p>
+                            <p class="text-gray-500 text-xs">Read-only document for sharing or printing.</p>
                         </div>
                         <input type="radio" name="format" value="pdf" class="ml-auto w-4 h-4 text-red-600 focus:ring-red-500" checked>
                     </label>
@@ -482,8 +478,8 @@
                             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" fill="#34A853"/><path d="M14 2V8H20" fill="#E6E6E6"/><path d="M8 12H16M8 16H16M8 8H10" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>
                         </div>
                         <div>
-                            <p class="font-semibold text-gray-800 text-sm">Excel Spreadsheet</p>
-                            <p class="text-gray-500 text-xs">Editable data tables and charts.</p>
+                            <p class="font-semibold text-gray-800 text-sm">Excel</p>
+                            <p class="text-gray-500 text-xs">Editable spreadsheet for analysis or modification.</p>
                         </div>
                         <input type="radio" name="format" value="excel" class="ml-auto w-4 h-4 text-green-600 focus:ring-green-500">
                     </label>
@@ -499,7 +495,7 @@
                     </label>
                     <label class="flex items-center cursor-pointer">
                         <input type="checkbox" name="sections[]" value="requests_complaints" class="w-4 h-4 bg-white border-gray-300 rounded text-blue-600 focus:ring-2 focus:ring-blue-500 cursor-pointer">
-                        <span class="ml-3 text-sm font-medium text-gray-700">Total Request & Complaint</span>
+                        <span class="ml-3 text-sm font-medium text-gray-700">Total Requests and Complaints</span>
                     </label>
                     <label class="flex items-center cursor-pointer">
                         <input type="checkbox" name="sections[]" value="most_requested_document" class="w-4 h-4 bg-white border-gray-300 rounded text-blue-600 focus:ring-2 focus:ring-blue-500 cursor-pointer">
@@ -515,7 +511,7 @@
                     </label>
                     <label class="flex items-center cursor-pointer">
                         <input type="checkbox" name="sections[]" value="complaint_status_summary" class="w-4 h-4 bg-white border-gray-300 rounded text-blue-600 focus:ring-2 focus:ring-blue-500 cursor-pointer">
-                        <span class="ml-3 text-sm font-medium text-gray-700">Complaint Status Summary</span>
+                        <span class="ml-3 text-sm font-medium text-gray-700">Complaints Status Summary</span>
                     </label>
                 </div>
 
@@ -535,7 +531,7 @@
     <!-- =============================== -->
     <div id="exportSuccessModal" class="modal-container hidden fixed top-0 left-0 w-full h-full flex items-center justify-center z-[9999] font-poppins" style="left: 240px; width: calc(100vw - 240px); top: 80px; height: calc(100vh - 80px);">
         <!-- Gray Card Container -->
-        <div class="bg-[#E5E5E5] w-[600px] rounded-3xl p-10 shadow-2xl relative border-2 border-black">
+        <div class="bg-[#E5E5E5] w-[600px] rounded-3xl p-10 shadow-2xl relative border-2 border-black font-poppins">
            
             <!-- Header Text -->
             <h2 class="text-3xl font-extrabold text-black mb-1">Export Completed</h2>
@@ -548,7 +544,7 @@
                
                 <!-- File Details List -->
                 <div class="space-y-3 text-sm text-black mb-6 pl-2">
-                    <p class="flex items-start"><span class="w-24">File Name:</span> <span>BARIS_Report_2025.pdf</span></p>
+                    <p class="flex items-start"><span class="w-24">File Name:</span> <span>ARIS_Report_2025.pdf</span></p>
                     <p class="flex items-start"><span class="w-24">Format:</span> <span>PDF</span></p>
                     <p class="flex items-start"><span class="w-24">Size:</span> <span>245 KB</span></p>
                     <p class="flex items-start"><span class="w-24">Generated:</span> <span>10/25/2025, 1:12 PM</span></p>

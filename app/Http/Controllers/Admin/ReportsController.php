@@ -9,6 +9,17 @@ use App\Models\Complaint;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
+use PhpOffice\PhpSpreadsheet\Chart\Chart;
+use PhpOffice\PhpSpreadsheet\Chart\DataSeries;
+use PhpOffice\PhpSpreadsheet\Chart\DataSeriesValues;
+use PhpOffice\PhpSpreadsheet\Chart\Legend;
+use PhpOffice\PhpSpreadsheet\Chart\Layout;
+use PhpOffice\PhpSpreadsheet\Chart\PlotArea;
+use PhpOffice\PhpSpreadsheet\Chart\Title;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 class ReportsController extends Controller
 {
@@ -217,101 +228,324 @@ class ReportsController extends Controller
 
         if ($format == 'pdf') {
             $pdf = Pdf::loadView('admin.reports.pdf', $data);
-            return $pdf->download('BARIS_Report_' . $year . '_' . $data['monthName'] . '.pdf');
+            return $pdf->download('ARIS_Report_' . $year . '_' . $data['monthName'] . '.pdf');
         } elseif ($format == 'excel') {
-            // Generate Excel-compatible CSV
-            return $this->generateExcelCsv($data);
+            return $this->generateExcelXlsx($data);
         }
 
         return response()->json(['message' => 'Export format not supported.']);
     }
 
-    private function generateExcelCsv($data)
+    private function generateExcelXlsx(array $data)
     {
-        $filename = 'BARIS_Report_' . $data['year'] . '_' . $data['monthName'] . '.csv';
-        $headers = [
-            'Content-Type' => 'text/csv;charset=UTF-8',
-            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+        $filename = 'ARIS_Report_' . $data['year'] . '_' . $data['monthName'] . '.xlsx';
+
+        $spreadsheet = new Spreadsheet();
+        $dataSheet = $spreadsheet->getActiveSheet();
+        $dataSheet->setTitle('Report Data');
+        $chartSheet = $spreadsheet->createSheet();
+        $chartSheet->setTitle('Charts');
+
+        $dataSheet->setCellValue('A1', 'Barangay Daang Bakal - Reports & Analytics');
+        $dataSheet->setCellValue('A2', 'Report for ' . $data['monthName'] . ' ' . $data['year']);
+        $dataSheet->mergeCells('A1:B1');
+        $dataSheet->mergeCells('A2:B2');
+        $dataSheet->getStyle('A1:A2')->getFont()->setBold(true)->setSize(13);
+
+        $row = 4;
+        $dataSheet->setCellValue("A{$row}", 'KPI Cards');
+        $dataSheet->getStyle("A{$row}")->getFont()->setBold(true);
+        $row++;
+        $dataSheet->fromArray(['Metric', 'Value'], null, "A{$row}");
+        $dataSheet->getStyle("A{$row}:B{$row}")->getFont()->setBold(true);
+        $row++;
+
+        $kpiRows = [
+            ['Total Users', $data['stats']['totalUsers'] ?? 0],
+            ['Total Registered Residents', $data['stats']['registeredResidents'] ?? 0],
+            ['Total Registered Staffs', $data['stats']['totalStaff'] ?? 0],
+            ['Archived Accounts', $data['stats']['archivedAccounts'] ?? 0],
         ];
 
-        $callback = function () use ($data) {
-            $file = fopen('php://output', 'w');
-            
-            // Header
-            fputcsv($file, ['Barangay Daang Bakal - Reports & Analytics']);
-            fputcsv($file, ['Report for ' . $data['monthName'] . ' ' . $data['year']]);
-            fputcsv($file, []);
+        foreach ($kpiRows as $kpiRow) {
+            $dataSheet->fromArray($kpiRow, null, "A{$row}");
+            $row++;
+        }
 
-            // KPI Cards
-            fputcsv($file, ['KPI Cards']);
-            fputcsv($file, ['Metric', 'Value']);
-            fputcsv($file, ['Total Users', $data['stats']['totalUsers']]);
-            fputcsv($file, ['Total Registered Residents', $data['stats']['totalResidents']]);
-            fputcsv($file, ['Total Registered Staffs', $data['stats']['totalStaff']]);
-            fputcsv($file, ['Archived Accounts', $data['stats']['archivedAccounts']]);
-            fputcsv($file, []);
+        $row += 2;
+        $chartIndex = 0;
 
-            // Population by Gender
-            if (in_array('population_gender', $data['sections'])) {
-                fputcsv($file, ['Population by Gender']);
-                fputcsv($file, ['Gender', 'Count']);
-                fputcsv($file, ['Male', $data['populationByGender']['male'] ?? 0]);
-                fputcsv($file, ['Female', $data['populationByGender']['female'] ?? 0]);
-                fputcsv($file, []);
+        if (in_array('population_gender', $data['sections'])) {
+            $row = $this->writeSectionTable(
+                $dataSheet,
+                $row,
+                'Population by Gender',
+                ['Gender', 'Count'],
+                [
+                    ['Male', $data['populationByGender']['male'] ?? 0],
+                    ['Female', $data['populationByGender']['female'] ?? 0],
+                ]
+            );
+
+            $this->addChart(
+                $chartSheet,
+                'Population by Gender',
+                'pie',
+                'Report Data',
+                "'Report Data'!\$B\$" . ($row - 3),
+                "'Report Data'!\$A\$" . ($row - 2) . ":\$A\$" . ($row - 1),
+                "'Report Data'!\$B\$" . ($row - 2) . ":\$B\$" . ($row - 1),
+                $chartIndex++
+            );
+        }
+
+        if (in_array('requests_complaints', $data['sections'])) {
+            $row = $this->writeSectionTable(
+                $dataSheet,
+                $row,
+                'Total Requests & Complaints',
+                ['Type', 'Count'],
+                [
+                    ['Document Requests', $data['requestsComplaints']['documents'] ?? 0],
+                    ['Complaints', $data['requestsComplaints']['complaints'] ?? 0],
+                ]
+            );
+
+            $this->addChart(
+                $chartSheet,
+                'Requests vs Complaints',
+                'column',
+                'Report Data',
+                "'Report Data'!\$B\$" . ($row - 3),
+                "'Report Data'!\$A\$" . ($row - 2) . ":\$A\$" . ($row - 1),
+                "'Report Data'!\$B\$" . ($row - 2) . ":\$B\$" . ($row - 1),
+                $chartIndex++
+            );
+        }
+
+        if (in_array('most_requested_document', $data['sections'])) {
+            $documentRows = [];
+            foreach ($data['documentTypes'] ?? [] as $type => $count) {
+                $documentRows[] = [$type, $count];
             }
 
-            // Total Requests & Complaints
-            if (in_array('requests_complaints', $data['sections'])) {
-                fputcsv($file, ['Total Requests & Complaints']);
-                fputcsv($file, ['Type', 'Count']);
-                fputcsv($file, ['Document Requests', $data['requestsComplaints']['documents'] ?? 0]);
-                fputcsv($file, ['Complaints', $data['requestsComplaints']['complaints'] ?? 0]);
-                fputcsv($file, []);
+            $row = $this->writeSectionTable(
+                $dataSheet,
+                $row,
+                'Most Requested Document',
+                ['Document Type', 'Count'],
+                $documentRows
+            );
+
+            $countRows = count($documentRows);
+            if ($countRows > 0) {
+                $this->addChart(
+                    $chartSheet,
+                    'Most Requested Document',
+                    'bar',
+                    'Report Data',
+                    "'Report Data'!\$B\$" . ($row - ($countRows + 1)),
+                    "'Report Data'!\$A\$" . ($row - $countRows) . ":\$A\$" . ($row - 1),
+                    "'Report Data'!\$B\$" . ($row - $countRows) . ":\$B\$" . ($row - 1),
+                    $chartIndex++
+                );
+            }
+        }
+
+        if (in_array('request_status_summary', $data['sections'])) {
+            $row = $this->writeSectionTable(
+                $dataSheet,
+                $row,
+                'Request Status Summary',
+                ['Status', 'Count'],
+                [
+                    ['Pending', $data['requestStatusSummary']['pending'] ?? 0],
+                    ['In Progress', $data['requestStatusSummary']['processing'] ?? 0],
+                    ['Completed', $data['requestStatusSummary']['approved'] ?? 0],
+                ]
+            );
+
+            $this->addChart(
+                $chartSheet,
+                'Request Status Summary',
+                'column',
+                'Report Data',
+                "'Report Data'!\$B\$" . ($row - 4),
+                "'Report Data'!\$A\$" . ($row - 3) . ":\$A\$" . ($row - 1),
+                "'Report Data'!\$B\$" . ($row - 3) . ":\$B\$" . ($row - 1),
+                $chartIndex++
+            );
+        }
+
+        if (in_array('most_reported_complaints', $data['sections'])) {
+            $complaintRows = [];
+            foreach ($data['complaintTypes'] ?? [] as $type => $count) {
+                $complaintRows[] = [$type, $count];
             }
 
-            // Most Requested Document
-            if (in_array('most_requested_document', $data['sections'])) {
-                fputcsv($file, ['Most Requested Document']);
-                fputcsv($file, ['Document Type', 'Count']);
-                foreach ($data['documentTypes'] ?? [] as $type => $count) {
-                    fputcsv($file, [$type, $count]);
-                }
-                fputcsv($file, []);
+            $row = $this->writeSectionTable(
+                $dataSheet,
+                $row,
+                'Most Reported Complaints',
+                ['Complaint Type', 'Count'],
+                $complaintRows
+            );
+
+            $countRows = count($complaintRows);
+            if ($countRows > 0) {
+                $this->addChart(
+                    $chartSheet,
+                    'Most Reported Complaints',
+                    'bar',
+                    'Report Data',
+                    "'Report Data'!\$B\$" . ($row - ($countRows + 1)),
+                    "'Report Data'!\$A\$" . ($row - $countRows) . ":\$A\$" . ($row - 1),
+                    "'Report Data'!\$B\$" . ($row - $countRows) . ":\$B\$" . ($row - 1),
+                    $chartIndex++
+                );
             }
+        }
 
-            // Request Status Summary
-            if (in_array('request_status_summary', $data['sections'])) {
-                fputcsv($file, ['Request Status Summary']);
-                fputcsv($file, ['Status', 'Count']);
-                fputcsv($file, ['Pending', $data['requestStatusSummary']['pending'] ?? 0]);
-                fputcsv($file, ['In Progress', $data['requestStatusSummary']['processing'] ?? 0]);
-                fputcsv($file, ['Completed', $data['requestStatusSummary']['approved'] ?? 0]);
-                fputcsv($file, []);
-            }
+        if (in_array('complaint_status_summary', $data['sections'])) {
+            $row = $this->writeSectionTable(
+                $dataSheet,
+                $row,
+                'Complaints Status Summary',
+                ['Status', 'Count'],
+                [
+                    ['Pending', $data['complaintsStatusSummary']['pending'] ?? 0],
+                    ['In Progress', $data['complaintsStatusSummary']['investigating'] ?? 0],
+                    ['Completed', $data['complaintsStatusSummary']['resolved'] ?? 0],
+                ]
+            );
 
-            // Most Reported Complaints
-            if (in_array('most_reported_complaints', $data['sections'])) {
-                fputcsv($file, ['Most Reported Complaints']);
-                fputcsv($file, ['Complaint Type', 'Count']);
-                foreach ($data['complaintTypes'] ?? [] as $type => $count) {
-                    fputcsv($file, [$type, $count]);
-                }
-                fputcsv($file, []);
-            }
+            $this->addChart(
+                $chartSheet,
+                'Complaints Status Summary',
+                'column',
+                'Report Data',
+                "'Report Data'!\$B\$" . ($row - 4),
+                "'Report Data'!\$A\$" . ($row - 3) . ":\$A\$" . ($row - 1),
+                "'Report Data'!\$B\$" . ($row - 3) . ":\$B\$" . ($row - 1),
+                $chartIndex++
+            );
+        }
 
-            // Complaints Status Summary
-            if (in_array('complaint_status_summary', $data['sections'])) {
-                fputcsv($file, ['Complaints Status Summary']);
-                fputcsv($file, ['Status', 'Count']);
-                fputcsv($file, ['Pending', $data['complaintsStatusSummary']['pending'] ?? 0]);
-                fputcsv($file, ['In Progress', $data['complaintsStatusSummary']['investigating'] ?? 0]);
-                fputcsv($file, ['Completed', $data['complaintsStatusSummary']['resolved'] ?? 0]);
-            }
+        $dataSheet->getColumnDimension('A')->setAutoSize(true);
+        $dataSheet->getColumnDimension('B')->setAutoSize(true);
+        $chartSheet->setCellValue('A1', 'Charts are generated from selected report sections.');
+        $chartSheet->getStyle('A1')->getFont()->setBold(true);
 
-            fclose($file);
-        };
+        $spreadsheet->setActiveSheetIndex(0);
 
-        return response()->stream($callback, 200, $headers);
+        return response()->streamDownload(function () use ($spreadsheet) {
+            $writer = new Xlsx($spreadsheet);
+            $writer->setIncludeCharts(true);
+            $writer->save('php://output');
+            $spreadsheet->disconnectWorksheets();
+            unset($spreadsheet);
+        }, $filename, [
+            'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        ]);
+    }
+
+    private function writeSectionTable(Worksheet $sheet, int $row, string $title, array $headers, array $rows): int
+    {
+        $sheet->setCellValue("A{$row}", $title);
+        $sheet->getStyle("A{$row}")->getFont()->setBold(true);
+        $row++;
+
+        $sheet->fromArray($headers, null, "A{$row}");
+        $sheet->getStyle("A{$row}:B{$row}")->getFont()->setBold(true);
+        $sheet->getStyle("A{$row}:B{$row}")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+        $row++;
+
+        foreach ($rows as $item) {
+            $sheet->fromArray($item, null, "A{$row}");
+            $row++;
+        }
+
+        $row += 2;
+        return $row;
+    }
+
+    private function addChart(
+        Worksheet $chartSheet,
+        string $title,
+        string $type,
+        string $dataSheetName,
+        string $labelRange,
+        string $categoryRange,
+        string $valueRange,
+        int $chartIndex
+    ): void {
+        $seriesLabel = [
+            new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, $labelRange, null, 1),
+        ];
+
+        $xAxisTickValues = [
+            new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, $categoryRange, null),
+        ];
+
+        $dataSeriesValues = [
+            new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_NUMBER, $valueRange, null),
+        ];
+
+        $chartType = DataSeries::TYPE_BARCHART;
+        $grouping = DataSeries::GROUPING_CLUSTERED;
+
+        if ($type === 'pie') {
+            $chartType = DataSeries::TYPE_PIECHART;
+            $grouping = null;
+        }
+
+        if ($type === 'column') {
+            $chartType = DataSeries::TYPE_BARCHART;
+            $grouping = DataSeries::GROUPING_CLUSTERED;
+        }
+
+        if ($type === 'bar') {
+            $chartType = DataSeries::TYPE_BARCHART;
+            $grouping = DataSeries::GROUPING_CLUSTERED;
+        }
+
+        $series = new DataSeries(
+            $chartType,
+            $grouping,
+            range(0, count($dataSeriesValues) - 1),
+            $seriesLabel,
+            $xAxisTickValues,
+            $dataSeriesValues
+        );
+
+        if ($type === 'bar') {
+            $series->setPlotDirection(DataSeries::DIRECTION_BAR);
+        } else {
+            $series->setPlotDirection(DataSeries::DIRECTION_COL);
+        }
+
+        $layout = new Layout();
+        $layout->setShowVal(true);
+
+        $plotArea = new PlotArea($layout, [$series]);
+        $legend = new Legend(Legend::POSITION_RIGHT, null, false);
+        $chartTitle = new Title($title);
+
+        $chart = new Chart(
+            'chart_' . md5($title . $chartIndex . $dataSheetName),
+            $chartTitle,
+            $legend,
+            $plotArea,
+            true,
+            0,
+            null,
+            null
+        );
+
+        $baseRow = 3 + ($chartIndex * 18);
+        $chart->setTopLeftPosition("A{$baseRow}");
+        $chart->setBottomRightPosition('H' . ($baseRow + 14));
+        $chartSheet->addChart($chart);
     }
 }
 

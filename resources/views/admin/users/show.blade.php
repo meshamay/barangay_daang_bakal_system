@@ -216,9 +216,9 @@
                         </svg>
                         View Profile
                     </a>
-                    <form method="POST" action="{{ route('logout') }}" class="w-full">
+                    <form method="POST" action="{{ route('logout') }}" class="w-full m-0 p-0">
                         @csrf
-                        <button type="submit" class="block w-full text-left px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition duration-200 flex items-center gap-2 border-t border-gray-100">
+                        <button type="submit" class="w-full text-left px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition duration-200 flex items-center gap-2 border-t border-gray-100">
                             <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
                             </svg>
@@ -235,32 +235,35 @@
 
 
     @if(session('success'))
-        <!-- Modern Success Modal -->
-        <div id="successModal" class="fixed inset-0 flex items-center justify-center z-[9999] bg-black/40 backdrop-blur-sm">
-            <div class="relative bg-gradient-to-br from-white via-[#e0f7fa] to-[#dbeafe] w-full max-w-md rounded-3xl shadow-2xl p-10 text-center border-4 border-[#A2C4D9] animate-fade-in-up">
-                <div class="flex justify-center mb-6">
-                    <div class="w-20 h-20 rounded-full bg-gradient-to-br from-blue-100 to-blue-300 border-4 border-blue-400 flex items-center justify-center shadow-lg animate-bounce-in">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-blue-600 animate-pulse" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor">
-                            <circle cx="12" cy="12" r="10" class="text-blue-200" fill="currentColor" opacity="0.2" />
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                        </svg>
-                    </div>
+        <div id="successModal" class="fixed top-16 sm:top-20 left-0 w-full h-[calc(100vh-4rem)] sm:h-[calc(100vh-5rem)] flex items-center justify-center z-[9999] bg-slate-900/35 backdrop-blur-[2px]">
+            <div class="relative bg-white w-[92%] max-w-md rounded-3xl shadow-2xl p-8 sm:p-10 text-center border border-slate-200 animate-fade-in-up">
+                <button type="button" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition" onclick="document.getElementById('successModal').remove(); document.body.style.overflow='auto';" aria-label="Close">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+
+                <div class="mx-auto mb-5 w-16 h-16 rounded-full bg-emerald-100 border-4 border-emerald-200 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
                 </div>
-                <h2 class="font-extrabold text-2xl mb-2 text-blue-700 tracking-wide animate-fade-in">Success!</h2>
-                <p class="text-base text-gray-700 mb-6 animate-fade-in-slow">{{ session('success') }}</p>
-                <button onclick="window.location.href='/admin/users'" class="w-full bg-gradient-to-r from-[#A2C4D9] to-[#94B8CC] hover:from-[#94B8CC] hover:to-[#A2C4D9] text-black font-bold py-3 rounded-2xl text-base shadow-md transition-all duration-200 animate-fade-in">CLOSE</button>
-                <span class="absolute top-3 right-5 text-gray-400 cursor-pointer text-2xl hover:text-gray-600 transition" onclick="document.getElementById('successModal').remove();document.body.style.overflow='auto';">&times;</span>
+
+                <h2 class="font-bold text-2xl text-slate-800 mb-2">Changes Saved</h2>
+                <p class="text-sm sm:text-base text-slate-600 mb-7">{{ session('success') }}</p>
+
+                <div class="flex gap-3">
+                    <button type="button" onclick="document.getElementById('successModal').remove(); document.body.style.overflow='auto';" class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-2.5 rounded-xl transition">
+                        Stay Here
+                    </button>
+                    <button type="button" onclick="window.location.href='/admin/users'" class="flex-1 bg-gradient-to-r from-[#134573] to-[#0f3a5f] hover:from-[#0f3a5f] hover:to-[#0a2847] text-white font-semibold py-2.5 rounded-xl transition">
+                        Back to Users
+                    </button>
+                </div>
             </div>
             <style>
-                @keyframes fade-in-up { from { opacity: 0; transform: translateY(40px);} to { opacity: 1; transform: translateY(0);} }
-                .animate-fade-in-up { animation: fade-in-up 0.5s cubic-bezier(.4,0,.2,1) both; }
-                @keyframes bounce-in { 0% { transform: scale(0.7);} 60% { transform: scale(1.1);} 80% { transform: scale(0.95);} 100% { transform: scale(1);} }
-                .animate-bounce-in { animation: bounce-in 0.7s cubic-bezier(.4,0,.2,1) both; }
-                @keyframes fade-in { from { opacity: 0;} to { opacity: 1;} }
-                .animate-fade-in { animation: fade-in 0.7s 0.2s both; }
-                .animate-fade-in-slow { animation: fade-in 1.2s 0.4s both; }
-                .animate-pulse { animation: pulse 1.5s infinite; }
-                @keyframes pulse { 0%, 100% { opacity: 1;} 50% { opacity: 0.5;} }
+                @keyframes fade-in-up { from { opacity: 0; transform: translateY(24px);} to { opacity: 1; transform: translateY(0);} }
+                .animate-fade-in-up { animation: fade-in-up .3s ease-out both; }
             </style>
         </div>
         <script>
@@ -300,13 +303,21 @@
 
                     @php
                         $status = strtolower($user->status ?? 'pending');
-                        $statusColor = match($status) {
-                                'approved' => 'bg-emerald-100 text-emerald-800 border border-emerald-300',
-                                'reject'   => 'bg-red-100 text-red-800 border border-red-300',
-                                'archive'  => 'bg-gray-100 text-gray-800 border border-gray-300',
-                                default    => 'bg-amber-100 text-amber-800 border border-amber-300', // Pending or others
-                        };
-                        $statusLabel = ucfirst($status);
+                        $isArchived = method_exists($user, 'trashed') && $user->trashed();
+                        $statusColor = $isArchived
+                            ? 'bg-gray-100 text-gray-800 border border-gray-300'
+                            : match($status) {
+                                'approved', 'accepted' => 'bg-emerald-100 text-emerald-800 border border-emerald-300',
+                                'reject', 'rejected'   => 'bg-red-100 text-red-800 border border-red-300',
+                                default                => 'bg-amber-100 text-amber-800 border border-amber-300',
+                            };
+                        $statusLabel = $isArchived
+                            ? 'Archived'
+                            : match($status) {
+                                'approved', 'accepted' => 'Approved',
+                                'reject', 'rejected'   => 'Rejected',
+                                default                => 'Pending',
+                            };
                 @endphp
                 <span class="inline-block mt-2 px-3 py-1 text-xs font-bold border rounded-full {{ $statusColor }}">
                         {{ $statusLabel }}
@@ -451,7 +462,7 @@
       </div>
 
             <div class="flex justify-end gap-3 pb-3 mr-6 mt-1">
-                <a href="{{ url()->previous() }}"
+                 <a href="{{ route('admin.users.index') }}"
                      class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold px-6 py-2.5 rounded-xl transition-all duration-200 text-sm flex items-center border border-gray-300 hover:shadow-md">
                      Close
                 </a>

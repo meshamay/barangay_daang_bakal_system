@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>BARIS Report {{ $year }} {{ $monthName }}</title>
+    <title>ARIS Report {{ $year }} {{ $monthName }}</title>
     <style>
         body { font-family: Arial, sans-serif; }
         h1 { text-align: center; }
