@@ -36,13 +36,19 @@ class ComplaintStatusUpdated extends Notification
     {
         $transactionId = $this->complaint->transaction_no;
         $status = strtolower($this->complaint->status);
+        $statusText = str_replace('_', ' ', $status);
         $complaintType = $this->complaint->complaint_type;
+        $message = "Your {$complaintType} complaint {$transactionId} is now {$statusText}.";
+
+        if ($status === 'completed') {
+            $message .= ' If you have any additional concerns that require a face-to-face discussion, please visit the Barangay Hall for assistance.';
+        }
 
         return [
             'type' => 'complaint',
             'category' => 'complaint_status_update',
             'title' => 'Complaint Status Update',
-            'message' => "Your complaint {$transactionId} regarding {$complaintType} is now {$status}.",
+            'message' => $message,
             'link' => route('user.complaints.index'),
             'transaction_id' => $transactionId,
             'status' => $status,

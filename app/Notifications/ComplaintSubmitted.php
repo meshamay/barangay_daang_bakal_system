@@ -35,12 +35,13 @@ class ComplaintSubmitted extends Notification
     public function toDatabase(object $notifiable): array
     {
         $transactionId = $this->complaint->transaction_no;
+        $complaintType = $this->complaint->complaint_type;
 
         return [
             'type' => 'complaint',
             'category' => 'complaint_submitted',
             'title' => 'Complaint Filed',
-            'message' => "Your complaint {$transactionId} has been submitted successfully.",
+            'message' => "Your complaint {$transactionId} about {$complaintType} has been submitted successfully.",
             'link' => route('user.complaints.index'), 
             'transaction_id' => $transactionId,
         ];

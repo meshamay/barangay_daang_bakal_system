@@ -270,21 +270,21 @@
                             <div class="w-3 h-3 bg-yellow-500 rounded"></div>
                             <div>
                                 <p class="text-xs font-semibold text-gray-600">Pending</p>
-                                <p class="text-lg font-bold text-yellow-600">{{ $requestStatusSummary['pending'] }}</p>
+                                <p class="text-lg font-bold text-black/70">{{ $requestStatusSummary['pending'] }}</p>
                             </div>
                         </div>
                         <div class="flex items-center gap-3 bg-blue-50 px-4 py-2 rounded-lg">
                             <div class="w-3 h-3 bg-blue-500 rounded"></div>
                             <div>
                                 <p class="text-xs font-semibold text-gray-600">In Progress</p>
-                                <p class="text-lg font-bold text-blue-600">{{ $requestStatusSummary['processing'] }}</p>
+                                <p class="text-lg font-bold text-black/70">{{ $requestStatusSummary['processing'] }}</p>
                             </div>
                         </div>
                         <div class="flex items-center gap-3 bg-green-50 px-4 py-2 rounded-lg">
                             <div class="w-3 h-3 bg-green-500 rounded"></div>
                             <div>
                                 <p class="text-xs font-semibold text-gray-600">Completed</p>
-                                <p class="text-lg font-bold text-green-600">{{ $requestStatusSummary['approved'] }}</p>
+                                <p class="text-lg font-bold text-black/70">{{ $requestStatusSummary['approved'] }}</p>
                             </div>
                         </div>
                     </div>
@@ -293,59 +293,61 @@
             </div>
 
 
-            {{-- CHART 5: BUBBLE CHART --}}
+            {{-- CHART 5: HORIZONTAL BAR CHART --}}
             <div class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-2xl shadow-2xl border border-gray-200">
                 <h2 class="text-lg font-bold mb-4 text-gray-800 text-center">MOST REPORTED COMPLAINTS</h2>
-                <div class="relative flex flex-col items-center justify-center" style="height: 450px;">
+                <div class="relative flex flex-col justify-center p-4" style="height: 450px;">
                     @php
-                        $maxComplaint = max(array_values($complaintTypes));
+                        $complaints = [
+                            'Community Issues' => $complaintTypes['Community Issues'] ?? 0,
+                            'Physical Harassment' => $complaintTypes['Physical Harassment'] ?? 0,
+                            'Neighbor Dispute' => $complaintTypes['Neighbor Dispute'] ?? 0,
+                            'Money Problems' => $complaintTypes['Money Problems'] ?? 0,
+                            'Misbehavior' => $complaintTypes['Misbehavior'] ?? 0,
+                            'Others' => $complaintTypes['Others'] ?? 0,
+                        ];
+                        $maxComplaint = max(array_values($complaints));
                         $maxComplaint = $maxComplaint > 0 ? $maxComplaint : 1;
                     @endphp
-                    <svg viewBox="0 0 500 350" style="width: 300px; height: 300px;" preserveAspectRatio="xMidYMid meet" class="mb-4">
-                        <!-- Background circles -->
-                        <circle cx="250" cy="175" r="150" fill="#f3f4f6" opacity="0.5"/>
-                        <!-- Bubbles -->
-                        @php
-                            $complaints = [
-                                'Community Issues' => $complaintTypes['Community Issues'] ?? 0,
-                                'Physical Harassment' => $complaintTypes['Physical Harassment'] ?? 0,
-                                'Neighbor Dispute' => $complaintTypes['Neighbor Dispute'] ?? 0,
-                                'Money Problems' => $complaintTypes['Money Problems'] ?? 0,
-                                'Misbehavior' => $complaintTypes['Misbehavior'] ?? 0,
-                                'Others' => $complaintTypes['Others'] ?? 0,
-                            ];
-                            $positions = [
-                                ['x' => 100, 'y' => 80],
-                                ['x' => 250, 'y' => 50],
-                                ['x' => 400, 'y' => 100],
-                                ['x' => 150, 'y' => 230],
-                                ['x' => 350, 'y' => 260],
-                                ['x' => 250, 'y' => 175],
-                            ];
-                            $colors = ['#F9D3DA', '#A2C4D9', '#FCE6C9', '#C5E3B1', '#D4A5F9', '#FDE68A'];
-                            $index = 0;
-                        @endphp
-                        @foreach($complaints as $type => $count)
-                            @php
-                                $radius = ($count / $maxComplaint) * 45 + 15;
-                                $pos = $positions[$index] ?? ['x' => 250, 'y' => 175];
-                            @endphp
-                            <circle cx="{{ $pos['x'] }}" cy="{{ $pos['y'] }}" r="{{ $radius }}" fill="{{ $colors[$index] }}" opacity="0.8" stroke="#fff" stroke-width="2"/>
-                            <text x="{{ $pos['x'] }}" y="{{ $pos['y'] - 5 }}" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">{{ $count }}</text>
-                            @php $index++; @endphp
-                        @endforeach
-                    </svg>
-                    <div class="grid grid-cols-3 gap-3 mt-4 w-full px-4">
-                        @php $index = 0; @endphp
-                        @foreach($complaints as $type => $count)
-                            <div class="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-100 transition-colors duration-200 cursor-pointer">
-                                <div class="w-4 h-4 rounded-full" style="background-color: {{ $colors[$index] }};"></div>
-                                <p class="text-xs font-semibold text-gray-700">{{ $type }}</p>
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-3">
+                            <span class="text-xs font-bold w-32 text-right text-gray-600">Community Issues</span>
+                            <div class="flex-grow bg-gradient-to-r from-gray-200 to-gray-100 rounded-full h-10 relative overflow-hidden shadow-md">
+                                <div class="bg-gradient-to-r from-pink-300 to-rose-400 h-full rounded-full flex items-center justify-end pr-3 shadow-lg" style="width: {{ ($complaints['Community Issues'] / $maxComplaint) * 100 }}%;"><span class="text-xs font-bold text-white">{{ $complaints['Community Issues'] }}</span></div>
                             </div>
-                            @php $index++; @endphp
-                        @endforeach
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="text-xs font-bold w-32 text-right text-gray-600">Physical Harassment</span>
+                            <div class="flex-grow bg-gradient-to-r from-gray-200 to-gray-100 rounded-full h-10 relative overflow-hidden shadow-md">
+                                <div class="bg-gradient-to-r from-blue-400 to-blue-500 h-full rounded-full flex items-center justify-end pr-3 shadow-lg" style="width: {{ ($complaints['Physical Harassment'] / $maxComplaint) * 100 }}%;"><span class="text-xs font-bold text-white">{{ $complaints['Physical Harassment'] }}</span></div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="text-xs font-bold w-32 text-right text-gray-600">Neighbor Dispute</span>
+                            <div class="flex-grow bg-gradient-to-r from-gray-200 to-gray-100 rounded-full h-10 relative overflow-hidden shadow-md">
+                                <div class="bg-gradient-to-r from-orange-300 to-orange-500 h-full rounded-full flex items-center justify-end pr-3 shadow-lg" style="width: {{ ($complaints['Neighbor Dispute'] / $maxComplaint) * 100 }}%;"><span class="text-xs font-bold text-white">{{ $complaints['Neighbor Dispute'] }}</span></div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="text-xs font-bold w-32 text-right text-gray-600">Money Problems</span>
+                            <div class="flex-grow bg-gradient-to-r from-gray-200 to-gray-100 rounded-full h-10 relative overflow-hidden shadow-md">
+                                <div class="bg-gradient-to-r from-green-300 to-green-500 h-full rounded-full flex items-center justify-end pr-3 shadow-lg" style="width: {{ ($complaints['Money Problems'] / $maxComplaint) * 100 }}%;"><span class="text-xs font-bold text-white">{{ $complaints['Money Problems'] }}</span></div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="text-xs font-bold w-32 text-right text-gray-600">Misbehavior</span>
+                            <div class="flex-grow bg-gradient-to-r from-gray-200 to-gray-100 rounded-full h-10 relative overflow-hidden shadow-md">
+                                <div class="bg-gradient-to-r from-purple-300 to-purple-500 h-full rounded-full flex items-center justify-end pr-3 shadow-lg" style="width: {{ ($complaints['Misbehavior'] / $maxComplaint) * 100 }}%;"><span class="text-xs font-bold text-white">{{ $complaints['Misbehavior'] }}</span></div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="text-xs font-bold w-32 text-right text-gray-600">Others</span>
+                            <div class="flex-grow bg-gradient-to-r from-gray-200 to-gray-100 rounded-full h-10 relative overflow-hidden shadow-md">
+                                <div class="bg-gradient-to-r from-gray-400 to-gray-500 h-full rounded-full flex items-center justify-end pr-3 shadow-lg" style="width: {{ ($complaints['Others'] / $maxComplaint) * 100 }}%;"><span class="text-xs font-bold text-white">{{ $complaints['Others'] }}</span></div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="report-month-label">Month of {{ $monthName }}</div>
+                    <div class="report-month-label" style="margin-top: 5.5rem;">Month of {{ $monthName }}</div>
                 </div>
             </div>
 
@@ -390,7 +392,7 @@
 
                         <!-- Legend -->
                         <div class="grid grid-cols-3 gap-4 pt-4">
-                            <div class="border border-gray-200 rounded-lg p-3">
+                            <div class="border border-yellow-200 bg-yellow-50 rounded-lg p-3">
                                 <div class="flex items-center gap-2 mb-1">
                                     <div class="w-3 h-3 bg-[#FACC15] rounded-full"></div>
                                     <p class="text-xs font-semibold text-gray-700">Pending</p>
@@ -398,7 +400,7 @@
                                 <p class="text-lg font-bold text-gray-900">{{ $complaintsStatusSummary['pending'] }}</p>
                                 <p class="text-xs text-gray-500">{{ number_format($pendingPct, 1) }}%</p>
                             </div>
-                            <div class="border border-gray-200 rounded-lg p-3">
+                            <div class="border border-blue-200 bg-blue-50 rounded-lg p-3">
                                 <div class="flex items-center gap-2 mb-1">
                                     <div class="w-3 h-3 bg-[#60A5FA] rounded-full"></div>
                                     <p class="text-xs font-semibold text-gray-700">In Progress</p>
@@ -406,7 +408,7 @@
                                 <p class="text-lg font-bold text-gray-900">{{ $complaintsStatusSummary['investigating'] }}</p>
                                 <p class="text-xs text-gray-500">{{ number_format($investigatingPct, 1) }}%</p>
                             </div>
-                            <div class="border border-gray-200 rounded-lg p-3">
+                            <div class="border border-green-200 bg-green-50 rounded-lg p-3">
                                 <div class="flex items-center gap-2 mb-1">
                                     <div class="w-3 h-3 bg-[#22C55E] rounded-full"></div>
                                     <p class="text-xs font-semibold text-gray-700">Completed</p>
@@ -874,25 +876,25 @@
                 label: 'Document Requests',
                 data: docData,
                 backgroundColor: [
-                    createModernGradient('rgba(220, 38, 38, 0.85)', 'rgba(185, 28, 28, 0.7)'),
-                    createModernGradient('rgba(37, 99, 235, 0.85)', 'rgba(29, 78, 216, 0.7)'),
-                    createModernGradient('rgba(16, 185, 129, 0.85)', 'rgba(5, 150, 105, 0.7)'),
-                    createModernGradient('rgba(217, 119, 6, 0.85)', 'rgba(180, 83, 9, 0.7)')
+                    createModernGradient('rgba(59, 130, 246, 0.85)', 'rgba(37, 99, 235, 0.7)'),
+                    createModernGradient('rgba(34, 197, 94, 0.85)', 'rgba(22, 163, 74, 0.7)'),
+                    createModernGradient('rgba(249, 115, 22, 0.85)', 'rgba(234, 88, 12, 0.7)'),
+                    createModernGradient('rgba(168, 85, 247, 0.85)', 'rgba(147, 51, 234, 0.7)')
                 ],
                 borderColor: [
-                    '#7f1d1d',
-                    '#1e3a8a',
-                    '#065f46',
-                    '#78350f'
+                    '#1d4ed8',
+                    '#15803d',
+                    '#c2410c',
+                    '#7e22ce'
                 ],
                 borderWidth: 2,
                 borderRadius: [12, 10, 8, 6],
                 borderSkipped: false,
                 hoverBackgroundColor: [
-                    'rgba(220, 38, 38, 0.95)',
-                    'rgba(37, 99, 235, 0.95)',
-                    'rgba(16, 185, 129, 0.95)',
-                    'rgba(217, 119, 6, 0.95)'
+                    'rgba(59, 130, 246, 0.95)',
+                    'rgba(34, 197, 94, 0.95)',
+                    'rgba(249, 115, 22, 0.95)',
+                    'rgba(168, 85, 247, 0.95)'
                 ],
                 hoverBorderWidth: 3
             }]
