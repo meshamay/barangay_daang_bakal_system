@@ -16,7 +16,6 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <script src="//unpkg.com/alpinejs" defer></script>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
   <script>
     tailwind.config = {
@@ -400,7 +399,21 @@
 
         <div>
             <label class="block text-sm font-semibold mb-2">Location Map:</label>
-            <div id="map" class="w-full rounded-xl border-2 border-gray-200 z-0 shadow-sm" style="height: 120px;"></div>
+          <div class="relative">
+            <iframe
+              id="locationMap"
+              data-zoom="17"
+              class="w-full rounded-xl border-2 border-gray-200 z-0 shadow-sm"
+              style="height: 120px;"
+              src="https://maps.google.com/maps?q={{ urlencode(trim((old('address', $user->address) ?? '') . ', Brgy. Daang Bakal, Mandaluyong City', ', ')) }}&t=&z=17&ie=UTF8&iwloc=&output=embed"
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+            ></iframe>
+            <div class="absolute top-2 right-2 flex flex-col gap-2">
+              <button type="button" onclick="zoomMap(1)" class="w-7 h-7 rounded-full bg-white border border-gray-300 text-gray-700 text-sm font-bold shadow hover:bg-gray-50">+</button>
+              <button type="button" onclick="zoomMap(-1)" class="w-7 h-7 rounded-full bg-white border border-gray-300 text-gray-700 text-sm font-bold shadow hover:bg-gray-50">−</button>
+            </div>
+          </div>
         </div>
       </div>
       </div>
@@ -508,31 +521,20 @@
   }
 </script>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
     // Initialize Lucide Icons
     lucide.createIcons();
 
-    // Initialize Map
-    document.addEventListener('DOMContentLoaded', () => {
-        // Use user coordinates or default to Mandaluyong Hall
-        const lat = {{ $user->latitude ?? 14.5794 }};
-        const lng = {{ $user->longitude ?? 121.0359 }};
-
-        const map = L.map('map').setView([lat, lng], 16);
-
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-        }).addTo(map);
-
-        L.marker([lat, lng]).addTo(map);
-
-        // Disable zoom/scroll for display only
-        map.dragging.disable();
-        map.touchZoom.disable();
-        map.doubleClickZoom.disable();
-        map.scrollWheelZoom.disable();
-    });
+  function zoomMap(delta) {
+    const iframe = document.getElementById('locationMap');
+    if (!iframe) return;
+    const current = parseInt(iframe.dataset.zoom || '17', 10);
+    const next = Math.min(20, Math.max(10, current + delta));
+    iframe.dataset.zoom = String(next);
+    const addressInput = document.querySelector('input[name="address"]');
+    const baseQuery = encodeURIComponent(`${addressInput?.value || '{{ trim((old('address', $user->address) ?? '') . ', Brgy. Daang Bakal, Mandaluyong City', ', ') }}'}`);
+    iframe.src = `https://maps.google.com/maps?q=${baseQuery}&t=&z=${next}&ie=UTF8&iwloc=&output=embed`;
+  }
 </script>
 
 <link rel="stylesheet" href="{{ asset('css/scrollbars.css') }}">
