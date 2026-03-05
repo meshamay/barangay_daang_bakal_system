@@ -19,6 +19,12 @@ fi
 # Prevent stale cached config from keeping an empty APP_KEY
 php artisan config:clear --no-interaction || true
 
+# Ensure public storage symlink is valid for serving uploaded images/files
+if [ -L public/storage ] || [ -e public/storage ]; then
+  rm -rf public/storage
+fi
+php artisan storage:link --no-interaction || true
+
 # Runtime DB bootstrap
 mkdir -p database
 touch database/database.sqlite
