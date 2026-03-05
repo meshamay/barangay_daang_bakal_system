@@ -1,1 +1,1 @@
-web: sh -lc '[ -f .env ] || cp .env.example .env; if [ -z "$APP_KEY" ]; then php artisan key:generate --force --no-interaction; fi; mkdir -p database && touch database/database.sqlite && php artisan migrate --force && php -S 0.0.0.0:$PORT -t public'
+web: sh ./start.sh
