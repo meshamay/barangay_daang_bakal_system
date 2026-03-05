@@ -47,10 +47,10 @@
                 </svg>
             </label>
 
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Mandaluyong_seal.svg/1024px-Mandaluyong_seal.svg.png"
+              <img src="{{ asset('images/Ph_seal_Mandaluyong.png') }}"
                  class="w-12 h-12">
 
-            <img src="https://tse2.mm.bing.net/th/id/OIP._bP7eQwOSrZjwv-doDDsWAHaHa"
+                  <img src="{{ asset('images/Brgy.jpeg') }}"
                  class="w-12 h-12 rounded-full object-cover">
 
             <div>

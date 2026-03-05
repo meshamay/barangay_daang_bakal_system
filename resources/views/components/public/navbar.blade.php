@@ -5,9 +5,9 @@
             <!-- Logo & Branding -->
             <div class="flex items-center gap-1.5 sm:gap-2 md:gap-3 cursor-pointer hover:opacity-90 transition-opacity">
                 <div class="flex space-x-1 sm:space-x-1.5 md:space-x-2 flex-shrink-0">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Mandaluyong_seal.svg/1024px-Mandaluyong_seal.svg.png"
+                    <img src="{{ asset('images/Ph_seal_Mandaluyong.png') }}"
                         alt="Mandaluyong Seal" class="h-10 w-10 sm:h-12 sm:w-12 md:h-14 md:w-14 lg:h-16 lg:w-16 object-contain drop-shadow-md">
-                    <img src="https://tse2.mm.bing.net/th/id/OIP._bP7eQwOSrZjwv-doDDsWAHaHa?rs=1&pid=ImgDetMain&o=7&rm=3"
+                    <img src="{{ asset('images/Brgy.jpeg') }}"
                         alt="Barangay Seal" class="h-10 w-10 sm:h-12 sm:w-12 md:h-14 md:w-14 lg:h-16 lg:w-16 object-contain drop-shadow-md rounded-full">
                 </div>
                 <div class="hidden sm:flex flex-col">

@@ -32,8 +32,8 @@
 
         <div class="flex items-center space-x-2 sm:space-x-3">
             <a href="{{ route('home') }}" class="flex items-center space-x-2 sm:space-x-3">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Mandaluyong_seal.svg/1024px-Mandaluyong_seal.svg.png" class="w-8 h-8 sm:w-12 sm:h-12">
-                <img src="https://tse2.mm.bing.net/th/id/OIP._bP7eQwOSrZjwv-doDDsWAHaHa?rs=1&pid=ImgDetMain&o=7&rm=3" class="w-8 h-8 sm:w-12 sm:h-12 rounded-full object-cover">
+                <img src="{{ asset('images/Ph_seal_Mandaluyong.png') }}" class="w-8 h-8 sm:w-12 sm:h-12">
+                <img src="{{ asset('images/Brgy.jpeg') }}" class="w-8 h-8 sm:w-12 sm:h-12 rounded-full object-cover">
 
                 <div>
                     <h1 class="text-xs sm:text-sm md:text-base font-semibold leading-tight text-white">Barangay Daang Bakal</h1>

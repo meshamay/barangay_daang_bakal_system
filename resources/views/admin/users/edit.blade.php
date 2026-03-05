@@ -35,8 +35,8 @@
                 </svg>
              </a>
              <div class="flex items-center gap-3">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Mandaluyong_seal.svg/1024px-Mandaluyong_seal.svg.png" alt="Mandaluyong Seal" class="w-14 h-14 drop-shadow-lg">
-                <img src="https://tse2.mm.bing.net/th/id/OIP._bP7eQwOSrZjwv-doDDsWAHaHa?rs=1&pid=ImgDetMain&o=7&rm=3" alt="Barangay Seal" class="w-14 h-14 rounded-full object-cover drop-shadow-lg ring-2 ring-white/30">
+                <img src="{{ asset('images/Ph_seal_Mandaluyong.png') }}" alt="Mandaluyong Seal" class="w-14 h-14 drop-shadow-lg">
+                <img src="{{ asset('images/Brgy.jpeg') }}" alt="Barangay Seal" class="w-14 h-14 rounded-full object-cover drop-shadow-lg ring-2 ring-white/30">
              </div>
              <div class="border-l-2 border-white/30 pl-4 ml-2">
                 <h1 class="text-lg font-bold text-white">Barangay Daang Bakal</h1>

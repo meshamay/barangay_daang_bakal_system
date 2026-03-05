@@ -45,8 +45,8 @@
           </svg>
         </label>
 
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Mandaluyong_seal.svg/1024px-Mandaluyong_seal.svg.png" alt="Mandaluyong Seal" class="w-12 h-12">
-        <img src="https://tse2.mm.bing.net/th/id/OIP._bP7eQwOSrZjwv-doDDsWAHaHa?rs=1&pid=ImgDetMain&o=7&rm=3" alt="Barangay Seal" class="w-12 h-12 rounded-full object-cover">
+        <img src="{{ asset('images/Ph_seal_Mandaluyong.png') }}" alt="Mandaluyong Seal" class="w-12 h-12">
+        <img src="{{ asset('images/Brgy.jpeg') }}" alt="Barangay Seal" class="w-12 h-12 rounded-full object-cover">
 
         <div>
           <h1 class="text-xl font-semibold">Barangay Daang Bakal</h1>
