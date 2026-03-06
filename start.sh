@@ -25,9 +25,20 @@ if [ -L public/storage ] || [ -e public/storage ]; then
 fi
 php artisan storage:link --no-interaction || true
 
-# Runtime DB bootstrap
-mkdir -p database
-touch database/database.sqlite
+# Runtime DB bootstrap (only for sqlite)
+if [ "${DB_CONNECTION:-sqlite}" = "sqlite" ]; then
+  mkdir -p database
+  SQLITE_PATH="${DB_DATABASE:-database/database.sqlite}"
+
+  case "$SQLITE_PATH" in
+    /*) ;;
+    *) SQLITE_PATH="$(pwd)/$SQLITE_PATH" ;;
+  esac
+
+  SQLITE_DIR=$(dirname "$SQLITE_PATH")
+  mkdir -p "$SQLITE_DIR"
+  touch "$SQLITE_PATH"
+fi
 
 php artisan migrate --force --no-interaction
 

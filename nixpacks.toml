@@ -10,8 +10,7 @@ cmds = [
 [phases.build]
 cmds = [
   "npm run build",
-  "mkdir -p database",
-  "touch database/database.sqlite",
+  "if [ \"${DB_CONNECTION:-sqlite}\" = \"sqlite\" ]; then mkdir -p database && touch \"${DB_DATABASE:-database/database.sqlite}\"; fi",
   "php artisan migrate --force",
   "php artisan config:clear",
   "php artisan route:clear",
