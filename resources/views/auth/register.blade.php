@@ -63,7 +63,7 @@
                                     <label for="suffix" class="mb-1 block text-sm font-semibold text-gray-700">Suffix</label>
                                         <input type="text" name="suffix" id="suffix" autocomplete="honorific-suffix" class="h-9 w-full rounded-lg border-2 border-gray-300 px-3 py-1 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                                 </div>
-                                <div>
+                                <div class="order-4 sm:order-none">
                                     <label for="gender" class="mb-1 block text-sm font-semibold text-gray-700">Gender <span class="text-red-500">*</span></label>
                                         <select name="gender" id="gender" class="h-9 w-full rounded-lg border-2 border-gray-300 px-3 py-1 bg-gray-50 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent cursor-pointer appearance-none" required>
                                         <option value="" disabled selected>Select Gender</option>
@@ -73,11 +73,11 @@
                                         <option value="Prefer not to say">Prefer not to say</option>
                                     </select>
                                 </div>
-                                <div>
+                                <div class="order-1 sm:order-none">
                                     <label for="age" class="mb-1 block text-sm font-semibold text-gray-700">Age <span class="text-red-500">*</span></label>
                                         <input type="number" name="age" id="age" autocomplete="off" class="h-9 w-full rounded-lg border-2 border-gray-300 px-3 py-1 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none" required>
                                 </div>
-                                <div>
+                                <div class="order-5 sm:order-none">
                                     <label for="civil_status" class="mb-1 block text-sm font-semibold text-gray-700">Civil Status <span class="text-red-500">*</span></label>
                                         <select name="civil_status" id="civil_status" class="h-9 w-full rounded-lg border-2 border-gray-300 px-3 py-1 bg-gray-50 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent cursor-pointer appearance-none" required>
                                         <option value="" disabled selected>Select Civil Status</option>
@@ -87,15 +87,15 @@
                                         <option value="Divorced">Divorced</option>
                                     </select>
                                 </div>
-                                <div>
+                                <div class="order-2 sm:order-none">
                                     <label for="dob" class="mb-1 block text-sm font-semibold text-gray-700">Date of Birth <span class="text-red-500">*</span></label>
                                         <input type="date" name="dob" id="dob" autocomplete="bday" class="h-9 w-full rounded-lg border-2 border-gray-300 px-3 py-1 bg-gray-50 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent cursor-pointer" required>
                                 </div>
-                                <div>
+                                <div class="order-6 sm:order-none">
                                     <label for="citizenship" class="mb-1 block text-sm font-semibold text-gray-700">Citizenship</label>
                                         <input type="text" name="citizenship" id="citizenship" autocomplete="off" class="h-9 w-full rounded-lg border-2 border-gray-300 px-3 py-1 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                                 </div>
-                                <div>
+                                <div class="order-3 sm:order-none">
                                     <label for="place_of_birth" class="mb-1 block text-sm font-semibold text-gray-700">Place of Birth <span class="text-red-500">*</span></label>
                                         <input type="text" name="place_of_birth" id="place_of_birth" autocomplete="off" class="h-9 w-full rounded-lg border-2 border-gray-300 px-3 py-1 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
                                 </div>
@@ -207,10 +207,11 @@
                                 <label for="agree" class="ml-2 block text-sm text-gray-800">I have read and agree to the collection and use of my personal information as described in the
                                 <a href="#" onclick="openPrivacyPolicy(); return false;" class="text-blue-600 underline cursor-pointer">Privacy Policy</a>.</label>
                             </div>
-                        </div>
-                        <div class="flex shrink-0 justify-end items-center gap-2 sm:gap-3 px-3 sm:px-4 mt-6 sm:mt-4 mb-6">
+                        
+                        <div class="flex shrink-0 justify-end items-center gap-2 sm:gap-3 px-3 sm:px-2 mb-4 ml-2 mt-4 sm:mt-4">
                             <button id="back-button" type="button" class="rounded-lg bg-gray-200 hover:bg-red-600 hover:text-white px-4 sm:px-6 py-2 sm:py-2.5 text-sm font-semibold text-gray-700 flex items-center border border-gray-300 transition-all duration-200 shadow-md">BACK</button>
                             <button id="submit-btn" type="submit" class="rounded-lg bg-gray-200 hover:bg-blue-600 hover:text-white px-4 sm:px-6 py-2 sm:py-2.5 text-sm font-semibold text-gray-700 flex items-center border border-gray-300 transition-all duration-200 shadow-md">SUBMIT</button>
+                        </div>
                         </div>
                     </div>
                 </div>
