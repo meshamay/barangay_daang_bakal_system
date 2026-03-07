@@ -42,7 +42,7 @@
             <section class="md:col-span-1 lg:col-span-2">
                 <h6 class="font-barlow text-xs sm:text-base md:text-lg font-black uppercase tracking-wide text-white mb-3 sm:mb-4 md:mb-6 flex items-center gap-2">
                     <div class="w-1 h-6 bg-gradient-to-b from-[#0052CC] to-[#1565C0] rounded-full"></div>
-                    <span>Contact Us</span>
+                    <span class="text-xs sm:text-base md:text-lg">Contact Us</span>
                 </h6>
                 <ul class="space-y-2 sm:space-y-3 md:space-y-4 text-xs sm:text-sm text-white/90">
                     <li class="flex items-start gap-2 sm:gap-3 group">
@@ -77,7 +77,7 @@
             <section class="md:col-span-1 lg:col-span-2">
                 <h6 class="font-barlow text-xs sm:text-base md:text-lg font-black uppercase tracking-wide text-white mb-3 sm:mb-4 md:mb-6 flex items-center gap-2">
                     <div class="w-1 h-6 bg-gradient-to-b from-[#0052CC] to-[#1565C0] rounded-full"></div>
-                    <span>Visit Us</span>
+                    <span class="text-xs sm:text-base md:text-lg">Visit Us</span>
                 </h6>
                 <ul class="space-y-3 md:space-y-4 text-sm text-white/90">
                     <li class="flex items-center gap-3 group">
@@ -87,8 +87,8 @@
                             </svg>
                         </div>
                         <div>
-                            <div class="font-semibold text-white mb-1">Office Hours</div>
-                            <span>Monday to Friday:<br>7:00 AM – 5:00 PM</span>
+                            <div class="font-semibold text-white text-xs sm:text-sm mb-1">Office Hours</div>
+                            <span class="text-xs sm:text-sm">Monday to Friday:<br>7:00 AM – 5:00 PM</span>
                         </div>
                     </li>
                     <li class="flex items-center gap-3 group">
@@ -98,8 +98,8 @@
                             </svg>
                         </div>
                         <div>
-                            <div class="font-semibold text-white mb-1">Follow Us</div>
-                            <a href="https://www.facebook.com/" target="_blank" class="hover:text-blue-300 transition-colors duration-300">Barangay Daang Bakal<br>Sangguniang Kabataan</a>
+                            <div class="font-semibold text-white text-xs sm:text-sm mb-1">Follow Us</div>
+                            <a href="https://www.facebook.com/" target="_blank" class="text-xs sm:text-sm hover:text-blue-300 transition-colors duration-300">Barangay Daang Bakal<br>Sangguniang Kabataan</a>
                         </div>
                     </li>
                 </ul>

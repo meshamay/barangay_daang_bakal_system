@@ -46,6 +46,33 @@ document.addEventListener('keydown', function(event) {
 document.addEventListener('DOMContentLoaded', function () {
     backdrop.classList.add('hidden'); // Ensure backdrop is hidden on load
 
+    const mobileCards = Array.from(document.querySelectorAll('.mobile-request-item'));
+    const mobileLoadMoreButton = document.getElementById('mobile-requests-load-more');
+    const mobileBatchSize = 10;
+    let mobileVisibleCount = mobileBatchSize;
+
+    function renderMobileCards() {
+        if (!mobileCards.length || !mobileLoadMoreButton) return;
+
+        mobileCards.forEach((card, index) => {
+            card.classList.toggle('hidden', index >= mobileVisibleCount);
+        });
+
+        if (mobileVisibleCount >= mobileCards.length) {
+            mobileLoadMoreButton.classList.add('hidden');
+        } else {
+            mobileLoadMoreButton.classList.remove('hidden');
+        }
+    }
+
+    if (mobileCards.length && mobileLoadMoreButton && window.innerWidth < 640) {
+        renderMobileCards();
+        mobileLoadMoreButton.addEventListener('click', function () {
+            mobileVisibleCount += mobileBatchSize;
+            renderMobileCards();
+        });
+    }
+
     const indigencyProofInput = document.getElementById('indigency_proof_file');
     const indigencyProofName = document.getElementById('indigency_proof_filename');
     if (indigencyProofInput && indigencyProofName) {

@@ -65,91 +65,150 @@
         </div>
         Complaints
     </h3>
-    <button id="addButton" class="w-full sm:w-auto bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-4 sm:px-6 py-2 sm:py-2.5 text-xs sm:text-sm rounded-lg font-semibold shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200 flex items-center justify-center sm:justify-start gap-2" onclick="openModal('modalGeneralComplaint')">
-        <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+    <button id="addButton" class="w-auto self-end sm:self-auto bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-3 sm:px-6 py-1.5 sm:py-2.5 text-xs sm:text-sm rounded-lg font-semibold shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200 flex items-center justify-center gap-1.5 sm:gap-2" onclick="openModal('modalGeneralComplaint')">
+      <svg class="w-3.5 h-3.5 sm:w-5 sm:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
         </svg>
-        <span>File a Complaint</span>
+      <span class="truncate text-xs sm:text-sm">File a Complaint</span>
     </button>
 </div>
 
 <div class="bg-white shadow-xl rounded-xl border border-gray-100 overflow-hidden">
-    
-    <table class="w-full text-sm" style="table-layout: fixed;">
-      <thead style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%); color: white;" class="shadow-sm">
-        <tr class="text-sm font-semibold uppercase tracking-widest text-center">
-          <th class="py-5 px-4 whitespace-nowrap" style="width: 12%;">Transaction ID</th>
-          <th class="py-5 px-4 whitespace-nowrap" style="width: 10%;">Last Name</th>
-          <th class="py-5 px-4 whitespace-nowrap" style="width: 10%;">First Name</th>
-          <th class="py-5 px-4 whitespace-nowrap" style="width: 18%;">Complaint Type</th>
-          <th class="py-5 px-4 whitespace-nowrap" style="width: 12%;">Date Filed</th>
-          <th class="py-5 px-4 whitespace-nowrap" style="width: 12%;">Date Resolved</th>
-          <th class="py-5 px-4 whitespace-nowrap" style="width: 12%;">Status</th>
-        </tr>
-      </thead>
-    </table>
-    
-    <div class="overflow-x-auto overflow-y-auto" style="max-height: 391px;">
-      <table class="w-full text-sm" style="table-layout: fixed;">
-        <tbody class="divide-y divide-gray-100">
-      {{-- Assuming $complaints is passed from the controller --}}
+
+    <div class="sm:hidden p-3 space-y-3 bg-gradient-to-b from-gray-50 to-white">
       @php use Illuminate\Support\Facades\Auth; @endphp
       @forelse ($complaints ?? [] as $complaint)
-      <tr class="hover:bg-blue-50/70 transition-colors duration-150 ease-in-out text-center">
-        <td class="py-5 px-4 font-semibold text-red-500 whitespace-nowrap" style="width: 12%;">
-          {{ is_object($complaint) && isset($complaint->transaction_no) ? $complaint->transaction_no : 'N/A' }}
-        </td>
-        {{-- Displaying current user's name as they are the filer --}}
-        <td class="py-5 px-4 text-gray-700 whitespace-nowrap" style="width: 10%;">
-          {{ Auth::check() && Auth::user() && isset(Auth::user()->last_name) ? Auth::user()->last_name : 'N/A' }}
-        </td>
-        <td class="py-5 px-4 text-gray-700 whitespace-nowrap" style="width: 10%;">
-          {{ Auth::check() && Auth::user() && isset(Auth::user()->first_name) ? Auth::user()->first_name : 'N/A' }}
-        </td>
-        <td class="py-5 px-4 font-semibold text-gray-800" style="width: 18%;">
-            <div class="overflow-hidden text-ellipsis whitespace-nowrap">
-                {{ is_object($complaint) && isset($complaint->complaint_type) ? $complaint->complaint_type : 'N/A' }}
+        @php
+          $statusLower = is_object($complaint) && isset($complaint->status) ? strtolower($complaint->status) : '';
+          $statusColor = match($statusLower) {
+              'pending' => 'bg-amber-100 text-amber-800 border border-amber-300',
+              'in progress' => 'bg-blue-100 text-blue-800 border border-blue-300',
+              'completed' => 'bg-emerald-100 text-emerald-800 border border-emerald-300',
+              default => 'bg-gray-100 text-gray-800 border border-gray-300'
+          };
+          $statusDisplay = $statusLower === 'in progress' ? 'In Progress' : ucfirst($statusLower);
+        @endphp
+        <div class="p-4 space-y-3 rounded-2xl border border-gray-200 bg-gradient-to-br from-white to-gray-50 shadow-sm">
+          <div class="flex items-center justify-between gap-3">
+            <div>
+              <p class="text-[10px] font-semibold uppercase tracking-wider text-gray-400">Transaction ID</p>
+              <p class="text-xs font-bold text-red-500 truncate mt-0.5">{{ is_object($complaint) && isset($complaint->transaction_no) ? $complaint->transaction_no : 'N/A' }}</p>
             </div>
-        </td>
-        <td class="py-5 px-4 text-gray-600 text-sm whitespace-nowrap" style="width: 12%;">
-          {{ is_object($complaint) && isset($complaint->created_at) && $complaint->created_at ? \Carbon\Carbon::parse($complaint->created_at)->format('d/m/Y') : 'N/A' }}
-        </td>
-        <td class="py-5 px-4 text-gray-600 text-sm whitespace-nowrap" style="width: 12%;">
-          {{ is_object($complaint) && isset($complaint->date_completed) && $complaint->date_completed ? \Carbon\Carbon::parse($complaint->date_completed)->format('d/m/Y') : '—' }}
-        </td>
-        <td class="py-5 px-4 whitespace-nowrap" style="width: 12%;">
-            @php
-                $statusLower = is_object($complaint) && isset($complaint->status) ? strtolower($complaint->status) : '';
-                $statusColor = match($statusLower) {
-                    'pending' => 'bg-amber-100 text-amber-800 border border-amber-300',
-                    'in progress' => 'bg-blue-100 text-blue-800 border border-blue-300',
-                    'completed' => 'bg-emerald-100 text-emerald-800 border border-emerald-300',
-                    default => 'bg-gray-100 text-gray-800 border border-gray-300'
-                };
-                $statusDisplay = $statusLower === 'in progress' ? 'In Progress' : ucfirst($statusLower);
-            @endphp
-            <span class="{{ $statusColor }} text-xs font-bold px-3 py-2 rounded-full inline-block whitespace-nowrap shadow-sm" style="font-size:12px;line-height:1.2;">
-              {{ $statusDisplay }}
-            </span>
-        </td>
-      </tr>
-          @empty
-          <tr>
-            <td colspan="7" class="text-center py-8 sm:py-12">
-              <div class="flex flex-col items-center justify-center">
-                <div class="w-16 h-16 sm:w-20 sm:h-20 bg-gray-100 rounded-full flex items-center justify-center mb-3 sm:mb-4">
-                  <svg class="w-8 h-8 sm:w-10 sm:h-10 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                  </svg>
-                </div>
-                <p class="text-gray-500 font-medium text-sm sm:text-base">You have no complaints yet.</p>
-                <p class="text-gray-400 text-xs sm:text-sm mt-1">Click "File a Complaint" to get started.</p>
-              </div>
-            </td>
-          </tr>
+            <span class="{{ $statusColor }} text-[11px] font-bold px-2.5 py-1 rounded-full whitespace-nowrap">{{ $statusDisplay }}</span>
+          </div>
+
+          <div class="space-y-2 text-xs pt-1">
+            <div class="flex items-start justify-between gap-3">
+              <p class="text-gray-500 uppercase tracking-wide text-[10px]">Last Name</p>
+              <p class="text-gray-700 font-medium text-right break-words max-w-[60%]">{{ Auth::check() && Auth::user() && isset(Auth::user()->last_name) ? Auth::user()->last_name : 'N/A' }}</p>
+            </div>
+            <div class="flex items-start justify-between gap-3">
+              <p class="text-gray-500 uppercase tracking-wide text-[10px]">First Name</p>
+              <p class="text-gray-700 font-medium text-right break-words max-w-[60%]">{{ Auth::check() && Auth::user() && isset(Auth::user()->first_name) ? Auth::user()->first_name : 'N/A' }}</p>
+            </div>
+            <div class="flex items-start justify-between gap-3">
+              <p class="text-gray-500 uppercase tracking-wide text-[10px]">Complaint Type</p>
+              <p class="text-gray-800 font-semibold text-right break-words max-w-[60%]">{{ is_object($complaint) && isset($complaint->complaint_type) ? $complaint->complaint_type : 'N/A' }}</p>
+            </div>
+            <div class="flex items-start justify-between gap-3">
+              <p class="text-gray-500 uppercase tracking-wide text-[10px]">Date Filed</p>
+              <p class="text-gray-700 text-right">{{ is_object($complaint) && isset($complaint->created_at) && $complaint->created_at ? \Carbon\Carbon::parse($complaint->created_at)->format('d/m/Y') : 'N/A' }}</p>
+            </div>
+            <div class="flex items-start justify-between gap-3">
+              <p class="text-gray-500 uppercase tracking-wide text-[10px]">Date Resolved</p>
+              <p class="text-gray-700 text-right">{{ is_object($complaint) && isset($complaint->date_completed) && $complaint->date_completed ? \Carbon\Carbon::parse($complaint->date_completed)->format('d/m/Y') : '—' }}</p>
+            </div>
+          </div>
+        </div>
+      @empty
+        <div class="text-center py-10 px-4">
+          <div class="flex flex-col items-center justify-center">
+            <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-3">
+              <svg class="w-8 h-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+            </div>
+            <p class="text-gray-500 font-medium text-sm">You have no complaints yet.</p>
+            <p class="text-gray-400 text-xs mt-1">Click "File a Complaint" to get started.</p>
+          </div>
+        </div>
       @endforelse
-        </tbody>
+    </div>
+
+    <div class="hidden sm:block">
+      <table class="w-full text-sm" style="table-layout: fixed;">
+        <thead style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%); color: white;" class="shadow-sm">
+          <tr class="text-sm font-semibold uppercase tracking-widest text-center">
+            <th class="py-5 px-4 whitespace-nowrap" style="width: 12%;">Transaction ID</th>
+            <th class="py-5 px-4 whitespace-nowrap" style="width: 10%;">Last Name</th>
+            <th class="py-5 px-4 whitespace-nowrap" style="width: 10%;">First Name</th>
+            <th class="py-5 px-4 whitespace-nowrap" style="width: 18%;">Complaint Type</th>
+            <th class="py-5 px-4 whitespace-nowrap" style="width: 12%;">Date Filed</th>
+            <th class="py-5 px-4 whitespace-nowrap" style="width: 12%;">Date Resolved</th>
+            <th class="py-5 px-4 whitespace-nowrap" style="width: 12%;">Status</th>
+          </tr>
+        </thead>
       </table>
+
+      <div class="overflow-x-auto overflow-y-auto" style="max-height: 391px;">
+        <table class="w-full text-sm" style="table-layout: fixed;">
+          <tbody class="divide-y divide-gray-100">
+            @forelse ($complaints ?? [] as $complaint)
+            <tr class="hover:bg-blue-50/70 transition-colors duration-150 ease-in-out text-center">
+              <td class="py-5 px-4 font-semibold text-red-500 whitespace-nowrap" style="width: 12%;">
+                {{ is_object($complaint) && isset($complaint->transaction_no) ? $complaint->transaction_no : 'N/A' }}
+              </td>
+              <td class="py-5 px-4 text-gray-700 whitespace-nowrap" style="width: 10%;">
+                {{ Auth::check() && Auth::user() && isset(Auth::user()->last_name) ? Auth::user()->last_name : 'N/A' }}
+              </td>
+              <td class="py-5 px-4 text-gray-700 whitespace-nowrap" style="width: 10%;">
+                {{ Auth::check() && Auth::user() && isset(Auth::user()->first_name) ? Auth::user()->first_name : 'N/A' }}
+              </td>
+              <td class="py-5 px-4 font-semibold text-gray-800" style="width: 18%;">
+                  <div class="overflow-hidden text-ellipsis whitespace-nowrap">
+                      {{ is_object($complaint) && isset($complaint->complaint_type) ? $complaint->complaint_type : 'N/A' }}
+                  </div>
+              </td>
+              <td class="py-5 px-4 text-gray-600 text-sm whitespace-nowrap" style="width: 12%;">
+                {{ is_object($complaint) && isset($complaint->created_at) && $complaint->created_at ? \Carbon\Carbon::parse($complaint->created_at)->format('d/m/Y') : 'N/A' }}
+              </td>
+              <td class="py-5 px-4 text-gray-600 text-sm whitespace-nowrap" style="width: 12%;">
+                {{ is_object($complaint) && isset($complaint->date_completed) && $complaint->date_completed ? \Carbon\Carbon::parse($complaint->date_completed)->format('d/m/Y') : '—' }}
+              </td>
+              <td class="py-5 px-4 whitespace-nowrap" style="width: 12%;">
+                  @php
+                      $statusLower = is_object($complaint) && isset($complaint->status) ? strtolower($complaint->status) : '';
+                      $statusColor = match($statusLower) {
+                          'pending' => 'bg-amber-100 text-amber-800 border border-amber-300',
+                          'in progress' => 'bg-blue-100 text-blue-800 border border-blue-300',
+                          'completed' => 'bg-emerald-100 text-emerald-800 border border-emerald-300',
+                          default => 'bg-gray-100 text-gray-800 border border-gray-300'
+                      };
+                      $statusDisplay = $statusLower === 'in progress' ? 'In Progress' : ucfirst($statusLower);
+                  @endphp
+                  <span class="{{ $statusColor }} text-xs font-bold px-3 py-2 rounded-full inline-block whitespace-nowrap shadow-sm" style="font-size:12px;line-height:1.2;">
+                    {{ $statusDisplay }}
+                  </span>
+              </td>
+            </tr>
+            @empty
+            <tr>
+              <td colspan="7" class="text-center py-8 sm:py-12">
+                <div class="flex flex-col items-center justify-center">
+                  <div class="w-16 h-16 sm:w-20 sm:h-20 bg-gray-100 rounded-full flex items-center justify-center mb-3 sm:mb-4">
+                    <svg class="w-8 h-8 sm:w-10 sm:h-10 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                  </div>
+                  <p class="text-gray-500 font-medium text-sm sm:text-base">You have no complaints yet.</p>
+                  <p class="text-gray-400 text-xs sm:text-sm mt-1">Click "File a Complaint" to get started.</p>
+                </div>
+              </td>
+            </tr>
+            @endforelse
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 
@@ -256,11 +315,11 @@
 
     </form>
   </div>
-<div class="flex flex-col sm:flex-row justify-end gap-2 sm:gap-3 px-4 sm:px-6 py-4 border-t border-gray-100 bg-gray-50 rounded-b-2xl">
+<div class="flex flex-row flex-nowrap justify-end gap-2 sm:gap-3 px-4 sm:px-6 py-4 border-t border-gray-100 bg-gray-50 rounded-b-2xl">
   <button type="button" onclick="closeModal('modalGeneralComplaint')" 
-          class="w-full sm:w-auto px-4 sm:px-6 py-2 bg-gradient-to-r from-gray-100 to-gray-200 hover:from-red-500 hover:to-red-600 text-gray-700 hover:text-white text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 border border-gray-300 order-2 sm:order-1">CANCEL</button>
+    class="w-auto px-4 sm:px-6 py-2 bg-gradient-to-r from-gray-100 to-gray-200 hover:from-red-500 hover:to-red-600 text-gray-700 hover:text-white text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 border border-gray-300">CANCEL</button>
   <button type="button" id="submitComplaintBtn" onclick="submitComplaintForm()" 
-          class="w-full sm:w-auto px-4 sm:px-6 py-2 bg-gradient-to-r from-gray-100 to-gray-200 hover:from-blue-500 hover:to-blue-600 text-gray-700 hover:text-white text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 shadow-md hover:shadow-lg border border-gray-300 order-1 sm:order-2">SUBMIT</button>
+    class="w-auto px-4 sm:px-6 py-2 bg-gradient-to-r from-gray-100 to-gray-200 hover:from-blue-500 hover:to-blue-600 text-gray-700 hover:text-white text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 shadow-md hover:shadow-lg border border-gray-300">SUBMIT</button>
   </div>
   </div>
   </div>

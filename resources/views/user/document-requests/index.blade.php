@@ -88,74 +88,142 @@
 
 
 <div class="bg-white shadow-xl rounded-xl border border-gray-100 overflow-hidden">
-    
-    <table class="w-full text-sm" style="table-layout: fixed;">
-      <thead style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%); color: white;" class="shadow-sm">
-        <tr class="text-sm font-semibold uppercase tracking-widest text-center">
-          <th class="py-5 px-4 whitespace-nowrap" style="width: 12%;">Transaction ID</th>
-          <th class="py-5 px-4 whitespace-nowrap" style="width: 10%;">Last Name</th>
-          <th class="py-5 px-4 whitespace-nowrap" style="width: 10%;">First Name</th>
-          <th class="py-5 px-4 whitespace-nowrap" style="width: 18%;">Document Type</th>
-          <th class="py-5 px-4 whitespace-nowrap" style="width: 20%;">Purpose</th>
-          <th class="py-5 px-4 whitespace-nowrap" style="width: 12%;">Date Requested</th>
-          <th class="py-5 px-4 whitespace-nowrap" style="width: 12%;">Status</th>
-        </tr>
-      </thead>
-    </table>
-    
-    <div class="overflow-x-auto overflow-y-auto" style="max-height: 391px;">
-      <table class="w-full text-sm" style="table-layout: fixed;">
-        <tbody class="divide-y divide-gray-100">
-		@forelse($myRequests as $request)
-		<tr class="hover:bg-blue-50/70 transition-colors duration-150 ease-in-out text-center">
-			<td class="py-5 px-4 font-semibold text-blue-600 whitespace-nowrap" style="width: 12%;">{{ $request->tracking_number ?? 'N/A' }}</td>
-			<td class="py-5 px-4 text-gray-700 whitespace-nowrap" style="width: 10%;">{{ Auth::check() && Auth::user() && isset(Auth::user()->last_name) ? Auth::user()->last_name : 'N/A' }}</td>
-			<td class="py-5 px-4 text-gray-700 whitespace-nowrap" style="width: 10%;">{{ Auth::check() && Auth::user() && isset(Auth::user()->first_name) ? Auth::user()->first_name : 'N/A' }}</td>
-			<td class="py-5 px-4 font-semibold text-gray-800" style="width: 18%;">
-				<div class="overflow-hidden text-ellipsis whitespace-nowrap">
-				{{ str_replace(['Certificate of Indigency', 'Certificate of Residency'], ['Indigency Clearance', 'Resident Certificate'], $request->document_type) }}
-				</div>
-			</td>
-			<td class="py-5 px-4 text-gray-600" style="width: 20%;">
-				<div class="overflow-hidden text-ellipsis whitespace-nowrap">
-					{{ \Illuminate\Support\Str::before($request->purpose, ' |') }}
-				</div>
-			</td>
-			<td class="py-5 px-4 text-gray-600 text-sm whitespace-nowrap" style="width: 12%;">{{ $request->created_at->format('d/m/Y') }}</td>
-			<td class="py-5 px-4 whitespace-nowrap" style="width: 12%;">
-				@php
-					$statusLower = strtolower($request->status);
-					$statusColor = match($statusLower) {
-						'pending' => 'bg-amber-100 text-amber-800 border border-amber-300',
-						'in progress' => 'bg-blue-100 text-blue-800 border border-blue-300',
-						'completed' => 'bg-emerald-100 text-emerald-800 border border-emerald-300',
-						'rejected' => 'bg-red-100 text-red-800 border border-red-300',
-						default => 'bg-gray-100 text-gray-800 border border-gray-300'
-					};
-					$statusDisplay = $statusLower === 'in progress' ? 'In Progress' : ucfirst(strtolower($request->status));
-				@endphp
-				<span class="{{ $statusColor }} text-xs font-bold px-3 py-2 rounded-full inline-block whitespace-nowrap shadow-sm" style="font-size:12px;line-height:1.2;">
-					{{ $statusDisplay }}
-				</span>
-			</td>
-		</tr>
-		@empty
-		<tr>
-			<td colspan="7" class="text-center py-8 sm:py-12">
-				<div class="flex flex-col items-center justify-center">
-					<div class="w-16 h-16 sm:w-20 sm:h-20 bg-gray-100 rounded-full flex items-center justify-center mb-3 sm:mb-4">
-						<svg class="w-8 h-8 sm:w-10 sm:h-10 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-						</svg>
+	<div id="mobile-requests-list" class="sm:hidden p-3 space-y-3 bg-gradient-to-b from-gray-50 to-white">
+        @forelse($myRequests as $request)
+            @php
+                $statusLower = strtolower($request->status);
+                $statusColor = match($statusLower) {
+                    'pending' => 'bg-amber-100 text-amber-800 border border-amber-300',
+                    'in progress' => 'bg-blue-100 text-blue-800 border border-blue-300',
+                    'completed' => 'bg-emerald-100 text-emerald-800 border border-emerald-300',
+                    'rejected' => 'bg-red-100 text-red-800 border border-red-300',
+                    default => 'bg-gray-100 text-gray-800 border border-gray-300'
+                };
+                $statusDisplay = $statusLower === 'in progress' ? 'In Progress' : ucfirst(strtolower($request->status));
+            @endphp
+			<div class="p-4 space-y-3 mobile-request-item rounded-2xl border border-gray-200 bg-gradient-to-br from-white to-gray-50 shadow-sm">
+                <div class="flex items-center justify-between gap-3">
+                    <div>
+                        <p class="text-[10px] font-semibold uppercase tracking-wider text-gray-400">Transaction ID</p>
+                        <p class="text-xs font-bold text-blue-600 truncate mt-0.5">{{ $request->tracking_number ?? 'N/A' }}</p>
+                    </div>
+                    <span class="{{ $statusColor }} text-[11px] font-bold px-2.5 py-1 rounded-full whitespace-nowrap">{{ $statusDisplay }}</span>
+                </div>
+				<div class="space-y-2 text-xs pt-1">
+					<div class="flex items-start justify-between gap-3">
+						<p class="text-gray-500 uppercase tracking-wide text-[10px]">Last Name</p>
+						<p class="text-gray-700 font-medium text-right break-words max-w-[60%]">{{ Auth::check() && Auth::user() && isset(Auth::user()->last_name) ? Auth::user()->last_name : 'N/A' }}</p>
 					</div>
-					<p class="text-gray-500 font-medium text-sm sm:text-base">You have no document requests yet.</p>
-					<p class="text-gray-400 text-xs sm:text-sm mt-1">Click "New Request" to get started.</p>
-				</div>
-			</td>
-		</tr>
+					<div class="flex items-start justify-between gap-3">
+						<p class="text-gray-500 uppercase tracking-wide text-[10px]">First Name</p>
+						<p class="text-gray-700 font-medium text-right break-words max-w-[60%]">{{ Auth::check() && Auth::user() && isset(Auth::user()->first_name) ? Auth::user()->first_name : 'N/A' }}</p>
+					</div>
+					<div class="flex items-start justify-between gap-3">
+						<p class="text-gray-500 uppercase tracking-wide text-[10px]">Document Type</p>
+						<p class="text-gray-800 font-semibold text-right break-words max-w-[60%]">{{ str_replace(['Certificate of Indigency', 'Certificate of Residency'], ['Indigency Clearance', 'Resident Certificate'], $request->document_type) }}</p>
+					</div>
+					<div class="flex items-start justify-between gap-3">
+						<p class="text-gray-500 uppercase tracking-wide text-[10px]">Purpose</p>
+						<p class="text-gray-700 text-right break-words max-w-[60%]">{{ \Illuminate\Support\Str::before($request->purpose, ' |') }}</p>
+					</div>
+					<div class="flex items-start justify-between gap-3">
+						<p class="text-gray-500 uppercase tracking-wide text-[10px]">Date Requested</p>
+						<p class="text-gray-700 text-right">{{ $request->created_at->format('d/m/Y') }}</p>
+					</div>
+                </div>
+            </div>
+        @empty
+            <div class="text-center py-10 px-4">
+                <div class="flex flex-col items-center justify-center">
+                    <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-3">
+                        <svg class="w-8 h-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                    </div>
+                    <p class="text-gray-500 font-medium text-sm">You have no document requests yet.</p>
+                    <p class="text-gray-400 text-xs mt-1">Click "New Request" to get started.</p>
+                </div>
+            </div>
 		@endforelse
-        </tbody>
-      </table>
+
+		@if($myRequests->count() > 10)
+			<div id="mobile-requests-controls" class="pt-1 pb-3 px-1">
+				<button id="mobile-requests-load-more" type="button" class="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold text-sm py-2.5 rounded-xl transition-all duration-200 shadow-sm hover:shadow-md">
+					Load More
+				</button>
+			</div>
+		@endif
+    </div>
+
+    <div class="hidden sm:block">
+        <table class="w-full text-sm" style="table-layout: fixed;">
+          <thead style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%); color: white;" class="shadow-sm">
+            <tr class="text-sm font-semibold uppercase tracking-widest text-center">
+              <th class="py-5 px-4 whitespace-nowrap" style="width: 12%;">Transaction ID</th>
+              <th class="py-5 px-4 whitespace-nowrap" style="width: 10%;">Last Name</th>
+              <th class="py-5 px-4 whitespace-nowrap" style="width: 10%;">First Name</th>
+              <th class="py-5 px-4 whitespace-nowrap" style="width: 18%;">Document Type</th>
+              <th class="py-5 px-4 whitespace-nowrap" style="width: 20%;">Purpose</th>
+              <th class="py-5 px-4 whitespace-nowrap" style="width: 12%;">Date Requested</th>
+              <th class="py-5 px-4 whitespace-nowrap" style="width: 12%;">Status</th>
+            </tr>
+          </thead>
+        </table>
+
+        <div class="overflow-x-auto overflow-y-auto" style="max-height: 391px;">
+          <table class="w-full text-sm" style="table-layout: fixed;">
+            <tbody class="divide-y divide-gray-100">
+			@forelse($myRequests as $request)
+			<tr class="hover:bg-blue-50/70 transition-colors duration-150 ease-in-out text-center">
+				<td class="py-5 px-4 font-semibold text-blue-600 whitespace-nowrap" style="width: 12%;">{{ $request->tracking_number ?? 'N/A' }}</td>
+				<td class="py-5 px-4 text-gray-700 whitespace-nowrap" style="width: 10%;">{{ Auth::check() && Auth::user() && isset(Auth::user()->last_name) ? Auth::user()->last_name : 'N/A' }}</td>
+				<td class="py-5 px-4 text-gray-700 whitespace-nowrap" style="width: 10%;">{{ Auth::check() && Auth::user() && isset(Auth::user()->first_name) ? Auth::user()->first_name : 'N/A' }}</td>
+				<td class="py-5 px-4 font-semibold text-gray-800" style="width: 18%;">
+					<div class="overflow-hidden text-ellipsis whitespace-nowrap">
+					{{ str_replace(['Certificate of Indigency', 'Certificate of Residency'], ['Indigency Clearance', 'Resident Certificate'], $request->document_type) }}
+					</div>
+				</td>
+				<td class="py-5 px-4 text-gray-600" style="width: 20%;">
+					<div class="overflow-hidden text-ellipsis whitespace-nowrap">
+						{{ \Illuminate\Support\Str::before($request->purpose, ' |') }}
+					</div>
+				</td>
+				<td class="py-5 px-4 text-gray-600 text-sm whitespace-nowrap" style="width: 12%;">{{ $request->created_at->format('d/m/Y') }}</td>
+				<td class="py-5 px-4 whitespace-nowrap" style="width: 12%;">
+					@php
+						$statusLower = strtolower($request->status);
+						$statusColor = match($statusLower) {
+							'pending' => 'bg-amber-100 text-amber-800 border border-amber-300',
+							'in progress' => 'bg-blue-100 text-blue-800 border border-blue-300',
+							'completed' => 'bg-emerald-100 text-emerald-800 border border-emerald-300',
+							'rejected' => 'bg-red-100 text-red-800 border border-red-300',
+							default => 'bg-gray-100 text-gray-800 border border-gray-300'
+						};
+						$statusDisplay = $statusLower === 'in progress' ? 'In Progress' : ucfirst(strtolower($request->status));
+					@endphp
+					<span class="{{ $statusColor }} text-xs font-bold px-3 py-2 rounded-full inline-block whitespace-nowrap shadow-sm" style="font-size:12px;line-height:1.2;">
+						{{ $statusDisplay }}
+					</span>
+				</td>
+			</tr>
+			@empty
+			<tr>
+				<td colspan="7" class="text-center py-8 sm:py-12">
+					<div class="flex flex-col items-center justify-center">
+						<div class="w-16 h-16 sm:w-20 sm:h-20 bg-gray-100 rounded-full flex items-center justify-center mb-3 sm:mb-4">
+							<svg class="w-8 h-8 sm:w-10 sm:h-10 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+							</svg>
+						</div>
+						<p class="text-gray-500 font-medium text-sm sm:text-base">You have no document requests yet.</p>
+						<p class="text-gray-400 text-xs sm:text-sm mt-1">Click "New Request" to get started.</p>
+					</div>
+				</td>
+			</tr>
+			@endforelse
+            </tbody>
+          </table>
+        </div>
     </div>
   </div>
 
