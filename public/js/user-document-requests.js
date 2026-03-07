@@ -46,6 +46,15 @@ document.addEventListener('keydown', function(event) {
 document.addEventListener('DOMContentLoaded', function () {
     backdrop.classList.add('hidden'); // Ensure backdrop is hidden on load
 
+    const indigencyProofInput = document.getElementById('indigency_proof_file');
+    const indigencyProofName = document.getElementById('indigency_proof_filename');
+    if (indigencyProofInput && indigencyProofName) {
+        indigencyProofInput.addEventListener('change', function () {
+            const selectedFile = this.files && this.files[0] ? this.files[0].name : 'No image selected';
+            indigencyProofName.textContent = selectedFile;
+        });
+    }
+
     // Move success modals to body to ensure they cover the header
     ['sessionSuccessModal', 'ajaxSuccessModal'].forEach(id => {
         const el = document.getElementById(id);

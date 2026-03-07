@@ -218,7 +218,8 @@
                        class="flex items-center py-3 px-4 rounded-lg font-semibold text-sm transition duration-200 group
                        {{ request()->routeIs('admin.dashboard') ? 'bg-white/20 text-white border-l-4 border-white' : 'text-gray-200 hover:bg-white/10' }}">
                         <!-- ICON -->
-        <svg class="w-9 h-9 mr-3 shrink-0 {{ request()->routeIs('admin.dashboard') ? 'stroke-white' : 'stroke-gray-300 group-hover:stroke-white' }}" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg">
+        <span class="w-11 h-11 mr-3 -ml-2 shrink-0 flex items-center justify-center">
+        <svg class="w-16 h-16 {{ request()->routeIs('admin.dashboard') ? 'stroke-white' : 'stroke-gray-300 group-hover:stroke-white' }}" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg">
             <path fill="none" fill-rule="evenodd" clip-rule="evenodd"
                 d="M9.918 10.0005H7.082C6.66587 9.99708 6.26541 10.1591 5.96873 10.4509C5.67204 10.7427 5.50343 11.1404 5.5 11.5565V17.4455C5.5077 18.3117 6.21584 19.0078 7.082 19.0005H9.918C10.3341 19.004 10.7346 18.842 11.0313 18.5502C11.328 18.2584 11.4966 17.8607 11.5 17.4445V11.5565C11.4966 11.1404 11.328 10.7427 11.0313 10.4509C10.7346 10.1591 10.3341 9.99708 9.918 10.0005Z"
                 stroke="currentColor" stroke-width="1.5" />
@@ -232,7 +233,8 @@
                 d="M15.082 19.0006H17.917C18.7661 19.0247 19.4744 18.3567 19.5 17.5076V16.4936C19.4744 15.6449 18.7667 14.9771 17.918 15.0006H15.082C14.2333 14.9771 13.5256 15.6449 13.5 16.4936V17.5066C13.525 18.3557 14.2329 19.0241 15.082 19.0006Z"
                 stroke="currentColor" stroke-width="1.5" />
         </svg>
-        <span>Dashboard</span>
+        </span>
+            <span class="-ml-1">Dashboard</span>
     </a>
 </li>
 

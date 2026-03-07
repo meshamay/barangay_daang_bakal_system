@@ -197,7 +197,7 @@
             {{-- CHART 3: HORIZONTAL BAR CHART --}}
             <div class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-2xl shadow-2xl border border-gray-200">
                 <h2 class="text-lg font-bold mb-6 text-gray-800 text-center">MOST REQUESTED DOCUMENT</h2>
-                <div class="relative flex flex-col justify-center p-4" style="height: 380px;">
+                <div class="relative flex flex-col justify-center p-4 pt-10" style="height: 380px;">
                     @php
                         $maxDoc = max(array_values($documentTypes));
                         $maxDoc = $maxDoc > 0 ? $maxDoc : 1;
@@ -206,19 +206,19 @@
                         <div class="flex items-center gap-3">
                             <span class="text-xs font-bold w-32 text-right text-gray-600">Barangay Clearance</span>
                             <div class="flex-grow bg-gradient-to-r from-gray-200 to-gray-100 rounded-full h-12 relative overflow-hidden shadow-md">
-                                <div class="bg-gradient-to-r from-red-400 to-red-500 h-full rounded-full flex items-center justify-end pr-3 shadow-lg" style="width: {{ ($documentTypes['Barangay Clearance'] / $maxDoc) * 100 }}%;"><span class="text-xs font-bold text-white">{{ $documentTypes['Barangay Clearance'] }}</span></div>
+                                <div class="bg-gradient-to-r from-blue-400 to-blue-500 h-full rounded-full flex items-center justify-end pr-3 shadow-lg" style="width: {{ ($documentTypes['Barangay Clearance'] / $maxDoc) * 100 }}%;"><span class="text-xs font-bold text-white">{{ $documentTypes['Barangay Clearance'] }}</span></div>
                             </div>
                         </div>
                         <div class="flex items-center gap-3">
                             <span class="text-xs font-bold w-32 text-right text-gray-600">Barangay Certificate</span>
                             <div class="flex-grow bg-gradient-to-r from-gray-200 to-gray-100 rounded-full h-12 relative overflow-hidden shadow-md">
-                                <div class="bg-gradient-to-r from-blue-400 to-blue-500 h-full rounded-full flex items-center justify-end pr-3 shadow-lg" style="width: {{ ($documentTypes['Barangay Certificate'] / $maxDoc) * 100 }}%;"><span class="text-xs font-bold text-white">{{ $documentTypes['Barangay Certificate'] }}</span></div>
+                                <div class="bg-gradient-to-r from-green-400 to-green-500 h-full rounded-full flex items-center justify-end pr-3 shadow-lg" style="width: {{ ($documentTypes['Barangay Certificate'] / $maxDoc) * 100 }}%;"><span class="text-xs font-bold text-white">{{ $documentTypes['Barangay Certificate'] }}</span></div>
                             </div>
                         </div>
                         <div class="flex items-center gap-3">
                             <span class="text-xs font-bold w-32 text-right text-gray-600">Indigency Clearance</span>
                             <div class="flex-grow bg-gradient-to-r from-gray-200 to-gray-100 rounded-full h-12 relative overflow-hidden shadow-md">
-                                <div class="bg-gradient-to-r from-green-400 to-green-500 h-full rounded-full flex items-center justify-end pr-3 shadow-lg" style="width: {{ ($documentTypes['Indigency'] / $maxDoc) * 100 }}%;"><span class="text-xs font-bold text-white">{{ $documentTypes['Indigency'] }}</span></div>
+                                <div class="bg-gradient-to-r from-orange-400 to-orange-500 h-full rounded-full flex items-center justify-end pr-3 shadow-lg" style="width: {{ ($documentTypes['Indigency'] / $maxDoc) * 100 }}%;"><span class="text-xs font-bold text-white">{{ $documentTypes['Indigency'] }}</span></div>
                             </div>
                         </div>
                         <div class="flex items-center gap-3">
@@ -228,7 +228,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="report-month-label" style="margin-top: 4.5rem;">Month of {{ $monthName }}</div>
+                    <div class="report-month-label" style="margin-top: 3.5rem;">Month of {{ $monthName }}</div>
                 </div>
             </div>
 
@@ -309,7 +309,7 @@
                         $maxComplaint = max(array_values($complaints));
                         $maxComplaint = $maxComplaint > 0 ? $maxComplaint : 1;
                     @endphp
-                    <div class="space-y-4">
+                    <div class="space-y-5 mt-8">
                         <div class="flex items-center gap-3">
                             <span class="text-xs font-bold w-32 text-right text-gray-600">Community Issues</span>
                             <div class="flex-grow bg-gradient-to-r from-gray-200 to-gray-100 rounded-full h-10 relative overflow-hidden shadow-md">
@@ -347,7 +347,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="report-month-label" style="margin-top: 5.5rem;">Month of {{ $monthName }}</div>
+                    <div class="report-month-label" style="margin-top: 3.5rem;">Month of {{ $monthName }}</div>
                 </div>
             </div>
 
