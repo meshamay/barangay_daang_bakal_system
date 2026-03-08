@@ -35,7 +35,7 @@
                                         </div>
                                         <img id="photo-preview-phone" src="#" alt="Photo Preview" class="hidden absolute top-0 left-0 w-full h-full object-cover rounded-lg border-4 border-blue-300 bg-blue-50" />
                                     </label>
-                                    <input id="photo-upload-phone" name="photo" type="file" class="hidden" accept="image/*" required onchange="previewPhoto(event, 'photo-preview-phone')">
+                                    <input id="photo-upload-phone" name="photo_phone" type="file" class="hidden" accept="image/*" onchange="previewPhoto(event, 'photo-preview-phone')">
                                 </div>
                                 <div>
                                     <label for="last_name" class="mb-1 block text-sm font-semibold text-gray-700">Last Name <span class="text-red-500">*</span></label>
@@ -49,7 +49,7 @@
                                         </div>
                                         <img id="photo-preview-desktop" src="#" alt="Photo Preview" class="hidden absolute top-0 left-0 w-full h-full object-cover rounded-lg border-4 border-blue-300 bg-blue-50" />
                                     </label>
-                                    <input id="photo-upload-desktop" name="photo" type="file" class="hidden" accept="image/*" required onchange="previewPhoto(event, 'photo-preview-desktop')">
+                                    <input id="photo-upload-desktop" name="photo_desktop" type="file" class="hidden" accept="image/*" onchange="previewPhoto(event, 'photo-preview-desktop')">
                                 </div>
                                 <div>
                                     <label for="first_name" class="mb-1 block text-sm font-semibold text-gray-700">First Name <span class="text-red-500">*</span></label>

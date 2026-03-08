@@ -180,8 +180,27 @@ document.addEventListener("DOMContentLoaded", function () {
                 return;
             }
 
+            const phonePhotoInput = document.getElementById("photo-upload-phone");
+            const desktopPhotoInput = document.getElementById("photo-upload-desktop");
+            const selectedPhoto =
+                (phonePhotoInput && phonePhotoInput.files && phonePhotoInput.files[0]) ||
+                (desktopPhotoInput && desktopPhotoInput.files && desktopPhotoInput.files[0]);
+
+            if (!selectedPhoto) {
+                const errorsDiv = document.getElementById("registrationErrors");
+                if (errorsDiv) {
+                    errorsDiv.innerHTML = "• Please select your 1x1 photo.";
+                    errorsDiv.classList.remove("hidden");
+                    errorsDiv.scrollIntoView({ behavior: "smooth", block: "nearest" });
+                }
+                return;
+            }
+
             // 1. Prepare Data
             const formData = new FormData(this);
+            formData.delete("photo_phone");
+            formData.delete("photo_desktop");
+            formData.set("photo", selectedPhoto);
             const submitBtn = document.getElementById("submit-btn");
             const originalText = submitBtn ? submitBtn.innerText : "REGISTER";
 
