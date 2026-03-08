@@ -233,62 +233,72 @@
             </div>
 
 
-            {{-- CHART 4: AREA CHART --}}
+            {{-- CHART 4: STACKED BAR CHART --}}
             <div class="bg-gradient-to-br from-white to-gray-50 p-6 rounded-2xl shadow-2xl border border-gray-200">
                 <h2 class="text-lg font-bold mb-6 text-gray-800 text-center">REQUESTS STATUS SUMMARY</h2>
                 <div class="relative flex flex-col justify-center" style="height: 380px;">
                     @php
-                        $maxStatus = max(array_values($requestStatusSummary));
-                        $maxStatus = $maxStatus > 0 ? $maxStatus : 1;
-                        $pendingHeight = ($requestStatusSummary['pending'] / $maxStatus) * 250;
-                        $processingHeight = ($requestStatusSummary['processing'] / $maxStatus) * 250;
-                        $approvedHeight = ($requestStatusSummary['approved'] / $maxStatus) * 250;
+                        $requestPending = $requestStatusSummary['pending'] ?? 0;
+                        $requestProcessing = $requestStatusSummary['processing'] ?? 0;
+                        $requestApproved = $requestStatusSummary['approved'] ?? 0;
+                        $requestTotal = $requestPending + $requestProcessing + $requestApproved;
+                        $requestPendingPct = $requestTotal > 0 ? ($requestPending / $requestTotal) * 100 : 0;
+                        $requestProcessingPct = $requestTotal > 0 ? ($requestProcessing / $requestTotal) * 100 : 0;
+                        $requestApprovedPct = $requestTotal > 0 ? ($requestApproved / $requestTotal) * 100 : 0;
                     @endphp
-                    <svg viewBox="0 0 400 300" style="width: 100%; height: 300px;" preserveAspectRatio="xMidYMid meet" class="mb-4 drop-shadow-lg">
-                        <defs>
-                            <linearGradient id="areaGradient1" x1="0%" y1="0%" x2="0%" y2="100%">
-                                <stop offset="0%" style="stop-color:#FACC15;stop-opacity:0.6" />
-                                <stop offset="100%" style="stop-color:#FACC15;stop-opacity:0.1" />
-                            </linearGradient>
-                            <linearGradient id="areaGradient2" x1="0%" y1="0%" x2="0%" y2="100%">
-                                <stop offset="0%" style="stop-color:#60A5FA;stop-opacity:0.6" />
-                                <stop offset="100%" style="stop-color:#60A5FA;stop-opacity:0.1" />
-                            </linearGradient>
-                        </defs>
-                        <!-- Grid -->
-                        <line x1="50" y1="50" x2="50" y2="280" stroke="#e5e7eb" stroke-width="2"/>
-                        <line x1="50" y1="280" x2="400" y2="280" stroke="#e5e7eb" stroke-width="2"/>
-                        <!-- Areas with gradients -->
-                        <path d="M 80 {{ 280 - $pendingHeight }} L 150 {{ 280 - $pendingHeight }} L 220 {{ 280 - $pendingHeight }} L 280 {{ 280 - $pendingHeight }} L 350 {{ 280 - $pendingHeight }} L 350 280 L 80 280 Z" fill="url(#areaGradient1)" stroke="#FACC15" stroke-width="2" stroke-linejoin="round"/>
-                        <path d="M 80 {{ 280 - $processingHeight }} L 150 {{ 280 - $processingHeight }} L 220 {{ 280 - $processingHeight }} L 280 {{ 280 - $processingHeight }} L 350 {{ 280 - $processingHeight }} L 350 280 L 80 280 Z" fill="url(#areaGradient2)" stroke="#60A5FA" stroke-width="2" stroke-linejoin="round"/>
-                        <!-- Data points -->
-                        <circle cx="80" cy="{{ 280 - $pendingHeight }}" r="4" fill="#FACC15" stroke="#fff" stroke-width="2"/>
-                        <circle cx="150" cy="{{ 280 - $pendingHeight }}" r="4" fill="#FACC15" stroke="#fff" stroke-width="2"/>
-                    </svg>
-                    <div class="flex gap-6 justify-center mt-4 flex-wrap">
-                        <div class="flex items-center gap-3 bg-yellow-50 px-4 py-2 rounded-lg">
-                            <div class="w-3 h-3 bg-yellow-500 rounded"></div>
-                            <div>
-                                <p class="text-xs font-semibold text-gray-600">Pending</p>
-                                <p class="text-lg font-bold text-black/70">{{ $requestStatusSummary['pending'] }}</p>
+                    <div class="space-y-10 mt-12">
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="text-sm font-semibold text-gray-700">Status Distribution</span>
+                                <span class="text-sm font-bold text-gray-900">Total: {{ $requestTotal }}</span>
+                            </div>
+                            <div class="flex h-12 rounded-lg overflow-hidden shadow-md">
+                                <div class="bg-[#FACC15] flex items-center justify-center" style="width: {{ $requestPendingPct }}%;">
+                                    @if($requestPendingPct > 15)
+                                        <span class="text-xs font-bold text-gray-700">{{ $requestPending }}</span>
+                                    @endif
+                                </div>
+                                <div class="bg-[#60A5FA] flex items-center justify-center" style="width: {{ $requestProcessingPct }}%;">
+                                    @if($requestProcessingPct > 15)
+                                        <span class="text-xs font-bold text-gray-700">{{ $requestProcessing }}</span>
+                                    @endif
+                                </div>
+                                <div class="bg-[#22C55E] flex items-center justify-center" style="width: {{ $requestApprovedPct }}%;">
+                                    @if($requestApprovedPct > 15)
+                                        <span class="text-xs font-bold text-gray-700">{{ $requestApproved }}</span>
+                                    @endif
+                                </div>
                             </div>
                         </div>
-                        <div class="flex items-center gap-3 bg-blue-50 px-4 py-2 rounded-lg">
-                            <div class="w-3 h-3 bg-blue-500 rounded"></div>
-                            <div>
-                                <p class="text-xs font-semibold text-gray-600">In Progress</p>
-                                <p class="text-lg font-bold text-black/70">{{ $requestStatusSummary['processing'] }}</p>
+
+                        <div class="grid grid-cols-3 gap-4 pt-4">
+                            <div class="border border-yellow-200 bg-yellow-50 rounded-lg p-3">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <div class="w-3 h-3 bg-[#FACC15] rounded-full"></div>
+                                    <p class="text-xs font-semibold text-gray-700">Pending</p>
+                                </div>
+                                <p class="text-lg font-bold text-gray-900">{{ $requestPending }}</p>
+                                <p class="text-xs text-gray-500">{{ number_format($requestPendingPct, 1) }}%</p>
                             </div>
-                        </div>
-                        <div class="flex items-center gap-3 bg-green-50 px-4 py-2 rounded-lg">
-                            <div class="w-3 h-3 bg-green-500 rounded"></div>
-                            <div>
-                                <p class="text-xs font-semibold text-gray-600">Completed</p>
-                                <p class="text-lg font-bold text-black/70">{{ $requestStatusSummary['approved'] }}</p>
+                            <div class="border border-blue-200 bg-blue-50 rounded-lg p-3">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <div class="w-3 h-3 bg-[#60A5FA] rounded-full"></div>
+                                    <p class="text-xs font-semibold text-gray-700">In Progress</p>
+                                </div>
+                                <p class="text-lg font-bold text-gray-900">{{ $requestProcessing }}</p>
+                                <p class="text-xs text-gray-500">{{ number_format($requestProcessingPct, 1) }}%</p>
+                            </div>
+                            <div class="border border-green-200 bg-green-50 rounded-lg p-3">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <div class="w-3 h-3 bg-[#22C55E] rounded-full"></div>
+                                    <p class="text-xs font-semibold text-gray-700">Completed</p>
+                                </div>
+                                <p class="text-lg font-bold text-gray-900">{{ $requestApproved }}</p>
+                                <p class="text-xs text-gray-500">{{ number_format($requestApprovedPct, 1) }}%</p>
                             </div>
                         </div>
                     </div>
-                    <div class="report-month-label">Month of {{ $monthName }}</div>
+                    <div class="report-month-label" style="margin-top: 5.5rem;">Month of {{ $monthName }}</div>
                 </div>
             </div>
 
