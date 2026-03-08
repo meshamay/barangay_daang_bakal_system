@@ -211,16 +211,26 @@ document.addEventListener("DOMContentLoaded", function () {
                 submitBtn.classList.add("opacity-50", "cursor-not-allowed");
             }
 
-            // 3. Get CSRF token from meta tag
-            const csrfToken = document
+            // 3. Resolve CSRF token from form hidden input first, then meta fallback
+            const csrfTokenFromForm = registrationForm.querySelector(
+                'input[name="_token"]',
+            )?.value;
+            const csrfTokenFromMeta = document
                 .querySelector('meta[name="csrf-token"]')
                 ?.getAttribute("content");
+            const csrfToken = csrfTokenFromForm || csrfTokenFromMeta;
+
+            if (csrfToken) {
+                formData.set("_token", csrfToken);
+            }
 
             // 4. Send to Laravel Backend
             fetch("/register/submit", {
                 method: "POST",
+                credentials: "same-origin",
                 headers: {
                     "X-CSRF-TOKEN": csrfToken,
+                    "X-Requested-With": "XMLHttpRequest",
                     Accept: "application/json",
                 },
                 body: formData,

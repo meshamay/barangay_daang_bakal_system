@@ -14,7 +14,7 @@
         </div>
 
         <!-- History Content -->
-        <div class="space-y-3 sm:space-y-4 md:space-y-6 text-justify text-xs sm:text-sm md:text-base lg:text-lg leading-relaxed text-slate-700 mb-8 sm:mb-10 md:mb-12 lg:mb-12">
+        <div class="space-y-3 sm:space-y-4 md:space-y-6 text-justify text-sm sm:text-sm md:text-base lg:text-lg leading-relaxed text-slate-700 mb-8 sm:mb-10 md:mb-12 lg:mb-12">
             <p>
                 Barangay Daang Bakal was named after the Rail Road of the Philippine National Railway (PNR) based on the ancient people. It is one of the Barangays included in District 1 by the Local Political Division. The Official Logo of the Barangay has the following features: the PNR Railroad where the name Daang Bakal came, it was the path from Manila to Bicol Provinces and vice versa. The Bravo 9 is used because Daang Bakal is the 9th Barangay in the City of Mandaluyong when alphabetically arranged.
             </p>
@@ -37,7 +37,7 @@
             <!-- Vision Card -->
             <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg sm:rounded-xl md:rounded-2xl shadow-lg p-4 sm:p-6 md:p-8 text-center border-2 border-blue-200">
                 <h3 class="font-popins font-black text-lg sm:text-2xl md:text-3xl uppercase mb-2 sm:mb-3 md:mb-4 text-[#0052CC] tracking-tight">VISION</h3>
-                <p class="text-xs sm:text-base md:text-lg text-slate-700 leading-relaxed">
+                <p class="text-sm sm:text-base md:text-lg text-slate-700 leading-relaxed">
                     To aid in providing sustainability for the common good.
                 </p>
             </div>
@@ -45,7 +45,7 @@
             <!-- Mission Card -->
             <div class="bg-gradient-to-br from-blue-100 to-blue-50 rounded-lg sm:rounded-xl md:rounded-2xl shadow-lg p-4 sm:p-6 md:p-8 text-center border-2 border-blue-200">
                 <h3 class="font-popins font-black text-lg sm:text-2xl md:text-3xl uppercase mb-2 sm:mb-3 md:mb-4 text-[#0052CC] tracking-tight">MISSION</h3>
-                <p class="text-xs sm:text-base md:text-lg text-slate-700 leading-relaxed">
+                <p class="text-sm sm:text-base md:text-lg text-slate-700 leading-relaxed">
                     We, the officials and staff of Barangay Daang Bakal, working as a community, fully commits to be the vehicle of continuous development of the Barangay guided by excellence, equality, and transparency in all its services.
                 </p>
             </div>

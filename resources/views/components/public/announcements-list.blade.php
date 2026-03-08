@@ -14,7 +14,7 @@
                 ANNOUNCEMENTS
             </h2>
             <div class="w-16 sm:w-20 md:w-24 h-1 md:h-1.5 bg-gradient-to-r from-[#0052CC] via-[#1565C0] to-[#FFD700] mx-auto rounded-full mb-3 sm:mb-4 md:mb-6"></div>
-            <p class="text-slate-600 text-xs sm:text-sm md:text-base lg:text-base font-light max-w-2xl mx-auto leading-relaxed px-2 sm:px-4">Stay informed with the latest news and updates from Barangay Daang Bakal</p>
+            <p class="text-slate-600 text-sm sm:text-sm md:text-base lg:text-base font-light max-w-2xl mx-auto leading-relaxed px-2 sm:px-4">Stay informed with the latest news and updates from Barangay Daang Bakal</p>
         </div>
 
         @php
@@ -73,7 +73,7 @@
                                         </h3>
                                         
                                         <!-- Content Preview -->
-                                        <p class="text-xs md:text-sm text-slate-600 leading-relaxed mb-5 flex-grow">
+                                        <p class="text-sm md:text-sm text-slate-600 leading-relaxed mb-5 flex-grow">
                                             {!! nl2br(e($announcement->content)) !!}
                                         </p>
                                         
@@ -108,7 +108,7 @@
                 </div>
             </div>
         @else
-            <div class="text-center text-slate-600 text-base sm:text-md">No active announcements available.</div>
+            <div class="text-center text-slate-600 text-sm sm:text-base">No active announcements available.</div>
         @endif
         
         <!-- Footer Text -->
@@ -117,7 +117,7 @@
                 <svg class="w-4 md:w-5 h-4 md:h-5 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
                 </svg>
-                <p class="text-xs md:text-sm text-slate-600 font-medium">For more updates, visit the <span class="font-bold text-slate-900">Official Facebook Page</span> of Barangay Daang Bakal</p>
+                <p class="text-sm md:text-sm text-slate-600 font-medium">For more updates, visit the <span class="font-bold text-slate-900">Official Facebook Page</span> of Barangay Daang Bakal</p>
             </a>
         </div>
     </div>

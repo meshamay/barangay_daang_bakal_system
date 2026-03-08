@@ -27,7 +27,7 @@
                     </iframe>
                     
                     <div class="absolute inset-0 flex items-center justify-center bg-gradient-to-t from-black/60 via-black/20 to-transparent group-hover:from-black/40 transition-all duration-300">
-                        <div class="bg-white/95 backdrop-blur-sm text-[#0052CC] text-[10px] sm:text-xs font-bold px-3 sm:px-4 py-1.5 sm:py-2 rounded-full shadow-lg group-hover:scale-110 transition-transform duration-300 flex items-center gap-2">
+                        <div class="bg-white/95 backdrop-blur-sm text-[#0052CC] text-xs sm:text-xs font-bold px-3 sm:px-4 py-1.5 sm:py-2 rounded-full shadow-lg group-hover:scale-110 transition-transform duration-300 flex items-center gap-2">
                             <svg class="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -40,11 +40,11 @@
 
             <!-- Contact Section -->
             <section class="md:col-span-1 lg:col-span-2">
-                <h6 class="font-barlow text-xs sm:text-base md:text-lg font-black uppercase tracking-wide text-white mb-3 sm:mb-4 md:mb-6 flex items-center gap-2">
+                <h6 class="font-barlow text-sm sm:text-base md:text-lg font-black uppercase tracking-wide text-white mb-3 sm:mb-4 md:mb-6 flex items-center gap-2">
                     <div class="w-1 h-6 bg-gradient-to-b from-[#0052CC] to-[#1565C0] rounded-full"></div>
                     <span class="text-xs sm:text-base md:text-lg">Contact Us</span>
                 </h6>
-                <ul class="space-y-2 sm:space-y-3 md:space-y-4 text-xs sm:text-sm text-white/90">
+                <ul class="space-y-2 sm:space-y-3 md:space-y-4 text-sm sm:text-sm text-white/90">
                     <li class="flex items-start gap-2 sm:gap-3 group">
                         <div class="flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-blue-500/20 to-blue-600/20 rounded-lg flex items-center justify-center border border-white/10 group-hover:border-blue-400/50 transition-colors duration-300 mt-0.5 sm:mt-0">
                             <svg class="h-4 w-4 sm:h-5 sm:w-5 text-blue-300" viewBox="0 0 20 20" fill="currentColor">
@@ -75,9 +75,9 @@
 
             <!-- Visit Section -->
             <section class="md:col-span-1 lg:col-span-2">
-                <h6 class="font-barlow text-xs sm:text-base md:text-lg font-black uppercase tracking-wide text-white mb-3 sm:mb-4 md:mb-6 flex items-center gap-2">
+                <h6 class="font-barlow text-sm sm:text-base md:text-lg font-black uppercase tracking-wide text-white mb-3 sm:mb-4 md:mb-6 flex items-center gap-2">
                     <div class="w-1 h-6 bg-gradient-to-b from-[#0052CC] to-[#1565C0] rounded-full"></div>
-                    <span class="text-xs sm:text-base md:text-lg">Visit Us</span>
+                    <span class="text-sm sm:text-base md:text-lg">Visit Us</span>
                 </h6>
                 <ul class="space-y-3 md:space-y-4 text-sm text-white/90">
                     <li class="flex items-center gap-3 group">
@@ -112,11 +112,11 @@
                 <div class="flex items-center gap-2 md:gap-3">
                     <img src="https://tse2.mm.bing.net/th/id/OIP._bP7eQwOSrZjwv-doDDsWAHaHa?rs=1&pid=ImgDetMain&o=7&rm=3" alt="Barangay Logo" class="h-8 md:h-10 w-8 md:w-10 rounded-full border-2 border-white/20">
                     <div class="text-left">
-                        <p class="text-[10px] md:text-xs font-bold text-white uppercase tracking-wider">ARIS</p>
-                        <p class="text-[9px] md:text-[10px] text-white/70">Automated Record and Information System</p>
+                        <p class="text-xs md:text-xs font-bold text-white uppercase tracking-wider">ARIS</p>
+                        <p class="text-xs md:text-xs text-white/70">Automated Record and Information System</p>
                     </div>
                 </div>
-                <p class="text-[10px] md:text-xs text-white/70 text-center md:text-left">
+                <p class="text-xs md:text-xs text-white/70 text-center md:text-left">
                     © 2025 Barangay Daang Bakal. All rights reserved.
                 </p>
             </div>

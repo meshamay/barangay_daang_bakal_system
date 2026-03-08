@@ -15,6 +15,7 @@
         <div class="absolute inset-0 z-10 bg-white/70"></div>
         <div class="relative z-20 flex min-h-screen w-full items-center justify-center p-4">
             <form id="registration-form" class="w-full" novalidate enctype="multipart/form-data">
+                @csrf
                 <input type="hidden" name="barangay" value="Barangay Daang Bakal">
                 <div id="step-1" class="mx-auto max-w-4xl">
                     <div class="flex max-h-[90vh] sm:max-h-[90vh] h-auto sm:flex-col overflow-y-auto sm:overflow-hidden flex-col rounded-2xl bg-white border-2 border-gray-100 shadow-xl">
