@@ -19,8 +19,8 @@
     <table>
         <tr><th>Metric</th><th>Value</th></tr>
         <tr><td>Total Users</td><td>{{ $stats['totalUsers'] }}</td></tr>
-        <tr><td>Total Registered Residents</td><td>{{ $stats['registeredResidents'] }}</td></tr>
-        <tr><td>Total Registered Staffs</td><td>{{ $stats['totalStaff'] }}</td></tr>
+        <tr><td>Registered Residents</td><td>{{ $stats['registeredResidents'] }}</td></tr>
+        <tr><td>Registered Staffs</td><td>{{ $stats['totalStaff'] }}</td></tr>
         <tr><td>Archived Accounts</td><td>{{ $stats['archivedAccounts'] }}</td></tr>
     </table>
 
@@ -34,9 +34,9 @@
     @endif
 
     @if(in_array('requests_complaints', $sections ?? []))
-    <h2>Total Requests & Complaints</h2>
+    <h2>Requests & Complaints</h2>
     <table>
-        <tr><th>Type</th><th>Count</th></tr>
+        <tr><th>Service Type</th><th>Count</th></tr>
         <tr><td>Document Requests</td><td>{{ $requestsComplaints['documents'] ?? 0 }}</td></tr>
         <tr><td>Complaints</td><td>{{ $requestsComplaints['complaints'] ?? 0 }}</td></tr>
     </table>
@@ -47,7 +47,7 @@
     <table>
         <tr><th>Document Type</th><th>Count</th></tr>
         @foreach($documentTypes ?? [] as $type => $count)
-        <tr><td>{{ $type }}</td><td>{{ $count }}</td></tr>
+        <tr><td>{{ str_replace(['Indigency', 'Certificate of Residency'], ['Indigency Clearance', 'Resident Certificate'], $type) }}</td><td>{{ $count }}</td></tr>
         @endforeach
     </table>
     @endif

@@ -243,8 +243,6 @@ class ReportsController extends Controller
         $spreadsheet = new Spreadsheet();
         $dataSheet = $spreadsheet->getActiveSheet();
         $dataSheet->setTitle('Report Data');
-        $chartSheet = $spreadsheet->createSheet();
-        $chartSheet->setTitle('Charts');
 
         $dataSheet->setCellValue('A1', 'Barangay Daang Bakal - Reports & Analytics');
         $dataSheet->setCellValue('A2', 'Report for ' . $data['monthName'] . ' ' . $data['year']);
@@ -262,8 +260,8 @@ class ReportsController extends Controller
 
         $kpiRows = [
             ['Total Users', $data['stats']['totalUsers'] ?? 0],
-            ['Total Registered Residents', $data['stats']['registeredResidents'] ?? 0],
-            ['Total Registered Staffs', $data['stats']['totalStaff'] ?? 0],
+            ['Registered Residents', $data['stats']['registeredResidents'] ?? 0],
+            ['Registered Staffs', $data['stats']['totalStaff'] ?? 0],
             ['Archived Accounts', $data['stats']['archivedAccounts'] ?? 0],
         ];
 
@@ -273,7 +271,6 @@ class ReportsController extends Controller
         }
 
         $row += 2;
-        $chartIndex = 0;
 
         if (in_array('population_gender', $data['sections'])) {
             $row = $this->writeSectionTable(
@@ -286,47 +283,25 @@ class ReportsController extends Controller
                     ['Female', $data['populationByGender']['female'] ?? 0],
                 ]
             );
-
-            $this->addChart(
-                $chartSheet,
-                'Population by Gender',
-                'pie',
-                'Report Data',
-                "'Report Data'!\$B\$" . ($row - 3),
-                "'Report Data'!\$A\$" . ($row - 2) . ":\$A\$" . ($row - 1),
-                "'Report Data'!\$B\$" . ($row - 2) . ":\$B\$" . ($row - 1),
-                $chartIndex++
-            );
         }
 
         if (in_array('requests_complaints', $data['sections'])) {
-            $row = $this->writeSectionTable(
+            $row = $this->writeSectionTableWithoutTitle(
                 $dataSheet,
                 $row,
-                'Total Requests & Complaints',
-                ['Type', 'Count'],
+                ['Service Type', 'Count'],
                 [
                     ['Document Requests', $data['requestsComplaints']['documents'] ?? 0],
                     ['Complaints', $data['requestsComplaints']['complaints'] ?? 0],
                 ]
-            );
-
-            $this->addChart(
-                $chartSheet,
-                'Requests vs Complaints',
-                'column',
-                'Report Data',
-                "'Report Data'!\$B\$" . ($row - 3),
-                "'Report Data'!\$A\$" . ($row - 2) . ":\$A\$" . ($row - 1),
-                "'Report Data'!\$B\$" . ($row - 2) . ":\$B\$" . ($row - 1),
-                $chartIndex++
             );
         }
 
         if (in_array('most_requested_document', $data['sections'])) {
             $documentRows = [];
             foreach ($data['documentTypes'] ?? [] as $type => $count) {
-                $documentRows[] = [$type, $count];
+                $displayType = str_replace(['Indigency', 'Certificate of Residency'], ['Indigency Clearance', 'Resident Certificate'], $type);
+                $documentRows[] = [$displayType, $count];
             }
 
             $row = $this->writeSectionTable(
@@ -336,20 +311,6 @@ class ReportsController extends Controller
                 ['Document Type', 'Count'],
                 $documentRows
             );
-
-            $countRows = count($documentRows);
-            if ($countRows > 0) {
-                $this->addChart(
-                    $chartSheet,
-                    'Most Requested Document',
-                    'bar',
-                    'Report Data',
-                    "'Report Data'!\$B\$" . ($row - ($countRows + 1)),
-                    "'Report Data'!\$A\$" . ($row - $countRows) . ":\$A\$" . ($row - 1),
-                    "'Report Data'!\$B\$" . ($row - $countRows) . ":\$B\$" . ($row - 1),
-                    $chartIndex++
-                );
-            }
         }
 
         if (in_array('request_status_summary', $data['sections'])) {
@@ -363,17 +324,6 @@ class ReportsController extends Controller
                     ['In Progress', $data['requestStatusSummary']['processing'] ?? 0],
                     ['Completed', $data['requestStatusSummary']['approved'] ?? 0],
                 ]
-            );
-
-            $this->addChart(
-                $chartSheet,
-                'Request Status Summary',
-                'column',
-                'Report Data',
-                "'Report Data'!\$B\$" . ($row - 4),
-                "'Report Data'!\$A\$" . ($row - 3) . ":\$A\$" . ($row - 1),
-                "'Report Data'!\$B\$" . ($row - 3) . ":\$B\$" . ($row - 1),
-                $chartIndex++
             );
         }
 
@@ -390,20 +340,6 @@ class ReportsController extends Controller
                 ['Complaint Type', 'Count'],
                 $complaintRows
             );
-
-            $countRows = count($complaintRows);
-            if ($countRows > 0) {
-                $this->addChart(
-                    $chartSheet,
-                    'Most Reported Complaints',
-                    'bar',
-                    'Report Data',
-                    "'Report Data'!\$B\$" . ($row - ($countRows + 1)),
-                    "'Report Data'!\$A\$" . ($row - $countRows) . ":\$A\$" . ($row - 1),
-                    "'Report Data'!\$B\$" . ($row - $countRows) . ":\$B\$" . ($row - 1),
-                    $chartIndex++
-                );
-            }
         }
 
         if (in_array('complaint_status_summary', $data['sections'])) {
@@ -418,29 +354,15 @@ class ReportsController extends Controller
                     ['Completed', $data['complaintsStatusSummary']['resolved'] ?? 0],
                 ]
             );
-
-            $this->addChart(
-                $chartSheet,
-                'Complaints Status Summary',
-                'column',
-                'Report Data',
-                "'Report Data'!\$B\$" . ($row - 4),
-                "'Report Data'!\$A\$" . ($row - 3) . ":\$A\$" . ($row - 1),
-                "'Report Data'!\$B\$" . ($row - 3) . ":\$B\$" . ($row - 1),
-                $chartIndex++
-            );
         }
 
         $dataSheet->getColumnDimension('A')->setAutoSize(true);
         $dataSheet->getColumnDimension('B')->setAutoSize(true);
-        $chartSheet->setCellValue('A1', 'Charts are generated from selected report sections.');
-        $chartSheet->getStyle('A1')->getFont()->setBold(true);
 
         $spreadsheet->setActiveSheetIndex(0);
 
         return response()->streamDownload(function () use ($spreadsheet) {
             $writer = new Xlsx($spreadsheet);
-            $writer->setIncludeCharts(true);
             $writer->save('php://output');
             $spreadsheet->disconnectWorksheets();
             unset($spreadsheet);
@@ -457,7 +379,23 @@ class ReportsController extends Controller
 
         $sheet->fromArray($headers, null, "A{$row}");
         $sheet->getStyle("A{$row}:B{$row}")->getFont()->setBold(true);
-        $sheet->getStyle("A{$row}:B{$row}")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyle("A{$row}:B{$row}")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+        $row++;
+
+        foreach ($rows as $item) {
+            $sheet->fromArray($item, null, "A{$row}");
+            $row++;
+        }
+
+        $row += 2;
+        return $row;
+    }
+
+    private function writeSectionTableWithoutTitle(Worksheet $sheet, int $row, array $headers, array $rows): int
+    {
+        $sheet->fromArray($headers, null, "A{$row}");
+        $sheet->getStyle("A{$row}:B{$row}")->getFont()->setBold(true);
+        $sheet->getStyle("A{$row}:B{$row}")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
         $row++;
 
         foreach ($rows as $item) {
