@@ -42,4 +42,8 @@ fi
 
 php artisan migrate --force --no-interaction
 
-exec php -S 0.0.0.0:${PORT:-8080} -t public
+exec php \
+  -d upload_max_filesize=12M \
+  -d post_max_size=40M \
+  -S 0.0.0.0:${PORT:-8080} \
+  -t public

@@ -36,7 +36,7 @@ class RegisterController extends Controller
             'civil_status'   => 'required|string',
             'dob'            => 'required|date',
             'place_of_birth' => 'required|string',
-            'photo'          => 'required|image|max:2048', // 2MB Limit (PHP upload_max_filesize limit)
+            'photo'          => 'required|image|max:10240',
 
             'contact_number' => 'required|string|max:15',
             'email'          => 'nullable|email|unique:users,email',
@@ -45,8 +45,8 @@ class RegisterController extends Controller
             'city_municipality' => 'nullable|string|max:255',
             'username'       => 'required|string|unique:users,username',
             'password'       => ['required', 'string', 'confirmed', Password::min(8)->mixedCase()->numbers()->symbols()],
-            'id_front'       => 'required|image|max:2048',
-            'id_back'        => 'required|image|max:2048',
+            'id_front'       => 'required|image|max:10240',
+            'id_back'        => 'required|image|max:10240',
             'agree'          => 'required|accepted',
         ], [
             'email.unique'          => 'This email address is already registered.',
@@ -56,6 +56,9 @@ class RegisterController extends Controller
             'password.numbers'      => 'Password must contain at least one number.',
             'password.symbols'      => 'Password must contain at least one special character (e.g. @, #, $, !).',
             'password.confirmed'    => 'Password and confirm password do not match.',
+            'photo.max'             => '1x1 photo must not be greater than 10 MB.',
+            'id_front.max'          => 'Front ID photo must not be greater than 10 MB.',
+            'id_back.max'           => 'Back ID photo must not be greater than 10 MB.',
         ]);
 
         if ($validator->fails()) {

@@ -155,7 +155,7 @@
                                         </label>
                                         <input type="file" name="id_back" id="id-back-upload" class="hidden" accept="image/*" required>
                                     </div>
-                                    <p class="px-1 text-justify text-xs text-gray-600">All government-issued valid IDs are accepted. For students, present a School ID. For applicants below 5 years old, a Certificate of Live Birth is required. Accepted file formats are JPG or PNG, with a maximum file size of 5 MB.</p>
+                                    <p class="px-1 text-justify text-xs text-gray-600">All government-issued valid IDs are accepted. For students, present a School ID. For applicants below 5 years old, a Certificate of Live Birth is required. Accepted file formats are JPG or PNG, with a maximum file size of 10 MB.</p>
                                 </div>
                             </div>
                             <div class="pt-20">
