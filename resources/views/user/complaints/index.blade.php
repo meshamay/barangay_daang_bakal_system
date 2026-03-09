@@ -5,6 +5,31 @@
 @push('styles')
 	<link rel="stylesheet" href="{{ asset('css/modals.css') }}">
 	<link rel="stylesheet" href="{{ asset('css/form-inputs.css') }}">
+  <style>
+    @media (max-width: 640px) {
+      #modalGeneralComplaint .complaint-modal-panel {
+        max-height: calc(100dvh - 5rem) !important;
+        transform: none !important;
+      }
+
+      #modalGeneralComplaint .complaint-modal-body {
+        overscroll-behavior: contain;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      #modalGeneralComplaint input:not([type="checkbox"]):not([type="radio"]),
+      #modalGeneralComplaint select,
+      #modalGeneralComplaint #complaintTypeButton {
+        height: 2.75rem;
+        min-height: 2.75rem;
+        font-size: 16px;
+      }
+
+      #modalGeneralComplaint textarea {
+        font-size: 16px;
+      }
+    }
+  </style>
 @endpush
 
 {{-- Assuming $stats is passed from the controller with keys: 'pending', 'processing', 'completed' --}}
@@ -230,11 +255,11 @@
 <div id="modalGeneralComplaint" class="modal-container hidden fixed inset-0 w-full h-screen flex items-center justify-center z-[9999] p-4 sm:p-0" aria-labelledby="modal-title" role="dialog" aria-modal="true">
   <!-- Modal Panel -->
   <div class="flex min-h-full items-start sm:items-center justify-center text-center z-50 relative pointer-events-none pt-2 sm:pt-0">
-    <div class="bg-white w-full sm:w-[600px] max-h-[82vh] sm:max-h-none overflow-hidden rounded-2xl flex flex-col pointer-events-auto shadow-2xl border-2 border-gray-100 relative transform transition-all">
+    <div class="complaint-modal-panel bg-white w-full sm:w-[600px] max-h-[82vh] sm:max-h-none overflow-hidden rounded-2xl flex flex-col pointer-events-auto shadow-2xl border-2 border-gray-100 relative transform transition-all">
   <div class="px-4 sm:px-6 py-4 rounded-t-2xl" style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%);">
     <h1 class="text-white font-bold text-lg sm:text-xl text-center uppercase tracking-wide">General Complaint Form</h1>
   </div>
-  <div class="px-4 sm:px-6 py-4 flex-1 overflow-y-auto">
+  <div class="complaint-modal-body px-4 sm:px-6 py-4 flex-1 overflow-y-auto">
     <form id="complaintForm" class="space-y-3 sm:space-y-4" data-store-url="{{ route('user.complaints.store') }}">
       @csrf
       <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
