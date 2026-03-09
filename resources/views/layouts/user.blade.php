@@ -1,5 +1,22 @@
 @use('Illuminate\Support\Facades\Auth')
 
+@php
+    $rawUserPhotoPath = Auth::user()->photo_path ?? null;
+    $userPhotoUrl = null;
+
+    if ($rawUserPhotoPath) {
+        if (str_starts_with($rawUserPhotoPath, 'http://') || str_starts_with($rawUserPhotoPath, 'https://')) {
+            $userPhotoUrl = $rawUserPhotoPath;
+        } else {
+            $normalizedUserPhotoPath = ltrim($rawUserPhotoPath, '/');
+            if (str_starts_with($normalizedUserPhotoPath, 'storage/')) {
+                $normalizedUserPhotoPath = substr($normalizedUserPhotoPath, 8);
+            }
+            $userPhotoUrl = asset('storage/' . $normalizedUserPhotoPath);
+        }
+    }
+@endphp
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -182,8 +199,8 @@
 
             <div x-data="{ profileOpen: false }" @click.away="profileOpen = false" class="relative">
                 <button @click="profileOpen = !profileOpen" class="h-8 w-8 sm:h-10 sm:w-10 rounded-full overflow-hidden bg-white/10 border border-white/40 flex items-center justify-center hover:bg-white/20 focus:outline-none transition">
-                    @if(Auth::user()->photo_path)
-                        <img src="{{ asset('storage/'.Auth::user()->photo_path) }}" class="h-full w-full object-cover">
+                    @if($userPhotoUrl)
+                        <img src="{{ $userPhotoUrl }}" class="h-full w-full object-cover">
                     @else
                         <svg class="h-4 w-4 sm:h-5 sm:w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round"

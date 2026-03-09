@@ -26,6 +26,29 @@
 
 <body class="bg-gradient-to-br from-slate-50 via-white to-slate-50" style="font-family: 'Poppins', sans-serif;">
 
+@php
+  $resolveMediaUrl = function ($path) {
+    if (!$path) {
+      return null;
+    }
+
+    if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {
+      return $path;
+    }
+
+    $normalized = ltrim($path, '/');
+    if (str_starts_with($normalized, 'storage/')) {
+      $normalized = substr($normalized, 8);
+    }
+
+    return asset('storage/' . $normalized);
+  };
+
+  $profilePhotoUrl = $resolveMediaUrl($user->photo_path);
+  $idFrontUrl = $resolveMediaUrl($user->id_front_path);
+  $idBackUrl = $resolveMediaUrl($user->id_back_path);
+@endphp
+
 <nav id="top-navbar" class="fixed top-0 left-0 w-full h-16 sm:h-20 font-poppins bg-gradient-to-r from-[#134573] via-[#0f3a5f] to-[#0a2847] text-white shadow-lg z-30 flex items-center justify-between px-3 sm:px-6 border-b border-white/10">
 
     <div class="flex items-center gap-2 sm:gap-4">
@@ -128,8 +151,8 @@
 
             <div x-data="{ profileOpen: false }" @click.away="profileOpen = false" class="relative">
                 <button @click="profileOpen = !profileOpen" class="h-8 w-8 sm:h-10 sm:w-10 rounded-full overflow-hidden bg-white/10 border border-white/40 flex items-center justify-center hover:bg-white/20 focus:outline-none transition">
-                    @if($user->photo_path)
-                        <img src="{{ asset('storage/'.$user->photo_path) }}" class="h-full w-full object-cover">
+                    @if($profilePhotoUrl)
+                      <img src="{{ $profilePhotoUrl }}" class="h-full w-full object-cover">
                     @else
                         <svg class="h-4 w-4 sm:h-5 sm:w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -169,8 +192,8 @@
     <section class="w-full max-w-2xl flex flex-col bg-white/80 backdrop-blur-md rounded-3xl shadow-xl border border-white/60 p-4 sm:p-5 lg:p-6 hover:shadow-2xl transition-all duration-300 overflow-visible max-h-none">
       <div class="flex flex-col lg:flex-row items-center gap-4 sm:gap-5 mb-5 sm:mb-6 pb-4 sm:pb-5 border-b border-gray-200/50">
         <div class="w-24 h-24 sm:w-28 sm:h-28 border-4 border-gradient-to-br from-blue-400 to-blue-600 rounded-3xl flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-blue-50 to-indigo-50 shadow-xl hover:shadow-2xl transition-all duration-300 shrink-0">
-            @if($user->photo_path)
-                <img src="{{ asset('storage/' . $user->photo_path) }}" alt="Profile Picture" class="w-full h-full object-cover">
+            @if($profilePhotoUrl)
+              <img src="{{ $profilePhotoUrl }}" alt="Profile Picture" class="w-full h-full object-cover">
             @else
                 <span class="text-gray-400 font-bold">NO IMG</span>
             @endif
@@ -290,11 +313,11 @@
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
             <div class="group">
               <p class="text-xs text-gray-600 mb-2 font-bold uppercase tracking-wide">Front</p>
-              <img src="{{ asset('storage/' . $user->id_front_path) }}" alt="Front" class="w-full h-40 rounded-2xl object-cover border-2 border-gray-200 shadow-lg group-hover:shadow-xl group-hover:border-emerald-300 transition-all duration-300">
+              <img src="{{ $idFrontUrl ?? 'https://cdn-icons-png.flaticon.com/512/685/685655.png' }}" alt="Front" class="w-full h-40 rounded-2xl object-cover border-2 border-gray-200 shadow-lg group-hover:shadow-xl group-hover:border-emerald-300 transition-all duration-300">
             </div>
             <div class="group">
               <p class="text-xs text-gray-600 mb-2 font-bold uppercase tracking-wide">Back</p>
-              <img src="{{ asset('storage/' . $user->id_back_path) }}" alt="Back" class="w-full h-40 rounded-2xl object-cover border-2 border-gray-200 shadow-lg group-hover:shadow-xl group-hover:border-emerald-300 transition-all duration-300">
+              <img src="{{ $idBackUrl ?? 'https://cdn-icons-png.flaticon.com/512/685/685655.png' }}" alt="Back" class="w-full h-40 rounded-2xl object-cover border-2 border-gray-200 shadow-lg group-hover:shadow-xl group-hover:border-emerald-300 transition-all duration-300">
             </div>
           </div>
         </div>
