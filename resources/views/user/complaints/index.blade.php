@@ -7,26 +7,44 @@
 	<link rel="stylesheet" href="{{ asset('css/form-inputs.css') }}">
   <style>
     @media (max-width: 640px) {
+      #modalGeneralComplaint {
+        align-items: flex-start !important;
+        padding-top: 0.5rem !important;
+      }
+
       #modalGeneralComplaint .complaint-modal-panel {
         max-height: calc(100dvh - 5rem) !important;
         transform: none !important;
+        transition: none !important;
+        overflow: hidden !important;
       }
 
       #modalGeneralComplaint .complaint-modal-body {
+        height: 100%;
         overscroll-behavior: contain;
         -webkit-overflow-scrolling: touch;
+        padding-bottom: 1rem;
       }
 
-      #modalGeneralComplaint input:not([type="checkbox"]):not([type="radio"]),
+      #modalGeneralComplaint input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]),
       #modalGeneralComplaint select,
       #modalGeneralComplaint #complaintTypeButton {
-        height: 2.75rem;
-        min-height: 2.75rem;
+        height: 44px;
+        min-height: 44px;
+        padding-top: 0.5rem !important;
+        padding-bottom: 0.5rem !important;
         font-size: 16px;
+        line-height: 1.25;
+        transition: none !important;
       }
 
       #modalGeneralComplaint textarea {
+        min-height: 110px;
+        padding-top: 0.5rem !important;
+        padding-bottom: 0.5rem !important;
         font-size: 16px;
+        line-height: 1.35;
+        transition: none !important;
       }
     }
   </style>
