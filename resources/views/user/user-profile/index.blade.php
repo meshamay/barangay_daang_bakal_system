@@ -37,7 +37,7 @@
 
                 <div>
                     <h1 class="text-xs sm:text-sm md:text-base font-semibold leading-tight text-white">Barangay Daang Bakal</h1>
-                    <span class="font-poppins text-[10px] sm:text-xs md:text-sm lg:text-base font-semibold text-white">Mandaluyong City</span>
+                    <span class="font-poppins text-xs sm:text-xs md:text-sm lg:text-base font-semibold text-white">Mandaluyong City</span>
                 </div>
             </a>
         </div>
@@ -59,7 +59,7 @@
           <span x-show="unreadCount > 0" x-text="unreadCount" class="absolute top-0 right-0 block h-4 w-4 sm:h-5 sm:w-5 text-xs text-center rounded-full bg-red-500 ring-2 ring-white font-bold flex items-center justify-center"></span>
         </button>
 
-        <div x-show="open" class="absolute right-0 mt-2 w-[calc(100vw-1.5rem)] sm:w-96 max-w-md bg-white rounded-2xl shadow-2xl overflow-hidden z-50 text-slate-800 border-2 border-gray-100"
+        <div x-show="open" class="fixed top-[4.25rem] left-3 right-3 w-auto sm:absolute sm:top-full sm:left-auto sm:right-0 sm:mt-2 sm:w-96 sm:max-w-md bg-white rounded-2xl shadow-2xl overflow-hidden z-50 text-slate-800 border-2 border-gray-100"
            x-cloak
            style="display: none;">
           <div class="px-4 sm:px-6 py-3 sm:py-4 rounded-t-2xl" style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%);">
@@ -164,9 +164,9 @@
 
 <br>
 
-<main class="flex flex-col lg:flex-row justify-center items-center h-screen overflow-hidden px-4 sm:px-6 lg:px-8 py-4 sm:py-6 gap-6 text-[#1e2e3d] pt-20 sm:pt-24 lg:pt-28">
+<main class="flex flex-col lg:flex-row justify-center items-center h-auto lg:h-screen overflow-y-auto lg:overflow-hidden px-4 sm:px-6 lg:px-8 py-4 sm:py-6 gap-6 text-[#1e2e3d] pt-20 sm:pt-24 lg:pt-28">
 
-    <section class="w-full max-w-2xl flex flex-col bg-white/80 backdrop-blur-md rounded-3xl shadow-xl border border-white/60 p-4 sm:p-5 lg:p-6 hover:shadow-2xl transition-all duration-300 overflow-y-auto lg:overflow-y-visible max-h-[calc(100vh-150px)] lg:max-h-none">
+    <section class="w-full max-w-2xl flex flex-col bg-white/80 backdrop-blur-md rounded-3xl shadow-xl border border-white/60 p-4 sm:p-5 lg:p-6 hover:shadow-2xl transition-all duration-300 overflow-visible max-h-none">
       <div class="flex flex-col lg:flex-row items-center gap-4 sm:gap-5 mb-5 sm:mb-6 pb-4 sm:pb-5 border-b border-gray-200/50">
         <div class="w-24 h-24 sm:w-28 sm:h-28 border-4 border-gradient-to-br from-blue-400 to-blue-600 rounded-3xl flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-blue-50 to-indigo-50 shadow-xl hover:shadow-2xl transition-all duration-300 shrink-0">
             @if($user->photo_path)
@@ -247,7 +247,7 @@
 
     <div class="w-px bg-gradient-to-b from-transparent via-gray-300/30 to-transparent hidden lg:block"></div>
 
-    <section class="w-full max-w-2xl flex flex-col bg-white/80 backdrop-blur-md rounded-3xl shadow-xl border border-white/60 p-4 sm:p-5 lg:p-6 hover:shadow-2xl transition-all duration-300 overflow-y-auto lg:overflow-y-visible max-h-[calc(100vh-150px)] lg:max-h-none">
+    <section class="w-full max-w-2xl flex flex-col bg-white/80 backdrop-blur-md rounded-3xl shadow-xl border border-white/60 p-4 sm:p-5 lg:p-6 hover:shadow-2xl transition-all duration-300 overflow-visible max-h-none">
       <h2 class="text-lg sm:text-xl font-bold mb-4 sm:mb-5 text-[#134573] flex items-center gap-2">
         <div class="w-7 h-7 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-lg flex items-center justify-center shadow-lg">
           <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -301,7 +301,7 @@
 
         <div class="flex justify-end mt-5 sm:mt-6 pt-4 border-t border-gray-200/50">
             <a href="{{ route('home') }}">
-              <button class="bg-gray-200 hover:bg-gray-300 text-xs sm:text-sm text-gray-700 font-bold px-6 sm:px-8 py-2.5 sm:py-3 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl border border-gray-300 flex items-center gap-2">
+                <button class="bg-gray-200 hover:bg-gray-300 text-sm text-gray-700 font-semibold px-4 sm:px-5 py-2 rounded-xl transition-all duration-300 shadow-md hover:shadow-lg border border-gray-300 flex items-center gap-2">
                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                     </svg>
@@ -339,7 +339,23 @@
         fetch("{{ route('api.notifications.index') }}")
           .then(response => response.json())
           .then(data => {
-            this.notifications = data.unread.concat(data.read);
+            let merged = data.unread.concat(data.read);
+
+            merged = merged.map(n => {
+              try {
+                if (n.data && n.data.type === 'document' && n.data.status && n.data.status.toLowerCase() === 'completed') {
+                  const claimText = ' You may claim your document at the Barangay Hall during office hours.';
+                  if (!String(n.data.message || '').includes(claimText.trim())) {
+                    n.data.message = String(n.data.message || '').replace(/\.*$/, '');
+                    n.data.message = n.data.message + '.' + claimText;
+                  }
+                }
+              } catch (e) {
+              }
+              return n;
+            });
+
+            this.notifications = merged;
             this.unreadCount = data.unread_count;
           })
           .catch(error => console.error('Error fetching notifications:', error));

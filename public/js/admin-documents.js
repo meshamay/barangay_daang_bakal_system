@@ -63,6 +63,7 @@ function openDocumentModal(modalId, button) {
     const frontImg = modal.querySelector('.js-id-front');
     const backImg = modal.querySelector('.js-id-back');
     const proofImg = modal.querySelector('.js-proof-img'); // For Indigency Modal
+    const proofLink = modal.querySelector('.js-proof-link');
 
     // Helper to toggle image styles
     const updateImage = (imgElement, imageSrc) => {
@@ -84,6 +85,10 @@ function openDocumentModal(modalId, button) {
     updateImage(frontImg, d.idFront);
     updateImage(backImg, d.idBack);
     updateImage(proofImg, d.proof); // Indigency proof
+
+    if (proofLink) {
+        proofLink.href = (d.proof && d.proof !== '') ? d.proof : defaultIcon;
+    }
 
     // 5. Show Modal
     showBackdrop();

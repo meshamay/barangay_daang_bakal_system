@@ -206,8 +206,8 @@ class DocumentRequestController extends Controller
 
             // Notify admins - Load the resident relationship
             $docRequest->load('resident');
-            $admins = User::whereIn('role', ['admin', 'super admin', 'super_admin'])
-                          ->orWhereIn('user_type', ['admin', 'super admin', 'super_admin'])
+            $admins = User::whereIn('role', ['admin', 'super admin', 'super_admin', 'superadmin'])
+                          ->orWhereIn('user_type', ['admin', 'super admin', 'super_admin', 'superadmin'])
                           ->get();
             foreach ($admins as $admin) {
                 $admin->notify(new DocumentRequestSubmittedAdmin($docRequest));

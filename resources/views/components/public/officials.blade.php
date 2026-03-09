@@ -110,34 +110,63 @@
         if (!container) return;
 
         let autoScrollDirection = 1;
-        let autoScrollTimer = null;
+        let animationFrameId = null;
+        let isPaused = false;
+        let resumeTimeout = null;
 
-        const startAutoScroll = () => {
-            if (autoScrollTimer) return;
-            autoScrollTimer = setInterval(() => {
-                const maxScrollLeft = container.scrollWidth - container.clientWidth;
+        const getMaxScrollLeft = () => Math.max(0, container.scrollWidth - container.clientWidth);
 
-                if (container.scrollLeft >= maxScrollLeft - 1) {
-                    autoScrollDirection = -1;
-                } else if (container.scrollLeft <= 1) {
-                    autoScrollDirection = 1;
-                }
+        const step = () => {
+            if (isPaused) {
+                animationFrameId = requestAnimationFrame(step);
+                return;
+            }
 
-                container.scrollBy({ left: autoScrollDirection * 2, behavior: 'smooth' });
-            }, 20);
+            const maxScrollLeft = getMaxScrollLeft();
+            if (maxScrollLeft <= 0) {
+                animationFrameId = requestAnimationFrame(step);
+                return;
+            }
+
+            if (container.scrollLeft >= maxScrollLeft - 1) {
+                autoScrollDirection = -1;
+            } else if (container.scrollLeft <= 1) {
+                autoScrollDirection = 1;
+            }
+
+            container.scrollLeft += autoScrollDirection * 0.8;
+            animationFrameId = requestAnimationFrame(step);
         };
 
-        const stopAutoScroll = () => {
-            if (!autoScrollTimer) return;
-            clearInterval(autoScrollTimer);
-            autoScrollTimer = null;
+        const pauseAutoScroll = () => {
+            isPaused = true;
+            if (resumeTimeout) {
+                clearTimeout(resumeTimeout);
+            }
         };
 
-        container.addEventListener('mouseenter', stopAutoScroll);
-        container.addEventListener('mouseleave', startAutoScroll);
-        container.addEventListener('touchstart', stopAutoScroll, { passive: true });
-        container.addEventListener('touchend', startAutoScroll, { passive: true });
+        const resumeAutoScroll = (delay = 1200) => {
+            if (resumeTimeout) {
+                clearTimeout(resumeTimeout);
+            }
+            resumeTimeout = setTimeout(() => {
+                isPaused = false;
+            }, delay);
+        };
 
-        startAutoScroll();
+        container.addEventListener('mouseenter', pauseAutoScroll);
+        container.addEventListener('mouseleave', () => resumeAutoScroll(200));
+        container.addEventListener('touchstart', pauseAutoScroll, { passive: true });
+        container.addEventListener('touchend', () => resumeAutoScroll(1200), { passive: true });
+        container.addEventListener('scroll', () => resumeAutoScroll(1200), { passive: true });
+
+        window.addEventListener('resize', () => {
+            const maxScrollLeft = getMaxScrollLeft();
+            if (container.scrollLeft > maxScrollLeft) {
+                container.scrollLeft = maxScrollLeft;
+            }
+        });
+
+        animationFrameId = requestAnimationFrame(step);
     })();
 </script>

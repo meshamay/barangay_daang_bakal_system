@@ -29,6 +29,47 @@
             }
         }
     </script>
+
+    <style>
+        @media (max-width: 640px) {
+            html.modal-open,
+            body.modal-open {
+                overflow: hidden !important;
+                overscroll-behavior: none;
+            }
+
+            body.modal-open {
+                touch-action: none;
+            }
+
+            .modal-container {
+                position: fixed !important;
+                top: 4rem !important;
+                left: 0 !important;
+                right: 0 !important;
+                bottom: 0 !important;
+                width: 100vw !important;
+                min-height: calc(100dvh - 4rem) !important;
+            }
+
+            #modal-backdrop {
+                position: fixed !important;
+                top: 4rem !important;
+                left: 0 !important;
+                right: 0 !important;
+                bottom: 0 !important;
+                width: 100vw !important;
+                height: calc(100dvh - 4rem) !important;
+            }
+
+            body.font-poppins form input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+            body.font-poppins form select,
+            body.font-poppins form textarea {
+                font-size: 16px !important;
+                line-height: 1.4;
+            }
+        }
+    </style>
 </head>
 
 <body class="font-poppins bg-gray-100 text-slate-800 h-screen overflow-auto sm:overflow-auto md:overflow-hidden pt-16 sm:pt-20">
@@ -44,7 +85,7 @@
 
                 <div>
                     <h1 class="text-xs sm:text-sm md:text-base font-semibold leading-tight text-white">Barangay Daang Bakal</h1>
-                    <span class="font-poppins text-[10px] sm:text-xs md:text-sm lg:text-base font-semibold text-white">Mandaluyong City</span>
+                    <span class="font-poppins text-xs sm:text-xs md:text-sm lg:text-base font-semibold text-white">Mandaluyong City</span>
                 </div>
             </a>
         </div>

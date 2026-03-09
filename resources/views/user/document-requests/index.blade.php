@@ -74,12 +74,12 @@
 			</svg>
 		</button>
 		
-		<div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 w-72 sm:w-56 bg-white border border-gray-200 rounded-xl shadow-xl z-50 overflow-hidden" style="display: none;">
-			<ul class="text-gray-700 text-lg sm:text-sm divide-y divide-gray-100">
-				<li @click="selectDocument('Barangay Clearance'); open = false" class="px-6 py-5 sm:px-4 sm:py-3 hover:bg-blue-50 cursor-pointer transition-colors font-medium">Barangay Clearance</li>
-				<li @click="selectDocument('Barangay Certificate'); open = false" class="px-6 py-5 sm:px-4 sm:py-3 hover:bg-blue-50 cursor-pointer transition-colors font-medium">Barangay Certificate</li>
-				<li @click="selectDocument('Indigency Clearance'); open = false" class="px-6 py-5 sm:px-4 sm:py-3 hover:bg-blue-50 cursor-pointer transition-colors font-medium">Indigency Clearance</li>
-				<li @click="selectDocument('Resident Certificate'); open = false" class="px-6 py-5 sm:px-4 sm:py-3 hover:bg-blue-50 cursor-pointer transition-colors font-medium">Resident Certificate</li>
+		<div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 w-64 sm:w-56 bg-white border border-gray-200 rounded-xl shadow-xl z-50 overflow-hidden" style="display: none;">
+			<ul class="text-gray-700 text-sm divide-y divide-gray-100">
+				<li @click="selectDocument('Barangay Clearance'); open = false" class="px-4 py-3 hover:bg-blue-50 cursor-pointer transition-colors font-medium">Barangay Clearance</li>
+				<li @click="selectDocument('Barangay Certificate'); open = false" class="px-4 py-3 hover:bg-blue-50 cursor-pointer transition-colors font-medium">Barangay Certificate</li>
+				<li @click="selectDocument('Indigency Clearance'); open = false" class="px-4 py-3 hover:bg-blue-50 cursor-pointer transition-colors font-medium">Indigency Clearance</li>
+				<li @click="selectDocument('Resident Certificate'); open = false" class="px-4 py-3 hover:bg-blue-50 cursor-pointer transition-colors font-medium">Resident Certificate</li>
 			</ul>
 		</div>
 	</div>
@@ -229,7 +229,7 @@
 
 <div class="flex justify-end mt-4 sm:mt-6 px-0">
 	<a href="{{ route('home') }}">
-	<button class="bg-gray-200 hover:bg-gray-300 text-[14px] text-gray-700 font-bold px-6 sm:px-8 py-2.5 sm:py-3 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl border border-gray-300 flex items-center gap-2">
+	<button class="bg-gray-200 hover:bg-gray-300 text-xs sm:text-sm text-gray-700 font-semibold px-3 sm:px-6 py-1.5 sm:py-2.5 rounded-xl transition-all duration-300 shadow-md hover:shadow-lg border border-gray-300 flex items-center gap-1.5 sm:gap-2">
 		<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
 			<path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
 		</svg>

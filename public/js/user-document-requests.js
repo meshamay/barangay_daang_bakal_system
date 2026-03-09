@@ -13,22 +13,45 @@ function hideBackdrop() {
     if (backdrop) backdrop.classList.add('hidden');
 }
 
+function lockBackgroundScroll() {
+    document.documentElement.classList.add('modal-open');
+    document.body.classList.add('modal-open');
+}
+
+function unlockBackgroundScroll() {
+    document.documentElement.classList.remove('modal-open');
+    document.body.classList.remove('modal-open');
+}
+
+function hasVisibleModals() {
+    return Array.from(document.querySelectorAll('.modal-container')).some(
+        modal => !modal.classList.contains('hidden')
+    );
+}
+
 function openModal(id) {
     const modal = document.getElementById(id);
     if (modal) modal.classList.remove('hidden');
     showBackdrop();
+    lockBackgroundScroll();
 }
 
 function closeModal(id) {
     const modal = document.getElementById(id);
     if (modal) modal.classList.add('hidden');
-    hideBackdrop();
+    if (!hasVisibleModals()) {
+        hideBackdrop();
+        unlockBackgroundScroll();
+    }
 }
 
 function closeSuccessModal(id) {
     const modal = document.getElementById(id);
     if (modal) modal.remove();
-    hideBackdrop();
+    if (!hasVisibleModals()) {
+        hideBackdrop();
+        unlockBackgroundScroll();
+    }
 }
 
 // Close on ESC
@@ -91,6 +114,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const sessionSuccessModal = document.getElementById('sessionSuccessModal');
     if (sessionSuccessModal && !sessionSuccessModal.classList.contains('hidden')) {
         showBackdrop();
+        lockBackgroundScroll();
     }
 
     const forms = {
@@ -169,6 +193,7 @@ async function submitForm(form, modalId) {
                 `;
             }
             showBackdrop();
+            lockBackgroundScroll();
             if (successModal) successModal.classList.remove('hidden');
         } else {
             const errorText = await response.text();

@@ -1,11 +1,11 @@
 <footer class="relative bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 text-white pt-6 sm:pt-8 md:pt-8 pb-4 overflow-hidden">
     <!-- Decorative Background Elements -->
-    <div class="absolute inset-0 opacity-5">
+    <div class="absolute inset-0 opacity-5 pointer-events-none">
         <div class="absolute inset-x-0 top-8 bottom-8" style="background-image: radial-gradient(circle, #0052CC 1px, transparent 1px); background-size: 30px 30px;"></div>
     </div>
     
     <!-- Top Border Accent -->
-    <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#0052CC] via-[#1565C0] to-[#FFD700]"></div>
+    <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#0052CC] via-[#1565C0] to-[#FFD700] pointer-events-none"></div>
     
     <div class="container mx-auto px-3 sm:px-4 relative z-10">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-8 gap-3 sm:gap-4 md:gap-6 mb-4 md:mb-6">
@@ -68,7 +68,7 @@
                                 <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
                             </svg>
                         </div>
-                        <a href="mailto:barangaydaangbakal@gmail.com" class="hover:text-blue-300 transition-colors duration-300 break-all">barangaydaangbakal@gmail.com</a>
+                        <a href="https://mail.google.com/mail/?view=cm&fs=1&to=barangaydaangbakal@gmail.com" target="_blank" rel="noopener noreferrer" class="hover:text-blue-300 transition-colors duration-300 break-all">barangaydaangbakal@gmail.com</a>
                     </li>
                 </ul>
             </section>

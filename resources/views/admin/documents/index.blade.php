@@ -435,7 +435,7 @@
 					{{-- INDIGENCY PROOF SECTION --}}
 					<div>
 <label class="font-semibold text-gray-700 mb-2 block">Proof of Request:</label>
-						<a href="{{ ($request->proof_file_path) ? asset('storage/' . $request->proof_file_path) : 'https://cdn-icons-png.flaticon.com/512/685/685655.png' }}" target="_blank" class="border-2 border-dashed border-blue-300 rounded-xl py-4 flex flex-col items-center text-sm w-full bg-blue-50/50 overflow-hidden hover:bg-blue-50 transition-colors">
+						<a href="{{ ($request->proof_file_path) ? asset('storage/' . $request->proof_file_path) : 'https://cdn-icons-png.flaticon.com/512/685/685655.png' }}" target="_blank" class="js-proof-link border-2 border-dashed border-blue-300 rounded-xl py-4 flex flex-col items-center text-sm w-full bg-blue-50/50 overflow-hidden hover:bg-blue-50 transition-colors">
 							<img src="{{ ($request->proof_file_path) ? asset('storage/' . $request->proof_file_path) : 'https://cdn-icons-png.flaticon.com/512/685/685655.png' }}" class="js-proof-img opacity-70 object-contain transition-all duration-300" style="width:240px;height:240px;max-width:100%;max-height:100%;">
 						</a>
 					</div>

@@ -214,7 +214,7 @@
 
 <div class="flex justify-end mt-4 sm:mt-6 px-0">
   <a href="{{ route('home') }}">
-    <button class="bg-gray-200 hover:bg-gray-300 text-[14px] text-gray-700 font-bold px-6 sm:px-8 py-2.5 sm:py-3 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl border border-gray-300 flex items-center gap-2">
+    <button class="bg-gray-200 hover:bg-gray-300 text-xs sm:text-sm text-gray-700 font-semibold px-3 sm:px-6 py-1.5 sm:py-2.5 rounded-xl transition-all duration-300 shadow-md hover:shadow-lg border border-gray-300 flex items-center gap-1.5 sm:gap-2">
       <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
         <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
       </svg>
@@ -229,12 +229,12 @@
 {{-- ======================================================================== --}}
 <div id="modalGeneralComplaint" class="modal-container hidden fixed inset-0 w-full h-screen flex items-center justify-center z-[9999] p-4 sm:p-0" aria-labelledby="modal-title" role="dialog" aria-modal="true">
   <!-- Modal Panel -->
-  <div class="flex min-h-full items-center justify-center text-center z-50 relative pointer-events-none">
-    <div class="bg-white w-full sm:w-[600px] max-h-[80vh] sm:max-h-none overflow-y-auto sm:overflow-visible rounded-2xl flex flex-col pointer-events-auto shadow-2xl border-2 border-gray-100 relative transform transition-all">
+  <div class="flex min-h-full items-start sm:items-center justify-center text-center z-50 relative pointer-events-none pt-2 sm:pt-0">
+    <div class="bg-white w-full sm:w-[600px] max-h-[82vh] sm:max-h-none overflow-hidden rounded-2xl flex flex-col pointer-events-auto shadow-2xl border-2 border-gray-100 relative transform transition-all">
   <div class="px-4 sm:px-6 py-4 rounded-t-2xl" style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%);">
     <h1 class="text-white font-bold text-lg sm:text-xl text-center uppercase tracking-wide">General Complaint Form</h1>
   </div>
-  <div class="px-4 sm:px-6 py-4 flex-1 overflow-visible">
+  <div class="px-4 sm:px-6 py-4 flex-1 overflow-y-auto">
     <form id="complaintForm" class="space-y-3 sm:space-y-4" data-store-url="{{ route('user.complaints.store') }}">
       @csrf
       <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">

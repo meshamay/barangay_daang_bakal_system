@@ -148,8 +148,8 @@
                 <a href="{{ route('user.document-requests.index') }}" class="group block p-4 sm:p-5 md:p-7 bg-gradient-to-br from-white to-blue-50 rounded-xl sm:rounded-2xl shadow-md border border-blue-100 hover:border-blue-300 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 relative overflow-hidden">
                     <div class="absolute top-0 right-0 -mt-6 -mr-6 w-16 h-16 sm:w-20 sm:h-20 bg-blue-500 opacity-10 rounded-full group-hover:scale-150 transition-transform duration-500"></div>
                     <div class="relative">
-                        <div class="w-12 h-12 sm:w-13 sm:h-13 md:w-14 md:h-14 bg-gradient-to-br from-blue-100 to-blue-50 rounded-lg sm:rounded-xl flex items-center justify-center text-blue-600 mb-3 sm:mb-4 group-hover:bg-gradient-to-br group-hover:from-blue-500 group-hover:to-blue-600 group-hover:text-white transition-all duration-300 shadow-md">
-                            <svg class="w-5 h-5 sm:w-5.5 sm:h-5.5 md:w-6 md:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <div class="w-9 h-9 sm:w-13 sm:h-13 md:w-14 md:h-14 bg-gradient-to-br from-blue-100 to-blue-50 rounded-lg sm:rounded-xl flex items-center justify-center text-blue-600 mb-3 sm:mb-4 group-hover:bg-gradient-to-br group-hover:from-blue-500 group-hover:to-blue-600 group-hover:text-white transition-all duration-300 shadow-md">
+                            <svg class="w-4 h-4 sm:w-5.5 sm:h-5.5 md:w-6 md:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                             </svg>
                         </div>
@@ -161,8 +161,8 @@
                 <a href="{{ route('user.complaints.index') }}" class="group block p-4 sm:p-5 md:p-7 bg-gradient-to-br from-white to-red-50 rounded-xl sm:rounded-2xl shadow-md border border-red-100 hover:border-red-300 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 relative overflow-hidden">
                     <div class="absolute top-0 right-0 -mt-6 -mr-6 w-16 h-16 sm:w-20 sm:h-20 bg-red-500 opacity-10 rounded-full group-hover:scale-150 transition-transform duration-500"></div>
                     <div class="relative">
-                        <div class="w-12 h-12 sm:w-13 sm:h-13 md:w-14 md:h-14 bg-gradient-to-br from-red-100 to-red-50 rounded-lg sm:rounded-xl flex items-center justify-center text-red-600 mb-3 sm:mb-4 group-hover:bg-gradient-to-br group-hover:from-red-500 group-hover:to-red-600 group-hover:text-white transition-all duration-300 shadow-md">
-                            <svg class="w-5 h-5 sm:w-5.5 sm:h-5.5 md:w-6 md:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <div class="w-9 h-9 sm:w-13 sm:h-13 md:w-14 md:h-14 bg-gradient-to-br from-red-100 to-red-50 rounded-lg sm:rounded-xl flex items-center justify-center text-red-600 mb-3 sm:mb-4 group-hover:bg-gradient-to-br group-hover:from-red-500 group-hover:to-red-600 group-hover:text-white transition-all duration-300 shadow-md">
+                            <svg class="w-4 h-4 sm:w-5.5 sm:h-5.5 md:w-6 md:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
                             </svg>
                         </div>

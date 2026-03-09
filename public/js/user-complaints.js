@@ -14,6 +14,22 @@ function hideBackdrop() {
     if (backdrop) backdrop.classList.add("hidden");
 }
 
+function lockBackgroundScroll() {
+    document.documentElement.classList.add("modal-open");
+    document.body.classList.add("modal-open");
+}
+
+function unlockBackgroundScroll() {
+    document.documentElement.classList.remove("modal-open");
+    document.body.classList.remove("modal-open");
+}
+
+function hasVisibleModals() {
+    return Array.from(document.querySelectorAll(".modal-container")).some(
+        (modal) => !modal.classList.contains("hidden"),
+    );
+}
+
 document.addEventListener("DOMContentLoaded", function () {
     // Move success modal to body to ensure it covers the header
     const successModal = document.getElementById("successModal");
@@ -24,14 +40,16 @@ function openModal(id) {
     const modal = document.getElementById(id);
     if (modal) modal.classList.remove("hidden");
     showBackdrop();
-    document.body.classList.add("overflow-hidden");
+    lockBackgroundScroll();
 }
 
 function closeModal(id) {
     const modal = document.getElementById(id);
     if (modal) modal.classList.add("hidden");
-    hideBackdrop();
-    document.body.classList.remove("overflow-hidden");
+    if (!hasVisibleModals()) {
+        hideBackdrop();
+        unlockBackgroundScroll();
+    }
 }
 
 // Close on Escape key
@@ -47,8 +65,10 @@ document.addEventListener("keydown", function (event) {
 function closeSuccessModal() {
     const successModal = document.getElementById("successModal");
     if (successModal) successModal.classList.add("hidden");
-    hideBackdrop();
-    document.body.classList.remove("overflow-hidden");
+    if (!hasVisibleModals()) {
+        hideBackdrop();
+        unlockBackgroundScroll();
+    }
     // Reload page to show the new complaint in the table
     window.location.reload();
 }
