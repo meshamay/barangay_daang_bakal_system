@@ -137,9 +137,9 @@
                 $user = $isDoc ? ($item->resident ?? null) : ($item->user ?? null); 
                 
                 // Fields mapping
-                $transNo = $isDoc ? ($item->tracking_number ?? 'N/A') : ($item->transaction_no ?? 'N/A');
+                $transNo = $isDoc ? ($item->tracking_number ?? '') : ($item->transaction_no ?? '');
                 $serviceType = $isDoc ? 'Document Request' : 'Complaint';
-                $rawDescription = $isDoc ? ($item->document_type ?? 'N/A') : ($item->complaint_type ?? 'N/A');
+                $rawDescription = $isDoc ? ($item->document_type ?? '') : ($item->complaint_type ?? '');
                 
                 // Transform display names for certain document types
                 $description = match($rawDescription) {
@@ -162,8 +162,8 @@
 
             <tr class="hover:bg-blue-50/70 transition-colors duration-150 ease-in-out text-center">
                 <td class="py-5 px-6 w-1/8 font-semibold text-gray-900">{{ $transNo }}</td>
-                <td class="py-5 px-6 w-1/8 text-gray-700">{{ $user->last_name ?? 'N/A' }}</td>
-                <td class="py-5 px-6 w-1/8 text-gray-700">{{ $user->first_name ?? 'N/A' }}</td>
+                <td class="py-5 px-6 w-1/8 text-gray-700">{{ $user->last_name ?? '' }}</td>
+                <td class="py-5 px-6 w-1/8 text-gray-700">{{ $user->first_name ?? '' }}</td>
                 <td class="py-5 px-6 w-1/8">
                     <span class="font-semibold text-sm {{ $isDoc ? 'text-blue-700' : 'text-red-700' }}">
                         {{ $serviceType }}

@@ -145,7 +145,7 @@
                 @forelse($users as $user)
                 <tr class="hover:bg-blue-50/70 transition-colors duration-150 ease-in-out text-center">
                     <td class="py-5 px-6 w-1/7 font-semibold text-gray-900">
-                        {{ $user->resident_id ?? 'N/A' }}
+                        {{ $user->resident_id ?? '' }}
                     </td>
                     <td class="py-5 px-6 w-1/7 text-gray-700">{{ $user->first_name }}</td>
                     <td class="py-5 px-6 w-1/7 text-gray-700">{{ $user->last_name }}</td>

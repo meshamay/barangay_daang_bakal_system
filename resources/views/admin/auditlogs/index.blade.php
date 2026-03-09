@@ -88,12 +88,12 @@
                 <tbody class="divide-y divide-gray-200">
                     @forelse($auditLogs as $log)
                     <tr class="hover:bg-blue-50/70 transition-all duration-200 ease-in-out">
-                        <td class="py-4 px-6 text-sm font-medium text-gray-900 text-center">{{ $log->user->resident_id ?? 'N/A' }}</td>
-                        <td class="py-4 px-6 text-sm text-gray-700 text-center">{{ $log->user->last_name ?? 'N/A' }}</td>
-                        <td class="py-4 px-6 text-sm text-gray-700 text-center">{{ $log->user->first_name ?? 'N/A' }}</td>
+                        <td class="py-4 px-6 text-sm font-medium text-gray-900 text-center">{{ $log->user->resident_id ?? '' }}</td>
+                        <td class="py-4 px-6 text-sm text-gray-700 text-center">{{ $log->user->last_name ?? '' }}</td>
+                        <td class="py-4 px-6 text-sm text-gray-700 text-center">{{ $log->user->first_name ?? '' }}</td>
                         <td class="py-4 px-6 text-sm text-center">
                             @php
-                                $role = $log->user->role ?? $log->user->user_type ?? 'N/A';
+                                $role = $log->user->role ?? $log->user->user_type ?? '';
                                 $roleLabel = match(strtolower($role)) {
                                     'superadmin', 'super admin', 'super_admin' => 'Super Admin',
                                     'admin' => 'Admin',

@@ -311,7 +311,7 @@
         </div>
         <div class="text-left">
                     <h3 class="text-3xl font-bold text-[#1e2e3d]">{{ $user->first_name }} {{ $user->last_name }}</h3>
-                    <p class="text-gray-600 text-base font-semibold">{{ $user->resident_id ?? 'N/A' }}</p>
+                    <p class="text-gray-600 text-base font-semibold">{{ $user->resident_id ?? '' }}</p>
 
                     @php
                         $status = strtolower($user->status ?? 'pending');
@@ -358,11 +358,11 @@
         <div class="grid grid-cols-2 gap-4">
             <div>
                 <label class="block text-sm font-semibold mb-2">Middle Name</label>
-                <div class="flex items-center bg-gray-50 text-gray-700 rounded-lg h-11 text-sm font-medium px-3 border border-gray-200">{{ $user->middle_name ?? 'N/A' }}</div>
+                <div class="flex items-center bg-gray-50 text-gray-700 rounded-lg h-11 text-sm font-medium px-3 border border-gray-200">{{ $user->middle_name ?? '' }}</div>
             </div>
             <div>
                 <label class="block text-sm font-semibold mb-2">Suffix</label>
-                <div class="flex items-center bg-gray-50 text-gray-700 rounded-lg h-11 text-sm font-medium px-3 border border-gray-200">{{ $user->suffix ?? 'N/A' }}</div>
+                <div class="flex items-center bg-gray-50 text-gray-700 rounded-lg h-11 text-sm font-medium px-3 border border-gray-200">{{ $user->suffix ?? '' }}</div>
             </div>
         </div>
 

@@ -5,6 +5,27 @@
 	<link rel="stylesheet" href="{{ asset('css/modals.css') }}">
 	<link rel="stylesheet" href="{{ asset('css/form-inputs.css') }}">
 	<link rel="stylesheet" href="{{ asset('css/scrollbars.css') }}">
+	<style>
+		@media (max-width: 640px) {
+			#modalCertificate,
+			#modalClearance,
+			#modalIndigency,
+			#modalResidency,
+			#sessionSuccessModal,
+			#ajaxSuccessModal {
+				align-items: flex-start !important;
+				padding-top: 0.5rem !important;
+			}
+
+			#modalCertificate .modal-content,
+			#modalClearance .modal-content,
+			#modalIndigency .modal-content,
+			#modalResidency .modal-content {
+				transform: none !important;
+				max-height: calc(100dvh - 5rem) !important;
+			}
+		}
+	</style>
 @endpush
 
 <main id="page-content">
@@ -105,18 +126,18 @@
                 <div class="flex items-center justify-between gap-3">
                     <div>
                         <p class="text-[10px] font-semibold uppercase tracking-wider text-gray-400">Transaction ID</p>
-                        <p class="text-xs font-bold text-blue-600 truncate mt-0.5">{{ $request->tracking_number ?? 'N/A' }}</p>
+						<p class="text-xs font-bold text-blue-600 truncate mt-0.5">{{ $request->tracking_number ?? '' }}</p>
                     </div>
                     <span class="{{ $statusColor }} text-[11px] font-bold px-2.5 py-1 rounded-full whitespace-nowrap">{{ $statusDisplay }}</span>
                 </div>
 				<div class="space-y-2 text-xs pt-1">
 					<div class="flex items-start justify-between gap-3">
 						<p class="text-gray-500 uppercase tracking-wide text-[10px]">Last Name</p>
-						<p class="text-gray-700 font-medium text-right break-words max-w-[60%]">{{ Auth::check() && Auth::user() && isset(Auth::user()->last_name) ? Auth::user()->last_name : 'N/A' }}</p>
+						<p class="text-gray-700 font-medium text-right break-words max-w-[60%]">{{ Auth::check() && Auth::user() && isset(Auth::user()->last_name) ? Auth::user()->last_name : '' }}</p>
 					</div>
 					<div class="flex items-start justify-between gap-3">
 						<p class="text-gray-500 uppercase tracking-wide text-[10px]">First Name</p>
-						<p class="text-gray-700 font-medium text-right break-words max-w-[60%]">{{ Auth::check() && Auth::user() && isset(Auth::user()->first_name) ? Auth::user()->first_name : 'N/A' }}</p>
+						<p class="text-gray-700 font-medium text-right break-words max-w-[60%]">{{ Auth::check() && Auth::user() && isset(Auth::user()->first_name) ? Auth::user()->first_name : '' }}</p>
 					</div>
 					<div class="flex items-start justify-between gap-3">
 						<p class="text-gray-500 uppercase tracking-wide text-[10px]">Document Type</p>
@@ -175,9 +196,9 @@
             <tbody class="divide-y divide-gray-100">
 			@forelse($myRequests as $request)
 			<tr class="hover:bg-blue-50/70 transition-colors duration-150 ease-in-out text-center">
-				<td class="py-5 px-4 font-semibold text-blue-600 whitespace-nowrap" style="width: 12%;">{{ $request->tracking_number ?? 'N/A' }}</td>
-				<td class="py-5 px-4 text-gray-700 whitespace-nowrap" style="width: 10%;">{{ Auth::check() && Auth::user() && isset(Auth::user()->last_name) ? Auth::user()->last_name : 'N/A' }}</td>
-				<td class="py-5 px-4 text-gray-700 whitespace-nowrap" style="width: 10%;">{{ Auth::check() && Auth::user() && isset(Auth::user()->first_name) ? Auth::user()->first_name : 'N/A' }}</td>
+				<td class="py-5 px-4 font-semibold text-blue-600 whitespace-nowrap" style="width: 12%;">{{ $request->tracking_number ?? '' }}</td>
+				<td class="py-5 px-4 text-gray-700 whitespace-nowrap" style="width: 10%;">{{ Auth::check() && Auth::user() && isset(Auth::user()->last_name) ? Auth::user()->last_name : '' }}</td>
+				<td class="py-5 px-4 text-gray-700 whitespace-nowrap" style="width: 10%;">{{ Auth::check() && Auth::user() && isset(Auth::user()->first_name) ? Auth::user()->first_name : '' }}</td>
 				<td class="py-5 px-4 font-semibold text-gray-800" style="width: 18%;">
 					<div class="overflow-hidden text-ellipsis whitespace-nowrap">
 					{{ str_replace(['Certificate of Indigency', 'Certificate of Residency'], ['Indigency Clearance', 'Resident Certificate'], $request->document_type) }}

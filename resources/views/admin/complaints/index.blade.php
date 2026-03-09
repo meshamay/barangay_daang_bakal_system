@@ -216,15 +216,15 @@
                     $user = optional($complaint)->user;
                 @endphp
 				<tr class="hover:bg-blue-50/70 transition-colors duration-150 ease-in-out text-center">
-                    <td class="py-5 px-6 w-1/8 font-semibold text-gray-900">{{ optional($complaint)->transaction_no ?? 'N/A' }}</td>
-                    <td class="py-5 px-6 w-1/8 text-gray-700">{{ optional($user)->last_name ?? 'N/A' }}</td>
-                    <td class="py-5 px-6 w-1/8 text-gray-700">{{ optional($user)->first_name ?? 'N/A' }}</td>
-                    <td class="py-5 px-6 w-1/8 text-gray-600">{{ optional($complaint)->complaint_type ?? 'N/A' }}</td>
-                    <td class="py-5 px-6 w-1/8 text-gray-600 text-sm">{{ optional($complaint)->created_at ? optional($complaint)->created_at->format('d/m/Y') : 'N/A' }}</td>
+                    <td class="py-5 px-6 w-1/8 font-semibold text-gray-900">{{ optional($complaint)->transaction_no ?? '' }}</td>
+                    <td class="py-5 px-6 w-1/8 text-gray-700">{{ optional($user)->last_name ?? '' }}</td>
+                    <td class="py-5 px-6 w-1/8 text-gray-700">{{ optional($user)->first_name ?? '' }}</td>
+                    <td class="py-5 px-6 w-1/8 text-gray-600">{{ optional($complaint)->complaint_type ?? '' }}</td>
+                    <td class="py-5 px-6 w-1/8 text-gray-600 text-sm">{{ optional($complaint)->created_at ? optional($complaint)->created_at->format('d/m/Y') : '' }}</td>
                     <td class="py-5 px-6 w-1/8 text-gray-600 text-sm">{{ optional($complaint)->date_completed ? \Carbon\Carbon::parse(optional($complaint)->date_completed)->format('d/m/Y') : '—' }}</td>
                     <td class="py-5 px-6 w-1/8">
                         <span class="{{ $status_color }} text-xs font-bold px-3 py-2 rounded-full inline-block shadow-sm">
-                            {{ optional($complaint)->status ?? 'N/A' }}
+                            {{ optional($complaint)->status ?? '' }}
                         </span>
                     </td>
 				    <td class="py-5 px-6 w-1/8 text-center">
@@ -406,17 +406,17 @@
                         <div class="col-span-2"><h3 class="font-bold text-blue-600 border-b-2 border-blue-200 pb-2 mb-3">Complainant Information</h3></div>
 
                         <div><label class="font-semibold text-gray-700 block mb-1">Last Name:</label>
-                             <input value="{{ $u->last_name ?? 'N/A' }}" readonly class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50"></div>
+                             <input value="{{ $u->last_name ?? '' }}" readonly class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50"></div>
                         <div><label class="font-semibold text-gray-700 block mb-1">First Name:</label>
-                             <input value="{{ $u->first_name ?? 'N/A' }}" readonly class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50"></div>
+                             <input value="{{ $u->first_name ?? '' }}" readonly class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50"></div>
                             <div><label class="font-semibold text-gray-700 block mb-1">Middle Name:</label>
-                                <input value="{{ $u->middle_name ?? 'N/A' }}" readonly class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50"></div>
+                                <input value="{{ $u->middle_name ?? '' }}" readonly class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50"></div>
                             <div><label class="font-semibold text-gray-700 block mb-1">Suffix:</label>
-                                <input value="{{ $u->suffix ?? 'N/A' }}" readonly class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50"></div>
+                                <input value="{{ $u->suffix ?? '' }}" readonly class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50"></div>
                             <div><label class="font-semibold text-gray-700 block mb-1">Contact Number:</label>
-                             <input value="{{ $u->contact_number ?? 'N/A' }}" readonly class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50"></div>
+                             <input value="{{ $u->contact_number ?? '' }}" readonly class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50"></div>
                             <div><label class="font-semibold text-gray-700 block mb-1">House/Unit Number, Street:</label>
-                                <input value="{{ $u->address ?? 'N/A' }}" readonly class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50"></div>
+                                <input value="{{ $u->address ?? '' }}" readonly class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50"></div>
 
                         {{-- DIVIDER --}}
                         <div class="col-span-2 my-3"><div class="border-t border-gray-200"></div></div>

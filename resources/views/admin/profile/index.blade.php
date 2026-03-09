@@ -80,11 +80,11 @@
                     <div class="grid grid-cols-2 gap-4">
                         <div>
                             <label class="block text-xs font-bold text-gray-600 mb-2 uppercase tracking-wide">Middle Name</label>
-                            <div class="flex items-center bg-gradient-to-r from-gray-50 to-blue-50 text-gray-700 rounded-lg h-11 text-sm font-semibold px-4 border border-gray-200 shadow-sm">{{ $user->middle_name ?? 'N/A' }}</div>
+                            <div class="flex items-center bg-gradient-to-r from-gray-50 to-blue-50 text-gray-700 rounded-lg h-11 text-sm font-semibold px-4 border border-gray-200 shadow-sm">{{ $user->middle_name ?? '' }}</div>
                         </div>
                         <div>
                             <label class="block text-xs font-bold text-gray-600 mb-2 uppercase tracking-wide">Suffix</label>
-                            <div class="flex items-center bg-gradient-to-r from-gray-50 to-blue-50 text-gray-700 rounded-lg h-11 text-sm font-semibold px-4 border border-gray-200 shadow-sm">{{ $user->suffix ?? 'N/A' }}</div>
+                            <div class="flex items-center bg-gradient-to-r from-gray-50 to-blue-50 text-gray-700 rounded-lg h-11 text-sm font-semibold px-4 border border-gray-200 shadow-sm">{{ $user->suffix ?? '' }}</div>
                         </div>
                     </div>
 
@@ -95,7 +95,7 @@
                         </div>
                         <div>
                             <label class="block text-xs font-bold text-gray-600 mb-2 uppercase tracking-wide">Contact Number</label>
-                            <div class="flex items-center bg-gradient-to-r from-gray-50 to-blue-50 text-gray-700 rounded-lg h-11 text-sm font-semibold px-4 border border-gray-200 shadow-sm">{{ $user->contact_number ?? 'N/A' }}</div>
+                            <div class="flex items-center bg-gradient-to-r from-gray-50 to-blue-50 text-gray-700 rounded-lg h-11 text-sm font-semibold px-4 border border-gray-200 shadow-sm">{{ $user->contact_number ?? '' }}</div>
                         </div>
                     </div>
 

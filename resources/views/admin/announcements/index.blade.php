@@ -148,7 +148,7 @@
                     <tr class="hover:bg-blue-50/70 transition-colors duration-150 ease-in-out text-center">
                         <td class="py-5 px-6 w-1/5 font-semibold text-gray-900">{{ $announcement->title }}</td>
                         <td class="py-5 px-6 w-1/5 text-gray-600 text-sm">{{ $announcement->start_date->format('d/m/Y') }}</td>
-                        <td class="py-5 px-6 w-1/5 text-gray-600 text-sm">{{ $announcement->end_date ? $announcement->end_date->format('d/m/Y') : 'N/A' }}</td>
+                        <td class="py-5 px-6 w-1/5 text-gray-600 text-sm">{{ $announcement->end_date ? $announcement->end_date->format('d/m/Y') : '' }}</td>
                         <td class="py-5 px-6 w-1/5">
                             @php
                                 $displayStatus = $announcement->display_status ?? 'Ongoing';
@@ -170,7 +170,7 @@
                                         data-title="{{ $announcement->title }}"
                                         data-content="{{ $announcement->content }}"
                                         data-start="{{ $announcement->start_date->format('d/m/Y') }}"
-                                        data-end="{{ $announcement->end_date ? $announcement->end_date->format('d/m/Y') : 'N/A' }}"
+                                        data-end="{{ $announcement->end_date ? $announcement->end_date->format('d/m/Y') : '' }}"
                                         class="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-blue-50 transition-all duration-200 hover:shadow-md">
                                         <svg class="w-6 h-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />

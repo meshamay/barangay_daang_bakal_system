@@ -96,7 +96,7 @@
 			<tbody class="divide-y divide-gray-100">
 				@forelse($staff as $member)
 				<tr class="hover:bg-blue-50/70 transition-colors duration-150 ease-in-out text-center">
-                    <td class="py-5 px-6 font-semibold text-gray-900" style="font-family: 'Poppins', sans-serif;">{{ $member->resident_id ?? 'N/A' }}</td>
+                    <td class="py-5 px-6 font-semibold text-gray-900" style="font-family: 'Poppins', sans-serif;">{{ $member->resident_id ?? '' }}</td>
                     <td class="py-5 px-6 text-gray-700" style="font-family: 'Poppins', sans-serif;">{{ $member->last_name }}</td>
                     <td class="py-5 px-6 text-gray-700" style="font-family: 'Poppins', sans-serif;">{{ $member->first_name }}</td>
                     <td class="py-5 px-6 text-gray-600" style="font-family: 'Poppins', sans-serif;">

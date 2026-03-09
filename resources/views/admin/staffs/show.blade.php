@@ -15,11 +15,11 @@
       </div>
       <div>
         <label class="block text-sm font-medium text-gray-700" style="font-family: 'Poppins', sans-serif;">Middle Name</label>
-        <p class="mt-1 text-sm text-gray-900" style="font-family: 'Poppins', sans-serif; font-size: 1rem;">{{ $staff->middle_name ?: 'N/A' }}</p>
+        <p class="mt-1 text-sm text-gray-900" style="font-family: 'Poppins', sans-serif; font-size: 1rem;">{{ $staff->middle_name ?: '' }}</p>
       </div>
       <div>
         <label class="block text-sm font-medium text-gray-700" style="font-family: 'Poppins', sans-serif;">Suffix</label>
-        <p class="mt-1 text-sm text-gray-900" style="font-family: 'Poppins', sans-serif; font-size: 1rem;">{{ $staff->suffix ?: 'N/A' }}</p>
+        <p class="mt-1 text-sm text-gray-900" style="font-family: 'Poppins', sans-serif; font-size: 1rem;">{{ $staff->suffix ?: '' }}</p>
       </div>
       <div>
         <label class="block text-sm font-medium text-gray-700" style="font-family: 'Poppins', sans-serif;">Username</label>

@@ -167,7 +167,7 @@
         </div>
         <div class="text-left">
           <h3 class="text-3xl font-bold text-[#1e2e3d]">{{ $user->first_name }} {{ $user->last_name }}</h3>
-          <p class="text-gray-600 text-base font-semibold">{{ $user->resident_id ?? 'N/A' }}</p>
+          <p class="text-gray-600 text-base font-semibold">{{ $user->resident_id ?? '' }}</p>
 
           @php
             $status = strtolower($user->status ?? 'pending');

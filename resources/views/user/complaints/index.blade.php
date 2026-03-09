@@ -92,7 +92,7 @@
           <div class="flex items-center justify-between gap-3">
             <div>
               <p class="text-[10px] font-semibold uppercase tracking-wider text-gray-400">Transaction ID</p>
-              <p class="text-xs font-bold text-red-500 truncate mt-0.5">{{ is_object($complaint) && isset($complaint->transaction_no) ? $complaint->transaction_no : 'N/A' }}</p>
+              <p class="text-xs font-bold text-red-500 truncate mt-0.5">{{ is_object($complaint) && isset($complaint->transaction_no) ? $complaint->transaction_no : '' }}</p>
             </div>
             <span class="{{ $statusColor }} text-[11px] font-bold px-2.5 py-1 rounded-full whitespace-nowrap">{{ $statusDisplay }}</span>
           </div>
@@ -100,19 +100,19 @@
           <div class="space-y-2 text-xs pt-1">
             <div class="flex items-start justify-between gap-3">
               <p class="text-gray-500 uppercase tracking-wide text-[10px]">Last Name</p>
-              <p class="text-gray-700 font-medium text-right break-words max-w-[60%]">{{ Auth::check() && Auth::user() && isset(Auth::user()->last_name) ? Auth::user()->last_name : 'N/A' }}</p>
+              <p class="text-gray-700 font-medium text-right break-words max-w-[60%]">{{ Auth::check() && Auth::user() && isset(Auth::user()->last_name) ? Auth::user()->last_name : '' }}</p>
             </div>
             <div class="flex items-start justify-between gap-3">
               <p class="text-gray-500 uppercase tracking-wide text-[10px]">First Name</p>
-              <p class="text-gray-700 font-medium text-right break-words max-w-[60%]">{{ Auth::check() && Auth::user() && isset(Auth::user()->first_name) ? Auth::user()->first_name : 'N/A' }}</p>
+              <p class="text-gray-700 font-medium text-right break-words max-w-[60%]">{{ Auth::check() && Auth::user() && isset(Auth::user()->first_name) ? Auth::user()->first_name : '' }}</p>
             </div>
             <div class="flex items-start justify-between gap-3">
               <p class="text-gray-500 uppercase tracking-wide text-[10px]">Complaint Type</p>
-              <p class="text-gray-800 font-semibold text-right break-words max-w-[60%]">{{ is_object($complaint) && isset($complaint->complaint_type) ? $complaint->complaint_type : 'N/A' }}</p>
+              <p class="text-gray-800 font-semibold text-right break-words max-w-[60%]">{{ is_object($complaint) && isset($complaint->complaint_type) ? $complaint->complaint_type : '' }}</p>
             </div>
             <div class="flex items-start justify-between gap-3">
               <p class="text-gray-500 uppercase tracking-wide text-[10px]">Date Filed</p>
-              <p class="text-gray-700 text-right">{{ is_object($complaint) && isset($complaint->created_at) && $complaint->created_at ? \Carbon\Carbon::parse($complaint->created_at)->format('d/m/Y') : 'N/A' }}</p>
+              <p class="text-gray-700 text-right">{{ is_object($complaint) && isset($complaint->created_at) && $complaint->created_at ? \Carbon\Carbon::parse($complaint->created_at)->format('d/m/Y') : '' }}</p>
             </div>
             <div class="flex items-start justify-between gap-3">
               <p class="text-gray-500 uppercase tracking-wide text-[10px]">Date Resolved</p>
@@ -156,21 +156,21 @@
             @forelse ($complaints ?? [] as $complaint)
             <tr class="hover:bg-blue-50/70 transition-colors duration-150 ease-in-out text-center">
               <td class="py-5 px-4 font-semibold text-red-500 whitespace-nowrap" style="width: 12%;">
-                {{ is_object($complaint) && isset($complaint->transaction_no) ? $complaint->transaction_no : 'N/A' }}
+                {{ is_object($complaint) && isset($complaint->transaction_no) ? $complaint->transaction_no : '' }}
               </td>
               <td class="py-5 px-4 text-gray-700 whitespace-nowrap" style="width: 10%;">
-                {{ Auth::check() && Auth::user() && isset(Auth::user()->last_name) ? Auth::user()->last_name : 'N/A' }}
+                {{ Auth::check() && Auth::user() && isset(Auth::user()->last_name) ? Auth::user()->last_name : '' }}
               </td>
               <td class="py-5 px-4 text-gray-700 whitespace-nowrap" style="width: 10%;">
-                {{ Auth::check() && Auth::user() && isset(Auth::user()->first_name) ? Auth::user()->first_name : 'N/A' }}
+                {{ Auth::check() && Auth::user() && isset(Auth::user()->first_name) ? Auth::user()->first_name : '' }}
               </td>
               <td class="py-5 px-4 font-semibold text-gray-800" style="width: 18%;">
                   <div class="overflow-hidden text-ellipsis whitespace-nowrap">
-                      {{ is_object($complaint) && isset($complaint->complaint_type) ? $complaint->complaint_type : 'N/A' }}
+                      {{ is_object($complaint) && isset($complaint->complaint_type) ? $complaint->complaint_type : '' }}
                   </div>
               </td>
               <td class="py-5 px-4 text-gray-600 text-sm whitespace-nowrap" style="width: 12%;">
-                {{ is_object($complaint) && isset($complaint->created_at) && $complaint->created_at ? \Carbon\Carbon::parse($complaint->created_at)->format('d/m/Y') : 'N/A' }}
+                {{ is_object($complaint) && isset($complaint->created_at) && $complaint->created_at ? \Carbon\Carbon::parse($complaint->created_at)->format('d/m/Y') : '' }}
               </td>
               <td class="py-5 px-4 text-gray-600 text-sm whitespace-nowrap" style="width: 12%;">
                 {{ is_object($complaint) && isset($complaint->date_completed) && $complaint->date_completed ? \Carbon\Carbon::parse($complaint->date_completed)->format('d/m/Y') : '—' }}

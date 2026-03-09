@@ -143,8 +143,8 @@
 				@forelse($documentRequests as $request)
 				<tr class="hover:bg-blue-50/70 transition-colors duration-150 ease-in-out text-center">
 					<td class="py-5 px-6 w-1/7 font-semibold text-gray-900">{{ $request->tracking_number ?? $request->id }}</td>
-					<td class="py-5 px-6 w-1/7 text-gray-700">{{ $request->resident->last_name ?? 'N/A' }}</td>
-					<td class="py-5 px-6 w-1/7 text-gray-700">{{ $request->resident->first_name ?? 'N/A' }}</td>
+					<td class="py-5 px-6 w-1/7 text-gray-700">{{ $request->resident->last_name ?? '' }}</td>
+					<td class="py-5 px-6 w-1/7 text-gray-700">{{ $request->resident->first_name ?? '' }}</td>
 					@if(strpos($request->document_type, 'Indigency') !== false)
 					<td class="py-5 px-6 w-1/7 text-gray-600">Indigency Clearance</td>
 				@elseif(strpos($request->document_type, 'Residency') !== false || strpos($request->document_type, 'Resident') !== false)
@@ -189,13 +189,13 @@
 								// 2. Extract Specific Data from Relationships
 								// Initialize variables
 								// We prioritize the parent column for common fields
-								$lengthOfResidency = $request->length_of_residency ?? 'N/A';
-								$validIdNumber = $request->valid_id_number ?? 'N/A'; // NEW field from parent table
-								$registeredVoter = $request->registered_voter ?? 'N/A'; // NEW field from parent table
+								$lengthOfResidency = $request->length_of_residency ?? '';
+								$validIdNumber = $request->valid_id_number ?? ''; // NEW field from parent table
+								$registeredVoter = $request->registered_voter ?? ''; // NEW field from parent table
 								
 								// Fallback logic for old child fields (if needed)
-								$voter = 'N/A';
-								$validIdNo = 'N/A'; 
+								$voter = '';
+								$validIdNo = ''; 
 
 								// LOGIC FOR CERTIFICATE / CLEARANCE
 								if (in_array($request->document_type, ['Barangay Certificate', 'Barangay Clearance'])) {
@@ -210,11 +210,11 @@
 								} 
 								// LOGIC FOR INDIGENCY
 								elseif (in_array($request->document_type, ['Certificate of Indigency', 'Barangay Indigency']) && $request->indigencyData) {
-									$lengthOfResidency = $request->length_of_residency ?? $request->indigencyData->resident_years ?? 'N/A';
+									$lengthOfResidency = $request->length_of_residency ?? $request->indigencyData->resident_years ?? '';
 								}
 								// LOGIC FOR RESIDENCY
 								elseif (in_array($request->document_type, ['Certificate of Residency', 'Barangay Residency']) && $request->residencyData) {
-									$lengthOfResidency = $request->length_of_residency ?? $request->residencyData->resident_years ?? 'N/A';
+									$lengthOfResidency = $request->length_of_residency ?? $request->residencyData->resident_years ?? '';
 								}
 							@endphp
 							
@@ -391,10 +391,10 @@
 					</div>
 				</div>
 				<div class="col-span-2 my-4"><div class="border-t border-gray-200"></div></div>
-				   <div><label class="font-semibold text-gray-700 block mb-1">Length of Residency:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->length_of_residency ?? 'N/A' }}" disabled></div>
-				   <div><label class="font-semibold text-gray-700 block mb-1">Valid ID Number:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->valid_id_number ?? 'N/A' }}" disabled></div>
-				   <div><label class="font-semibold text-gray-700 block mb-1">Registered Voter:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->registered_voter ?? 'N/A' }}" disabled></div>
-				   <div><label class="font-semibold text-gray-700 block mb-1">Purpose of Request:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->purpose ?? 'N/A' }}" disabled></div>
+				   <div><label class="font-semibold text-gray-700 block mb-1">Length of Residency:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->length_of_residency ?? '' }}" disabled></div>
+				   <div><label class="font-semibold text-gray-700 block mb-1">Valid ID Number:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->valid_id_number ?? '' }}" disabled></div>
+				   <div><label class="font-semibold text-gray-700 block mb-1">Registered Voter:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->registered_voter ?? '' }}" disabled></div>
+				   <div><label class="font-semibold text-gray-700 block mb-1">Purpose of Request:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->purpose ?? '' }}" disabled></div>
 			</form>
 			<div class="flex justify-end mt-6"><button onclick="closeModal('modalCertificate')" class="px-6 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-sm font-semibold transition-all duration-200 border border-gray-300 hover:shadow-md">Close</button></div>
 		</div>
@@ -480,10 +480,10 @@
 					</div>
 				</div>
 			<div class="col-span-2 my-4"><div class="border-t border-gray-200"></div></div>
-				   <div><label class="font-semibold text-gray-700 block mb-1">Length of Residency:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->length_of_residency ?? 'N/A' }}" disabled></div>
-				   <div><label class="font-semibold text-gray-700 block mb-1">Valid ID Number:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->valid_id_number ?? 'N/A' }}" disabled></div>
-				   <div><label class="font-semibold text-gray-700 block mb-1">Registered Voter:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->registered_voter ?? 'N/A' }}" disabled></div>
-				   <div><label class="font-semibold text-gray-700 block mb-1">Purpose of Request:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->purpose ?? 'N/A' }}" disabled></div>
+				   <div><label class="font-semibold text-gray-700 block mb-1">Length of Residency:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->length_of_residency ?? '' }}" disabled></div>
+				   <div><label class="font-semibold text-gray-700 block mb-1">Valid ID Number:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->valid_id_number ?? '' }}" disabled></div>
+				   <div><label class="font-semibold text-gray-700 block mb-1">Registered Voter:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->registered_voter ?? '' }}" disabled></div>
+				   <div><label class="font-semibold text-gray-700 block mb-1">Purpose of Request:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->purpose ?? '' }}" disabled></div>
 			</form>
 			<div class="flex justify-end mt-6"><button onclick="closeModal('modalResidency')" class="px-6 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-sm font-semibold transition-all duration-200 border border-gray-300 hover:shadow-md">Close</button></div>
 		</div>
