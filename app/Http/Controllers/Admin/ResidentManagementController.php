@@ -77,7 +77,14 @@ class ResidentManagementController extends Controller
         }
 
         if ($request->has('status') && $request->filled('status')) {
-            $query->whereRaw('LOWER(status) = ?', [strtolower($request->status)]);
+            $statusFilter = strtolower(trim($request->status));
+
+            if ($statusFilter === 'archived') {
+                $query->onlyTrashed();
+            } else {
+                $query->whereNull('deleted_at')
+                    ->whereRaw('LOWER(status) = ?', [$statusFilter]);
+            }
         }
 
 

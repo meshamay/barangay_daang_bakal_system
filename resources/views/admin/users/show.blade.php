@@ -474,14 +474,19 @@
       </div>
 
             <div class="flex justify-end gap-3 pb-3 mr-6 mt-1">
+                @php
+                    $isRejected = in_array($status, ['reject', 'rejected']);
+                @endphp
                  <a href="{{ route('admin.users.index') }}"
                      class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold px-6 py-2.5 rounded-xl transition-all duration-200 text-sm flex items-center border border-gray-300 hover:shadow-md">
                      Close
                 </a>
+                @if(!$isArchived && !$isRejected)
                 <a href="{{ route('admin.users.edit', $user->id) }}"
                      class="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold px-6 py-2.5 rounded-xl transition-all duration-200 text-sm flex items-center gap-2 hover:shadow-lg transform hover:scale-105">
                      <i data-lucide="edit" class="w-4 h-4"></i> Edit Information
                 </a>
+                @endif
             </div>
     </section>
 </main>

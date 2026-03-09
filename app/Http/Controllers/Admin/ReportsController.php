@@ -56,16 +56,24 @@ class ReportsController extends Controller
             'archivedAccounts' => User::whereIn('role', ['user', 'resident'])->onlyTrashed()->count(),
         ];
 
-        // Population by Gender (filtered by year and month - residents only)
+                // Population by Gender (filtered by year and month - approved, active residents only)
         $populationByGender = [
-            'male' => User::whereIn('role', ['user', 'resident'])
-                        ->where('status', 'approved')
-                        ->whereRaw('LOWER(gender) = ?', ['male'])
+                        'male' => User::where(function ($q) {
+                                                        $q->whereIn('role', ['user', 'resident'])
+                                                            ->orWhereRaw('LOWER(COALESCE(user_type, "")) = ?', ['resident']);
+                                                })
+                                                ->whereRaw('LOWER(COALESCE(status, "")) = ?', ['approved'])
+                                                ->whereNull('deleted_at')
+                                                ->whereRaw('LOWER(TRIM(COALESCE(gender, ""))) = ?', ['male'])
                         ->whereBetween('created_at', [$startOfMonth, $endOfMonth])
                         ->count(),
-            'female' => User::whereIn('role', ['user', 'resident'])
-                        ->where('status', 'approved')
-                        ->whereRaw('LOWER(gender) = ?', ['female'])
+                        'female' => User::where(function ($q) {
+                                                        $q->whereIn('role', ['user', 'resident'])
+                                                            ->orWhereRaw('LOWER(COALESCE(user_type, "")) = ?', ['resident']);
+                                                })
+                                                ->whereRaw('LOWER(COALESCE(status, "")) = ?', ['approved'])
+                                                ->whereNull('deleted_at')
+                                                ->whereRaw('LOWER(TRIM(COALESCE(gender, ""))) = ?', ['female'])
                         ->whereBetween('created_at', [$startOfMonth, $endOfMonth])
                         ->count(),
         ];
@@ -178,8 +186,24 @@ class ReportsController extends Controller
         // Only load data for selected sections
         if (in_array('population_gender', $sections)) {
             $data['populationByGender'] = [
-                'male' => User::where('gender', 'Male')->count(),
-                'female' => User::where('gender', 'Female')->count(),
+                                'male' => User::where(function ($q) {
+                                                                $q->whereIn('role', ['user', 'resident'])
+                                                                    ->orWhereRaw('LOWER(COALESCE(user_type, "")) = ?', ['resident']);
+                                                        })
+                                                        ->whereRaw('LOWER(COALESCE(status, "")) = ?', ['approved'])
+                                                        ->whereNull('deleted_at')
+                                                        ->whereRaw('LOWER(TRIM(COALESCE(gender, ""))) = ?', ['male'])
+                                                        ->whereBetween('created_at', [$startOfMonth, $endOfMonth])
+                                                        ->count(),
+                                'female' => User::where(function ($q) {
+                                                                $q->whereIn('role', ['user', 'resident'])
+                                                                    ->orWhereRaw('LOWER(COALESCE(user_type, "")) = ?', ['resident']);
+                                                        })
+                                                        ->whereRaw('LOWER(COALESCE(status, "")) = ?', ['approved'])
+                                                        ->whereNull('deleted_at')
+                                                        ->whereRaw('LOWER(TRIM(COALESCE(gender, ""))) = ?', ['female'])
+                                                        ->whereBetween('created_at', [$startOfMonth, $endOfMonth])
+                                                        ->count(),
             ];
         }
 
@@ -286,9 +310,10 @@ class ReportsController extends Controller
         }
 
         if (in_array('requests_complaints', $data['sections'])) {
-            $row = $this->writeSectionTableWithoutTitle(
+            $row = $this->writeSectionTable(
                 $dataSheet,
                 $row,
+                'Total Requests and Complaints',
                 ['Service Type', 'Count'],
                 [
                     ['Document Requests', $data['requestsComplaints']['documents'] ?? 0],
