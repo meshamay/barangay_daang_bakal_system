@@ -276,15 +276,27 @@
     <section class="w-1/2 flex flex-col pr-4">
       <div class="bg-white rounded-2xl shadow-lg p-6 mb-6 border border-gray-100">
       @php
-        $rawPhotoPath = $user->photo_path;
-        $normalizedPhotoPath = $rawPhotoPath
-            ? preg_replace('#^(public/|storage/)#', '', ltrim($rawPhotoPath, '/'))
-            : null;
-        $photoUrl = $normalizedPhotoPath
-            ? (preg_match('#^https?://#', $normalizedPhotoPath)
-                ? $normalizedPhotoPath
-                : asset('storage/' . $normalizedPhotoPath))
-            : 'https://ui-avatars.com/api/?name=' . urlencode($user->first_name . ' ' . $user->last_name);
+        $resolveMediaUrl = function ($path) {
+            if (!$path) {
+                return null;
+            }
+
+            if (preg_match('#^https?://#', $path)) {
+                return $path;
+            }
+
+            $normalized = ltrim($path, '/');
+            $normalized = preg_replace('#^(public/)?storage/#', '', $normalized);
+
+            return asset('storage/' . $normalized);
+        };
+
+        $photoUrl = $resolveMediaUrl($user->photo_path)
+            ?? ('https://ui-avatars.com/api/?name=' . urlencode($user->first_name . ' ' . $user->last_name));
+        $idFrontUrl = $resolveMediaUrl($user->id_front_path)
+            ?? 'https://cdn-icons-png.flaticon.com/512/685/685655.png';
+        $idBackUrl = $resolveMediaUrl($user->id_back_path)
+            ?? 'https://cdn-icons-png.flaticon.com/512/685/685655.png';
       @endphp
       <div class="flex items-center gap-6 mb-4">
         <div class="w-40 h-36 border-4 border-blue-200 rounded-2xl flex items-center justify-center relative overflow-hidden bg-white shadow-md">
@@ -399,12 +411,12 @@
             <div class="flex gap-5">
                 <div class="w-1/2">
                     <div class="w-full h-36 border-2 border-blue-200 rounded-xl flex items-center justify-center overflow-hidden bg-white shadow-sm">
-                        <img src="{{ $user->id_front_path ? asset('storage/' . $user->id_front_path) : '' }}" alt="Valid ID Front" class="w-full h-full object-cover">
+                        <img src="{{ $idFrontUrl }}" alt="Valid ID Front" class="w-full h-full object-cover">
                     </div>
                 </div>
                 <div class="w-1/2">
                     <div class="w-full h-36 border-2 border-blue-200 rounded-xl flex items-center justify-center overflow-hidden bg-white shadow-sm">
-                        <img src="{{ $user->id_back_path ? asset('storage/' . $user->id_back_path) : '' }}" alt="Valid ID Back" class="w-full h-full object-cover">
+                        <img src="{{ $idBackUrl }}" alt="Valid ID Back" class="w-full h-full object-cover">
                     </div>
                 </div>
             </div>
