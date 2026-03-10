@@ -72,19 +72,20 @@ class RegisterController extends Controller
             ], 422);
         }
 
+
         $photoPath = null;
         $idFrontPath = null;
         $idBackPath = null;
 
         try {
             if ($request->hasFile('photo')) {
-                $photoPath = $request->file('photo')->store('uploads/profile_photos', 's3');
+                $photoPath = $request->file('photo')->store('uploads/profile_photos', 'public');
             }
             if ($request->hasFile('id_front')) {
-                $idFrontPath = $request->file('id_front')->store('uploads/ids', 's3');
+                $idFrontPath = $request->file('id_front')->store('uploads/ids', 'public');
             }
             if ($request->hasFile('id_back')) {
-                $idBackPath = $request->file('id_back')->store('uploads/ids', 's3');
+                $idBackPath = $request->file('id_back')->store('uploads/ids', 'public');
             }
 
            
