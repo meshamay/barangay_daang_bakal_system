@@ -286,26 +286,12 @@
             }
 
             $normalized = ltrim(trim($path), '/');
+            $normalized = preg_replace('#^public/storage/#', '', $normalized);
+            $normalized = preg_replace('#^storage/#', '', $normalized);
+            $normalized = preg_replace('#^public/#', '', $normalized);
 
-            $candidates = array_values(array_unique(array_filter([
-                $normalized,
-                preg_replace('#^public/storage/#', '', $normalized),
-                preg_replace('#^storage/#', '', $normalized),
-                preg_replace('#^public/#', '', $normalized),
-            ])));
-
-            foreach ($candidates as $candidate) {
-                if ($candidate && \Illuminate\Support\Facades\Storage::disk('public')->exists($candidate)) {
-                    $publicDiskUrl = rtrim((string) config('filesystems.disks.public.url', asset('storage')), '/');
-                    return $publicDiskUrl . '/' . ltrim($candidate, '/');
-                }
-            }
-
-            if (file_exists(public_path($normalized))) {
-                return asset($normalized);
-            }
-
-            return asset('storage/' . ltrim($candidates[0] ?? $normalized, '/'));
+            $publicDiskUrl = rtrim((string) config('filesystems.disks.public.url', asset('storage')), '/');
+            return $publicDiskUrl . '/' . ltrim($normalized, '/');
         };
 
         $photoUrl = $resolveMediaUrl($user->photo_path)

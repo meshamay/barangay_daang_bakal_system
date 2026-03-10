@@ -36,12 +36,13 @@
       return $path;
     }
 
-    $normalized = ltrim($path, '/');
-    if (str_starts_with($normalized, 'storage/')) {
-      $normalized = substr($normalized, 8);
-    }
+    $normalized = ltrim(trim($path), '/');
+    $normalized = preg_replace('#^public/storage/#', '', $normalized);
+    $normalized = preg_replace('#^storage/#', '', $normalized);
+    $normalized = preg_replace('#^public/#', '', $normalized);
 
-    return asset('storage/' . $normalized);
+    $publicDiskUrl = rtrim((string) config('filesystems.disks.public.url', asset('storage')), '/');
+    return $publicDiskUrl . '/' . ltrim($normalized, '/');
   };
 
   $profilePhotoUrl = $resolveMediaUrl($user->photo_path);
