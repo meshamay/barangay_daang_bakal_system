@@ -78,13 +78,13 @@ class RegisterController extends Controller
 
         try {
             if ($request->hasFile('photo')) {
-                $photoPath = $request->file('photo')->store('uploads/profile_photos', 'public');
+                $photoPath = $request->file('photo')->store('uploads/profile_photos', 's3');
             }
             if ($request->hasFile('id_front')) {
-                $idFrontPath = $request->file('id_front')->store('uploads/ids', 'public');
+                $idFrontPath = $request->file('id_front')->store('uploads/ids', 's3');
             }
             if ($request->hasFile('id_back')) {
-                $idBackPath = $request->file('id_back')->store('uploads/ids', 'public');
+                $idBackPath = $request->file('id_back')->store('uploads/ids', 's3');
             }
 
            

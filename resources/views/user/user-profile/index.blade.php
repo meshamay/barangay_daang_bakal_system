@@ -41,8 +41,7 @@
     $normalized = preg_replace('#^storage/#', '', $normalized);
     $normalized = preg_replace('#^public/#', '', $normalized);
 
-    $publicDiskUrl = rtrim((string) config('filesystems.disks.public.url', asset('storage')), '/');
-    return $publicDiskUrl . '/' . ltrim($normalized, '/');
+    return \Illuminate\Support\Facades\Storage::url($normalized);
   };
 
   $profilePhotoUrl = $resolveMediaUrl($user->photo_path);

@@ -286,13 +286,11 @@
             }
 
             $normalized = ltrim(trim($path), '/');
-            $normalized = str_replace('\\\\', '/', $normalized);
-            $normalized = preg_replace('#^app/public/#', '', $normalized);
             $normalized = preg_replace('#^public/storage/#', '', $normalized);
             $normalized = preg_replace('#^storage/#', '', $normalized);
             $normalized = preg_replace('#^public/#', '', $normalized);
 
-            return route('media.show', ['path' => ltrim($normalized, '/')]);
+            return \Illuminate\Support\Facades\Storage::url($normalized);
         };
 
         $photoUrl = $resolveMediaUrl($user->photo_path)
