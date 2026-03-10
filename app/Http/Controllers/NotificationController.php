@@ -11,9 +11,12 @@ class NotificationController extends Controller
     {
         // Try admin guard first, then web guard
         $user = Auth::guard('admin')->user() ?? Auth::guard('web')->user();
-        
+        // If not authenticated and expects JSON, return 401
         if (!$user) {
-            return response()->json(['error' => 'Unauthenticated'], 401);
+            if (request()->expectsJson() || request()->header('Accept') === 'application/json') {
+                return response()->json(['error' => 'Unauthenticated'], 401);
+            }
+            return redirect()->route('login');
         }
 
         return response()->json([
