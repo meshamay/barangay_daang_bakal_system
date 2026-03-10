@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\TwoFactorController;
 use App\Models\Announcement;
 use App\Models\BarangayOfficials;
 use App\Models\DocumentRequest;
@@ -131,6 +132,13 @@ Route::middleware(['auth'])->group(function () {
     // 🚀 CRITICAL FIX: NEW NOTIFICATION API ENDPOINTS
     Route::get('/api/notifications', [NotificationController::class, 'index'])->name('api.notifications.index');
     Route::patch('/api/notifications/{id}', [NotificationController::class, 'markAsRead'])->name('api.notifications.markAsRead');
+});
+
+// 2FA routes
+Route::middleware(['auth'])->group(function () {
+    Route::get('/2fa', [TwoFactorController::class, 'showVerifyForm'])->name('2fa.form');
+    Route::post('/2fa/send', [TwoFactorController::class, 'sendCode'])->name('2fa.send');
+    Route::post('/2fa/verify', [TwoFactorController::class, 'verify'])->name('2fa.verify');
 });
 
 // ========================================================================
