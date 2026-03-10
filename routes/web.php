@@ -23,6 +23,7 @@ use App\Http\Controllers\Admin\ComplaintController as AdminComplaintController;
 use App\Http\Controllers\Admin\StaffController;
 use App\Http\Controllers\Admin\BrgyOfficialsController;
 use App\Http\Controllers\Admin\AdminProfileController;
+use App\Http\Controllers\MediaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -66,6 +67,13 @@ Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->na
 Route::post('/register/step1', [RegisterController::class, 'processStep1'])->name('register.step1.submit');
 Route::get('/register/back', [RegisterController::class, 'backToStep1'])->name('register.back');
 Route::post('/register/submit', [RegisterController::class, 'register'])->name('register.submit');
+
+// ========================================================================
+// MEDIA FALLBACK (SERVE UPLOADED FILES WITHOUT STORAGE SYMLINK DEPENDENCY)
+// ========================================================================
+Route::get('/media/{path}', [MediaController::class, 'show'])
+    ->where('path', '.*')
+    ->name('media.show');
 
 // ========================================================================
 // 4. RESIDENT ROUTES (Logged-in Users)

@@ -37,12 +37,13 @@
     }
 
     $normalized = ltrim(trim($path), '/');
+    $normalized = str_replace('\\', '/', $normalized);
+    $normalized = preg_replace('#^app/public/#', '', $normalized);
     $normalized = preg_replace('#^public/storage/#', '', $normalized);
     $normalized = preg_replace('#^storage/#', '', $normalized);
     $normalized = preg_replace('#^public/#', '', $normalized);
 
-    $publicDiskUrl = rtrim((string) config('filesystems.disks.public.url', asset('storage')), '/');
-    return $publicDiskUrl . '/' . ltrim($normalized, '/');
+    return route('media.show', ['path' => ltrim($normalized, '/')]);
   };
 
   $profilePhotoUrl = $resolveMediaUrl($user->photo_path);
