@@ -79,7 +79,7 @@
                                         'bg-amber-500/10 text-amber-600' => strtolower($activity->status) == 'pending',
                                         'bg-green-500/10 text-green-600' => strtolower($activity->status) == 'completed',
                                         'bg-red-500/10 text-red-600' => strtolower($activity->status) == 'rejected',
-                                        'bg-blue-100 text-blue-800 text-xs font-bold px-3 py-2 rounded-full inline-block whitespace-nowrap shadow-sm' => strtolower($activity->status) == 'in progress',
+                                        'bg-blue-100 text-blue-800' => strtolower($activity->status) == 'in progress',
                                     ])>
                                         {{ ucwords($activity->status) }}
                                     </span>
@@ -107,10 +107,10 @@
                                         'inline-flex items-center px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-xs font-bold flex-shrink-0',
                                         // Pending Status
                                         'bg-amber-500/10 text-amber-600' => $activity->status === 'Pending',
-                                            // Completed Status
+                                        // Completed Status
                                         'bg-green-500/10 text-green-600' => $activity->status === 'Completed',
                                         // In Progress (blue) using same shade as document request badge
-                                        'bg-blue-100 text-blue-800 text-xs font-bold px-3 py-2 rounded-full inline-block whitespace-nowrap shadow-sm' => $activity->status === 'In Progress',
+                                        'bg-blue-100 text-blue-800' => $activity->status === 'In Progress',
                                         // Fallback/Default
                                         'bg-gray-500/10 text-gray-600' => !in_array($activity->status, ['Pending', 'In Progress', 'Completed']),
                                     ])>

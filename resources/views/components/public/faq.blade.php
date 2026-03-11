@@ -19,7 +19,7 @@
 
     <!-- Chat Box (modal above the icon) -->
     <div id="chat-box"
-        class="hidden absolute bottom-16 md:bottom-20 right-0 w-[95vw] sm:w-[360px] md:w-[400px] lg:w-[420px] max-w-[95vw] bg-white rounded-2xl md:rounded-3xl shadow-2xl border border-slate-200 flex flex-col backdrop-blur-sm h-[70vh] md:h-[500px] max-h-[75vh] overflow-hidden z-50"
+        class="hidden absolute bottom-16 md:bottom-20 right-0 w-[95vw] sm:w-[360px] md:w-[400px] lg:w-[420px] max-w-[95vw] bg-white rounded-2xl md:rounded-3xl shadow-2xl border border-slate-200 flex flex-col backdrop-blur-sm h-[78vh] md:h-[560px] max-h-[85vh] overflow-hidden z-50"
 
         <!-- Header -->
         <div class="bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 p-4 flex justify-between items-center relative overflow-hidden sticky top-0 z-20 rounded-t-2xl md:rounded-t-3xl">

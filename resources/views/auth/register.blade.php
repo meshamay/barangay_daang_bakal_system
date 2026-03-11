@@ -242,7 +242,7 @@
             </div>
 
             <div class="p-6 sm:p-8 text-center">
-                <p class="text-xs sm:text-sm text-gray-700 leading-relaxed mb-2 sm:mb-3">
+                <p class="text-[14px] text-gray-700 leading-relaxed mb-2 sm:mb-3">
                     Please wait for the admins approval before you can access your account.
                 </p>
 
