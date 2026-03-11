@@ -2,7 +2,7 @@
 
     <!-- Chat Box -->
     <div id="chat-box"
-        class="hidden w-full max-w-md md:w-96 bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col h-[90vh] md:h-[550px] backdrop-blur-sm">
+        class="hidden fixed left-0 right-0 top-4 bottom-4 md:static w-full max-w-[420px] mx-auto my-4 bg-white rounded-2xl md:rounded-3xl shadow-2xl border border-slate-200 flex flex-col justify-between backdrop-blur-sm overflow-y-auto"
 
         <!-- Header -->
         <div class="bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 p-4 flex justify-between items-center relative overflow-hidden">
@@ -52,10 +52,8 @@
         <!-- Input Area -->
         <div class="p-3 bg-white border-t border-slate-200">
             <div class="w-full flex items-end gap-2">
-                <input type="text" id="user-input" placeholder="Type your message..."
-                    class="flex-1 h-11 md:h-12 bg-slate-50 border border-slate-200 rounded-2xl pl-3 pr-3 text-xs md:text-sm focus:ring-2 focus:ring-[#0052CC] focus:border-[#0052CC] outline-none text-slate-800 transition-all duration-200 hover:bg-slate-100">
-                <button onclick="window.sendMessage()"
-                    class="bg-[#2563eb] text-white rounded-xl hover:shadow-lg hover:scale-105 transition-all duration-200 cursor-pointer flex items-center justify-center h-9 w-9 md:h-10 md:w-10 mb-1">
+                <input type="text" id="user-input" placeholder="Type your message..." class="flex-1 h-10 md:h-12 bg-slate-50 border border-slate-200 rounded-2xl pl-2 md:pl-3 pr-2 md:pr-3 text-sm md:text-base focus:ring-2 focus:ring-[#0052CC] focus:border-[#0052CC] outline-none text-slate-800 transition-all duration-200 hover:bg-slate-100">
+                <button onclick="window.sendMessage()" class="bg-[#2563eb] text-white rounded-xl hover:shadow-lg hover:scale-105 transition-all duration-200 cursor-pointer flex items-center justify-center h-8 w-8 md:h-10 md:w-10 mb-1">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
                         <path d="M3.478 2.405a.75.75 0 00-.926.94l2.432 7.905H13.5a.75.75 0 010 1.5H4.984l-2.432 7.905a.75.75 0 00.926.94 60.519 60.519 0 0018.445-8.986.75.75 0 000-1.218A60.517 60.517 0 003.478 2.405z" />
                     </svg>
@@ -64,7 +62,7 @@
         </div>
 
         <!-- Question List -->
-        <div id="question-list" class="p-3 bg-gradient-to-b from-white to-slate-50 max-h-40 overflow-y-auto border-t border-slate-200 space-y-2"></div>
+        <div id="question-list" class="p-3 bg-gradient-to-b from-white to-slate-50 max-h-40 overflow-y-auto border-t border-slate-200 space-y-2 w-full"></div>
     </div>
 
     <!-- Chat Button -->
