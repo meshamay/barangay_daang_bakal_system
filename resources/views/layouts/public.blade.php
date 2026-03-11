@@ -57,7 +57,7 @@
 </head>
 
 
-<body class="bg-white font-sans text-gray-800 antialiased flex flex-col min-h-screen overflow-y-hidden">
+<body class="bg-white font-sans text-gray-800 antialiased flex flex-col min-h-screen">
     @yield('content')
 
     <!-- Privacy Policy Modal -->

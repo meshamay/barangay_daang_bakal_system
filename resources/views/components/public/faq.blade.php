@@ -1,11 +1,28 @@
-<div class="fixed bottom-2 md:bottom-6 right-2 md:right-6 z-50 flex flex-col items-end space-y-2 md:space-y-4 font-sans text-gray-800">
 
-    <!-- Chat Box -->
+
+<div class="fixed bottom-2 md:bottom-6 right-2 md:right-6 z-50 flex flex-col-reverse items-end font-sans text-gray-800">
+    <!-- Chat Button (always visible) -->
+    <button id="chat-toggle-btn" onclick="window.toggleChat()"
+        class="bg-gradient-to-r from-[#0052CC] to-[#1565C0] text-white p-4 rounded-2xl shadow-2xl hover:shadow-blue-500/50 transition-all duration-300 hover:scale-110 group relative cursor-pointer border-2 border-white/20">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"
+            class="w-6 h-6 md:w-7 md:h-7 text-black">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.159 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z" />
+        </svg>
+        <span
+            class="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-white text-slate-800 text-xs font-bold px-4 py-2 rounded-xl opacity-0 group-hover:opacity-100 transition-all duration-200 whitespace-nowrap shadow-xl pointer-events-none border border-slate-200">
+            Need Help? 💬
+        </span>
+        <!-- Notification badge -->
+        <span class="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full border-2 border-white animate-pulse"></span>
+    </button>
+
+    <!-- Chat Box (modal above the icon) -->
     <div id="chat-box"
-        class="hidden fixed left-0 right-0 top-4 bottom-4 md:static w-full max-w-[420px] mx-auto my-4 bg-white rounded-2xl md:rounded-3xl shadow-2xl border border-slate-200 flex flex-col justify-between backdrop-blur-sm overflow-y-auto"
+        class="hidden absolute bottom-16 md:bottom-20 right-0 w-[95vw] sm:w-[360px] md:w-[400px] lg:w-[420px] max-w-[95vw] bg-white rounded-2xl md:rounded-3xl shadow-2xl border border-slate-200 flex flex-col backdrop-blur-sm h-[70vh] md:h-[500px] max-h-[75vh] overflow-hidden z-50"
 
         <!-- Header -->
-        <div class="bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 p-4 flex justify-between items-center relative overflow-hidden">
+        <div class="bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 p-4 flex justify-between items-center relative overflow-hidden sticky top-0 z-20 rounded-t-2xl md:rounded-t-3xl">
             <!-- Decorative circles -->
             <div class="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
             <div class="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full translate-y-1/2 -translate-x-1/2"></div>
@@ -36,7 +53,7 @@
         </div>
 
         <!-- Messages Area -->
-        <div id="chat-messages" class="flex-1 bg-gradient-to-b from-slate-50 to-white pt-4 pb-2 overflow-y-auto space-y-3">
+        <div id="chat-messages" class="flex-1 min-h-0 bg-gradient-to-b from-slate-50 to-white pt-4 pb-2 overflow-y-auto space-y-3">
             <div class="flex justify-start">
                 <div class="bg-white text-slate-800 p-3.5 rounded-2xl rounded-tl-sm text-sm max-w-[85%] shadow-sm border border-slate-100">
                     <div class="flex items-start gap-2">
@@ -50,7 +67,7 @@
         </div>
 
         <!-- Input Area -->
-        <div class="p-3 bg-white border-t border-slate-200">
+        <div class="p-3 bg-white border-t border-slate-200 sticky bottom-0 z-10">
             <div class="w-full flex items-end gap-2">
                 <input type="text" id="user-input" placeholder="Type your message..." class="flex-1 h-10 md:h-12 bg-slate-50 border border-slate-200 rounded-2xl pl-2 md:pl-3 pr-2 md:pr-3 text-sm md:text-base focus:ring-2 focus:ring-[#0052CC] focus:border-[#0052CC] outline-none text-slate-800 transition-all duration-200 hover:bg-slate-100">
                 <button onclick="window.sendMessage()" class="bg-[#2563eb] text-white rounded-xl hover:shadow-lg hover:scale-105 transition-all duration-200 cursor-pointer flex items-center justify-center h-8 w-8 md:h-10 md:w-10 mb-1">
@@ -65,23 +82,6 @@
         <div id="question-list" class="p-3 bg-gradient-to-b from-white to-slate-50 max-h-40 overflow-y-auto border-t border-slate-200 space-y-2 w-full"></div>
     </div>
 
-    <!-- Chat Button -->
-    <button onclick="window.toggleChat()"
-        class="bg-gradient-to-r from-[#0052CC] to-[#1565C0] text-white p-4 rounded-2xl shadow-2xl hover:shadow-blue-500/50 transition-all duration-300 hover:scale-110 group relative cursor-pointer border-2 border-white/20">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"
-            class="w-6 h-6 md:w-7 md:h-7 text-black">
-            <path stroke-linecap="round" stroke-linejoin="round"
-                d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.159 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z" />
-        </svg>
-
-        <span
-            class="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-white text-slate-800 text-xs font-bold px-4 py-2 rounded-xl opacity-0 group-hover:opacity-100 transition-all duration-200 whitespace-nowrap shadow-xl pointer-events-none border border-slate-200">
-            Need Help? 💬
-        </span>
-        
-        <!-- Notification badge -->
-        <span class="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full border-2 border-white animate-pulse"></span>
-    </button>
 
 </div>
 
