@@ -78,6 +78,16 @@
     </div>
 </div>
 
+<style>
+html, body {
+  height: 100%;
+  min-height: 100vh;
+}
+body {
+  overflow-y: auto !important;
+}
+</style>
+
 <script>
     // Enable/disable button based on checkbox
     const checkbox = document.getElementById('privacyAgreeCheckbox');

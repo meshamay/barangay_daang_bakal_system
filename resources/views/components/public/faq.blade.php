@@ -1,8 +1,8 @@
-<div class="fixed bottom-4 md:bottom-6 right-4 md:right-6 z-50 flex flex-col items-end space-y-4 font-sans text-gray-800">
+<div class="fixed bottom-2 md:bottom-6 right-2 md:right-6 z-50 flex flex-col items-end space-y-2 md:space-y-4 font-sans text-gray-800">
 
     <!-- Chat Box -->
     <div id="chat-box"
-        class="hidden w-[calc(100vw-2rem)] max-w-md md:w-96 bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col h-[500px] md:h-[550px] backdrop-blur-sm">
+        class="hidden w-full max-w-md md:w-96 bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col h-[90vh] md:h-[550px] backdrop-blur-sm">
 
         <!-- Header -->
         <div class="bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 p-4 flex justify-between items-center relative overflow-hidden">
@@ -36,7 +36,7 @@
         </div>
 
         <!-- Messages Area -->
-        <div id="chat-messages" class="flex-1 bg-gradient-to-b from-slate-50 to-white p-4 overflow-y-auto space-y-3">
+        <div id="chat-messages" class="flex-1 bg-gradient-to-b from-slate-50 to-white pt-4 pb-2 overflow-y-auto space-y-3">
             <div class="flex justify-start">
                 <div class="bg-white text-slate-800 p-3.5 rounded-2xl rounded-tl-sm text-sm max-w-[85%] shadow-sm border border-slate-100">
                     <div class="flex items-start gap-2">
@@ -50,12 +50,12 @@
         </div>
 
         <!-- Input Area -->
-        <div class="p-3 bg-white border-t border-slate-200 relative">
-            <div class="relative">
+        <div class="p-3 bg-white border-t border-slate-200">
+            <div class="w-full flex items-end gap-2">
                 <input type="text" id="user-input" placeholder="Type your message..."
-                    class="w-full bg-slate-50 border border-slate-200 rounded-2xl pl-4 pr-12 py-3 text-sm focus:ring-2 focus:ring-[#0052CC] focus:border-[#0052CC] outline-none text-slate-800 transition-all duration-200 hover:bg-slate-100">
+                    class="flex-1 h-11 md:h-12 bg-slate-50 border border-slate-200 rounded-2xl pl-3 pr-3 text-xs md:text-sm focus:ring-2 focus:ring-[#0052CC] focus:border-[#0052CC] outline-none text-slate-800 transition-all duration-200 hover:bg-slate-100">
                 <button onclick="window.sendMessage()"
-                    class="absolute right-2 top-1/2 -translate-y-1/2 bg-gradient-to-r from-[#0052CC] to-[#1565C0] text-white p-2 rounded-xl hover:shadow-lg hover:scale-105 transition-all duration-200 cursor-pointer">
+                    class="bg-[#2563eb] text-white rounded-xl hover:shadow-lg hover:scale-105 transition-all duration-200 cursor-pointer flex items-center justify-center h-9 w-9 md:h-10 md:w-10 mb-1">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
                         <path d="M3.478 2.405a.75.75 0 00-.926.94l2.432 7.905H13.5a.75.75 0 010 1.5H4.984l-2.432 7.905a.75.75 0 00.926.94 60.519 60.519 0 0018.445-8.986.75.75 0 000-1.218A60.517 60.517 0 003.478 2.405z" />
                     </svg>
