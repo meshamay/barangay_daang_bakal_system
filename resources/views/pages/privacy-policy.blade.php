@@ -1,4 +1,4 @@
-        </div>
+</div>
 
 @extends('layouts.public')
 
@@ -7,7 +7,7 @@
 @endphp
 
 @section('content')
-<div class="bg-gray-50 min-h-screen py-12">
+<div class="bg-gray-50 min-h-screen py-12 overflow-y-auto max-height: 100vh;">
     <div class="container mx-auto px-4 max-w-5xl">
         
         {{-- Header --}}
@@ -126,7 +126,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     const btn = document.getElementById('agreeBtn');
     btn && btn.addEventListener('click', function() {
-        document.body.innerHTML = '';
+        window.location.href = '/register';
     });
 });
 </script>

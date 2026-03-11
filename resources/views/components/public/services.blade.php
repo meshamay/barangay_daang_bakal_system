@@ -7,7 +7,7 @@
                 OUR SERVICES
             </h2>
             <div class="w-16 sm:w-20 md:w-24 h-1 md:h-1.5 bg-gradient-to-r from-[#0052CC] via-[#1565C0] to-[#FFD700] mx-auto rounded-full mb-3 sm:mb-4 md:mb-6"></div>
-            <p class="text-slate-600 text-xs sm:text-sm md:text-base lg:text-base font-light mx-auto px-2 sm:px-4">Essential barangay services designed to serve our community with efficiency and care</p>
+            <p class="text-slate-600 text-[14px] font-light mx-auto px-2 sm:px-4">Essential barangay services designed to serve our community with efficiency and care</p>
         </div>
 
         <!-- Services Grid -->
@@ -104,13 +104,6 @@
                     </p>
                 </div>
             </div>
-
-        </div>
-    </div>
-</section>
-                </p>
-            </div>
-
 
         </div>
     </div>

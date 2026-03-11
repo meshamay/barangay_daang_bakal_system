@@ -35,19 +35,37 @@
 
             <!-- Mobile Menu Button -->
             <div class="lg:hidden" x-data="{ open: false }">
-                <button @click="open = !open" class="text-slate-900 focus:outline-none p-2 hover:bg-blue-50 rounded-lg transition">
-                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M4 6h16M4 12h16M4 18h16" />
+                <button @click="open = !open" class="text-slate-900 focus:outline-none p-2 hover:bg-blue-100 rounded-lg transition">
+                    <svg class="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <rect x="4" y="6" width="16" height="2" rx="1" fill="#0052CC" />
+                        <rect x="4" y="12" width="16" height="2" rx="1" fill="#0052CC" />
+                        <rect x="4" y="18" width="16" height="2" rx="1" fill="#0052CC" />
                     </svg>
                 </button>
                 <div x-show="open" @click.outside="open = false"
-                    class="absolute top-20 right-0 left-0 bg-white/95 backdrop-blur-md text-slate-900 p-6 shadow-xl z-50 flex flex-col gap-2 border-t-2 border-blue-100">
-                    <a href="#hero" class="font-bold text-base py-3 px-4 hover:bg-blue-50 rounded-lg transition text-slate-600">Home</a>
-                    <a href="#services" class="font-bold text-base py-3 px-4 hover:bg-blue-50 rounded-lg transition text-slate-600">Services</a>
-                    <a href="#about" class="font-bold text-base py-3 px-4 hover:bg-blue-50 rounded-lg transition text-slate-600">About</a>
-                    <div class="pt-2 border-t border-slate-200 mt-2 flex justify-center">
-                        <a href="{{ url('/login') }}" class="font-bold text-base py-3 px-4 bg-white text-slate-600 rounded-lg transition text-center hover:shadow-lg border border-gray-300">Login</a>
+                    x-transition:enter="transition ease-out duration-200"
+                    x-transition:enter-start="opacity-0 translate-y-2"
+                    x-transition:enter-end="opacity-100 translate-y-0"
+                    x-transition:leave="transition ease-in duration-150"
+                    x-transition:leave-start="opacity-100 translate-y-0"
+                    x-transition:leave-end="opacity-0 translate-y-2"
+                    class="absolute top-20 right-0 left-0 flex justify-center z-50">
+                    <div class="w-[90vw] max-w-xs bg-white rounded-2xl shadow-xl border border-blue-100 p-4 flex flex-col gap-3">
+                        <!-- <div class="border-b-4 border-[#4285F4] mb-2"></div> -->
+                        <a href="#hero" class="font-bold text-lg py-3 px-4 bg-blue-50 rounded-xl shadow-sm transition text-slate-900 hover:bg-blue-100 hover:text-[#0052CC]">
+                            Home
+                        </a>
+                        <a href="#services" class="font-bold text-lg py-3 px-4 bg-blue-50 rounded-xl shadow-sm transition text-slate-900 hover:bg-blue-100 hover:text-[#0052CC]">
+                            Services
+                        </a>
+                        <a href="#about" class="font-bold text-lg py-3 px-4 bg-blue-50 rounded-xl shadow-sm transition text-slate-900 hover:bg-blue-100 hover:text-[#0052CC]">
+                            About
+                        </a>
+                        <div class="flex justify-center mt-2">
+                            <a href="{{ url('/login') }}" class="w-full font-bold text-lg py-3 px-4 bg-[#4285F4] text-white rounded-xl shadow-lg transition text-center hover:bg-[#0052CC]">
+                                Login
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>

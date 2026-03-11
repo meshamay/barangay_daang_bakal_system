@@ -11,7 +11,7 @@
     body { font-family: 'Poppins', sans-serif; }
   </style>
 </head>
-<body class="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-blue-50 via-white to-blue-100">
+<body class="relative overflow-hidden min-h-screen flex items-center justify-center p-0 bg-gradient-to-br from-blue-50 via-white to-blue-100 overflow-y-hidden">
   <div class="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20" style="background-image: url('https://media.karousell.com/media/photos/products/2025/3/4/lot_for_sale_in_barangay_daang_1741074654_b1a72035');"></div>
 
   <div class="relative z-20 w-full max-w-md bg-white rounded-2xl shadow-xl border border-gray-100 p-6 sm:p-8">

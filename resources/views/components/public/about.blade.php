@@ -61,38 +61,15 @@
 
         <div class="max-w-4xl mx-auto mb-8 sm:mb-10 md:mb-12 lg:mb-16">
             <div class="bg-gradient-to-br from-blue-50 to-white rounded-lg sm:rounded-xl md:rounded-2xl shadow-lg p-6 sm:p-8 md:p-10 border-2 border-blue-200">
-                <ul class="space-y-1 text-slate-700 text-sm sm:text-base md:text-lg leading-relaxed flex flex-col items-center">
-                    <li class="flex gap-3 items-center mb-0">
-                        <svg class="w-5 h-5 text-[#0052CC] flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                        </svg>
-                        <span>Promote excellent performance in health and nutrition</span>
-                    </li>
-                    <li class="flex gap-3 items-center">
-                        <svg class="w-5 h-5 text-[#0052CC] flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                        </svg>
-                        <span>Promote adequate education for all</span>
-                    </li>
-                    <li class="flex gap-3 items-center">
-                        <svg class="w-5 h-5 text-[#0052CC] flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                        </svg>
-                        <span>Sustain economic livelihood projects</span>
-                    </li>
-                    <li class="flex gap-3 items-center">
-                        <svg class="w-5 h-5 text-[#0052CC] flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                        </svg>
-                        <span>Commit and maintain peace and order and safety</span>
-                    </li>
-                    <li class="flex gap-3 items-center mb-2">
-                        <svg class="w-5 h-5 text-[#0052CC] flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                        </svg>
-                        <span>Advocate in social, culture and environmental concerns</span>
-                    </li>
-                </ul>
+                <div class="bg-blue-100 rounded-xl p-4 flex flex-col items-center justify-center">
+                    <ul class="list-none w-full flex flex-col items-center justify-center">
+                        <li class="text-slate-700 text-base font-medium mb-2 text-center">Promote adequate education for all</li>
+                        <li class="text-slate-700 text-base font-medium mb-2 text-center">Sustain economic livelihood projects</li>
+                        <li class="text-slate-700 text-base font-medium mb-2 text-center">Commit and maintain peace and order and safety</li>
+                        <li class="text-slate-700 text-base font-medium mb-2 text-center">Promote excellent performance in health and nutrition</li>
+                        <li class="text-slate-700 text-base font-medium mb-2 text-center">Advocate in social, culture and environmental concerns</li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
