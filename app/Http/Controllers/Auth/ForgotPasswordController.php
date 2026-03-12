@@ -60,21 +60,25 @@ class ForgotPasswordController extends Controller
 
         $normalizedPhone = $this->normalizePhone((string) $user->contact_number);
 
-        $token = Str::random(64);
+        // Generate 6-digit OTP
+        $otp = random_int(100000, 999999);
         $table = config('auth.passwords.users.table', 'password_reset_tokens');
 
         DB::table($table)->updateOrInsert(
             ['email' => $normalizedPhone],
             [
-                'token' => Hash::make($token),
+                'token' => Hash::make($otp),
                 'created_at' => now(),
             ]
         );
 
+        // Send OTP via SMS using Twilio
+        \App\Services\TwilioSmsService::send($user->contact_number, 'Your OTP for password reset is: ' . $otp);
+
         return redirect()->route('password.reset', [
-            'token' => $token,
+            'token' => $otp,
             'contact_number' => $user->contact_number,
-        ])->with('status', 'Phone number verified. You can now set a new password.');
+        ])->with('status', 'OTP sent to your phone. Enter the code to reset your password.');
     }
 
     public function showResetForm(Request $request, string $token)

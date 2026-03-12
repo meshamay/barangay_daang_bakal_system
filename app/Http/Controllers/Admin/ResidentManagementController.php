@@ -64,6 +64,18 @@ class ResidentManagementController extends Controller
         $query = User::where('user_type', 'resident')->withTrashed();
         // Show all residents regardless of status (pending, approved, etc.)
         // Remove status filter so all are shown by default
+        // If you want to filter by status, use the dropdown or search
+        if ($request->has('status') && $request->filled('status')) {
+            $statusFilter = strtolower(trim($request->status));
+            if ($statusFilter === 'archived') {
+                $query->onlyTrashed();
+            } else {
+                $query->whereNull('deleted_at')
+                    ->whereRaw('LOWER(status) = ?', [$statusFilter]);
+            }
+        }
+        // Show all residents regardless of status (pending, approved, etc.)
+        // Remove status filter so all are shown by default
 
         if ($request->has('search') && $request->filled('search')) {
             $search = $request->search;
