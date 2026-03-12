@@ -60,8 +60,8 @@
         </div>
 
         <div class="max-w-4xl mx-auto mb-8 sm:mb-10 md:mb-12 lg:mb-16">
-            <div class="bg-gradient-to-br from-blue-50 to-white rounded-lg sm:rounded-xl md:rounded-2xl shadow-lg p-6 sm:p-8 md:p-10 border-2 border-blue-200">
-                <div class="rounded-xl p-4 flex flex-col items-center justify-center">
+            <div class="bg-gradient-to-br from-blue-50 to-white rounded-md sm:rounded-lg md:rounded-xl shadow-lg p-4 sm:p-6 md:p-8 border border-blue-200">
+                <div class="rounded-lg p-3 flex flex-col items-center justify-center">
                     <ul class="list-none w-full flex flex-col items-center justify-center">
                         <li class="text-slate-700 font-poppins font-normal text-[14px] md:text-[18px] mb-2 text-center">Promote adequate education for all</li>
                         <li class="text-slate-700 font-poppins font-normal text-[14px] md:text-[18px] mb-2 text-center">Sustain economic livelihood projects</li>

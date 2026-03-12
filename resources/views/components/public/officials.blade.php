@@ -94,7 +94,7 @@
                 </div>
             </div>
         @elseif(!$captain)
-            <div class="text-center text-slate-600 text-[14px] sm:text-md">No officials available.</div>
+            <div class="text-center text-slate-600 text-[14px] md:text-[16px]">No officials available.</div>
         @endif
     </div>
 </section>

@@ -11,8 +11,8 @@
                         alt="Barangay Seal" class="h-10 w-10 sm:h-12 sm:w-12 md:h-14 md:w-14 lg:h-16 lg:w-16 object-contain drop-shadow-md rounded-full">
                 </div>
                 <div class="flex flex-col">
-                    <h1 class="font-barlow font-bold text-[14px] leading-tight tracking-wide text-[#0052CC]">Barangay Daang Bakal</h1>
-                    <span class="font-barlow text-[14px] font-semibold text-slate-600">City of Mandaluyong</span>
+                    <h1 class="font-barlow font-bold text-[14px] md:text-[16px] leading-tight tracking-wide text-[#0052CC]">Barangay Daang Bakal</h1>
+                    <span class="font-barlow text-[14px] md:text-[16px] font-semibold text-slate-600">City of Mandaluyong</span>
                 </div>
             </div>
 
