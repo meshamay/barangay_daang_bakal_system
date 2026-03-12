@@ -62,6 +62,8 @@ class ResidentManagementController extends Controller
         $totalUsers = $superAdminCount + $adminStaffCount + $registeredResidents;
 
         $query = User::where('user_type', 'resident')->withTrashed();
+        // Show all residents regardless of status (pending, approved, etc.)
+        // Remove status filter so all are shown by default
 
         if ($request->has('search') && $request->filled('search')) {
             $search = $request->search;
