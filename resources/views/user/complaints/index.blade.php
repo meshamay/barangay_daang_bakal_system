@@ -6,6 +6,38 @@
 	<link rel="stylesheet" href="{{ asset('css/modals.css') }}">
 	<link rel="stylesheet" href="{{ asset('css/form-inputs.css') }}">
   <style>
+              /* Date and time placeholder font size */
+              #modalGeneralComplaint input[type="date"]::placeholder {
+                font-size: 14px !important;
+              }
+              #modalGeneralComplaint input[type="time"]::placeholder {
+                font-size: 14px !important;
+              }
+        @media (max-width: 640px) {
+          /* Certification label font size */
+          #modalGeneralComplaint label[for="complaintCheckbox"] {
+            font-size: 12px !important;
+          }
+          /* Placeholder font size */
+          #modalGeneralComplaint input::placeholder,
+          #modalGeneralComplaint textarea::placeholder {
+            font-size: 14px !important;
+          }
+          /* Back and Submit button font size */
+          #modalGeneralComplaint .complaint-modal-panel .rounded-b-2xl button {
+            font-size: 12px !important;
+          }
+          /* Select urgency level font size */
+          #modalGeneralComplaint #levelOfUrgency,
+          #modalGeneralComplaint #levelOfUrgency option {
+            font-size: 14px !important;
+          }
+          /* Select complaint type font size */
+          #modalGeneralComplaint #complaintTypeButton,
+          #modalGeneralComplaint #complaintTypeMenu button {
+            font-size: 14px !important;
+          }
+        }
     @media (max-width: 640px) {
       #modalGeneralComplaint {
         align-items: flex-start !important;
