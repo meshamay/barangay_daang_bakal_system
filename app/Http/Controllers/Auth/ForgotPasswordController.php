@@ -73,7 +73,8 @@ class ForgotPasswordController extends Controller
         );
 
         // Send OTP via SMS using Twilio
-        \App\Services\TwilioSmsService::send($user->contact_number, 'Your OTP for password reset is: ' . $otp);
+            $twilioService = new \App\Services\TwilioSmsService();
+        $twilioService->send($user->contact_number, 'Your OTP for password reset is: ' . $otp);
 
         return redirect()->route('password.reset', [
             'token' => $otp,
