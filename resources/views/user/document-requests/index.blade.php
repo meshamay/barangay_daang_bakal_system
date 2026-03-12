@@ -6,23 +6,126 @@
 	<link rel="stylesheet" href="{{ asset('css/form-inputs.css') }}">
 	<link rel="stylesheet" href="{{ asset('css/scrollbars.css') }}">
 	<style>
-		@media (max-width: 640px) {
-			#modalCertificate,
-			#modalClearance,
-			#modalIndigency,
-			#modalResidency,
-			#sessionSuccessModal,
-			#ajaxSuccessModal {
-				align-items: flex-start !important;
-				padding-top: 0.5rem !important;
+		   @media (max-width: 640px) {
+			   /* Certification label font size for mobile view */
+			   #modalIndigency .modal-content .certification-label,
+			   #modalCertificate .modal-content .certification-label,
+			   #modalClearance .modal-content .certification-label,
+			   #modalResidency .modal-content .certification-label {
+				   font-size: 12px !important;
+			   }
+			#sessionSuccessModal.modal-container {
+				align-items: flex-end !important;
+				padding-bottom: 2rem;
+			}
+			#sessionSuccessModal > div {
+				margin-bottom: 2rem !important;
+			}
+			.new-request-dropdown ul {
+				font-size: 12px !important;
+			}
+			/* MODAL 3: Barangay Indigency - 12px font for all texts on mobile except header (header 14px) */
+			#modalIndigency .modal-content label {
+				font-size: 12px !important;
+			}
+			#modalIndigency .modal-content input,
+			#modalIndigency .modal-content select,
+			#modalIndigency .modal-content textarea,
+			#modalIndigency .modal-content option {
+				font-size: 14px !important;
+			}
+			#modalIndigency .modal-content button,
+			#modalIndigency .modal-content .checkboxTooltip,
+			#modalIndigency .modal-content .block,
+			#modalIndigency .modal-content .inline-flex,
+			#modalIndigency .modal-content .text-sm,
+			#modalIndigency .modal-content .text-xs,
+			#modalIndigency .modal-content .font-semibold,
+			#modalIndigency .modal-content .font-bold {
+				font-size: 12px !important;
+			}
+			#modalIndigency .modal-content input::placeholder,
+			#modalIndigency .modal-content textarea::placeholder {
+				font-size: 14px !important;
+			}
+			#modalIndigency .modal-content > .px-4.sm\:px-6.py-4.rounded-t-2xl h1 {
+				font-size: 18px !important;
+			}
+			/* MODAL 1: Barangay Certificate - 12px font for all texts on mobile except header (header 14px) */
+			#modalCertificate .modal-content label,
+			#modalCertificate .modal-content input,
+			#modalCertificate .modal-content select,
+			#modalCertificate .modal-content textarea,
+			#modalCertificate .modal-content option {
+				font-size: 14px !important;
+			}
+			#modalCertificate .modal-content button,
+			#modalCertificate .modal-content .checkboxTooltip,
+			#modalCertificate .modal-content .block,
+			#modalCertificate .modal-content .inline-flex,
+			#modalCertificate .modal-content .text-sm,
+			#modalCertificate .modal-content .text-xs,
+			#modalCertificate .modal-content .font-semibold,
+			#modalCertificate .modal-content .font-bold {
+				font-size: 12px !important;
+			}
+			#modalCertificate .modal-content input::placeholder,
+			#modalCertificate .modal-content textarea::placeholder {
+				font-size: 14px !important;
+			}
+			#modalCertificate .modal-content > .px-4.sm\:px-6.py-4.rounded-t-2xl h1 {
+				font-size: 18px !important;
 			}
 
-			#modalCertificate .modal-content,
-			#modalClearance .modal-content,
-			#modalIndigency .modal-content,
-			#modalResidency .modal-content {
-				transform: none !important;
-				max-height: calc(100dvh - 5rem) !important;
+			/* MODAL 2: Barangay Clearance - 12px font for all texts on mobile except header (header 14px) */
+			#modalClearance .modal-content label,
+			#modalClearance .modal-content input,
+			#modalClearance .modal-content select,
+			#modalClearance .modal-content textarea,
+			#modalClearance .modal-content option {
+				font-size: 14px !important;
+			}
+			#modalClearance .modal-content button,
+			#modalClearance .modal-content .checkboxTooltip,
+			#modalClearance .modal-content .block,
+			#modalClearance .modal-content .inline-flex,
+			#modalClearance .modal-content .text-sm,
+			#modalClearance .modal-content .text-xs,
+			#modalClearance .modal-content .font-semibold,
+			#modalClearance .modal-content .font-bold {
+				font-size: 12px !important;
+			}
+			#modalClearance .modal-content input::placeholder,
+			#modalClearance .modal-content textarea::placeholder {
+				font-size: 14px !important;
+			}
+			#modalClearance .modal-content > .px-4.sm\:px-6.py-4.rounded-t-2xl h1 {
+				font-size: 18px !important;
+			}
+			/* MODAL 4: Barangay Residency - 12px font for all texts on mobile except header (header 14px) */
+			#modalResidency .modal-content label,
+			#modalResidency .modal-content input,
+			#modalResidency .modal-content select,
+			#modalResidency .modal-content textarea,
+			#modalResidency .modal-content option {
+				font-size: 14px !important;
+			}
+			#modalResidency .modal-content button,
+			#modalResidency .modal-content .checkboxTooltip,
+			#modalResidency .modal-content .block,
+			#modalResidency .modal-content .inline-flex,
+			#modalResidency .modal-content .text-sm,
+			#modalResidency .modal-content .text-xs,
+			#modalResidency .modal-content .font-semibold,
+			#modalResidency .modal-content .font-bold {
+				font-size: 12px !important;
+			}
+			#modalResidency .modal-content input::placeholder,
+			#modalResidency .modal-content textarea::placeholder {
+				font-size: 14px !important;
+			}
+			#modalResidency .modal-content > .px-4.sm\:px-6.py-4.rounded-t-2xl h1 {
+				font-size: 18px !important;
 			}
 		}
 	</style>
@@ -95,7 +198,7 @@
 			</svg>
 		</button>
 		
-		<div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 w-64 sm:w-56 bg-white border border-gray-200 rounded-xl shadow-xl z-50 overflow-hidden" style="display: none;">
+		<div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 w-64 sm:w-56 bg-white border border-gray-200 rounded-xl shadow-xl z-50 overflow-hidden new-request-dropdown" style="display: none;">
 			<ul class="text-gray-700 text-sm divide-y divide-gray-100">
 				<li @click="selectDocument('Barangay Clearance'); open = false" class="px-4 py-3 hover:bg-blue-50 cursor-pointer transition-colors font-medium">Barangay Clearance</li>
 				<li @click="selectDocument('Barangay Certificate'); open = false" class="px-4 py-3 hover:bg-blue-50 cursor-pointer transition-colors font-medium">Barangay Certificate</li>
@@ -262,7 +365,7 @@
 
 {{-- ================================================================================= --}}
 {{-- MODAL 1: Barangay Certificate --}}
-<div id="modalCertificate" class="modal-container hidden fixed top-[80px] left-0 w-full h-[calc(100vh-80px)] flex items-center justify-center z-[9999] p-4 sm:p-0" onclick="if(event.target === this) closeModal('modalCertificate')">
+<div id="modalCertificate" class="modal-container  hidden fixed top-[80px] left-0 w-full h-[calc(100vh-80px)] flex items-center justify-center z-[9999] p-4 sm:p-0" onclick="if(event.target === this) closeModal('modalCertificate')">
 	<div class="modal-content bg-white -translate-y-5 w-full sm:w-[560px] max-h-[90vh] sm:max-h-none rounded-2xl shadow-2xl overflow-y-auto sm:overflow-hidden flex flex-col border-2 border-gray-100">
 	<div class="px-4 sm:px-6 py-4 rounded-t-2xl" style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%);">
 		<h1 class="text-white font-bold text-lg sm:text-xl text-center uppercase tracking-wide">APPLICATION FOR BARANGAY CERTIFICATE</h1>
@@ -301,7 +404,7 @@
 					</div>
 					<div class="flex items-start pt-2 relative">
 						<input type="checkbox" required class="mt-1 mr-3 w-3.5 h-3.5 text-blue-600 border-2 border-gray-300 rounded focus:ring-2 focus:ring-blue-500 cursor-pointer certCheckbox">
-						<label class="text-[14px] text-gray-600 leading-relaxed">I certify that the information provided above is accurate and complete to the best of my knowledge.</label>
+							<label class="certification-label text-[14px] text-gray-600 leading-relaxed">I certify that the information provided above is accurate and complete to the best of my knowledge.</label>
 						<span class="checkboxTooltip absolute left-0 top-full mt-2 hidden w-full max-w-xs bg-amber-50 border-l-4 border-amber-500 px-4 py-3 rounded-lg text-sm text-amber-800 flex items-start gap-3 shadow-md" role="alert">
 							<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-amber-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
 								<path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
@@ -361,7 +464,7 @@
                     </div>
                     <div class="flex items-start pt-2 relative">
 						<input type="checkbox" required class="mt-1 mr-3 w-3.5 h-3.5 text-blue-600 border-2 border-gray-300 rounded focus:ring-2 focus:ring-blue-500 cursor-pointer certCheckbox">
-						<label class="text-[14px] text-gray-600 leading-relaxed">I certify that the information provided above is accurate and complete to the best of my knowledge.</label>
+						<label class="certification-label text-[14px] text-gray-600 leading-relaxed">I certify that the information provided above is accurate and complete to the best of my knowledge.</label>
 						<span class="checkboxTooltip absolute left-0 top-full mt-2 hidden w-full max-w-xs bg-amber-50 border-l-4 border-amber-500 px-4 py-3 rounded-lg text-sm text-amber-800 flex items-start gap-3 shadow-md" role="alert">
 							<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-amber-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
 								<path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
@@ -435,7 +538,7 @@
 						</div>
 						<div class="flex items-start pt-2 relative">
 							<input type="checkbox" required class="mt-1 mr-3 w-3.5 h-3.5 text-blue-600 border-2 border-gray-300 rounded focus:ring-2 focus:ring-blue-500 cursor-pointer certCheckbox">
-							<label class="text-[14px] text-gray-600 leading-relaxed">I certify that the information provided above is accurate and complete to the best of my knowledge.</label>
+							<label class="certification-label text-[14px] text-gray-600 leading-relaxed">I certify that the information provided above is accurate and complete to the best of my knowledge.</label>
 							<span class="checkboxTooltip absolute left-0 top-full mt-2 hidden w-full max-w-xs bg-amber-50 border-l-4 border-amber-500 px-4 py-3 rounded-lg text-sm text-amber-800 flex items-start gap-3 shadow-md" role="alert">
 								<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-amber-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
 									<path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
@@ -505,7 +608,7 @@
 						</div>
 						<div class="flex items-start pt-2 relative">
 							<input type="checkbox" required class="mt-1 mr-3 w-3.5 h-3.5 text-blue-600 border-2 border-gray-300 rounded focus:ring-2 focus:ring-blue-500 cursor-pointer certCheckbox">
-							<label class="text-[14px] text-gray-600 leading-relaxed">I certify that the information provided above is accurate and complete to the best of my knowledge.</label>
+							<label class="certification-label text-[14px] text-gray-600 leading-relaxed">I certify that the information provided above is accurate and complete to the best of my knowledge.</label>
 							<span class="checkboxTooltip absolute left-0 top-full mt-2 hidden w-full max-w-xs bg-amber-50 border-l-4 border-amber-500 px-4 py-3 rounded-lg text-sm text-amber-800 flex items-start gap-3 shadow-md" role="alert">
 								<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-amber-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
 									<path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
@@ -528,29 +631,29 @@
 {{-- ... (Success Modals and Scripts remain unchanged) ... --}}
 
 @if(session('success'))
-<div id="sessionSuccessModal" class="modal-container fixed top-[80px] left-0 w-full h-[calc(100vh-80px)] flex items-center justify-center z-[9999] p-4 sm:p-0">
-	<div class="bg-[#DDE1E5] w-full sm:w-[480px] rounded-2xl shadow-xl p-6 sm:p-10 relative text-center">
-	<div class="flex justify-center mb-3 sm:mb-4">
-		<div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full border-4 border-green-700 flex items-center justify-center">
-			<svg xmlns="http://www.w3.org/2000/svg" class="w-8 sm:w-10 h-8 sm:h-10 text-green-700" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor">
-					<path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-				</svg>
-			</div>
-		</div>
-		<h2 class="font-extrabold text-xl mb-3 text-black tracking-wide">
-			REQUEST SUBMITTED SUCCESSFULLY!
-		</h2>
-		<br>
-		<p class="text-xs sm:text-sm text-black leading-relaxed space-y-2">
-			<span class="block font-bold">Transaction ID: {{ session('success_id') }}</span>
-			<span class="block">Your request will be processed within 1 day.</span>
-			<span class="block">You may claim your document at the barangay once it’s ready for release.</span>
-		</p>
-		<button onclick="closeSuccessModal('sessionSuccessModal')"
-			class="mt-6 sm:mt-7 bg-[#A2C4D9] hover:bg-[#94B8CC] px-5 sm:px-7 py-1 rounded-2xl text-xs sm:text-sm font-semibold text-black transition">
-			CLOSE
-		</button>
-	</div>
+<div id="sessionSuccessModal" class="modal-container fixed top-[80px] left-0 w-full h-[calc(100vh-80px)] flex items-end sm:items-center justify-center z-[9999] p-4 sm:p-0">
+    <div class="bg-[#DDE1E5] w-full sm:w-[480px] rounded-2xl shadow-xl p-6 sm:p-10 relative text-center mb-10 sm:mb-0">
+        <div class="flex justify-center mb-3 sm:mb-4">
+            <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full border-4 border-green-700 flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-8 sm:w-10 h-8 sm:h-10 text-green-700" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+            </div>
+        </div>
+        <h2 class="font-extrabold text-xl mb-3 text-black tracking-wide">
+            REQUEST SUBMITTED SUCCESSFULLY!
+        </h2>
+        <br>
+        <p class="text-xs sm:text-sm text-black leading-relaxed space-y-2">
+            <span class="block font-bold">Transaction ID: {{ session('success_id') }}</span>
+            <span class="block">Your request will be processed within 1 day.</span>
+            <span class="block">You may claim your document at the barangay once it’s ready for release.</span>
+        </p>
+        <button onclick="closeSuccessModal('sessionSuccessModal')"
+            class="mt-6 sm:mt-7 bg-[#A2C4D9] hover:bg-[#94B8CC] px-5 sm:px-7 py-1 rounded-2xl text-xs sm:text-sm font-semibold text-black transition">
+            CLOSE
+        </button>
+    </div>
 </div>
 @endif
 

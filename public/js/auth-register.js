@@ -1,12 +1,15 @@
 // Register page functions
+// Function to close Privacy Policy modal
+function closePrivacyPolicyModal() {
+    const modal = document.getElementById("privacy-policy-modal");
+    if (modal) modal.classList.add("hidden");
+}
 
 // Function to open Privacy Policy as a popup window
 function openPrivacyPolicy() {
-    window.open(
-        "/privacy-policy",
-        "PrivacyPolicy",
-        "width=900,height=700,scrollbars=yes,resizable=yes",
-    );
+    // Show modal instead of redirect
+    const modal = document.getElementById("privacy-policy-modal");
+    if (modal) modal.classList.remove("hidden");
 }
 
 document.addEventListener("DOMContentLoaded", function () {

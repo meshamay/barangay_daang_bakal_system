@@ -85,6 +85,17 @@
                 font-size: 16px !important;
                 line-height: 1.4;
             }
+
+            /* Set font size for navbar headers on phone view */
+            .navbar-header-title,
+            .navbar-header-subtitle {
+                font-size: 14px !important;
+            }
+
+            /* Set font size for Notification header in dropdown on mobile */
+            .notification-header-title {
+                font-size: 14px !important;
+            }
         }
     </style>
 </head>
@@ -93,16 +104,18 @@
 
 <nav id="top-navbar" class="fixed top-0 left-0 w-full h-16 sm:h-20 font-poppins bg-gradient-to-r from-[#134573] via-[#0f3a5f] to-[#0a2847] text-white shadow-lg z-30 flex items-center justify-between px-3 sm:px-6 border-b border-white/10">
 
+<!-- Navbar removed as requested -->
+
     <div class="flex items-center gap-2 sm:gap-4">
 
         <div class="flex items-center space-x-2 sm:space-x-3">
             <a href="{{ route('home') }}" class="flex items-center space-x-2 sm:space-x-3">
-                <img src="{{ asset('images/Ph_seal_Mandaluyong.png') }}" class="w-8 h-8 sm:w-12 sm:h-12">
-                <img src="{{ asset('images/Brgy.jpeg') }}" class="w-8 h-8 sm:w-12 sm:h-12 rounded-full object-cover">
+                <img src="{{ asset('images/Ph_seal_Mandaluyong.png') }}" class="w-10 h-10 sm:w-14 sm:h-14">
+                <img src="{{ asset('images/Brgy.jpeg') }}" class="w-10 h-10 sm:w-14 sm:h-14 rounded-full object-cover">
 
                 <div>
-                    <h1 class="text-xs sm:text-sm md:text-base font-semibold leading-tight text-white">Barangay Daang Bakal</h1>
-                    <span class="font-poppins text-xs sm:text-xs md:text-sm lg:text-base font-semibold text-white">Mandaluyong City</span>
+                    <h1 class="navbar-header-title text-xs sm:text-sm md:text-base font-semibold leading-tight text-white">Barangay Daang Bakal</h1>
+                    <span class="navbar-header-subtitle font-poppins text-xs sm:text-xs md:text-sm lg:text-base font-semibold text-white">Mandaluyong City</span>
                 </div>
             </a>
         </div>
@@ -130,7 +143,7 @@
                  style="display: none;">
                 <div class="px-4 sm:px-6 py-3 sm:py-4 rounded-t-2xl" style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%);">
                     <div class="flex justify-between items-center">
-                        <h3 class="text-base sm:text-lg font-bold text-white">Notifications</h3>
+                        <h3 class="notification-header-title text-base sm:text-lg font-bold text-white">Notifications</h3>
                         <button @click="markAllAsRead" x-show="unreadCount > 0" class="text-xs text-blue-100 hover:text-white transition-colors font-semibold">Mark all as read</button>
                     </div>
                 </div>
@@ -139,10 +152,9 @@
                         <template x-for="notification in notifications" :key="notification.id">
                             <a :href="notification.data.link" 
                                @click.prevent="markAsRead(notification.id, notification.data.link)"
-                               class="block px-3 sm:px-5 py-3 sm:py-4 transition-all duration-200"
-                               :class="{'bg-blue-50/70 hover:bg-blue-50 border-l-4 border-blue-500': !notification.read_at, 'hover:bg-gray-50': notification.read_at}">
+                               class="block px-5 py-4 transition-all duration-200" :class="{'bg-blue-50/70 hover:bg-blue-50 border-l-4 border-blue-500': !notification.read_at, 'hover:bg-gray-50': notification.read_at}">
                                 <div class="flex items-start gap-2 sm:gap-3">
-                                <div class="flex-shrink-0">
+                                    <div class="flex-shrink-0">
                                         <template x-if="notification.data.type === 'complaint'">
                                             <div class="h-8 w-8 sm:h-10 sm:w-10 rounded-xl bg-red-100 flex items-center justify-center">
                                                 <svg class="h-5 w-5 sm:h-6 sm:w-6 text-red-600" fill="currentColor" viewBox="0 0 24 24">
@@ -160,12 +172,8 @@
                                         </template>
                                     </div>
                                     <div class="flex-grow">
-                                        <p class="text-sm font-semibold" 
-                                           :class="{'text-gray-900': !notification.read_at, 'text-gray-600': notification.read_at}" 
-                                           x-text="notification.data.title"></p>
-                                                     <p class="text-xs mt-1" 
-                                                         :class="{'text-gray-700': !notification.read_at, 'text-gray-500': notification.read_at}" 
-                                                         x-text="notification.data.message.replace('a Certificate of Indigency', 'an Indigency Clearance').replace('a Certificate of Residency', 'a Resident Certificate').replace('complaint request', 'complaint')"></p>
+                                        <p class="text-sm font-semibold" :class="{'text-gray-900': !notification.read_at, 'text-gray-600': notification.read_at}" x-text="notification.data.title"></p>
+                                        <p class="text-xs mt-1" :class="{'text-gray-700': !notification.read_at, 'text-gray-500': notification.read_at}" x-text="notification.data.message"></p>
                                         <p class="text-xs text-gray-400 mt-2" x-text="formatDate(notification.created_at)"></p>
                                     </div>
                                 </div>

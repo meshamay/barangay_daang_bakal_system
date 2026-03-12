@@ -68,7 +68,7 @@
             @include('pages.privacy-policy-content')
             <!-- Privacy Policy Content End -->
             <div class="text-center mt-10 mb-8">
-                <button id="agreeBtnModal" class="rounded-lg bg-blue-100 hover:bg-blue-200 px-8 py-3 text-base font-semibold text-gray-800 shadow-md transition-all duration-200">I Agree</button>
+                <button id="agreeBtnModal" class="rounded-lg bg-blue-100 hover:bg-blue-200 px-8 py-3 text-base font-semibold text-gray-800 shadow-md transition-all duration-200">Back</button>
             </div>
         </div>
     </div>

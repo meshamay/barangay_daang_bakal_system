@@ -121,9 +121,13 @@ class ForgotPasswordController extends Controller
             'remember_token' => Str::random(60),
         ])->save();
 
-        if (DB::getSchemaBuilder()->hasColumn('users', 'plain_password')) {
-            $user->forceFill(['plain_password' => $request->input('password')])->save();
-        }
+        // Log password reset attempt
+        DB::table('audit_logs')->insert([
+            'user_id' => $user->id,
+            'action' => 'password_reset',
+            'description' => 'Password reset via forgot password flow',
+            'created_at' => now(),
+        ]);
 
         DB::table($table)->where('email', $normalizedPhone)->delete();
 

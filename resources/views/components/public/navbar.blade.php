@@ -11,8 +11,8 @@
                         alt="Barangay Seal" class="h-10 w-10 sm:h-12 sm:w-12 md:h-14 md:w-14 lg:h-16 lg:w-16 object-contain drop-shadow-md rounded-full">
                 </div>
                 <div class="flex flex-col">
-                    <h1 class="font-barlow font-bold text-xs sm:text-sm md:text-base lg:text-lg leading-tight tracking-wide text-[#0052CC]">Barangay Daang Bakal</h1>
-                    <span class="font-barlow text-xs sm:text-xs md:text-sm lg:text-base font-semibold text-slate-600">City of Mandaluyong</span>
+                    <h1 class="font-barlow font-bold text-[14px] leading-tight tracking-wide text-[#0052CC]">Barangay Daang Bakal</h1>
+                    <span class="font-barlow text-[14px] font-semibold text-slate-600">City of Mandaluyong</span>
                 </div>
             </div>
 
@@ -52,17 +52,17 @@
                     class="absolute top-20 right-0 left-0 flex justify-center z-50">
                     <div class="w-[90vw] max-w-xs bg-white rounded-2xl shadow-xl border border-blue-100 p-4 flex flex-col gap-3">
                         <!-- <div class="border-b-4 border-[#4285F4] mb-2"></div> -->
-                        <a href="#hero" class="font-bold text-lg py-3 px-4 bg-blue-50 rounded-xl shadow-sm transition text-slate-900 hover:bg-blue-100 hover:text-[#0052CC]">
+                        <a href="#hero" class="font-bold text-[14px] py-3 px-4 bg-blue-50 rounded-xl shadow-sm transition text-slate-900 hover:bg-blue-100 hover:text-[#0052CC]">
                             Home
                         </a>
-                        <a href="#services" class="font-bold text-lg py-3 px-4 bg-blue-50 rounded-xl shadow-sm transition text-slate-900 hover:bg-blue-100 hover:text-[#0052CC]">
+                        <a href="#services" class="font-bold text-[14px] py-3 px-4 bg-blue-50 rounded-xl shadow-sm transition text-slate-900 hover:bg-blue-100 hover:text-[#0052CC]">
                             Services
                         </a>
-                        <a href="#about" class="font-bold text-lg py-3 px-4 bg-blue-50 rounded-xl shadow-sm transition text-slate-900 hover:bg-blue-100 hover:text-[#0052CC]">
+                        <a href="#about" class="font-bold text-[14px] py-3 px-4 bg-blue-50 rounded-xl shadow-sm transition text-slate-900 hover:bg-blue-100 hover:text-[#0052CC]">
                             About
                         </a>
                         <div class="flex justify-center mt-2">
-                            <a href="{{ url('/login') }}" class="w-full font-bold text-lg py-3 px-4 bg-[#4285F4] text-white rounded-xl shadow-lg transition text-center hover:bg-[#0052CC]">
+                            <a href="{{ url('/login') }}" class="w-full font-bold text-[14px] py-3 px-4 bg-[#4285F4] text-white rounded-xl shadow-lg transition text-center hover:bg-[#0052CC]">
                                 Login
                             </a>
                         </div>

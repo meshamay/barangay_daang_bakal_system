@@ -6,6 +6,9 @@
         <div class="absolute top-0 right-0 -mt-20 -mr-20 w-72 h-72 bg-white/10 rounded-full blur-3xl"></div>
         <div class="absolute bottom-0 left-0 -mb-20 -ml-20 w-72 h-72 bg-white/5 rounded-full blur-3xl"></div>
         <div class="relative p-4 sm:p-6 md:p-12">
+                        <div class="mb-2">
+                          
+                        </div>
             <h1 class="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold mb-3 sm:mb-4 text-white">Welcome back, {{ $user->first_name }}! 👋</h1>
             <p class="text-blue-100 text-sm sm:text-base md:text-lg leading-relaxed max-w-full font-medium overflow-hidden">
                 Access your barangay services quickly. Manage requests, file complaints, and view your history all in one place.
@@ -39,8 +42,8 @@
         <div class="lg:col-span-2 space-y-4 mt-3 sm:mt-4 md:mt-6">
             <div class="flex items-center justify-between mb-3 sm:mb-4 md:mb-5">
                 <h2 class="text-lg sm:text-xl md:text-2xl font-bold text-slate-800 flex items-center gap-2">
-                    <div class="w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center shadow-md">
-                        <svg class="w-4 h-4 sm:w-5 sm:h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                    <div class="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center shadow-md">
+                        <svg class="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                         </svg>
                     </div>
@@ -175,3 +178,4 @@
 
     </div>
 @endsection
+

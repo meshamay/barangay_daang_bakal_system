@@ -59,8 +59,8 @@
                 <img src="{{ asset('images/Brgy.jpeg') }}" class="w-8 h-8 sm:w-12 sm:h-12 rounded-full object-cover">
 
                 <div>
-                    <h1 class="text-xs sm:text-sm md:text-base font-semibold leading-tight text-white">Barangay Daang Bakal</h1>
-                    <span class="font-poppins text-xs sm:text-xs md:text-sm lg:text-base font-semibold text-white">Mandaluyong City</span>
+                    <h1 class="font-semibold leading-tight text-white" style="font-size:14px;">Barangay Daang Bakal</h1>
+                    <span class="font-poppins font-semibold text-white" style="font-size:14px;">Mandaluyong City</span>
                 </div>
             </a>
         </div>

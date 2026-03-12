@@ -6,9 +6,88 @@
 
 @section('content')
 
+
 @push('styles')
-	<link rel="stylesheet" href="{{ asset('css/form-inputs.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/form-inputs.css') }}">
 @endpush
+
+<!-- Privacy Policy Modal -->
+
+<div id="privacy-policy-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80 transition-opacity duration-300 hidden sm:hidden">
+    <div class="relative bg-white min-h-[70vh] max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-3xl shadow-2xl border border-blue-200 animate-fadeIn">
+        <!-- Close Icon -->
+        <button type="button" onclick="closePrivacyPolicyModal()" class="absolute top-4 right-4 z-10 p-2 rounded-full bg-blue-100 hover:bg-blue-200 text-blue-700 shadow-md transition-all duration-200" aria-label="Close">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+        <div class="container mx-auto px-6 py-8 max-w-5xl">
+            <!-- Header -->
+            <div class="flex items-center mb-8 gap-4">
+                <img src="https://tse2.mm.bing.net/th/id/OIP._bP7eQwOSrZjwv-doDDsWAHaHa?rs=1&pid=ImgDetMain&o=7&rm=3" alt="Barangay Logo" class="h-16 w-16 rounded-full shadow-md border-2 border-blue-200">
+                <div>
+                    <h1 class="text-4xl font-bold text-blue-900">Privacy Policy</h1>
+                    <p class="text-gray-600 text-lg">ARIS - Automated Record Information System</p>
+                    <p class="text-gray-500 text-sm">Barangay Daang Bakal, Mandaluyong City</p>
+                </div>
+            </div>
+            <div class="bg-white p-8 rounded-2xl shadow-xl border border-blue-100 max-w-2xl mx-auto mt-6">
+                <div class="mb-6">
+                    <h2 class="text-3xl font-extrabold text-blue-900 mb-1">Data Privacy Notice</h2>
+                    <h3 class="text-lg font-semibold text-blue-700">Automated Record and Information System (ARIS)</h3>
+                </div>
+                <p class="mb-6 text-gray-700 text-base leading-relaxed">The Barangay Daang Bakal Management System is committed to safeguarding and respecting your personal information in accordance with the Data Privacy Act of 2012 (Republic Act No. 10173) and its Implementing Rules and Regulations.</p>
+                <div class="mb-8">
+                    <h4 class="text-xl font-bold text-blue-800 mb-2">Purpose of Data Collection</h4>
+                    <ul class="list-disc ml-6 text-gray-700 space-y-1">
+                        <li>Verify identity and residency</li>
+                        <li>Create and manage ARIS user accounts</li>
+                        <li>Process document requests and complaints</li>
+                        <li>Maintain accurate barangay records</li>
+                        <li>Communicate official updates and notices</li>
+                    </ul>
+                </div>
+                <div class="mb-8">
+                    <h4 class="text-xl font-bold text-blue-800 mb-2">Data Sharing</h4>
+                    <p class="mb-2 text-gray-700">Your personal information is not sold or used for any commercial purpose. Data may only be shared with:</p>
+                    <ul class="list-disc ml-6 text-gray-700 space-y-1">
+                        <li>Authorized barangay officials performing official functions</li>
+                        <li>Government authorities, when required by law</li>
+                        <li>Trusted service providers bound by confidentiality agreements</li>
+                    </ul>
+                </div>
+                <div class="mb-8">
+                    <h4 class="text-xl font-bold text-blue-800 mb-2">Data Retention</h4>
+                    <p class="text-gray-700">Personal data is retained only for as long as necessary to fulfill its intended purpose and to comply with barangay and legal record-keeping requirements, in accordance with RA 10173.</p>
+                </div>
+                <div class="mb-8">
+                    <h4 class="text-xl font-bold text-blue-800 mb-2">Your Rights as a Data Subject</h4>
+                    <ul class="list-disc ml-6 text-gray-700 space-y-1">
+                        <li>Access your personal information</li>
+                        <li>Request correction of inaccurate or incomplete data</li>
+                        <li>Be informed about how your data is being processed</li>
+                        <li>Lodge a complaint for any data privacy concerns</li>
+                    </ul>
+                </div>
+                <div class="mb-8">
+                    <h4 class="text-xl font-bold text-blue-800 mb-2">Consent</h4>
+                    <p class="text-gray-700">By registering and using ARIS, you give your consent to the collection, processing, and storage of your personal information as described in this Privacy Notice and in accordance with Republic Act No. 10173.</p>
+                </div>
+                <div class="mb-8">
+                    <h4 class="text-xl font-bold text-blue-800 mb-2">Contact Information</h4>
+                    <div class="bg-blue-50 p-4 rounded-xl border-l-4 border-blue-400">
+                        <p class="font-semibold text-blue-900 mb-1">Barangay Daang Bakal ARIS Administration Office</p>
+                        <p class="mb-1">📧 <span class="text-blue-700">Email:</span> <a href="mailto:barangaydaangbakal@gmail.com" class="underline text-blue-700">barangaydaangbakal@gmail.com</a></p>
+                        <p>📞 <span class="text-blue-700">Office Hours:</span> 7:00 AM – 5:00 PM (Working Days Only)</p>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-8 mb-4">
+                <button type="button" onclick="closePrivacyPolicyModal()" class="rounded-lg bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 text-base font-semibold shadow-lg transition-all duration-200">Back</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div id="registration-container">
     <div class="relative min-h-screen w-full bg-cover bg-center" style="background-image: url('https://media.karousell.com/media/photos/products/2025/3/4/lot_for_sale_in_barangay_daang_1741074654_b1a72035');">
@@ -206,7 +285,9 @@
                             <div class="mt-6 flex items-center">
                                 <input id="agree" name="agree" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500" required>
                                 <label for="agree" class="ml-2 block text-sm text-gray-800">I have read and agree to the collection and use of my personal information as described in the
-                                <a href="#" onclick="openPrivacyPolicy(); return false;" class="text-blue-600 underline cursor-pointer">Privacy Policy</a>.</label>
+                                    <span class="sm:hidden"><a href="#" onclick="openPrivacyPolicy(); return false;" class="text-blue-600 underline cursor-pointer">Privacy Policy</a></span>
+                                    <span class="hidden sm:inline"><a href="/privacy-policy" target="_blank" class="text-blue-600 underline cursor-pointer">Privacy Policy</a></span>
+                                </label>
                             </div>
                         
                         <div class="flex shrink-0 justify-end items-center gap-2 sm:gap-3 px-3 sm:px-2 mb-4 ml-2 mt-4 sm:mt-4">
