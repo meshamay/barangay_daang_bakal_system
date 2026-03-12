@@ -60,6 +60,9 @@ Route::get('/forgot-password', [ForgotPasswordController::class, 'showLinkReques
 Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email')->middleware('throttle:3,1');
 Route::get('/reset-password/{token}', [ForgotPasswordController::class, 'showResetForm'])->name('password.reset');
 Route::post('/reset-password', [ForgotPasswordController::class, 'reset'])->name('password.store');
+Route::get('/password/verify-otp', [ForgotPasswordController::class, 'verifyOtp'])->name('password.verify-otp');
+Route::post('/password/verify', [ForgotPasswordController::class, 'verifyOtpSubmit'])->name('password.verify');
+Route::get('/password/resend', [ForgotPasswordController::class, 'resendOtp'])->name('password.resend');
 
 // ========================================================================
 // 3. REGISTRATION

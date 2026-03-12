@@ -10,8 +10,68 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Carbon;
 
-class ForgotPasswordController extends Controller
-{
+
+class ForgotPasswordController extends Controller {
+    public function resendOtp(Request $request)
+    {
+        $email = $request->query('email');
+        if (!$email) {
+            return back()->withErrors(['email' => 'Email is required to resend OTP.']);
+        }
+        $user = User::where('email', $email)->first();
+        if (!$user) {
+            return back()->withErrors(['email' => 'No user found with this email.']);
+        }
+        // Generate new OTP
+        $otp = random_int(100000, 999999);
+        $table = config('auth.passwords.users.table', 'password_reset_tokens');
+        DB::table($table)->updateOrInsert(
+            ['email' => $email],
+            [
+                'token' => Hash::make($otp),
+                'created_at' => now(),
+            ]
+        );
+        // Send OTP via email
+        \Mail::raw('Your OTP for password reset is: ' . $otp, function ($message) use ($user) {
+            $message->to($user->email)
+                ->subject('Password Reset OTP');
+        });
+        return redirect()->route('password.verify-otp', ['email' => $email])
+            ->with('status', 'A new OTP has been sent to your email.');
+    }
+
+    public function verifyOtpSubmit(Request $request)
+    {
+        $request->validate([
+            'otp' => ['required', 'array', 'size:6'],
+            'otp.*' => ['required', 'digits:1'],
+            'email' => ['required', 'email'],
+        ]);
+
+        $otpInput = implode('', $request->input('otp'));
+        $email = $request->input('email');
+        $table = config('auth.passwords.users.table', 'password_reset_tokens');
+        $record = \DB::table($table)->where('email', $email)->first();
+
+        if (!$record) {
+            return back()->withErrors(['email' => 'No OTP found for this email.'])->withInput();
+        }
+
+        // Check OTP validity
+        if (!\Hash::check($otpInput, $record->token)) {
+            return back()->withErrors(['otp' => 'Invalid OTP code.'])->withInput();
+        }
+
+        // Optionally: check expiration (e.g., 10 min)
+        $created = \Carbon\Carbon::parse($record->created_at);
+        if ($created->diffInMinutes(now()) > 10) {
+            return back()->withErrors(['otp' => 'OTP has expired.'])->withInput();
+        }
+
+        // OTP verified, redirect to reset password form
+        return redirect()->route('password.reset', ['token' => $record->token, 'email' => $email]);
+    }
     private function normalizePhone(string $value): string
     {
         $digits = preg_replace('/\D+/', '', trim($value)) ?? '';
@@ -48,38 +108,51 @@ class ForgotPasswordController extends Controller
     public function sendResetLinkEmail(Request $request)
     {
         $request->validate([
-            'contact_number' => ['required', 'string'],
+            'email' => ['required', 'email'],
         ]);
 
-        $contactNumber = trim((string) $request->input('contact_number'));
-        $user = $this->findUserByPhone($contactNumber);
+        $email = trim((string) $request->input('email'));
+        $user = User::where('email', $email)->first();
 
         if (!$user) {
-            return back()->withErrors(['contact_number' => 'We could not find an account with that phone number.'])->withInput();
+            return back()->withErrors(['email' => 'We could not find an account with that email address.'])->withInput();
         }
-
-        $normalizedPhone = $this->normalizePhone((string) $user->contact_number);
 
         // Generate 6-digit OTP
         $otp = random_int(100000, 999999);
         $table = config('auth.passwords.users.table', 'password_reset_tokens');
 
         DB::table($table)->updateOrInsert(
-            ['email' => $normalizedPhone],
+            ['email' => $email],
             [
                 'token' => Hash::make($otp),
                 'created_at' => now(),
             ]
         );
 
-        // Send OTP via SMS (development: log to file)
-        $smsService = new \App\Services\FakeSmsService();
-        $smsService->send($user->contact_number, 'Your OTP for password reset is: ' . $otp);
+        // Send OTP via email
+        \Mail::raw('Your OTP for password reset is: ' . $otp, function ($message) use ($user) {
+            $message->to($user->email)
+                ->subject('Password Reset OTP');
+        });
 
-        return redirect()->route('password.reset', [
-            'token' => $otp,
-            'contact_number' => $user->contact_number,
-        ])->with('status', 'OTP sent to your phone. Enter the code to reset your password.');
+        // Redirect to OTP verification page
+        return redirect()->route('password.verify-otp', ['email' => $user->email])
+            ->with('status', 'OTP sent to your email. Enter the code to verify.');
+    }
+
+    public function verifyOtp(Request $request)
+    {
+        $email = $request->query('email');
+        // You may want to add logic to check if the email exists or if OTP is still valid
+        return view('auth.verify-otp', ['email' => $email]);
+    }
+
+    // Show OTP verification form
+    public function showOtpForm(Request $request)
+    {
+        $email = $request->query('email');
+        return view('auth.verify-otp', ['email' => $email]);
     }
 
     public function showResetForm(Request $request, string $token)

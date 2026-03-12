@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Forgot Password - Barangay Daang Bakal</title>
+  <title>Verify OTP - Barangay Daang Bakal</title>
   <link rel="icon" type="image/png" href="{{ asset('images/BARANGAY LOGO.png') }}">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
@@ -16,8 +16,8 @@
 
   <div class="relative z-20 min-h-screen flex items-center justify-center p-4">
     <div class="w-full max-w-md bg-white rounded-2xl shadow-xl border border-gray-100 p-6 sm:p-8">
-      <h1 class="text-2xl font-bold text-blue-600 text-center mb-2">Forgot Password</h1>
-      <p class="text-sm text-gray-500 text-center mb-6">Enter your email address to receive a verification code.</p>
+      <h1 class="text-2xl font-bold text-blue-600 text-center mb-2">Verify OTP</h1>
+      <p class="text-sm text-gray-500 text-center mb-6">Enter the 6-digit code sent to your email.</p>
 
       @if (session('status'))
         <div class="mb-4 rounded-xl bg-green-50 border-l-4 border-green-500 p-4 text-sm text-green-700">
@@ -35,18 +35,19 @@
         </div>
       @endif
 
-      <form method="POST" action="{{ route('password.email') }}" class="space-y-4">
+      <form method="POST" action="{{ route('password.verify') }}" class="space-y-4">
         @csrf
-        <div>
-          <label for="email" class="block text-gray-700 mb-2 font-semibold text-sm">Email Address</label>
-          <input type="email" id="email" name="email" value="{{ old('email') }}" required
-            class="w-full border-2 border-gray-300 rounded-xl px-4 py-3 text-gray-700 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200" />
+        <div class="flex justify-center gap-2">
+          @for($i = 0; $i < 6; $i++)
+            <input type="text" name="otp[]" maxlength="1" required class="w-12 h-12 text-center text-xl rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-blue-500" />
+          @endfor
         </div>
-
+        <input type="hidden" name="email" value="{{ old('email', $email ?? '') }}">
         <button type="submit"
           class="w-full py-3 rounded-xl font-semibold shadow-lg text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-200">
-          Send OTP
+          Verify Code
         </button>
+        <a href="{{ route('password.resend', ['email' => old('email', $email ?? '')]) }}" class="text-blue-500 hover:underline text-sm mt-2 block text-center">Resend Code</a>
       </form>
 
       <p class="text-center mt-5 text-sm">
