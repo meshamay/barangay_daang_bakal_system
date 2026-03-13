@@ -33,11 +33,6 @@
       @csrf
       <input type="hidden" name="token" value="{{ $token }}">
 
-      <div>
-        <label for="contact_number" class="block text-gray-700 mb-2 font-semibold text-sm">Phone Number</label>
-        <input type="text" id="contact_number" name="contact_number" value="{{ old('contact_number', $contact_number) }}" required
-          class="w-full border-2 border-gray-300 rounded-xl px-4 py-3 text-gray-700 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200" />
-      </div>
 
       <div>
         <label for="password" class="block text-gray-700 mb-2 font-semibold text-sm">New Password</label>
