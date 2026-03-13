@@ -145,7 +145,9 @@
                                     echo 'Log In - Super Admin/Admin logged in';
                                 } else if (in_array($action, ['log in', 'login']) && $roleLabelNorm === 'resident') {
                                     echo 'Log In - Resident logged in';
-                                } else if ($action === 'log out' && $roleLabelNorm === 'resident') {
+                                } else if (in_array($action, ['log out', 'logout']) && in_array($roleLabelNorm, ['super admin', 'admin'])) {
+                                    echo 'Log Out - Super Admin/Admin logged out';
+                                } else if (in_array($action, ['log out', 'logout']) && $roleLabelNorm === 'resident') {
                                     echo 'Log Out - Resident logged out';
                                 } else if ($action === 'document request status updated') {
                                     $normalizedDesc = str_replace(
