@@ -30,25 +30,25 @@ class LoginController extends Controller
             'password' => 'required|string',
         ]);
 
-        $loginType = filter_var($credentials['username'], FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
-
-        // Find user to decide which guard to use
-        $candidate = User::where($loginType, $credentials['username'])->first();
         $adminRoles = ['admin', 'super admin', 'super_admin', 'superadmin'];
+        // Try login by username
+        $candidate = User::where('username', $credentials['username'])->first();
+        if (!$candidate) {
+            // Try login by email if not found by username
+            $candidate = User::where('email', $credentials['username'])->first();
+        }
         $shouldUseAdminGuard = $candidate && (
             in_array(strtolower($candidate->user_type ?? ''), array_map('strtolower', $adminRoles)) ||
             in_array(strtolower($candidate->role ?? ''), array_map('strtolower', $adminRoles))
         );
-
         $guard = $shouldUseAdminGuard ? Auth::guard('admin') : Auth::guard();
 
-        if ($guard->attempt([$loginType => $credentials['username'], 'password' => $credentials['password']])) {
+        // Try login by username
+        if ($guard->attempt(['username' => $credentials['username'], 'password' => $credentials['password']])
+            || $guard->attempt(['email' => $credentials['username'], 'password' => $credentials['password']])) {
 
             $user = $guard->user();
-
-            
             $isAdmin = $shouldUseAdminGuard;
-
             $normalizedStatus = strtolower((string) ($user->status ?? ''));
             $allowedStatuses = ['approved', 'active'];
             $isSuperAdmin = in_array(strtolower((string) ($user->user_type ?? '')), ['super admin', 'super_admin', 'superadmin'], true)
@@ -56,7 +56,6 @@ class LoginController extends Controller
 
             if (!in_array($normalizedStatus, $allowedStatuses, true) && !$isSuperAdmin) {
                 $guard->logout();
-
                 $errorMessage = match ($normalizedStatus) {
                     'pending' => 'Your account is pending admin approval. You cannot log in yet.',
                     'reject', 'rejected'  => 'Your registration was rejected. Please contact the administrator.',
@@ -64,41 +63,25 @@ class LoginController extends Controller
                     'inactive', 'disabled', 'blocked' => 'This account has been deactivated. You can no longer log in.',
                     default   => 'This account is not active (Status: ' . ($user->status ?? 'unknown') . '). Please contact an administrator.'
                 };
-
                 return back()->withErrors(['username' => $errorMessage])->onlyInput('username');
             }
-
-
-            // Regenerate the appropriate session for the guard used
-            if ($isAdmin) {
-                $request->session()->regenerate();
-            } else {
-                $request->session()->regenerate();
-            }
-
-            // Notify on the same guard's user instance to avoid null
+            $request->session()->regenerate();
             if ($isAdmin) {
                 $user->notify(new AdminLoginNotification());
             } else {
                 $user->notify(new UserLoginNotification());
             }
-
-            // Create audit log for login
             $isResident = !$isAdmin && (strtolower($user->role ?? '') === 'resident' || strtolower($user->user_type ?? '') === 'resident');
             AuditLog::create([
                 'user_id' => $user->id,
                 'action' => $isResident ? 'Log In' : ($isAdmin ? 'Login' : 'Login'),
                 'description' => $isResident ? 'Resident logged in' : ($isAdmin ? 'Admin/Super Admin logged in' : 'User logged in'),
             ]);
-
-            
             if ($isAdmin) {
                 return redirect()->route('admin.dashboard');
             }
-
             return redirect()->route('home');
         }
-
         return back()->withErrors([
             'username' => 'The provided credentials do not match our records.',
         ])->onlyInput('username');

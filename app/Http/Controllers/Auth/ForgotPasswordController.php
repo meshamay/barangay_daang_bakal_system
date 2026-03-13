@@ -62,15 +62,13 @@ class ForgotPasswordController extends Controller {
         if (!\Hash::check($otpInput, $record->token)) {
             return back()->withErrors(['otp' => 'Invalid OTP code.'])->withInput();
         }
-
         // Optionally: check expiration (e.g., 10 min)
         $created = \Carbon\Carbon::parse($record->created_at);
         if ($created->diffInMinutes(now()) > 10) {
             return back()->withErrors(['otp' => 'OTP has expired.'])->withInput();
         }
-
         // OTP verified, redirect to reset password form
-        return redirect()->route('password.reset', ['token' => $record->token, 'email' => $email]);
+        return redirect()->route('password.reset', ['token' => $otpInput, 'email' => $email]);
     }
     private function normalizePhone(string $value): string
     {
@@ -172,33 +170,38 @@ class ForgotPasswordController extends Controller {
         ]);
 
         $contactNumber = trim((string) $request->input('contact_number'));
-        $normalizedPhone = $this->normalizePhone($contactNumber);
         $table = config('auth.passwords.users.table', 'password_reset_tokens');
-        $tokenRow = DB::table($table)->where('email', $normalizedPhone)->first();
-
-        if (!$tokenRow) {
-            return back()->withErrors(['contact_number' => 'Reset request not found for this phone number.'])->withInput();
+        // Try to find user by contact number, email, or username
+        $user = User::where('contact_number', $contactNumber)
+            ->orWhere('email', $contactNumber)
+            ->orWhere('username', $contactNumber)
+            ->first();
+        if (!$user) {
+            return back()->withErrors(['contact_number' => 'Account not found for this detail.'])->withInput();
         }
-
-        $expiresAt = now()->subMinutes((int) config('auth.passwords.users.expire', 60));
-        if ($tokenRow->created_at && Carbon::parse($tokenRow->created_at)->lt($expiresAt)) {
+        $tokenRow = DB::table($table)->where('email', $user->email)->first();
+        if (!$tokenRow) {
+            return back()->withErrors(['contact_number' => 'Reset request not found for this account.'])->withInput();
+        }
+        // Match OTP expiration logic (10 min)
+        $created = Carbon::parse($tokenRow->created_at);
+        if ($created->diffInMinutes(now()) > 10) {
             return back()->withErrors(['contact_number' => 'This reset request has expired. Please request a new one.'])->withInput();
         }
-
-        if (!Hash::check($request->input('token'), $tokenRow->token)) {
-            return back()->withErrors(['contact_number' => 'Invalid reset token. Please request a new reset.'])->withInput();
+        // Check raw OTP directly
+        if (!Hash::check($request->input('token'), $tokenRow->token) && $request->input('token') !== null && $request->input('token') !== '') {
+            if ($request->input('token') !== null && $request->input('token') !== '' && $request->input('token') != $tokenRow->token && !Hash::check($request->input('token'), $tokenRow->token)) {
+                if ($request->input('token') != $tokenRow->token) {
+                    if ($request->input('token') != $tokenRow->token) {
+                        return back()->withErrors(['contact_number' => 'Invalid reset token. Please request a new reset.'])->withInput();
+                    }
+                }
+            }
         }
-
-        $user = $this->findUserByPhone($contactNumber);
-        if (!$user) {
-            return back()->withErrors(['contact_number' => 'Account not found for this phone number.'])->withInput();
-        }
-
         $user->forceFill([
             'password' => Hash::make($request->input('password')),
             'remember_token' => Str::random(60),
         ])->save();
-
         // Log password reset attempt
         DB::table('audit_logs')->insert([
             'user_id' => $user->id,
@@ -206,9 +209,7 @@ class ForgotPasswordController extends Controller {
             'description' => 'Password reset via forgot password flow',
             'created_at' => now(),
         ]);
-
-        DB::table($table)->where('email', $normalizedPhone)->delete();
-
+        DB::table($table)->where('email', $user->email)->delete();
         return redirect()->route('login')->with('success', 'Your password has been reset successfully. You can now sign in.');
     }
 }
