@@ -217,7 +217,7 @@ class StaffController extends Controller
             AuditLog::create([
                 'user_id' => $admin->id,
                 'action' => 'Deactivate Staff',
-                'description' => 'Deactivated staff: ' . $staff->first_name . ' ' . $staff->last_name . ' (' . $staff->username . ')',
+                'description' => 'Super Admin deactivated a staff member’s account',
             ]);
 
             return redirect()->route('admin.staffs.index')->with('success', 'Staff member deactivated successfully.');
