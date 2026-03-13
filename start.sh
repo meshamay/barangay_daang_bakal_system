@@ -47,3 +47,5 @@ exec php \
   -d post_max_size=40M \
   -S 0.0.0.0:${PORT:-8080} \
   -t public
+
+ 
