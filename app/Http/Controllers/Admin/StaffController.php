@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\AuditLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
@@ -125,7 +126,7 @@ class StaffController extends Controller
         $residentId = 'A-' . str_pad($nextNumber, 5, '0', STR_PAD_LEFT);
 
         // Prevent creation of superadmin via staff creation
-        User::create([
+        $createdUser = User::create([
             'resident_id' => $residentId,
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
@@ -145,6 +146,14 @@ class StaffController extends Controller
             'place_of_birth' => 'Unknown', 
             'contact_number' => '0000000000', 
             'address' => 'Admin Address', 
+        ]);
+
+        // Audit log for staff creation
+        $admin = auth()->user();
+        AuditLog::create([
+            'user_id' => $admin->id,
+            'action' => 'Add Staff',
+            'description' => 'Added admin staff: ' . $createdUser->first_name . ' ' . $createdUser->last_name . ' (' . $createdUser->username . ')',
         ]);
 
         return redirect()->route('admin.staffs.index')->with('success', 'Admin staff created successfully.');
@@ -181,6 +190,14 @@ class StaffController extends Controller
 
             $staff->update($updateData);
 
+            // Audit log for staff update
+            $admin = auth()->user();
+            AuditLog::create([
+                'user_id' => $admin->id,
+                'action' => 'Edit Staff',
+                'description' => 'Edited staff: ' . $staff->first_name . ' ' . $staff->last_name . ' (' . $staff->username . ')',
+            ]);
+
             return redirect()->route('admin.staffs.index')->with('success', 'Staff member updated successfully.');
         } catch (\Exception $e) {
             return redirect()->route('admin.staffs.index')->with('error', 'Failed to update staff member: ' . $e->getMessage());
@@ -194,6 +211,15 @@ class StaffController extends Controller
     {
         try {
             $staff->update(['status' => 'inactive']);
+
+            // Audit log for staff deactivation
+            $admin = auth()->user();
+            AuditLog::create([
+                'user_id' => $admin->id,
+                'action' => 'Deactivate Staff',
+                'description' => 'Deactivated staff: ' . $staff->first_name . ' ' . $staff->last_name . ' (' . $staff->username . ')',
+            ]);
+
             return redirect()->route('admin.staffs.index')->with('success', 'Staff member deactivated successfully.');
         } catch (\Exception $e) {
             return redirect()->route('admin.staffs.index')->with('error', 'Failed to deactivate staff member: ' . $e->getMessage());
