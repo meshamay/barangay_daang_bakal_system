@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Carbon;
+use GuzzleHttp\Client;
 
 
 class ForgotPasswordController extends Controller {
@@ -32,11 +34,20 @@ class ForgotPasswordController extends Controller {
                 'created_at' => now(),
             ]
         );
-        // Send OTP via email
-        \Mail::raw('Your OTP for password reset is: ' . $otp, function ($message) use ($user) {
-            $message->to($user->email)
-                ->subject('Password Reset OTP');
-        });
+        // Send OTP via SMTP2GO HTTP API
+        $apiKey = env('SMTP2GO_API_KEY');
+        $client = new Client();
+        $response = $client->post('https://api.smtp2go.com/v3/email/send', [
+            'json' => [
+                'api_key' => $apiKey,
+                'to' => [[$user->email]],
+                'sender' => env('MAIL_FROM_ADDRESS'),
+                'subject' => 'Password Reset OTP',
+                'text_body' => 'Your OTP for password reset is: ' . $otp,
+            ],
+            'timeout' => 10,
+        ]);
+        // Optionally, check for errors in $response
         return redirect()->route('password.verify-otp', ['email' => $email])
             ->with('status', 'A new OTP has been sent to your email.');
     }
