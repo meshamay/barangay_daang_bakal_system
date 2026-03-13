@@ -37,17 +37,27 @@ class ForgotPasswordController extends Controller {
         // Send OTP via SMTP2GO HTTP API
         $apiKey = env('SMTP2GO_API_KEY');
         $client = new Client();
-        $response = $client->post('https://api.smtp2go.com/v3/email/send', [
-            'json' => [
-                'api_key' => $apiKey,
-                'to' => [[$user->email]],
-                'sender' => env('MAIL_FROM_ADDRESS'),
-                'subject' => 'Password Reset OTP',
-                'text_body' => 'Your OTP for password reset is: ' . $otp,
-            ],
-            'timeout' => 10,
-        ]);
-        // Optionally, check for errors in $response
+        try {
+            $response = $client->post('https://api.smtp2go.com/v3/email/send', [
+                'json' => [
+                    'api_key' => $apiKey,
+                    'to' => [[$user->email]],
+                    'sender' => env('MAIL_FROM_ADDRESS'),
+                    'subject' => 'Password Reset OTP',
+                    'text_body' => 'Your OTP for password reset is: ' . $otp,
+                ],
+                'timeout' => 10,
+            ]);
+            $body = json_decode($response->getBody(), true);
+            \Log::info('SMTP2GO API response', $body);
+            if (empty($body['data']['succeeded']) || !$body['data']['succeeded']) {
+                \Log::error('SMTP2GO failed to send email', $body);
+                return back()->withErrors(['email' => 'Failed to send OTP email. Please try again later.']);
+            }
+        } catch (\Exception $e) {
+            \Log::error('SMTP2GO API error: ' . $e->getMessage());
+            return back()->withErrors(['email' => 'Failed to send OTP email. Please try again later.']);
+        }
         return redirect()->route('password.verify-otp', ['email' => $email])
             ->with('status', 'A new OTP has been sent to your email.');
     }
