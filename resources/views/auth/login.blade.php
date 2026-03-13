@@ -28,21 +28,20 @@
   <div class="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20"
        style="background-image: url('https://media.karousell.com/media/photos/products/2025/3/4/lot_for_sale_in_barangay_daang_1741074654_b1a72035');"></div>
 
-  <div class="relative z-20 flex flex-col md:flex-row w-full max-w-5xl mx-auto rounded-3xl overflow-hidden shadow-2xl border-2 border-gray-100 bg-white fade-in my-auto">
-
-    <div class="hidden md:flex md:w-1/2 relative" style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%);">
-      <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('{{ asset('images/signIn.png') }}');"></div>
-      <div class="relative z-10 p-12 text-white flex flex-col justify-center items-center h-full translate-x-3 translate-y-36">
-        <div class="border-2 border-[#134573] rounded-2xl p-6 bg-white/5 backdrop-blur-sm max-w-sm">
-          <h1 class="text-3xl font-bold mb-3 tracking-tight text-white drop-shadow-lg text-center">Welcome Back!</h1>
-          <p class="text-base leading-relaxed text-center text-white drop-shadow-lg">
-            Sign in to continue accessing seamless document requests and efficient service management.
-          </p>
+  <div class="relative z-20 min-h-screen flex items-center justify-center p-4">
+    <div class="flex flex-col md:flex-row w-full max-w-5xl mx-auto rounded-3xl overflow-hidden shadow-2xl border-2 border-gray-100 bg-white fade-in my-auto">
+      <div class="hidden md:flex md:w-1/2 relative" style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%);">
+        <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('{{ asset('images/signIn.png') }}');"></div>
+        <div class="relative z-10 p-12 text-white flex flex-col justify-center items-center h-full translate-x-3 translate-y-36">
+          <div class="border-2 border-[#134573] rounded-2xl p-6 bg-white/5 backdrop-blur-sm max-w-sm">
+            <h1 class="text-3xl font-bold mb-3 tracking-tight text-white drop-shadow-lg text-center">Welcome Back!</h1>
+            <p class="text-base leading-relaxed text-center text-white drop-shadow-lg">
+              Sign in to continue accessing seamless document requests and efficient service management.
+            </p>
+          </div>
         </div>
       </div>
-    </div>
-
-    <div class="w-full md:w-1/2 p-6 sm:p-8 md:p-12 bg-white">
+      <div class="w-full md:w-1/2 p-6 sm:p-8 md:p-12 bg-white">
       <h2 class="text-2xl sm:text-3xl font-bold text-center mb-2 text-blue-600">Sign In</h2>
       <p class="text-center text-gray-500 text-xs sm:text-sm mb-6 sm:mb-8">Access the Barangay Management System</p>
 
