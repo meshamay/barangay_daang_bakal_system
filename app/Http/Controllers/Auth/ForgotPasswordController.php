@@ -41,7 +41,7 @@ class ForgotPasswordController extends Controller {
             $response = $client->post('https://api.smtp2go.com/v3/email/send', [
                 'json' => [
                     'api_key' => $apiKey,
-                    'to' => [[$user->email]],
+                    'to' => [$user->email],
                     'sender' => env('MAIL_FROM_ADDRESS'),
                     'subject' => 'Password Reset OTP',
                     'text_body' => 'Your OTP for password reset is: ' . $otp,
