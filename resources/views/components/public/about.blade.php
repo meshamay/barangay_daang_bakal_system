@@ -60,15 +60,23 @@
         </div>
 
         <div class="max-w-4xl mx-auto mb-8 sm:mb-10 md:mb-12 lg:mb-16">
-            <div class="bg-gradient-to-br from-blue-50 to-white rounded-md sm:rounded-lg md:rounded-xl shadow-lg p-4 sm:p-6 md:p-8 border border-blue-200">
-                <div class="rounded-lg p-3 flex flex-col items-center justify-center">
-                    <ul class="list-none w-full flex flex-col items-center justify-center">
-                        <li class="text-slate-700 font-poppins font-normal text-[14px] md:text-[18px] mb-2 text-center">Promote adequate education for all</li>
-                        <li class="text-slate-700 font-poppins font-normal text-[14px] md:text-[18px] mb-2 text-center">Sustain economic livelihood projects</li>
-                        <li class="text-slate-700 font-poppins font-normal text-[14px] md:text-[18px] mb-2 text-center">Commit and maintain peace and order and safety</li>
-                        <li class="text-slate-700 font-poppins font-normal text-[14px] md:text-[18px] mb-2 text-center">Promote excellent performance in health and nutrition</li>
-                        <li class="text-slate-700 font-poppins font-normal text-[14px] md:text-[18px] mb-2 text-center">Advocate in social, culture and environmental concerns</li>
-                    </ul>
+            <div class="bg-gradient-to-br from-white via-blue-50 to-white rounded-xl shadow-xl p-4 sm:p-6 md:p-8 border border-blue-100">
+                <div class="flex flex-col gap-4">
+                    <div class="bg-white border-l-8 border-blue-400 rounded-md shadow-md p-2 transition hover:shadow-xl hover:border-blue-500 text-[14px] lg:text-[18px] font-poppins text-slate-700 text-center">
+                        Promote adequate education for all
+                    </div>
+                    <div class="bg-white border-l-8 border-yellow-400 rounded-md shadow-md p-2 transition hover:shadow-xl hover:border-yellow-500 text-[14px] lg:text-[18px] font-poppins text-slate-700 text-center">
+                        Sustain economic livelihood projects
+                    </div>
+                    <div class="bg-white border-l-8 border-blue-400 rounded-md shadow-md p-2 transition hover:shadow-xl hover:border-blue-500 text-[14px] lg:text-[18px] font-poppins text-slate-700 text-center">
+                        Commit and maintain peace and order and safety
+                    </div>
+                    <div class="bg-white border-l-8 border-yellow-400 rounded-md shadow-md p-2 transition hover:shadow-xl hover:border-yellow-500 text-[14px] lg:text-[18px] font-poppins text-slate-700 text-center">
+                        Promote excellent performance in health and nutrition
+                    </div>
+                    <div class="bg-white border-l-8 border-blue-400 rounded-md shadow-md p-2 transition hover:shadow-xl hover:border-blue-500 text-[14px] lg:text-[18px] font-poppins text-slate-700 text-center">
+                        Advocate in social, culture and environmental concerns
+                    </div>
                 </div>
             </div>
         </div>
