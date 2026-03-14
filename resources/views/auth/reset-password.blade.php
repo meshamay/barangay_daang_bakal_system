@@ -33,6 +33,8 @@
       @csrf
       <input type="hidden" name="token" value="{{ $token }}">
 
+      <input type="hidden" name="email" value="{{ request('email', $email ?? '') }}">
+
 
       <div>
         <label for="password" class="block text-gray-700 mb-2 font-semibold text-sm">New Password</label>

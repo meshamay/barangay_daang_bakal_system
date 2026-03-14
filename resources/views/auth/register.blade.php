@@ -210,6 +210,7 @@
                                     <div>
                                         <label for="email" class="mb-1 block text-sm font-semibold text-gray-700">Email Address</label>
                                         <input type="email" name="email" id="email" autocomplete="email" class="h-10 w-full rounded-lg border-2 border-gray-300 bg-gray-50 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                        <p class="mt-1 text-xs text-gray-500">Provide an email to enable self-service password reset. If you don't have one, you can still register, but password resets must be done at the Barangay Hall.</p>
                                     </div>
                                     <div>
                                         <label for="address" class="mb-1 block text-sm font-semibold text-gray-700">House/Unit Number, Street <span class="text-red-500">*</span></label>

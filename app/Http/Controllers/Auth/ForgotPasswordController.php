@@ -186,35 +186,31 @@ class ForgotPasswordController extends Controller {
     {
         $request->validate([
             'token' => ['required'],
-            'contact_number' => ['required', 'string'],
+            'email' => ['required', 'email'],
             'password' => ['required', 'confirmed', 'min:8'],
         ]);
 
-        $contactNumber = trim((string) $request->input('contact_number'));
+        $email = trim((string) $request->input('email'));
         $table = config('auth.passwords.users.table', 'password_reset_tokens');
-        // Try to find user by contact number, email, or username
-        $user = User::where('contact_number', $contactNumber)
-            ->orWhere('email', $contactNumber)
-            ->orWhere('username', $contactNumber)
-            ->first();
+        $user = User::where('email', $email)->first();
         if (!$user) {
-            return back()->withErrors(['contact_number' => 'Account not found for this detail.'])->withInput();
+            return back()->withErrors(['email' => 'Account not found for this email.'])->withInput();
         }
         $tokenRow = DB::table($table)->where('email', $user->email)->first();
         if (!$tokenRow) {
-            return back()->withErrors(['contact_number' => 'Reset request not found for this account.'])->withInput();
+            return back()->withErrors(['email' => 'Reset request not found for this account.'])->withInput();
         }
         // Match OTP expiration logic (10 min)
         $created = Carbon::parse($tokenRow->created_at);
         if ($created->diffInMinutes(now()) > 10) {
-            return back()->withErrors(['contact_number' => 'This reset request has expired. Please request a new one.'])->withInput();
+            return back()->withErrors(['email' => 'This reset request has expired. Please request a new one.'])->withInput();
         }
         // Check raw OTP directly
         if (!Hash::check($request->input('token'), $tokenRow->token) && $request->input('token') !== null && $request->input('token') !== '') {
             if ($request->input('token') !== null && $request->input('token') !== '' && $request->input('token') != $tokenRow->token && !Hash::check($request->input('token'), $tokenRow->token)) {
                 if ($request->input('token') != $tokenRow->token) {
                     if ($request->input('token') != $tokenRow->token) {
-                        return back()->withErrors(['contact_number' => 'Invalid reset token. Please request a new reset.'])->withInput();
+                        return back()->withErrors(['email' => 'Invalid reset token. Please request a new reset.'])->withInput();
                     }
                 }
             }
