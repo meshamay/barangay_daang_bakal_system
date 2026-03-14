@@ -114,7 +114,11 @@ class AnnouncementController extends Controller
         $validated['created_by'] = auth()->id(); 
 
         $announcement = Announcement::create($validated);
-
+        \App\Models\AuditLog::create([
+            'user_id' => auth()->id(),
+            'action' => 'Add Announcement',
+            'description' => 'Added a new announcement',
+        ]);
         return redirect()->route('admin.announcements.index')
             ->with('success', 'Announcement created successfully.');
     }
@@ -130,7 +134,7 @@ class AnnouncementController extends Controller
     public function edit(Announcement $announcement)
     {
         
-        return redirect()->route('admin.announcements.index')->with('edit_id', $announcement->id);
+        return redirect()->route('admin.announcements.index')->with('edit_id', $announcement->getKey());
     }
 
     /**
@@ -151,14 +155,19 @@ class AnnouncementController extends Controller
         $validated['status'] = $validated['status'] ?? $announcement->status ?? 'active';
 
         if ($request->hasFile('image')) {
-            if ($announcement->image_path) {
-                Storage::disk('public')->delete($announcement->image_path);
+            $imagePath = $announcement->getAttribute('image_path');
+            if ($imagePath) {
+                Storage::disk('public')->delete($imagePath);
             }
             $validated['image_path'] = $request->file('image')->store('announcements', 'public');
         }
 
         $announcement->update($validated);
-
+        \App\Models\AuditLog::create([
+            'user_id' => auth()->id(),
+            'action' => 'Edit Announcement',
+            'description' => 'Updated an announcement’s details',
+        ]);
         return redirect()->route('admin.announcements.index')
             ->with('success', 'Announcement updated successfully.');
     }
@@ -168,8 +177,9 @@ class AnnouncementController extends Controller
      */
     public function destroy(Announcement $announcement)
     {
-        if ($announcement->image_path) {
-            Storage::disk('public')->delete($announcement->image_path);
+        $imagePath = $announcement->getAttribute('image_path');
+        if ($imagePath) {
+            Storage::disk('public')->delete($imagePath);
         }
 
         $announcement->delete();

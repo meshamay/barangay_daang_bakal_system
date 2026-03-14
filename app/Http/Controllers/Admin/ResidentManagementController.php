@@ -158,7 +158,11 @@ class ResidentManagementController extends Controller
         ]);
 
         $user->update($validated);
-
+        \App\Models\AuditLog::create([
+            'user_id' => auth()->id(),
+            'action' => 'Edit Resident Information',
+            'description' => "Updated a resident’s personal information",
+        ]);
         return redirect()->route('admin.users.show', $user->id)
             ->with('success', 'User information updated successfully.');
     }
@@ -187,6 +191,11 @@ class ResidentManagementController extends Controller
         }
         $user->update(['status' => 'approved']);
         $user->notify(new UserRegistrationApproved($user));
+        \App\Models\AuditLog::create([
+            'user_id' => auth()->id(),
+            'action' => 'Approved Resident Registration',
+            'description' => "Accepted a resident’s registration",
+        ]);
         return back()->with('success', 'User approved successfully. Approval email sent.');
     }
 
@@ -198,6 +207,11 @@ class ResidentManagementController extends Controller
         $reason = $request->input('reason');
         $user->update(['status' => 'reject']);
         $user->notify(new UserRegistrationRejected($user, $reason));
+        \App\Models\AuditLog::create([
+            'user_id' => auth()->id(),
+            'action' => 'Reject Resident Registration',
+            'description' => "Rejected a resident’s registration",
+        ]);
         return back()->with('success', 'User registration rejected. Rejection email sent.');
     }
 
@@ -207,6 +221,11 @@ class ResidentManagementController extends Controller
     public function archive(User $user)
     {
         $user->delete();
+        \App\Models\AuditLog::create([
+            'user_id' => auth()->id(),
+            'action' => 'Archive Resident Account',
+            'description' => "Archived a resident’s account",
+        ]);
         return back()->with('success', 'User archived successfully.');
     }
 

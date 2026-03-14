@@ -32,8 +32,12 @@ class BrgyOfficialsController extends Controller
         
         $data['created_by'] = auth()->id();
 
-        BarangayOfficials::create($data);
-
+        $official = BarangayOfficials::create($data);
+        \App\Models\AuditLog::create([
+            'user_id' => auth()->id(),
+            'action' => 'Add Barangay Official',
+            'description' => 'Added a new barangay official',
+        ]);
         return back()->with('success', 'Official added successfully.');
     }
 
@@ -55,7 +59,11 @@ class BrgyOfficialsController extends Controller
         }
 
         $brgyOfficial->update($data);
-
+        \App\Models\AuditLog::create([
+            'user_id' => auth()->id(),
+            'action' => 'Edit Barangay Official',
+            'description' => 'Updated a barangay official’s details',
+        ]);
         return back()->with('success', 'Official updated successfully.');
     }
 
@@ -66,7 +74,11 @@ class BrgyOfficialsController extends Controller
         }
 
         $brgyOfficial->delete();
-
+        \App\Models\AuditLog::create([
+            'user_id' => auth()->id(),
+            'action' => 'Delete Barangay Official',
+            'description' => 'Deleted a barangay official',
+        ]);
         return back()->with('success', 'Official deleted successfully.');
     }
 }

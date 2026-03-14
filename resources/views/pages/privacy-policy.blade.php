@@ -16,11 +16,11 @@
             <div>
                 <h1 class="text-4xl font-bold text-gray-800">Privacy Policy</h1>
                 <p class="text-gray-600 text-lg">ARIS - Automated Record Information System</p>
-                <p class="text-gray-500 text-sm">Barangay Daang Bakal, Mandaluyong City</p>
+                <p class="text-gray-500 text-sm md:text-sm text-[16px] md:text-sm city-header-mobile">Barangay Daang Bakal, Mandaluyong City</p>
             </div>
         </div>
 
-        <div class="bg-white p-10 rounded-3xl shadow-2xl border border-blue-100 max-w-2xl mx-auto mt-8">
+        <div class="bg-white p-10 rounded-3xl shadow-2xl border border-blue-100 max-w-2xl mx-auto mt-8 pb-8 sm:pb-10">
             <div class="mb-6">
                 <h2 class="text-3xl font-extrabold text-blue-900 mb-1">Data Privacy Notice</h2>
                 <h3 class="text-lg font-semibold text-blue-700">Automated Record and Information System (ARIS)</h3>
@@ -66,12 +66,17 @@
                 <h4 class="text-xl font-bold text-blue-800 mb-2">Contact Information</h4>
                 <div class="bg-blue-50 p-4 rounded-xl border-l-4 border-blue-400">
                     <p class="font-semibold text-blue-900 mb-1">Barangay Daang Bakal ARIS Administration Office</p>
-                    <p class="mb-1">📧 <span class="text-blue-700">Email:</span> <a href="mailto:barangaydaangbakal@gmail.com" class="underline text-blue-700">barangaydaangbakal@gmail.com</a></p>
-                    <p>📞 <span class="text-blue-700">Office Hours:</span> 7:00 AM – 5:00 PM (Working Days Only)</p>
+                    <p class="mb-1 text-[15px] sm:text-base">📧 <span class="text-blue-700">Email:</span> 
+                        <a href="mailto:barangaydaangbakal@gmail.com" class="underline text-blue-700" target="_blank" rel="noopener noreferrer">
+                            barangaydaangbakal@gmail.com
+                        </a>
+                        <span class="block text-xs text-gray-500">(Tap to email us)</span>
+                    </p>
+                    <p class="text-[15px] sm:text-base">📞 <span class="text-blue-700">Office Hours:</span> 7:00 AM – 5:00 PM (Working Days Only)</p>
                 </div>
             </div>
         </div>
-            <div class="text-center mt-10 mb-8">
+            <div class="text-center mt-6 mb-4 sm:mt-10 sm:mb-8">
                 <button id="agreeBtn" class="rounded-lg bg-blue-100 hover:bg-blue-200 px-8 py-3 text-base font-semibold text-gray-800 shadow-md transition-all duration-200">Back</button>
             </div>
 
@@ -79,12 +84,22 @@
 </div>
 
 <style>
+@media (max-width: 640px) {
+    .privacy-policy-content, .bg-white {
+        padding-bottom: 2rem !important;
+        margin-bottom: 0 !important;
+    }
+    .city-header-mobile {
+        font-size: 16px !important;
+    }
+    .text-[15px] { font-size: 15px !important; }
+}
 html, body {
-  height: 100%;
-  min-height: 100vh;
+    height: 100%;
+    min-height: 100vh;
 }
 body {
-  overflow-y: auto !important;
+    overflow-y: auto !important;
 }
 </style>
 

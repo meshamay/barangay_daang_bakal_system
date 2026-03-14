@@ -153,7 +153,7 @@ class StaffController extends Controller
         AuditLog::create([
             'user_id' => $admin->id,
             'action' => 'Add Staff',
-            'description' => 'Super Admin added a new staff member',
+            'description' => 'Added a new staff member',
         ]);
 
         return redirect()->route('admin.staffs.index')->with('success', 'Admin staff created successfully.');
@@ -195,7 +195,7 @@ class StaffController extends Controller
             AuditLog::create([
                 'user_id' => $admin->id,
                 'action' => 'Edit Staff',
-                'description' => 'Super Admin updated a staff member’s details',
+                'description' => 'Updated a staff member’s details',
             ]);
 
             return redirect()->route('admin.staffs.index')->with('success', 'Staff member updated successfully.');
@@ -217,7 +217,7 @@ class StaffController extends Controller
             AuditLog::create([
                 'user_id' => $admin->id,
                 'action' => 'Deactivate Staff',
-                'description' => 'Super Admin deactivated a staff member’s account',
+                'description' => 'Deactivated a staff member’s account',
             ]);
 
             return redirect()->route('admin.staffs.index')->with('success', 'Staff member deactivated successfully.');
