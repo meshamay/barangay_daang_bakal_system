@@ -1,5 +1,7 @@
 <?php
 
+
+
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
@@ -9,8 +11,43 @@ use App\Notifications\UserRegistrationRejected;
 use Illuminate\Http\Request;
 
 
+
 class ResidentManagementController extends Controller
 {
+
+	/**
+	 * Reject a resident registration.
+	 */
+	public function reject(Request $request, User $user)
+	{
+		$reason = $request->input('reason', null);
+		$user->status = 'reject';
+		$user->save();
+		// Optionally notify the user
+		if (class_exists('App\\Notifications\\UserRegistrationRejected')) {
+			$user->notify(new \App\Notifications\UserRegistrationRejected($user, $reason));
+		}
+		\App\Models\AuditLog::create([
+			'user_id' => auth()->id(),
+			'action' => 'Reject Resident',
+			'description' => "Rejected resident registration for user ID: {$user->id}. Reason: " . ($reason ?: 'No reason provided'),
+		]);
+		return redirect()->route('admin.users.index')->with('success', 'User rejected successfully.');
+	}
+
+	/**
+	 * Archive (soft delete) a user/resident.
+	 */
+	public function archive(User $user)
+	{
+		$user->delete();
+		\App\Models\AuditLog::create([
+			'user_id' => auth()->id(),
+			'action' => 'Archive Resident',
+			'description' => "Archived resident account for user ID: {$user->id}",
+		]);
+		return redirect()->route('admin.users.index')->with('success', 'User archived successfully.');
+	}
 	/**
 	 * Approve a resident registration.
 	 */
@@ -27,8 +64,7 @@ class ResidentManagementController extends Controller
 			'action' => 'Approve Resident',
 			'description' => "Approved resident registration for user ID: {$user->id}",
 		]);
-		return redirect()->route('admin.users.show', $user->id)
-			->with('success', 'Resident approved successfully.');
+		return redirect()->route('admin.users.index')->with('success', 'Resident approved successfully.');
 	}
 
 	/**
@@ -94,7 +130,7 @@ class ResidentManagementController extends Controller
 	public function setPassword(Request $request, User $user)
 	{
 		$request->validate([
-			'password' => ['required', 'string', 'min:6', 'confirmed'],
+			'password' => ['required', 'string', 'min:6'],
 		]);
 		$user->password = bcrypt($request->password);
 		$user->save();

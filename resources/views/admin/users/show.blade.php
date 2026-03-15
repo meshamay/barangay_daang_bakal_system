@@ -512,7 +512,7 @@
                             @csrf
                             <label for="setPasswordInput" class="block font-semibold mb-2 text-gray-800 mt-4">New Temporary Password</label>
                             <div class="relative mb-6">
-                                <input type="password" name="password" id="setPasswordInput" class="w-full px-4 py-3 border-2 border-blue-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 pr-12 text-lg" placeholder="Enter new password" required minlength="6">
+                                <input type="password" name="password" id="setPasswordInput" class="w-full px-4 py-3 border-2 border-blue-200 rounded-xl focus:outline-none focus:ring-2 +focus:ring-blue-400 pr-12 text-lg" placeholder="Enter new password" required minlength="6">
                         
                                 <button type="button" id="toggleSetPassword" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-blue-600 transition duration-200 p-1" tabindex="-1">
                                     <svg id="eyeOpenSetPassword" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
