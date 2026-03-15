@@ -498,20 +498,39 @@
 
             <!-- Set Password Modal (Superadmin) -->
             <div id="setPasswordModal" class="modal-container hidden fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-30">
-                <div class="bg-white w-[400px] rounded-2xl shadow-2xl overflow-hidden border-2 border-gray-100 relative animate-fade-in-up pointer-events-auto">
-                    <div class="px-8 py-8 bg-white text-center">
-                        <h2 class="font-bold text-2xl mb-4 text-gray-800 tracking-tight">Set New Password</h2>
+                <div class="bg-white w-[480px] h-[400px] rounded-2xl shadow-2xl overflow-hidden border-2 border-gray-100 relative animate-fade-in-up pointer-events-auto flex flex-col justify-between py-8">
+                    <div class="px-8 bg-white text-left flex flex-col h-full justify-between">
+                        <h2 class="font-bold text-2xl mb-2 text-blue-700 tracking-tight">Reset User Password</h2>
+                        <div class="mb-5 text-left">
+                            <div style="font-size:16px;" class="text-gray-700">Set a temporary password for</div>
+                            <div style="font-size:16px;" class="font-semibold text-gray-900 flex items-center gap-2">
+                                <span>{{ $user->first_name }} {{ $user->last_name }}</span>
+                                <span class="font-mono font-bold text-gray-500 text-base">{{ $user->resident_id ?? ('RS-' . str_pad($user->id, 5, '0', STR_PAD_LEFT)) }}</span>
+                            </div>
+                        </div>
                         <form id="setPasswordForm" method="POST" action="{{ route('admin.users.setPassword', ['user' => $user->id]) }}">
                             @csrf
-                            <div class="mb-4">
-                                <input type="password" name="password" id="setPasswordInput" class="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400" placeholder="New Password" required minlength="6">
+                            <label for="setPasswordInput" class="block font-semibold mb-2 text-gray-800 mt-4">New Temporary Password</label>
+                            <div class="relative mb-6">
+                                <input type="password" name="password" id="setPasswordInput" class="w-full px-4 py-3 border-2 border-blue-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 pr-12 text-lg" placeholder="Enter new password" required minlength="6">
+                        
+                                <button type="button" id="toggleSetPassword" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-blue-600 transition duration-200 p-1" tabindex="-1">
+                                    <svg id="eyeOpenSetPassword" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                    </svg>
+                                    <svg id="eyeClosedSetPassword" class="w-5 h-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7a9.956 9.956 0 012.293-3.95m3.671-2.568A9.956 9.956 0 0112 5c4.478 0 8.268 2.943 9.542 7a9.97 9.97 0 01-4.293 5.568M15 12a3 3 0 11-6 0 3 3 0 016 0zm-6 0c0 .795.312 1.559.879 2.121m2.121.879c.562.567 1.326.879 2.121.879m0-12v.01M3 3l18 18" />
+                                    </svg>
+                                </button>
                             </div>
-                            <div class="mb-6">
-                                <input type="password" name="password_confirmation" id="setPasswordConfirmInput" class="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400" placeholder="Confirm Password" required minlength="6">
+                            <div class="flex items-center mb-12 mt-4 w-full">
+                                <input id="forceChangePassword" name="force_change_password" type="checkbox" class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                                <label for="forceChangePassword" class="ml-2 block text-gray-700" style="font-size:14px;">Force user to change password on next login</label>
                             </div>
-                            <div class="flex gap-3 justify-center">
-                                <button type="button" onclick="closeSetPasswordModal()" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-6 py-2 rounded-xl font-bold text-sm transition-all duration-200">Cancel</button>
-                                <button type="submit" class="bg-gradient-to-r from-yellow-600 to-yellow-400 hover:from-yellow-700 hover:to-yellow-500 text-white px-6 py-2 rounded-xl font-bold text-sm transition-all duration-200">Set Password</button>
+                            <div class="flex gap-3 justify-end mt-auto pb-2">
+                                <button type="button" onclick="closeSetPasswordModal()" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-6 py-2 rounded-xl font-bold text-base transition-all duration-200">Cancel</button>
+                                <button type="submit" class="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 py-2 rounded-xl font-bold text-base transition-all duration-200">Confirm Reset</button>
                             </div>
                         </form>
                     </div>
@@ -524,6 +543,29 @@
                     document.body.style.overflow = 'hidden';
                 }
                 function closeSetPasswordModal() {
+                                    // Password visibility toggles
+                                    const toggleSetPassword = document.getElementById('toggleSetPassword');
+                                    const setPasswordInput = document.getElementById('setPasswordInput');
+                                    const eyeOpenSetPassword = document.getElementById('eyeOpenSetPassword');
+                                    const eyeClosedSetPassword = document.getElementById('eyeClosedSetPassword');
+                                    if (toggleSetPassword && setPasswordInput) {
+                                        toggleSetPassword.addEventListener('click', () => {
+                                            setPasswordInput.type = setPasswordInput.type === 'password' ? 'text' : 'password';
+                                            eyeOpenSetPassword.classList.toggle('hidden');
+                                            eyeClosedSetPassword.classList.toggle('hidden');
+                                        });
+                                    }
+                                    const toggleSetPasswordConfirm = document.getElementById('toggleSetPasswordConfirm');
+                                    const setPasswordConfirmInput = document.getElementById('setPasswordConfirmInput');
+                                    const eyeOpenSetPasswordConfirm = document.getElementById('eyeOpenSetPasswordConfirm');
+                                    const eyeClosedSetPasswordConfirm = document.getElementById('eyeClosedSetPasswordConfirm');
+                                    if (toggleSetPasswordConfirm && setPasswordConfirmInput) {
+                                        toggleSetPasswordConfirm.addEventListener('click', () => {
+                                            setPasswordConfirmInput.type = setPasswordConfirmInput.type === 'password' ? 'text' : 'password';
+                                            eyeOpenSetPasswordConfirm.classList.toggle('hidden');
+                                            eyeClosedSetPasswordConfirm.classList.toggle('hidden');
+                                        });
+                                    }
                     document.getElementById('setPasswordModal').classList.add('hidden');
                     document.body.style.overflow = '';
                 }
@@ -531,6 +573,28 @@
             </div>
     </section>
 </main>
+<script>
+    // Ensure eye icon toggle works every time modal opens
+    function setupSetPasswordEyeToggle() {
+        const toggleSetPassword = document.getElementById('toggleSetPassword');
+        const setPasswordInput = document.getElementById('setPasswordInput');
+        const eyeOpenSetPassword = document.getElementById('eyeOpenSetPassword');
+        const eyeClosedSetPassword = document.getElementById('eyeClosedSetPassword');
+        if (toggleSetPassword && setPasswordInput) {
+            toggleSetPassword.onclick = function() {
+                setPasswordInput.type = setPasswordInput.type === 'password' ? 'text' : 'password';
+                eyeOpenSetPassword.classList.toggle('hidden');
+                eyeClosedSetPassword.classList.toggle('hidden');
+            };
+        }
+    }
+    // Call setup when modal is opened
+    function openSetPasswordModal(userId) {
+        document.getElementById('setPasswordModal').classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+        setupSetPasswordEyeToggle();
+    }
+</script>
 
 <div id="approveModal" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[9999] pointer-events-none">
     <div class="bg-white w-[450px] rounded-3xl shadow-2xl overflow-hidden border-2 border-gray-100 relative animate-fade-in-up pointer-events-auto">

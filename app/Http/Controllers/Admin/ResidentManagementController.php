@@ -11,6 +11,25 @@ use Illuminate\Http\Request;
 
 class ResidentManagementController extends Controller
 {
+	/**
+	 * Approve a resident registration.
+	 */
+	public function approve(Request $request, User $user)
+	{
+		$user->status = 'approved';
+		$user->save();
+		// Optionally notify the user
+		if (class_exists('App\\Notifications\\UserRegistrationApproved')) {
+			$user->notify(new \App\Notifications\UserRegistrationApproved($user));
+		}
+		\App\Models\AuditLog::create([
+			'user_id' => auth()->id(),
+			'action' => 'Approve Resident',
+			'description' => "Approved resident registration for user ID: {$user->id}",
+		]);
+		return redirect()->route('admin.users.show', $user->id)
+			->with('success', 'Resident approved successfully.');
+	}
 
 	/**
 	 * Display a listing of the residents for admin management.
