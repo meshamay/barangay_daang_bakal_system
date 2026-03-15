@@ -28,7 +28,7 @@
                 <div>
                     <h1 class="text-4xl font-bold text-blue-900">Privacy Policy</h1>
                     <p class="text-gray-600 text-lg">ARIS - Automated Record Information System</p>
-                    <p class="text-gray-500 text-sm">Barangay Daang Bakal, Mandaluyong City</p>
+                    <p class="text-gray-500 text-[16px] sm:text-md">Barangay Daang Bakal, Mandaluyong City</p>
                 </div>
             </div>
             <div class="bg-white p-8 rounded-2xl shadow-xl border border-blue-100 max-w-2xl mx-auto mt-6">
@@ -77,12 +77,12 @@
                     <h4 class="text-xl font-bold text-blue-800 mb-2">Contact Information</h4>
                     <div class="bg-blue-50 p-4 rounded-xl border-l-4 border-blue-400">
                         <p class="font-semibold text-blue-900 mb-1">Barangay Daang Bakal ARIS Administration Office</p>
-                        <p class="mb-1">📧 <span class="text-blue-700">Email:</span> <a href="mailto:barangaydaangbakal@gmail.com" class="underline text-blue-700">barangaydaangbakal@gmail.com</a></p>
+                        <p class="mb-1">📧 <span class="text-blue-700">Email:</span> <a href="mailto:barangaydaangbakal@gmail.com" class="underline text-blue-700" target="_blank" rel="noopener noreferrer">barangaydaangbakal@gmail.com</a></p>
                         <p>📞 <span class="text-blue-700">Office Hours:</span> 7:00 AM – 5:00 PM (Working Days Only)</p>
                     </div>
                 </div>
             </div>
-            <div class="text-center mt-8 mb-4">
+            <div class="text-center mt-8 mb-2">
                 <button type="button" onclick="closePrivacyPolicyModal()" class="rounded-lg bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 text-base font-semibold shadow-lg transition-all duration-200">Back</button>
             </div>
         </div>
@@ -210,10 +210,10 @@
                                     <div>
                                         <label for="email" class="mb-1 block text-sm font-semibold text-gray-700">Email Address</label>
                                         <input type="email" name="email" id="email" autocomplete="email" class="h-10 w-full rounded-lg border-2 border-gray-300 bg-gray-50 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                                        <p class="mt-1 text-xs text-gray-500">Provide an email to enable self-service password reset. If you don't have one, you can still register, but password resets must be done at the Barangay Hall.</p>
+                                        <p class="mt-1 text-xs text-gray-600 text-justify">Provide an email to enable self-service password reset. If you don't have one, you can still register, but password resets must be done at the Barangay Hall.</p>
                                     </div>
                                     <div>
-                                        <label for="address" class="mb-1 block text-sm font-semibold text-gray-700">House/Unit Number, Street <span class="text-red-500">*</span></label>
+                                        <label for="address" class="mt-3 mb-1 block text-sm font-semibold text-gray-700">House/Unit Number, Street <span class="text-red-500">*</span></label>
                                         <input type="text" name="address" id="address" autocomplete="street-address" class="h-10 w-full rounded-lg border-2 border-gray-300 bg-gray-50 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
                                     </div>
                                 </div>

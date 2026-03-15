@@ -16,7 +16,7 @@
             <div>
                 <h1 class="text-4xl font-bold text-gray-800">Privacy Policy</h1>
                 <p class="text-gray-600 text-lg">ARIS - Automated Record Information System</p>
-                <p class="text-gray-500 text-sm md:text-sm text-[16px] md:text-sm city-header-mobile">Barangay Daang Bakal, Mandaluyong City</p>
+                <p class="text-gray-500 text-[16px] sm:text-sm" id="cityHeaderMobile">Barangay Daang Bakal, Mandaluyong City</p>
             </div>
         </div>
 
@@ -85,21 +85,10 @@
 
 <style>
 @media (max-width: 640px) {
-    .privacy-policy-content, .bg-white {
-        padding-bottom: 2rem !important;
-        margin-bottom: 0 !important;
-    }
-    .city-header-mobile {
+    #cityHeaderMobile {
         font-size: 16px !important;
+        line-height: 1.4 !important;
     }
-    .text-[15px] { font-size: 15px !important; }
-}
-html, body {
-    height: 100%;
-    min-height: 100vh;
-}
-body {
-    overflow-y: auto !important;
 }
 </style>
 
