@@ -149,6 +149,9 @@ Route::middleware(['auth'])->group(function () {
 // ========================================================================
 Route::middleware(['auth:admin', 'check.admin'])->prefix('admin')->name('admin.')->group(function () {
 
+    // Set Password (Superadmin direct set)
+    Route::post('/users/{user}/set-password', [App\Http\Controllers\Admin\ResidentManagementController::class, 'setPassword'])->name('users.setPassword');
+
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 

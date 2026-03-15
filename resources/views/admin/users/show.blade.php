@@ -483,12 +483,51 @@
                      class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold px-6 py-2.5 rounded-xl transition-all duration-200 text-sm flex items-center border border-gray-300 hover:shadow-md">
                      Close
                 </a>
-                @if(!$isArchived && !$isRejected)
-                <a href="{{ route('admin.users.edit', $user->id) }}"
+                 @if(!$isArchived && !$isRejected)
+                 <a href="{{ route('admin.users.edit', $user->id) }}"
                      class="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold px-6 py-2.5 rounded-xl transition-all duration-200 text-sm flex items-center gap-2 hover:shadow-lg transform hover:scale-105">
                      <i data-lucide="edit" class="w-4 h-4"></i> Edit Information
-                </a>
-                @endif
+                 </a>
+                <button type="button"
+                    onclick="openSetPasswordModal({{ $user->id }})"
+                    class="bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-white font-semibold px-6 py-2.5 rounded-xl transition-all duration-200 text-sm flex items-center gap-2 hover:shadow-lg transform hover:scale-105">
+                    <i data-lucide="key" class="w-4 h-4"></i> Reset Password
+                </button>
+                 @endif
+            </main>
+
+            <!-- Set Password Modal (Superadmin) -->
+            <div id="setPasswordModal" class="modal-container hidden fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-30">
+                <div class="bg-white w-[400px] rounded-2xl shadow-2xl overflow-hidden border-2 border-gray-100 relative animate-fade-in-up pointer-events-auto">
+                    <div class="px-8 py-8 bg-white text-center">
+                        <h2 class="font-bold text-2xl mb-4 text-gray-800 tracking-tight">Set New Password</h2>
+                        <form id="setPasswordForm" method="POST" action="{{ route('admin.users.setPassword', ['user' => $user->id]) }}">
+                            @csrf
+                            <div class="mb-4">
+                                <input type="password" name="password" id="setPasswordInput" class="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400" placeholder="New Password" required minlength="6">
+                            </div>
+                            <div class="mb-6">
+                                <input type="password" name="password_confirmation" id="setPasswordConfirmInput" class="w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400" placeholder="Confirm Password" required minlength="6">
+                            </div>
+                            <div class="flex gap-3 justify-center">
+                                <button type="button" onclick="closeSetPasswordModal()" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-6 py-2 rounded-xl font-bold text-sm transition-all duration-200">Cancel</button>
+                                <button type="submit" class="bg-gradient-to-r from-yellow-600 to-yellow-400 hover:from-yellow-700 hover:to-yellow-500 text-white px-6 py-2 rounded-xl font-bold text-sm transition-all duration-200">Set Password</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                function openSetPasswordModal(userId) {
+                    document.getElementById('setPasswordModal').classList.remove('hidden');
+                    document.body.style.overflow = 'hidden';
+                }
+                function closeSetPasswordModal() {
+                    document.getElementById('setPasswordModal').classList.add('hidden');
+                    document.body.style.overflow = '';
+                }
+            </script>
             </div>
     </section>
 </main>
