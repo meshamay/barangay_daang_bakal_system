@@ -68,7 +68,7 @@
                                 <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
                             </svg>
                         </div>
-                        <a href="mailto:barangaydaangbakal@gmail.com?subject=Inquiry%20to%20Barangay%20Daang%20Bakal&body=Magandang%20araw%20po%2C%20nais%20ko%20pong%20mag-inquire%20sa%20Barangay%20Daang%20Bakal." class="hover:text-blue-300 transition-colors duration-300 break-all">barangaydaangbakal@gmail.com</a>
+                        <a href="mailto:barangaydaangbakal@gmail.com?subject=Inquiry%20to%20Barangay%20Daang%20Bakal&body=Magandang%20araw%20po%2C%20nais%20ko%20pong%20mag-inquire%20sa%20Barangay%20Daang%20Bakal." class="hover:text-blue-300 transition-colors duration-300 break-all" target="_blank" rel="noopener noreferrer">barangaydaangbakal@gmail.com</a>
                     </li>
                 </ul>
             </section>
