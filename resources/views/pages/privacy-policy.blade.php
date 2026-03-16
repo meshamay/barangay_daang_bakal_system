@@ -16,11 +16,11 @@
             <div>
                 <h1 class="text-4xl font-bold text-gray-800">Privacy Policy</h1>
                 <p class="text-gray-600 text-lg">ARIS - Automated Record Information System</p>
-                <p class="text-gray-500 text-[16px] sm:text-sm" id="cityHeaderMobile">Barangay Daang Bakal, Mandaluyong City</p>
+                <p class="text-gray-500 text-[16px] sm:text-sm md:text-[16px] lg:text-[16px]" id="cityHeaderMobile">Barangay Daang Bakal, Mandaluyong City</p>
             </div>
         </div>
 
-        <div class="bg-white p-10 rounded-3xl shadow-2xl border border-blue-100 max-w-2xl mx-auto mt-8 pb-8 sm:pb-10">
+        <div class="bg-white p-10 rounded-3xl shadow-2xl border border-blue-100 max-w-2xl mx-auto mt-8 pb-4 sm:pb-6 md:pb-8 lg:pb-10">
             <div class="mb-6">
                 <h2 class="text-3xl font-extrabold text-blue-900 mb-1">Data Privacy Notice</h2>
                 <h3 class="text-lg font-semibold text-blue-700">Automated Record and Information System (ARIS)</h3>
@@ -88,6 +88,11 @@
     #cityHeaderMobile {
         font-size: 16px !important;
         line-height: 1.4 !important;
+    }
+}
+@media (min-width: 641px) {
+    #cityHeaderMobile {
+        font-size: 16px !important;
     }
 }
 </style>

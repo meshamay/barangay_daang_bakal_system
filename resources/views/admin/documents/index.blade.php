@@ -184,7 +184,8 @@
 									'Certificate of Residency' => 'modalResidency',
 									'Barangay Residency' => 'modalResidency',
 								];
-								$targetModal = $modalMap[$request->document_type] ?? 'modalClearance';
+								$baseModal = $modalMap[$request->document_type] ?? 'modalClearance';
+								$targetModal = $baseModal . '-' . $request->id;
 
 								// 2. Extract Specific Data from Relationships
 								// Initialize variables
@@ -320,50 +321,52 @@
 {{-- ================= MODALS START HERE ================= --}}
 
 {{-- Modal 1: Clearance --}}
-@if(isset($request))
-<div id="modalClearance" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[9999]">
+@foreach($documentRequests as $request)
+<div id="modalClearance-{{ $request->id }}" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[9999]">
 <div class="bg-white w-[800px] max-h-[90vh] rounded-3xl overflow-hidden flex flex-col shadow-2xl border-2 border-gray-100" style="font-family: 'Poppins', sans-serif;">
 		<div class="flex items-center justify-center px-6 py-4" style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%);">
 			<h1 class="text-white text-xl font-bold font-['Barlow_Semi_Condensed'] tracking-wide">REQUEST FORM FOR BARANGAY CLEARANCE</h1>
 		</div>
 		<div class="px-8 py-6 flex-1 overflow-y-auto">
 			<form class="grid grid-cols-2 gap-x-6 gap-y-4 text-sm">
-					<div><label class="font-semibold text-gray-700 block mb-1">Last Name:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->resident->last_name ?? '' }}" disabled></div>
-					<div><label class="font-semibold text-gray-700 block mb-1">First Name:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->resident->first_name ?? '' }}" disabled></div>
-					<div><label class="font-semibold text-gray-700 block mb-1">Middle Name:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->resident->middle_name ?? '' }}" disabled></div>
-					<div><label class="font-semibold text-gray-700 block mb-1">Suffix:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->resident->suffix ?? '' }}" disabled></div>
-					   <div><label class="font-semibold text-gray-700 block mb-1">Age:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->resident->age ?? '' }}" disabled></div>
-					   <div><label class="font-semibold text-gray-700 block mb-1">Date of Birth:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->resident?->birthdate?->format('F d, Y') ?? '' }}" disabled></div>
-					   <div><label class="font-semibold text-gray-700 block mb-1">Place of Birth:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->resident->place_of_birth ?? '' }}" disabled></div>
-					<div><label class="font-semibold text-gray-700 block mb-1">Gender:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->resident->gender ?? '' }}" disabled></div>
-					<div><label class="font-semibold text-gray-700 block mb-1">Civil Status:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->resident->civil_status ?? '' }}" disabled></div>
-						<div><label class="font-semibold text-gray-700 block mb-1">House/Unit Number, Street:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->resident->address ?? '' }}" disabled></div>
-				   <div class="col-span-2 mt-4"><label class="font-semibold text-gray-700 block mb-2">ID/Certificate of Live Birth Attachment</label>
+				<div><label class="font-semibold text-gray-700 block mb-1">Last Name:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->resident->last_name ?? '' }}" disabled></div>
+				<div><label class="font-semibold text-gray-700 block mb-1">First Name:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->resident->first_name ?? '' }}" disabled></div>
+				<div><label class="font-semibold text-gray-700 block mb-1">Middle Name:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->resident->middle_name ?? '' }}" disabled></div>
+				<div><label class="font-semibold text-gray-700 block mb-1">Suffix:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->resident->suffix ?? '' }}" disabled></div>
+				<div><label class="font-semibold text-gray-700 block mb-1">Age:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->resident->age ?? '' }}" disabled></div>
+				<div><label class="font-semibold text-gray-700 block mb-1">Date of Birth:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->resident?->birthdate?->format('F d, Y') ?? '' }}" disabled></div>
+				<div><label class="font-semibold text-gray-700 block mb-1">Place of Birth:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->resident->place_of_birth ?? '' }}" disabled></div>
+				<div><label class="font-semibold text-gray-700 block mb-1">Gender:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->resident->gender ?? '' }}" disabled></div>
+				<div><label class="font-semibold text-gray-700 block mb-1">Civil Status:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->resident->civil_status ?? '' }}" disabled></div>
+				<div><label class="font-semibold text-gray-700 block mb-1">House/Unit Number, Street:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ optional(App\Models\User::find($request->resident_id))->address ?? '' }}" disabled></div>
+				<div class="col-span-2 mt-4"><label class="font-semibold text-gray-700 block mb-2">ID/Certificate of Live Birth Attachment</label>
 					<div class="mt-2 grid grid-cols-2 gap-4">
-    <button type="button" class="border-2 border-dashed border-blue-300 rounded-xl py-4 flex flex-col items-center text-sm w-full bg-blue-50/50 overflow-hidden hover:bg-blue-50 transition-colors" style="max-width:400px;max-height:400px;">
-        <img src="{{ ($request->resident && $request->resident->id_front_path) ? asset('storage/' . $request->resident->id_front_path) : 'https://cdn-icons-png.flaticon.com/512/685/685655.png' }}" class="js-id-front opacity-70 object-contain transition-all duration-300" style="width:100%;height:100%;max-width:380px;max-height:380px;">
-    </button>
-    <button type="button" class="border-2 border-dashed border-blue-300 rounded-xl py-4 flex flex-col items-center text-sm w-full bg-blue-50/50 overflow-hidden hover:bg-blue-50 transition-colors" style="max-width:400px;max-height:400px;">
-        <img src="{{ ($request->resident && $request->resident->id_back_path) ? asset('storage/' . $request->resident->id_back_path) : 'https://cdn-icons-png.flaticon.com/512/685/685655.png' }}" class="js-id-back opacity-70 object-contain transition-all duration-300" style="width:100%;height:100%;max-width:380px;max-height:380px;">
-    </button>
-</div>
+						<button type="button" class="border-2 border-dashed border-blue-300 rounded-xl py-4 flex flex-col items-center text-sm w-full bg-blue-50/50 overflow-hidden hover:bg-blue-50 transition-colors" style="max-width:400px;max-height:400px;">
+							<img src="{{ ($request->resident && $request->resident->id_front_path) ? asset('storage/' . $request->resident->id_front_path) : 'https://cdn-icons-png.flaticon.com/512/685/685655.png' }}" class="js-id-front opacity-70 object-contain transition-all duration-300" style="width:100%;height:100%;max-width:380px;max-height:380px;">
+						</button>
+						<button type="button" class="border-2 border-dashed border-blue-300 rounded-xl py-4 flex flex-col items-center text-sm w-full bg-blue-50/50 overflow-hidden hover:bg-blue-50 transition-colors" style="max-width:400px;max-height:400px;">
+							<img src="{{ ($request->resident && $request->resident->id_back_path) ? asset('storage/' . $request->resident->id_back_path) : 'https://cdn-icons-png.flaticon.com/512/685/685655.png' }}" class="js-id-back opacity-70 object-contain transition-all duration-300" style="width:100%;height:100%;max-width:380px;max-height:380px;">
+						</button>
 					</div>
-					@endif
+				</div>
 				<div class="col-span-2 my-4"><div class="border-t border-gray-200"></div></div>
 				<div><label class="font-semibold text-gray-700 block mb-1">Length of Residency:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" disabled></div>
 				<div><label class="font-semibold text-gray-700 block mb-1">Valid ID Number:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" disabled></div>
 				<div><label class="font-semibold text-gray-700 block mb-1">Registered Voter:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" disabled></div>
 				<div><label class="font-semibold text-gray-700 block mb-1">Purpose of Request:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" disabled></div>
 			</form>
-			<div class="flex justify-end mt-6"><button onclick="closeModal('modalClearance')" class="px-6 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-sm font-semibold transition-all duration-200 border border-gray-300 hover:shadow-md">Close</button></div>
+			<div class="flex justify-end mt-6"><button onclick="closeModal('modalClearance-{{ $request->id }}')" class="px-6 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-sm font-semibold transition-all duration-200 border border-gray-300 hover:shadow-md">Close</button></div>
+		</div>
+	</div>
+</div>
+@endforeach
 		</div>
 	</div>
 </div>
 
 {{-- Modal 2: Certificate --}}
-
-@if(isset($request))
-<div id="modalCertificate" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[9999]">
+@foreach($documentRequests as $request)
+<div id="modalCertificate-{{ $request->id }}" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[9999]">
 	<div class="bg-white w-[800px] max-h-[90vh] rounded-3xl overflow-hidden flex flex-col shadow-2xl border-2 border-gray-100" style="font-family: 'Poppins', sans-serif;">
 		<div class="flex items-center justify-center px-6 py-4" style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%);">
 			<h1 class="text-white text-xl font-bold font-['Barlow_Semi_Condensed'] tracking-wide">REQUEST FORM FOR BARANGAY CERTIFICATE</h1>
@@ -379,7 +382,7 @@
 				   <div><label class="font-semibold text-gray-700 block mb-1">Place of Birth:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->resident->place_of_birth ?? '' }}" disabled></div>
 				   <div><label class="font-semibold text-gray-700 block mb-1">Gender:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->resident->gender ?? '' }}" disabled></div>
 				   <div><label class="font-semibold text-gray-700 block mb-1">Civil Status:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->resident->civil_status ?? '' }}" disabled></div>
-				   <div><label class="font-semibold text-gray-700 block mb-1">House/Unit Number, Street:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->resident->address ?? $request->resident->house_unit_number_street ?? '' }}" disabled></div>
+				<div><label class="font-semibold text-gray-700 block mb-1">House/Unit Number, Street:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->resident->address ?? '' }}" disabled></div>
 				<div class="col-span-2 mt-4"><label class="font-semibold text-gray-700 block mb-2">ID/Certificate of Live Birth Attachment:</label>
 					<div class="mt-2 grid grid-cols-2 gap-4">
 						<button type="button" class="border-2 border-dashed border-blue-300 rounded-xl py-4 flex flex-col items-center text-sm w-full bg-blue-50/50 overflow-hidden hover:bg-blue-50 transition-colors">
@@ -396,16 +399,17 @@
 				   <div><label class="font-semibold text-gray-700 block mb-1">Registered Voter:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->registered_voter ?? '' }}" disabled></div>
 				   <div><label class="font-semibold text-gray-700 block mb-1">Purpose of Request:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->purpose ?? '' }}" disabled></div>
 			</form>
-			<div class="flex justify-end mt-6"><button onclick="closeModal('modalCertificate')" class="px-6 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-sm font-semibold transition-all duration-200 border border-gray-300 hover:shadow-md">Close</button></div>
+			<div class="flex justify-end mt-6"><button onclick="closeModal('modalCertificate-{{ $request->id }}')" class="px-6 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-sm font-semibold transition-all duration-200 border border-gray-300 hover:shadow-md">Close</button></div>
 		</div>
 	</div>
 	</div>
+
 </div>
-@endif
+@endforeach
 
 {{-- Modal 3: Indigency --}}
-@if(isset($request))
-<div id="modalIndigency" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[9999]">
+@foreach($documentRequests as $request)
+<div id="modalIndigency-{{ $request->id }}" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[9999]">
 <div class="bg-white w-[800px] max-h-[90vh] rounded-3xl overflow-hidden flex flex-col shadow-2xl border-2 border-gray-100" style="font-family: 'Poppins', sans-serif;">
 		<div class="flex items-center justify-center px-6 py-4" style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%);">
 			<h1 class="text-white text-xl font-bold font-['Barlow_Semi_Condensed'] tracking-wide">REQUEST FORM FOR INDIGENCY CLEARANCE</h1>
@@ -429,7 +433,7 @@
 				</div>
 				<div class="col-span-2 my-4"><div class="border-t border-gray-200"></div></div>
 				<div><label class="font-semibold text-gray-700 block mb-1">Certificate of being Indigent:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->indigencyData->indigency_category ?? '' }}" disabled></div>
-				<div><label class="font-semibold text-gray-700 block mb-1">Other Purpose:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" disabled></div>
+				<div><label class="font-semibold text-gray-700 block mb-1">Other Purpose:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->indigencyData->other_purpose ?? '' }}" disabled></div>
 				<div class="col-span-2 mt-4 grid grid-cols-2 gap-4 items-start">
 					
 					{{-- INDIGENCY PROOF SECTION --}}
@@ -443,16 +447,16 @@
 					<div><label class="font-semibold text-gray-700 mb-2 block">Purpose of Request:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" disabled></div>
 				</div>
 			</form>
-			<div class="flex justify-end mt-6"><button onclick="closeModal('modalIndigency')" class="px-6 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-sm font-semibold transition-all duration-200 border border-gray-300 hover:shadow-md">Close</button></div>
+			<div class="flex justify-end mt-6"><button onclick="closeModal('modalIndigency-{{ $request->id }}')" class="px-6 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-sm font-semibold transition-all duration-200 border border-gray-300 hover:shadow-md">Close</button></div>
 		</div>
 	</div>
 	</div>
 </div>
-@endif
+@endforeach
 
 {{-- Modal 4: Residency --}}
-@if(isset($request))
-<div id="modalResidency" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[9999]">
+@foreach($documentRequests as $request)
+<div id="modalResidency-{{ $request->id }}" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[9999]">
 <div class="bg-white w-[800px] max-h-[90vh] rounded-3xl overflow-hidden flex flex-col shadow-2xl border-2 border-gray-100" style="font-family: 'Poppins', sans-serif;">
 		<div class="flex items-center justify-center px-6 py-4" style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%);">
 			<h1 class="text-white text-xl font-bold tracking-wide" style="font-family: 'Poppins', sans-serif;">REQUEST FORM FOR RESIDENT CERTIFICATE</h1>
@@ -485,12 +489,12 @@
 				   <div><label class="font-semibold text-gray-700 block mb-1">Registered Voter:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->registered_voter ?? '' }}" disabled></div>
 				   <div><label class="font-semibold text-gray-700 block mb-1">Purpose of Request:</label><input class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" value="{{ $request->purpose ?? '' }}" disabled></div>
 			</form>
-			<div class="flex justify-end mt-6"><button onclick="closeModal('modalResidency')" class="px-6 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-sm font-semibold transition-all duration-200 border border-gray-300 hover:shadow-md">Close</button></div>
+			<div class="flex justify-end mt-6"><button onclick="closeModal('modalResidency-{{ $request->id }}')" class="px-6 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-sm font-semibold transition-all duration-200 border border-gray-300 hover:shadow-md">Close</button></div>
 		</div>
 	</div>
 	</div>
 </div>
-@endif
+@endforeach
 
 {{-- Modal 5: Process Confirmation --}}
 <div id="inprogressModal" class="modal-container hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] flex items-center justify-center z-[9999]">

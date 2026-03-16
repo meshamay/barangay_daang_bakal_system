@@ -97,13 +97,34 @@ class LoginController extends Controller
         // Create audit log before logging out
         if ($user) {
             $isAdmin = in_array(strtolower($user->role ?? ''), ['admin', 'super admin']) || in_array(strtolower($user->user_type ?? ''), ['admin', 'super admin']);
+            $isSuperAdmin = in_array(strtolower($user->role ?? ''), ['super admin']) || in_array(strtolower($user->user_type ?? ''), ['super admin']);
             $isResident = strtolower($user->role ?? '') === 'resident' || strtolower($user->user_type ?? '') === 'resident';
             $userId = $user->getAuthIdentifier();
-            AuditLog::create([
-                'user_id' => $userId,
-                'action' => $isResident ? 'Log Out' : ($isAdmin ? 'Logout' : 'Logout'),
-                'description' => $isResident ? 'Resident logged out' : ($isAdmin ? 'Admin/Super Admin logged out' : 'User logged out'),
-            ]);
+            if ($isResident) {
+                AuditLog::create([
+                    'user_id' => $userId,
+                    'action' => 'Log Out',
+                    'description' => 'Resident logged out',
+                ]);
+            } else if ($isSuperAdmin) {
+                AuditLog::create([
+                    'user_id' => $userId,
+                    'action' => 'Log Out',
+                    'description' => 'Super Admin logged out',
+                ]);
+            } else if ($isAdmin) {
+                AuditLog::create([
+                    'user_id' => $userId,
+                    'action' => 'Log Out',
+                    'description' => 'Admin logged out',
+                ]);
+            } else {
+                AuditLog::create([
+                    'user_id' => $userId,
+                    'action' => 'Log Out',
+                    'description' => 'User logged out',
+                ]);
+            }
         }
         
         Auth::logout();

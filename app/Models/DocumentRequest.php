@@ -51,7 +51,7 @@ class DocumentRequest extends Model
      */
     public function resident()
     {
-        return $this->belongsTo(User::class, 'resident_id');
+        return $this->belongsTo(User::class, 'resident_id')->withTrashed();
     }
 
     /**
@@ -59,7 +59,7 @@ class DocumentRequest extends Model
      */
     public function processedBy()
     {
-        return $this->belongsTo(User::class, 'processed_by');
+        return $this->belongsTo(User::class, 'processed_by')->withTrashed();
     }
 
     // =================================================================

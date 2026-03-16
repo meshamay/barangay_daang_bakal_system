@@ -29,8 +29,8 @@ class ResidentManagementController extends Controller
 		}
 		\App\Models\AuditLog::create([
 			'user_id' => auth()->id(),
-			'action' => 'Reject Resident',
-			'description' => "Rejected resident registration for user ID: {$user->id}. Reason: " . ($reason ?: 'No reason provided'),
+			'action' => 'Reject Resident Registration',
+			'description' => "Rejected a resident’s registration",
 		]);
 		return redirect()->route('admin.users.index')->with('success', 'User rejected successfully.');
 	}
@@ -43,8 +43,8 @@ class ResidentManagementController extends Controller
 		$user->delete();
 		\App\Models\AuditLog::create([
 			'user_id' => auth()->id(),
-			'action' => 'Archive Resident',
-			'description' => "Archived resident account for user ID: {$user->id}",
+			'action' => 'Archive Resident Account',
+			'description' => "Archived a resident’s account",
 		]);
 		return redirect()->route('admin.users.index')->with('success', 'User archived successfully.');
 	}
@@ -61,8 +61,8 @@ class ResidentManagementController extends Controller
 		}
 		\App\Models\AuditLog::create([
 			'user_id' => auth()->id(),
-			'action' => 'Approve Resident',
-			'description' => "Approved resident registration for user ID: {$user->id}",
+			'action' => 'Accept Resident Registration',
+			'description' => "Accepted a resident’s registration",
 		]);
 		return redirect()->route('admin.users.index')->with('success', 'Resident approved successfully.');
 	}
@@ -79,10 +79,16 @@ class ResidentManagementController extends Controller
 		$query = User::withTrashed()->where('role', 'resident');
 
 		if ($request->filled('status')) {
-			if (strtolower($request->status) === 'archived') {
+			$status = strtolower($request->status);
+			if ($status === 'archived') {
 				$query = User::onlyTrashed()->where('role', 'resident');
+			} elseif ($status === 'reject' || $status === 'rejected') {
+				$query->whereIn('status', ['reject', 'rejected']);
+			} elseif ($status === 'approved') {
+				$query->whereIn('status', ['approved', 'approve']);
+				$query->whereNull('deleted_at');
 			} else {
-				$query->where('status', $request->status);
+				$query->whereRaw('LOWER(status) = ?', [$status]);
 			}
 		}
 
@@ -136,8 +142,8 @@ class ResidentManagementController extends Controller
 		$user->save();
 		\App\Models\AuditLog::create([
 			'user_id' => auth()->id(),
-			'action' => 'Set Resident Password',
-			'description' => "Set a new password for resident ID: {$user->id}",
+			'action' => 'Reset Resident Password',
+			'description' => "Reset a resident’s password",
 		]);
 		return redirect()->route('admin.users.show', $user->id)->with('success', 'Password updated successfully.');
 	}

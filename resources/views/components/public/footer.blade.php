@@ -17,11 +17,11 @@
                     <span>Our Location</span>
                 </h6>
                 
-                <a href="https://www.google.com/maps/search/?api=1&query=553-J.+Fabella+St.,+Brgy.+Daang+Bakal,+Mandaluyong+City"
+                <a href="https://www.google.com/maps/place/DB+Pentagon+Fire+Rescue+Brigade/@14.5916401,121.028883,19z/data=!4m6!3m5!1s0x3397c98b838ecd91:0x6ed7f35c6c254d7b!8m2!3d14.5916401!4d121.028883!16s%2Fg%2F11fmh7xfgd?entry=ttu"
                     target="_blank" rel="noopener"
                     class="block group rounded-lg sm:rounded-xl md:rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 border-2 border-white/10 hover:border-blue-400/50 relative h-40 sm:h-48 md:h-56">
                     <iframe
-                        src="https://maps.google.com/maps?q=553-J.+Fabella+St.,+Brgy.+Daang+Bakal,+Mandaluyong+City&t=&z=17&ie=UTF8&iwloc=&output=embed"
+                        src="https://maps.google.com/maps?q=14.5916401,121.028883&z=19&output=embed"
                         class="w-full h-full object-cover opacity-60 group-hover:opacity-90 transition-opacity duration-300 pointer-events-none"
                         style="border:0;" loading="lazy">
                     </iframe>
@@ -68,7 +68,7 @@
                                 <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
                             </svg>
                         </div>
-                        <a href="https://mail.google.com/mail/?view=cm&fs=1&to=barangaydaangbakal@gmail.com" target="_blank" rel="noopener noreferrer" class="hover:text-blue-300 transition-colors duration-300 break-all">barangaydaangbakal@gmail.com</a>
+                        <a href="mailto:barangaydaangbakal@gmail.com" class="hover:text-blue-300 transition-colors duration-300 break-all">barangaydaangbakal@gmail.com</a>
                     </li>
                 </ul>
             </section>

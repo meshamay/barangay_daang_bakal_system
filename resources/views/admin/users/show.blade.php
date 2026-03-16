@@ -77,6 +77,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Barangay Daang Bakal</title>
     <link rel="icon" type="image/png" href="{{ asset('images/BARANGAY LOGO.png') }}">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -498,39 +499,46 @@
 
             <!-- Set Password Modal (Superadmin) -->
             <div id="setPasswordModal" class="modal-container hidden fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-30">
-                <div class="bg-white w-[480px] h-[400px] rounded-2xl shadow-2xl overflow-hidden border-2 border-gray-100 relative animate-fade-in-up pointer-events-auto flex flex-col justify-between py-8">
-                    <div class="px-8 bg-white text-left flex flex-col h-full justify-between">
-                        <h2 class="font-bold text-2xl mb-2 text-blue-700 tracking-tight">Reset User Password</h2>
-                        <div class="mb-5 text-left">
-                            <div style="font-size:16px;" class="text-gray-700">Set a temporary password for</div>
-                            <div style="font-size:16px;" class="font-semibold text-gray-900 flex items-center gap-2">
-                                <span>{{ $user->first_name }} {{ $user->last_name }}</span>
-                                <span class="font-mono font-bold text-gray-500 text-base">{{ $user->resident_id ?? ('RS-' . str_pad($user->id, 5, '0', STR_PAD_LEFT)) }}</span>
-                            </div>
-                        </div>
+                <div class="bg-white w-[420px] h-[370px] rounded-2xl shadow-2xl overflow-hidden border-2 border-gray-100 relative animate-fade-in-up pointer-events-auto flex flex-col py-8">
+                    <div class="px-8 bg-white text-center flex flex-col h-full justify-between">
+                        <h2 class="font-bold text-2xl mb-6 text-gray-900 tracking-tight">Set New Password</h2>
                         <form id="setPasswordForm" method="POST" action="{{ route('admin.users.setPassword', ['user' => $user->id]) }}">
                             @csrf
-                            <label for="setPasswordInput" class="block font-semibold mb-2 text-gray-800 mt-4">New Temporary Password</label>
-                            <div class="relative mb-6">
-                                <input type="password" name="password" id="setPasswordInput" class="w-full px-4 py-3 border-2 border-blue-200 rounded-xl focus:outline-none focus:ring-2 +focus:ring-blue-400 pr-12 text-lg" placeholder="Enter new password" required minlength="6">
-                        
-                                <button type="button" id="toggleSetPassword" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-blue-600 transition duration-200 p-1" tabindex="-1">
-                                    <svg id="eyeOpenSetPassword" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                    </svg>
-                                    <svg id="eyeClosedSetPassword" class="w-5 h-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7a9.956 9.956 0 012.293-3.95m3.671-2.568A9.956 9.956 0 0112 5c4.478 0 8.268 2.943 9.542 7a9.97 9.97 0 01-4.293 5.568M15 12a3 3 0 11-6 0 3 3 0 016 0zm-6 0c0 .795.312 1.559.879 2.121m2.121.879c.562.567 1.326.879 2.121.879m0-12v.01M3 3l18 18" />
-                                    </svg>
-                                </button>
-                            </div>
-                            <div class="flex items-center mb-12 mt-4 w-full">
-                                <input id="forceChangePassword" name="force_change_password" type="checkbox" class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
-                                <label for="forceChangePassword" class="ml-2 block text-gray-700" style="font-size:14px;">Force user to change password on next login</label>
-                            </div>
-                            <div class="flex gap-3 justify-end mt-auto pb-2">
-                                <button type="button" onclick="closeSetPasswordModal()" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-6 py-2 rounded-xl font-bold text-base transition-all duration-200">Cancel</button>
-                                <button type="submit" class="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 py-2 rounded-xl font-bold text-base transition-all duration-200">Confirm Reset</button>
+                            <div class="flex flex-col h-full justify-between">
+                                <div class="mt-6">
+                                    <div class="mb-4">
+                                        <div class="relative">
+                                            <input type="password" name="password" id="setPasswordInput" class="w-full px-4 py-3 border-2 border-blue-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 pr-12 text-lg placeholder-gray-400" placeholder="New Password" required minlength="6">
+                                            <button type="button" id="toggleSetPassword" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-blue-600 transition duration-200 p-1" tabindex="-1">
+                                                <svg id="eyeOpenSetPassword" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                                </svg>
+                                                <svg id="eyeClosedSetPassword" class="w-5 h-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7a9.956 9.956 0 012.293-3.95m3.671-2.568A9.956 9.956 0 0112 5c4.478 0 8.268 2.943 9.542 7a9.97 9.97 0 01-4.293 5.568M15 12a3 3 0 11-6 0 3 3 0 016 0zm-6 0c0 .795.312 1.559.879 2.121m2.121.879c.562.567 1.326.879 2.121.879m0-12v.01M3 3l18 18" />
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="mb-8">
+                                        <div class="relative">
+                                            <input type="password" name="password_confirmation" id="setPasswordConfirmInput" class="w-full px-4 py-3 border-2 border-blue-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 pr-12 text-lg placeholder-gray-400" placeholder="Confirm Password" required minlength="6">
+                                            <button type="button" id="toggleSetPasswordConfirm" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-blue-600 transition duration-200 p-1" tabindex="-1">
+                                                <svg id="eyeOpenSetPasswordConfirm" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                                </svg>
+                                                <svg id="eyeClosedSetPasswordConfirm" class="w-5 h-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7a9.956 9.956 0 012.293-3.95m3.671-2.568A9.956 9.956 0 0112 5c4.478 0 8.268 2.943 9.542 7a9.97 9.97 0 01-4.293 5.568M15 12a3 3 0 11-6 0 3 3 0 016 0zm-6 0c0 .795.312 1.559.879 2.121m2.121.879c.562.567 1.326.879 2.121.879m0-12v.01M3 3l18 18" />
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex gap-3 justify-center mt-auto pt-8 pb-2">
+                                    <button type="button" onclick="closeSetPasswordModal()" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-8 py-2 rounded-xl font-bold text-base transition-all duration-200">Cancel</button>
+                                    <button type="submit" class="bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-white px-8 py-2 rounded-xl font-bold text-base transition-all duration-200">Set Password</button>
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -585,6 +593,18 @@
                 setPasswordInput.type = setPasswordInput.type === 'password' ? 'text' : 'password';
                 eyeOpenSetPassword.classList.toggle('hidden');
                 eyeClosedSetPassword.classList.toggle('hidden');
+            };
+        }
+        // Fix: Also wire up confirm password eye icon
+        const toggleSetPasswordConfirm = document.getElementById('toggleSetPasswordConfirm');
+        const setPasswordConfirmInput = document.getElementById('setPasswordConfirmInput');
+        const eyeOpenSetPasswordConfirm = document.getElementById('eyeOpenSetPasswordConfirm');
+        const eyeClosedSetPasswordConfirm = document.getElementById('eyeClosedSetPasswordConfirm');
+        if (toggleSetPasswordConfirm && setPasswordConfirmInput) {
+            toggleSetPasswordConfirm.onclick = function() {
+                setPasswordConfirmInput.type = setPasswordConfirmInput.type === 'password' ? 'text' : 'password';
+                eyeOpenSetPasswordConfirm.classList.toggle('hidden');
+                eyeClosedSetPasswordConfirm.classList.toggle('hidden');
             };
         }
     }

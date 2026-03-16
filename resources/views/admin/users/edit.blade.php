@@ -333,7 +333,7 @@
             @enderror
           </div>
           <div>
-            <label class="block text-sm font-semibold mb-2">Citizenship <span class="text-red-500">*</span></label>
+            <label class="block text-sm font-semibold mb-2">Citizenship</label>
             <input type="text" name="citizenship" value="{{ old('citizenship', $user->citizenship ?? 'Filipino') }}" 
                 class="w-full bg-white text-gray-700 rounded-lg h-11 text-sm font-medium px-3 border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all @error('citizenship') border-red-500 @enderror" 
                 required>
@@ -382,7 +382,7 @@
             @enderror
           </div>
           <div>
-            <label class="block text-sm font-semibold mb-2">Email Address <span class="text-red-500">*</span></label>
+            <label class="block text-sm font-semibold mb-2">Email Address</label>
             <input type="email" name="email" value="{{ old('email', $user->email) }}" 
                 class="w-full bg-white text-gray-700 rounded-lg h-11 text-sm font-medium px-3 border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all @error('email') border-red-500 @enderror" 
                 required>

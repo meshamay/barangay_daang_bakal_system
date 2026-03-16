@@ -222,7 +222,7 @@ class ForgotPasswordController extends Controller {
         // Log password reset attempt
         DB::table('audit_logs')->insert([
             'user_id' => $user->id,
-            'action' => 'password_reset',
+            'action' => 'Password Reset',
             'description' => 'Password reset via forgot password flow',
             'created_at' => now(),
         ]);

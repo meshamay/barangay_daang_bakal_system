@@ -43,9 +43,9 @@ class UserController extends Controller
         // Filter by status
         if (request('status')) {
             if (request('status') === 'Archived') {
-                $query = User::onlyTrashed()->where('role', 'user');
+                $query = User::onlyTrashed()->where('role', 'resident');
             } else {
-                $query = User::where('role', 'user')->where('status', request('status'));
+                $query = User::where('role', 'resident')->where('status', request('status'));
             }
         }
 
