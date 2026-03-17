@@ -1,0 +1,92 @@
+/* Modern modal styles for export modal */
+.modal-container {
+  background: rgba(30, 41, 59, 0.25); /* dark glass overlay */
+  backdrop-filter: blur(4px);
+  transition: background 0.3s;
+}
+
+.modal-container .modern-modal {
+  background: #fff;
+  border-radius: 1.5rem;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+  border: none;
+  padding: 0;
+  overflow: hidden;
+  animation: modalPop 0.25s cubic-bezier(.4,2,.6,1) 1;
+}
+
+@keyframes modalPop {
+  0% { transform: scale(0.95) translateY(40px); opacity: 0; }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+.modern-modal-header {
+  background: linear-gradient(90deg, #134573 0%, #0d2d47 100%);
+  color: #fff;
+  padding: 1.5rem 2rem 1rem 2rem;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: center;
+}
+
+.modern-modal-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.modern-modal-body {
+  padding: 2rem;
+  background: #f9fafb;
+}
+
+ .modern-modal-footer {
+  padding: 0.2rem 0 0.2rem 2rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.75rem;
+  background: transparent;
+  box-shadow: none;
+  border-radius: 0;
+}
+
+.modern-modal-footer button {
+  border-radius: 0.75rem;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 0.4rem 2rem;
+  transition: background 0.2s, color 0.2s;
+}
+
+
+.modern-modal-footer .btn-cancel {
+  background: #f3f4f6;
+  color: #374151;
+  border: 1px solid #d1d5db;
+  font-size: 0.95rem;
+  padding: 0.5rem 1.25rem;
+  min-width: 80px;
+  min-height: 32px;
+  box-shadow: 0 1px 4px 0 rgba(31,38,135,0.04);
+}
+
+.modern-modal-footer .btn-cancel:hover {
+  background: #e5e7eb;
+}
+
+
+.modern-modal-footer .btn-export {
+  background: linear-gradient(90deg, #10b981 0%, #059669 100%);
+  color: #fff;
+  border: none;
+  font-size: 0.95rem;
+  padding: 0.5rem 1.25rem;
+  min-width: 80px;
+  min-height: 32px;
+  box-shadow: 0 1px 4px 0 rgba(31,38,135,0.06);
+}
+
+.modern-modal-footer .btn-export:hover {
+  background: linear-gradient(90deg, #059669 0%, #10b981 100%);
+}

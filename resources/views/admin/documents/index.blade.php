@@ -316,6 +316,14 @@
 		</div>
 	</div>
 
+	<div class="flex justify-end items-center p-4">
+		<div class="mt-8">
+			@if(isset($documentRequests) && is_object($documentRequests) && method_exists($documentRequests, 'links'))
+				{{ $documentRequests->links('vendor.pagination.tailwind-dashboard') }}
+			@endif
+		</div>
+	</div>
+
 </main>
 
 {{-- ================= MODALS START HERE ================= --}}

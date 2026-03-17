@@ -137,17 +137,132 @@ class ReportsController extends Controller
         $format = $request->get('format', 'pdf'); // pdf or excel
         $sections = $request->get('sections', []); // Array of selected sections
 
-        // If no sections selected, select all by default
-        if (empty($sections)) {
-            $sections = [
-                'population_gender',
-                'requests_complaints',
-                'most_requested_document',
-                'request_status_summary',
-                'most_reported_complaints',
-                'complaint_status_summary'
-            ];
+        $range = $request->get('range', 'monthly');
+        $week = $request->get('week');
+        $sixMonthStart = $request->get('six_month_start');
+        $sixMonthEnd = $request->get('six_month_end');
+
+        // ...existing code...
+
+        // Determine date range based on export range
+        $startDate = null;
+        $endDate = null;
+        if ($range === 'weekly') {
+            // Week 1: 1-7, Week 2: 8-14, Week 3: 15-21, Week 4: 22-28, Week 5: 29-end
+            $selectedWeek = (int)($week ?? 1);
+            $firstOfMonth = Carbon::createFromDate($year, $month, 1);
+            switch ($selectedWeek) {
+                case 1:
+                    $startDate = $firstOfMonth->copy();
+                    $endDate = $firstOfMonth->copy()->addDays(6);
+                    break;
+                case 2:
+                    $startDate = $firstOfMonth->copy()->addDays(7);
+                    $endDate = $firstOfMonth->copy()->addDays(13);
+                    break;
+                case 3:
+                    $startDate = $firstOfMonth->copy()->addDays(14);
+                    $endDate = $firstOfMonth->copy()->addDays(20);
+                    break;
+                case 4:
+                    $startDate = $firstOfMonth->copy()->addDays(21);
+                    $endDate = $firstOfMonth->copy()->addDays(27);
+                    break;
+                case 5:
+                    $startDate = $firstOfMonth->copy()->addDays(28);
+                    $endDate = $firstOfMonth->copy()->endOfMonth();
+                    break;
+                default:
+                    $startDate = $firstOfMonth->copy();
+                    $endDate = $firstOfMonth->copy()->addDays(6);
+            }
+            // Clamp endDate to end of month
+            $lastOfMonth = $firstOfMonth->copy()->endOfMonth();
+            if ($endDate->gt($lastOfMonth)) {
+                $endDate = $lastOfMonth;
+            }
+            // If exporting the current week, set endDate to now if it's before end of week
+            $now = Carbon::now();
+            if ($now->between($startDate, $endDate)) {
+                $endDate = $now;
+            }
+        } elseif ($range === 'monthly') {
+            $startDate = Carbon::createFromDate($year, $month, 1)->startOfMonth();
+            $endDate = Carbon::createFromDate($year, $month, 1)->endOfMonth();
+        } elseif ($range === 'six_months') {
+            // Custom 6-month range, possibly crossing years
+            $startMonth = (int)($sixMonthStart ?? 1);
+            $endMonth = (int)($sixMonthEnd ?? 6);
+            if ($startMonth <= $endMonth) {
+                // Same year
+                $startDate = Carbon::createFromDate($year, $startMonth, 1)->startOfMonth();
+                $endDate = Carbon::createFromDate($year, $endMonth, 1)->endOfMonth();
+            } else {
+                // Crosses year boundary: e.g., Dec to May
+                $startDate = Carbon::createFromDate($year - 1, $startMonth, 1)->startOfMonth();
+                $endDate = Carbon::createFromDate($year, $endMonth, 1)->endOfMonth();
+            }
+        } elseif ($range === 'yearly') {
+            $startDate = Carbon::createFromDate($year, 1, 1)->startOfYear();
+            $endDate = Carbon::createFromDate($year, 12, 31)->endOfYear();
+        } else {
+            // Default to monthly
+            $startDate = Carbon::createFromDate($year, $month, 1)->startOfMonth();
+            $endDate = Carbon::createFromDate($year, $month, 1)->endOfMonth();
         }
+
+        // Determine date range based on export range
+        $startDate = null;
+        $endDate = null;
+        $sixMonthStart = $request->get('six_month_start');
+        $sixMonthEnd = $request->get('six_month_end');
+        if ($range === 'weekly') {
+            // Use selected week (1-5) of the month
+            $selectedWeek = (int)($week ?? 1);
+            $firstOfMonth = Carbon::createFromDate($year, $month, 1);
+            $startDate = $firstOfMonth->copy()->addWeeks($selectedWeek - 1)->startOfWeek();
+            $endDate = $startDate->copy()->endOfWeek();
+            // Clamp to month
+            if ($startDate->month != $month) $startDate = $firstOfMonth->copy();
+            $lastOfMonth = $firstOfMonth->copy()->endOfMonth();
+            if ($endDate->month != $month) $endDate = $lastOfMonth;
+        } elseif ($range === 'monthly') {
+            $startDate = Carbon::createFromDate($year, $month, 1)->startOfMonth();
+            $endDate = Carbon::createFromDate($year, $month, 1)->endOfMonth();
+        } elseif ($range === 'six_months') {
+            // Custom 6-month range, possibly crossing years
+            $startMonth = (int)($sixMonthStart ?? 1);
+            $endMonth = (int)($sixMonthEnd ?? 6);
+            if ($startMonth <= $endMonth) {
+                // Same year
+                $startDate = Carbon::createFromDate($year, $startMonth, 1)->startOfMonth();
+                $endDate = Carbon::createFromDate($year, $endMonth, 1)->endOfMonth();
+            } else {
+                // Crosses year boundary: e.g., Dec to May
+                $startDate = Carbon::createFromDate($year - 1, $startMonth, 1)->startOfMonth();
+                $endDate = Carbon::createFromDate($year, $endMonth, 1)->endOfMonth();
+            }
+        } elseif ($range === 'yearly') {
+            $startDate = Carbon::createFromDate($year, 1, 1)->startOfYear();
+            $endDate = Carbon::createFromDate($year, 12, 31)->endOfYear();
+        } else {
+            // Default to monthly
+            $startDate = Carbon::createFromDate($year, $month, 1)->startOfMonth();
+            $endDate = Carbon::createFromDate($year, $month, 1)->endOfMonth();
+        }
+
+        // Calculate total records in the selected range
+        $totalRecords = 0;
+        $totalRecords += User::where(function ($q) {
+            $q->whereIn('user_type', ['admin', 'super admin', 'super_admin'])
+              ->orWhereIn('role', ['admin', 'super admin', 'super_admin', 'superadmin', 'user', 'resident']);
+        })
+        ->whereRaw('LOWER(status) IN (?, ?)', ['approved', 'active'])
+        ->whereNull('deleted_at')
+        ->whereBetween('created_at', [$startDate, $endDate])
+        ->count();
+        $totalRecords += DocumentRequest::whereBetween('created_at', [$startDate, $endDate])->count();
+        $totalRecords += Complaint::whereBetween('created_at', [$startDate, $endDate])->count();
 
         // Count staff accounts
         $totalStaff = User::where(function ($q) {
@@ -172,15 +287,16 @@ class ReportsController extends Controller
             'archivedAccounts' => User::where('role', 'user')->onlyTrashed()->count(),
         ];
 
-        $startOfMonth = Carbon::createFromDate($year, $month, 1)->startOfMonth();
-        $endOfMonth = Carbon::createFromDate($year, $month, 1)->endOfMonth();
-
         $data = [
             'stats' => $stats,
             'year' => $year,
             'month' => $month,
             'monthName' => Carbon::createFromDate($year, $month, 1)->format('F'),
             'sections' => $sections,
+            'exportRange' => $range,
+            'exportStartDate' => $startDate->format('Y-m-d'),
+            'exportEndDate' => $endDate->format('Y-m-d'),
+            'totalExported' => $totalRecords,
         ];
 
         // Only load data for selected sections
@@ -193,7 +309,7 @@ class ReportsController extends Controller
                                                         ->whereRaw('LOWER(COALESCE(status, "")) = ?', ['approved'])
                                                         ->whereNull('deleted_at')
                                                         ->whereRaw('LOWER(TRIM(COALESCE(gender, ""))) = ?', ['male'])
-                                                        ->whereBetween('created_at', [$startOfMonth, $endOfMonth])
+                                                        ->whereBetween('created_at', [$startDate, $endDate])
                                                         ->count(),
                                 'female' => User::where(function ($q) {
                                                                 $q->whereIn('role', ['user', 'resident'])
@@ -202,51 +318,51 @@ class ReportsController extends Controller
                                                         ->whereRaw('LOWER(COALESCE(status, "")) = ?', ['approved'])
                                                         ->whereNull('deleted_at')
                                                         ->whereRaw('LOWER(TRIM(COALESCE(gender, ""))) = ?', ['female'])
-                                                        ->whereBetween('created_at', [$startOfMonth, $endOfMonth])
+                                                        ->whereBetween('created_at', [$startDate, $endDate])
                                                         ->count(),
             ];
         }
 
         if (in_array('requests_complaints', $sections)) {
             $data['requestsComplaints'] = [
-                'documents' => DocumentRequest::whereBetween('created_at', [$startOfMonth, $endOfMonth])->count(),
-                'complaints' => Complaint::whereBetween('created_at', [$startOfMonth, $endOfMonth])->count(),
+                'documents' => DocumentRequest::whereBetween('created_at', [$startDate, $endDate])->count(),
+                'complaints' => Complaint::whereBetween('created_at', [$startDate, $endDate])->count(),
             ];
         }
 
         if (in_array('most_requested_document', $sections)) {
             $data['documentTypes'] = [
-                'Barangay Clearance' => DocumentRequest::where('document_type', 'Barangay Clearance')->whereBetween('created_at', [$startOfMonth, $endOfMonth])->count(),
-                'Barangay Certificate' => DocumentRequest::where('document_type', 'Barangay Certificate')->whereBetween('created_at', [$startOfMonth, $endOfMonth])->count(),
-                'Indigency' => DocumentRequest::where('document_type', 'Certificate of Indigency')->whereBetween('created_at', [$startOfMonth, $endOfMonth])->count(),
-                'Certificate of Residency' => DocumentRequest::where('document_type', 'Certificate of Residency')->whereBetween('created_at', [$startOfMonth, $endOfMonth])->count(),
+                'Barangay Clearance' => DocumentRequest::where('document_type', 'Barangay Clearance')->whereBetween('created_at', [$startDate, $endDate])->count(),
+                'Barangay Certificate' => DocumentRequest::where('document_type', 'Barangay Certificate')->whereBetween('created_at', [$startDate, $endDate])->count(),
+                'Indigency' => DocumentRequest::where('document_type', 'Certificate of Indigency')->whereBetween('created_at', [$startDate, $endDate])->count(),
+                'Certificate of Residency' => DocumentRequest::where('document_type', 'Certificate of Residency')->whereBetween('created_at', [$startDate, $endDate])->count(),
             ];
         }
 
         if (in_array('request_status_summary', $sections)) {
             $data['requestStatusSummary'] = [
-                'pending' => DocumentRequest::where('status', 'pending')->whereBetween('created_at', [$startOfMonth, $endOfMonth])->count(),
-                'processing' => DocumentRequest::where('status', 'in progress')->whereBetween('created_at', [$startOfMonth, $endOfMonth])->count(),
-                'approved' => DocumentRequest::where('status', 'completed')->whereBetween('created_at', [$startOfMonth, $endOfMonth])->count(),
+                'pending' => DocumentRequest::where('status', 'pending')->whereBetween('created_at', [$startDate, $endDate])->count(),
+                'processing' => DocumentRequest::where('status', 'in progress')->whereBetween('created_at', [$startDate, $endDate])->count(),
+                'approved' => DocumentRequest::where('status', 'completed')->whereBetween('created_at', [$startDate, $endDate])->count(),
             ];
         }
 
         if (in_array('most_reported_complaints', $sections)) {
             $data['complaintTypes'] = [
-                'Community Issues' => Complaint::where('complaint_type', 'Community Issues')->whereBetween('created_at', [$startOfMonth, $endOfMonth])->count(),
-                'Physical Harassment' => Complaint::where('complaint_type', 'Physical Harassment')->whereBetween('created_at', [$startOfMonth, $endOfMonth])->count(),
-                'Neighbor Dispute' => Complaint::where('complaint_type', 'Neighbor Dispute')->whereBetween('created_at', [$startOfMonth, $endOfMonth])->count(),
-                'Money Problems' => Complaint::where('complaint_type', 'Money Problems')->whereBetween('created_at', [$startOfMonth, $endOfMonth])->count(),
-                'Misbehavior' => Complaint::where('complaint_type', 'Misbehavior')->whereBetween('created_at', [$startOfMonth, $endOfMonth])->count(),
-                'Others' => Complaint::whereIn('complaint_type', ['Others', 'Other'])->whereBetween('created_at', [$startOfMonth, $endOfMonth])->count(),
+                'Community Issues' => Complaint::where('complaint_type', 'Community Issues')->whereBetween('created_at', [$startDate, $endDate])->count(),
+                'Physical Harassment' => Complaint::where('complaint_type', 'Physical Harassment')->whereBetween('created_at', [$startDate, $endDate])->count(),
+                'Neighbor Dispute' => Complaint::where('complaint_type', 'Neighbor Dispute')->whereBetween('created_at', [$startDate, $endDate])->count(),
+                'Money Problems' => Complaint::where('complaint_type', 'Money Problems')->whereBetween('created_at', [$startDate, $endDate])->count(),
+                'Misbehavior' => Complaint::where('complaint_type', 'Misbehavior')->whereBetween('created_at', [$startDate, $endDate])->count(),
+                'Others' => Complaint::whereIn('complaint_type', ['Others', 'Other'])->whereBetween('created_at', [$startDate, $endDate])->count(),
             ];
         }
 
         if (in_array('complaint_status_summary', $sections)) {
             $data['complaintsStatusSummary'] = [
-                'pending' => Complaint::where('status', 'Pending')->whereBetween('created_at', [$startOfMonth, $endOfMonth])->count(),
-                'investigating' => Complaint::where('status', 'In Progress')->whereBetween('created_at', [$startOfMonth, $endOfMonth])->count(),
-                'resolved' => Complaint::where('status', 'Completed')->whereBetween('created_at', [$startOfMonth, $endOfMonth])->count(),
+                'pending' => Complaint::where('status', 'Pending')->whereBetween('created_at', [$startDate, $endDate])->count(),
+                'investigating' => Complaint::where('status', 'In Progress')->whereBetween('created_at', [$startDate, $endDate])->count(),
+                'resolved' => Complaint::where('status', 'Completed')->whereBetween('created_at', [$startDate, $endDate])->count(),
             ];
         }
 
@@ -269,12 +385,16 @@ class ReportsController extends Controller
         $dataSheet->setTitle('Report Data');
 
         $dataSheet->setCellValue('A1', 'Barangay Daang Bakal - Reports & Analytics');
-        $dataSheet->setCellValue('A2', 'Report for ' . $data['monthName'] . ' ' . $data['year']);
+        $dataSheet->setCellValue('A2', 'Export Range: ' . ($data['exportRange'] ?? '') . ' (' . ($data['exportStartDate'] ?? '') . ' to ' . ($data['exportEndDate'] ?? '') . ')');
+        $dataSheet->setCellValue('A3', 'Total Exported Records: ' . ($data['totalExported'] ?? 0));
+        $dataSheet->setCellValue('A4', 'Report for ' . $data['monthName'] . ' ' . $data['year']);
         $dataSheet->mergeCells('A1:B1');
         $dataSheet->mergeCells('A2:B2');
-        $dataSheet->getStyle('A1:A2')->getFont()->setBold(true)->setSize(13);
+        $dataSheet->mergeCells('A3:B3');
+        $dataSheet->mergeCells('A4:B4');
+        $dataSheet->getStyle('A1:A4')->getFont()->setBold(true)->setSize(13);
 
-        $row = 4;
+        $row = 6;
         $dataSheet->setCellValue("A{$row}", 'KPI Cards');
         $dataSheet->getStyle("A{$row}")->getFont()->setBold(true);
         $row++;

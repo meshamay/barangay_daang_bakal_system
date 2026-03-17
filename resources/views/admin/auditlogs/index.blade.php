@@ -76,8 +76,7 @@
                     <th class="py-4 px-6 text-center text-[14px] font-semibold uppercase tracking-wider">Last Name</th>
                     <th class="py-4 px-6 text-center text-[14px] font-semibold uppercase tracking-wider">First Name</th>
                     <th class="py-4 px-6 text-center text-[14px] font-semibold uppercase tracking-wider">Role</th>
-                    <th class="py-4 px-6 text-center text-[14px] font-semibold uppercase tracking-wider">Date</th>
-                    <th class="py-4 px-6 text-center text-[14px] font-semibold uppercase tracking-wider">Time</th>
+                    <th class="py-4 px-6 text-center text-[14px] font-semibold uppercase tracking-wider">Timestamp</th>
                     <th class="py-4 px-6 text-center text-[14px] font-semibold uppercase tracking-wider">Action Performed</th>
                 </tr>
             </thead>
@@ -111,8 +110,7 @@
                                 {{ $roleLabel }}
                             </span>
                         </td>
-                        <td class="py-4 px-6 text-sm text-gray-600 text-center">{{ $log->created_at->setTimezone('Asia/Manila')->format('F d, Y') }}</td>
-                        <td class="py-4 px-6 text-sm text-gray-600 text-center">{{ $log->created_at->setTimezone('Asia/Manila')->format('g:i A') }}</td>
+                        <td class="py-4 px-6 text-sm text-gray-600 text-center whitespace-nowrap">{{ $log->created_at->setTimezone('Asia/Manila')->format('Y-m-d h:i:s A') }}</td>
                         <td class="py-4 px-6 text-sm text-gray-600 text-center">
                             @php
                                 $action = trim(strtolower($log->action));

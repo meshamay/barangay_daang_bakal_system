@@ -80,22 +80,26 @@ class DashboardController extends Controller
             });
         }
 
-        // Apply type filter and fetch results
+        // Apply type filter and fetch results with pagination
+        $perPage = 10;
         if ($type === 'Document Request') {
-            $documents = $documentsQuery->latest('created_at')->take(15)->get();
-            $transactions = $documents;
+            $transactions = $documentsQuery->latest('created_at')->paginate($perPage);
         } elseif ($type === 'Complaint') {
-            $complaints = $complaintsQuery->latest('created_at')->take(15)->get();
-            $transactions = $complaints;
+            $transactions = $complaintsQuery->latest('created_at')->paginate($perPage);
         } else {
-            // Show both types
-            $documents = $documentsQuery->latest('created_at')->take(10)->get();
-            $complaints = $complaintsQuery->latest('created_at')->take(10)->get();
-            $transactions = $documents->concat($complaints)->sortByDesc('created_at')->take(15);
+            // Show both types, merge and paginate manually
+            $documents = $documentsQuery->latest('created_at')->get();
+            $complaints = $complaintsQuery->latest('created_at')->get();
+            $merged = $documents->concat($complaints)->sortByDesc('created_at')->values();
+            $page = $request->input('page', 1);
+            $items = $merged->slice(($page - 1) * $perPage, $perPage)->all();
+            $transactions = new \Illuminate\Pagination\LengthAwarePaginator($items, $merged->count(), $perPage, $page, [
+                'path' => $request->url(),
+                'query' => $request->query(),
+            ]);
         }
-        
         return view('admin.dashboard.index', compact(
-            'stats', 
+            'stats',
             'transactions'
         ));
     }

@@ -289,11 +289,13 @@
 		</div>
 	</div>
 	
-	<div class="mt-4">
-        @if(isset($complaints) && is_object($complaints) && method_exists($complaints, 'links'))
-            {{ $complaints->links() }}
-        @endif
-	</div>
+    <div class="flex justify-end items-center p-4">
+        <div class="mt-8">
+            @if(isset($complaints) && is_object($complaints) && method_exists($complaints, 'links'))
+                {{ $complaints->links('vendor.pagination.tailwind-dashboard') }}
+            @endif
+        </div>
+    </div>
 
     
 </main>

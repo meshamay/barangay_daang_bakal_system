@@ -1,3 +1,39 @@
+<!-- ARCHIVE ANNOUNCEMENT MODAL -->
+<div id="archiveAnnouncementModal" class="modal-container hidden fixed top-0 left-0 w-full h-full flex items-center justify-center z-[9999]" style="left: 240px; width: calc(100vw - 240px); top: 80px; height: calc(100vh - 80px);">
+    <div class="bg-white w-[520px] h-[400px] rounded-3xl shadow-2xl overflow-hidden border-2 border-gray-100 transform transition-all pointer-events-auto">
+        <div class="p-8 text-center flex flex-col justify-between h-full">
+            <!-- Icon Badge -->
+            <div class="flex justify-center">
+                <div class="w-24 h-24 rounded-full bg-gradient-to-br from-gray-50 to-gray-100 border-4 border-gray-400 flex items-center justify-center shadow-lg">
+                    <svg class="w-12 h-12 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path>
+                    </svg>
+                </div>
+            </div>
+            <!-- Title -->
+            <h2 class="font-bold text-2xl mb-2 text-gray-800 tracking-tight">Archive Announcement</h2>
+            <!-- Description -->
+            <div class="bg-gray-50 rounded-xl p-4 mb-4 border border-gray-200">
+                <p class="text-sm text-gray-700 leading-relaxed">
+                    Archiving this will remove it from the list but will not delete it. Archived records can still be accessed by filtering for ‘Archived’ status.
+                </p>
+            </div>
+            <!-- Action Buttons -->
+            <form method="POST" id="archiveAnnouncementForm" action="">
+                @csrf
+                @method('PUT')
+                <div class="flex justify-center gap-4">
+                    <button type="button" onclick="closeModal('archiveAnnouncementModal')" class="px-8 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-sm font-semibold transition-all duration-200 hover:shadow-md border border-gray-300">
+                        Cancel
+                    </button>
+                    <button type="submit" class="px-8 py-3 bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white rounded-xl text-sm font-semibold transition-all duration-200 hover:shadow-lg transform hover:scale-105">
+                        Archive
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 @extends('admin.layouts.app')
 
 
@@ -105,6 +141,7 @@
                     <option value="">Status</option>
                     <option value="ongoing" {{ request('status') === 'ongoing' ? 'selected' : '' }}>Ongoing</option>
                     <option value="ended" {{ request('status') === 'ended' ? 'selected' : '' }}>Ended</option>
+                    <option value="archived" {{ request('status') === 'archived' ? 'selected' : '' }}>Archived</option>
                 </select>
 
                 @if(request('search') || request('date') || request('status'))
@@ -193,6 +230,28 @@
                                     </button>
                                     <span class="absolute top-full mt-2 left-1/2 -translate-x-1/2 px-2 py-1 text-xs text-white bg-gray-800 rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-opacity">Edit</span>
                                 </div>
+                                <div class="relative group">
+                                    <button type="button" onclick="openArchiveAnnouncementModal('{{ url('admin/announcements/' . $announcement->id . '/archive') }}')"
+                                        class="w-9 h-9 flex items-center justify-center rounded-lg bg-transparent hover:bg-gray-200 transition-all duration-200 hover:shadow-md">
+                                        <svg class="w-6 h-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path>
+                                        </svg>
+                                    </button>
+                                    @push('scripts')
+                                    <script>
+                                    function openArchiveAnnouncementModal(actionUrl) {
+                                        const modal = document.getElementById('archiveAnnouncementModal');
+                                        const backdrop = document.getElementById('modal-backdrop');
+                                        modal.classList.remove('hidden');
+                                        backdrop.classList.remove('hidden');
+                                        // Set form action
+                                        const form = document.getElementById('archiveAnnouncementForm');
+                                        form.action = actionUrl;
+                                    }
+                                    </script>
+                                    @endpush
+                                    <span class="absolute top-full mt-2 left-1/2 -translate-x-1/2 px-2 py-1 text-xs text-white bg-gray-800 rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-opacity">Archive</span>
+                                </div>
                             </div>
                         </td>
                     </tr>
@@ -212,6 +271,14 @@
             </table>
         </div>
     </div>
+
+
+    <div class="flex justify-end items-center p-4 mt-4">
+        @if(isset($announcements) && is_object($announcements) && method_exists($announcements, 'links'))
+            {{ $announcements->links('vendor.pagination.tailwind-dashboard') }}
+        @endif
+    </div>
+
 </main>
 
 <!-- ADD ANNOUNCEMENT MODAL -->

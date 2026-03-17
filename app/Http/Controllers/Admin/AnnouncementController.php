@@ -11,6 +11,22 @@ use Illuminate\Support\Facades\Storage;
 class AnnouncementController extends Controller
 {
     /**
+     * Archive the specified announcement.
+     */
+    public function archive(Request $request, Announcement $announcement)
+    {
+        $announcement->status = 'archived';
+        $announcement->save();
+
+        \App\Models\AuditLog::create([
+            'user_id' => auth()->id(),
+            'action' => 'Archive Announcement',
+            'description' => 'Archived announcement: ' . $announcement->title,
+        ]);
+
+        return redirect()->route('admin.announcements.index')->with('success', 'Announcement archived successfully.');
+    }
+    /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
@@ -61,10 +77,13 @@ class AnnouncementController extends Controller
                 case 'inactive':
                     $query->where('status', 'inactive');
                     break;
+                case 'archived':
+                    $query->where('status', 'archived');
+                    break;
             }
         }
 
-        $announcements = $query->latest()->paginate(100)->appends($request->query());
+        $announcements = $query->latest()->paginate(10)->appends($request->query());
         $totalAnnouncements = Announcement::count();
         $ongoingCount = Announcement::ongoing()->count();
         $endedCount = Announcement::ended()->count();

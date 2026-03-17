@@ -109,7 +109,7 @@ class ResidentManagementController extends Controller
 			});
 		}
 
-		$users = $query->latest()->paginate(100);
+		$users = $query->latest()->paginate(10);
 
 		// Statistics for dashboard/cards
 		$totalResidents = User::whereIn('role', ['user', 'resident'])

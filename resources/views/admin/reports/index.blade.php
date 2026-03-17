@@ -439,99 +439,133 @@
     <!-- 1. EXPORT SETTINGS MODAL -->
     <!-- =============================== -->
     <div id="exportModal" class="modal-container hidden fixed top-0 left-0 w-full h-full flex items-center justify-center z-[9999] font-poppins" style="left: 240px; width: calc(100vw - 240px); top: 80px; height: calc(100vh - 80px);">
-        <div class="bg-white w-[650px] rounded-3xl shadow-2xl overflow-hidden border-2 border-gray-100 flex flex-col relative font-poppins">
-           
-            <!-- Gradient Header -->
-            <div class="px-6 py-4 flex items-center gap-3" style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%);">
-                <h1 class="text-white font-bold text-xl tracking-wide font-poppins">Export Report</h1>
+        <div class="modern-modal w-[480px] flex flex-col font-poppins">
+            <!-- Header -->
+            <div class="modern-modal-header" style="text-align: left;">
+                <h2 class="modern-modal-title">Export Report</h2>
             </div>
-
-
-            <!-- Body Content -->
-            <form id="exportForm" method="POST" action="{{ route('admin.reports.export') }}" class="p-8 font-poppins">
+            <form id="exportForm" method="POST" action="{{ route('admin.reports.export') }}" class="modern-modal-body flex flex-col gap-5">
                 @csrf
-                <p class="text-gray-500 text-sm mb-6">Select the format and section to include in your export.</p>
-
-
-                <!-- Dropdowns -->
-                <div class="flex gap-4 mb-6">
-                    <div class="flex-1 relative">
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Year:</label>
-                        <select id="exportYear" name="year" class="w-full bg-gray-50 border border-gray-300 rounded-lg px-3 py-2.5 text-sm text-gray-700 font-medium appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer">
-                            <option value="{{ date('Y') }}" selected>{{ date('Y') }}</option>
-                        </select>
+                <!-- Export Range Buttons -->
+                <div class="flex justify-between gap-2 mb-2">
+                    <button type="button" class="export-range-btn flex-1 py-2 rounded-md border border-gray-300 text-gray-700 font-semibold bg-gray-100 hover:bg-blue-100" data-range="weekly">Weekly</button>
+                    <button type="button" class="export-range-btn flex-1 py-2 rounded-md border border-gray-300 text-gray-700 font-semibold bg-gray-100 hover:bg-blue-100" data-range="monthly">Monthly</button>
+                    <button type="button" class="export-range-btn flex-1 py-2 rounded-md border border-gray-300 text-gray-700 font-semibold bg-gray-100 hover:bg-blue-100" data-range="six_months">6 Months</button>
+                    <button type="button" class="export-range-btn flex-1 py-2 rounded-md border border-gray-300 text-gray-700 font-semibold bg-gray-100 hover:bg-blue-100" data-range="yearly">Yearly</button>
+                    <input type="hidden" id="exportRange" name="range" value="monthly">
+                </div>
+                <!-- Dynamic Fields -->
+                <div id="dynamicFields">
+                    <div class="flex gap-2 mb-2" id="yearMonthFields">
+                        <div class="flex-1">
+                            <label class="block text-xs font-semibold text-gray-700 mb-1">Year</label>
+                            <select id="exportYear" name="year" class="w-full bg-gray-50 border border-gray-300 rounded px-2 py-1 text-sm">
+                                <option value="{{ date('Y') }}" selected>{{ date('Y') }}</option>
+                            </select>
+                        </div>
+                        <div class="flex-1" id="monthField">
+                            <label class="block text-xs font-semibold text-gray-700 mb-1">Month</label>
+                            <select id="exportMonth" name="month" class="w-full bg-gray-50 border border-gray-300 rounded px-2 py-1 text-sm">
+                                @for ($i = 1; $i <= 12; $i++)
+                                    <option value="{{ $i }}" {{ (int) request('month', date('m')) === (int) $i ? 'selected' : '' }}>{{ \Carbon\Carbon::create()->month($i)->format('F') }}</option>
+                                @endfor
+                            </select>
+                        </div>
                     </div>
-                    <div class="flex-1 relative">
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Month:</label>
-                        <select id="exportMonth" name="month" class="w-full bg-gray-50 border border-gray-300 rounded-lg px-3 py-2.5 text-sm text-gray-700 font-medium appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer">
-                            @for ($i = 1; $i <= 12; $i++)
-                                <option value="{{ $i }}" {{ (int) request('month', date('m')) === (int) $i ? 'selected' : '' }}>{{ \Carbon\Carbon::create()->month($i)->format('F') }}</option>
-                            @endfor
+                    <!-- Custom 6 Months Range -->
+                    <div class="flex gap-2 mb-2" id="sixMonthsFields" style="display:none;">
+                        <div class="flex-1">
+                            <label class="block text-xs font-semibold text-gray-700 mb-1">Start Month</label>
+                            <select id="sixMonthStart" name="six_month_start" class="w-full bg-gray-50 border border-gray-300 rounded px-2 py-1 text-sm">
+                                @for ($i = 1; $i <= 12; $i++)
+                                    <option value="{{ $i }}">{{ \Carbon\Carbon::create()->month($i)->format('F') }}</option>
+                                @endfor
+                            </select>
+                        </div>
+                        <div class="flex-1">
+                            <label class="block text-xs font-semibold text-gray-700 mb-1">End Month</label>
+                            <select id="sixMonthEnd" name="six_month_end" class="w-full bg-gray-50 border border-gray-300 rounded px-2 py-1 text-sm">
+                                @for ($i = 1; $i <= 12; $i++)
+                                    <option value="{{ $i }}">{{ \Carbon\Carbon::create()->month($i)->format('F') }}</option>
+                                @endfor
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-2" id="weekSelectionContainer" style="display:none;">
+                        <label class="block text-xs font-semibold text-gray-700 mb-1">Select Week</label>
+                        @php
+                            $selectedYear = (int) (request('year', date('Y')));
+                            $selectedMonth = (int) (request('month', date('m')));
+                            $carbon = \Carbon\Carbon::create($selectedYear, $selectedMonth, 1);
+                            $lastDay = $carbon->copy()->endOfMonth()->day;
+                            $weekRanges = [
+                                1 => ['start' => 1, 'end' => 7],
+                                2 => ['start' => 8, 'end' => 14],
+                                3 => ['start' => 15, 'end' => 21],
+                                4 => ['start' => 22, 'end' => 28],
+                                5 => ['start' => 29, 'end' => $lastDay],
+                            ];
+                        @endphp
+                        <select id="exportWeek" name="week" class="w-full bg-gray-50 border border-gray-300 rounded px-2 py-1 text-sm">
+                            @foreach ($weekRanges as $num => $range)
+                                <option value="{{ $num }}">
+                                    Week {{ $num }} ({{ str_pad($range['start'], 2, '0', STR_PAD_LEFT) }} - {{ str_pad($range['end'], 2, '0', STR_PAD_LEFT) }})
+                                </option>
+                            @endforeach
                         </select>
                     </div>
                 </div>
-
-
                 <!-- Export Format -->
-                <h3 class="text-sm font-bold text-gray-800 mb-3">Export Format</h3>
-                <div class="space-y-2 mb-6">
-                    <label class="flex items-center p-3 bg-gray-50 rounded-xl border-2 border-gray-200 hover:border-red-300 hover:bg-red-50 cursor-pointer transition">
-                        <div class="w-8 h-8 mr-3 flex-shrink-0">
-                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" fill="#EA4335"/><path d="M14 2V8H20" fill="#E6E6E6"/><text x="6" y="17" fill="white" font-size="6" font-weight="bold">PDF</text></svg>
+                <div class="mb-2">
+                    <div class="mb-2">
+                        <span class="block text-xs font-bold text-gray-800 mb-2 tracking-wide uppercase">Export Format</span>
+                        <div class="flex gap-4 bg-gray-50 rounded-xl px-4 py-3 border border-gray-200">
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="radio" name="format" value="pdf" class="accent-red-600 scale-125" checked>
+                                <span class="text-base font-semibold text-gray-700">PDF</span>
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="radio" name="format" value="excel" class="accent-green-600 scale-125">
+                                <span class="text-base font-semibold text-gray-700">Excel</span>
+                            </label>
                         </div>
-                        <div>
-                            <p class="font-semibold text-gray-800 text-sm">PDF</p>
-                            <p class="text-gray-500 text-xs">Read-only document for sharing or printing.</p>
+                    </div>
+                    <div>
+                        <span class="block text-xs font-bold text-gray-800 mb-2 tracking-wide uppercase">Sections</span>
+                        <div class="grid grid-cols-1 gap-2 bg-gray-50 rounded-xl px-4 py-3 border border-gray-200">
+                            <label class="flex items-center gap-3 cursor-pointer">
+                                <input type="checkbox" name="sections[]" value="population_gender" class="accent-blue-600 scale-110">
+                                <span class="text-base font-medium text-gray-700">Population by Gender</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer">
+                                <input type="checkbox" name="sections[]" value="requests_complaints" class="accent-blue-600 scale-110">
+                                <span class="text-base font-medium text-gray-700">Total Requests & Complaints</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer">
+                                <input type="checkbox" name="sections[]" value="most_requested_document" class="accent-blue-600 scale-110">
+                                <span class="text-base font-medium text-gray-700">Most Requested Document</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer">
+                                <input type="checkbox" name="sections[]" value="request_status_summary" class="accent-blue-600 scale-110">
+                                <span class="text-base font-medium text-gray-700">Requests Status Summary</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer">
+                                <input type="checkbox" name="sections[]" value="most_reported_complaints" class="accent-blue-600 scale-110">
+                                <span class="text-base font-medium text-gray-700">Most Reported Complaints</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer">
+                                <input type="checkbox" name="sections[]" value="complaint_status_summary" class="accent-blue-600 scale-110">
+                                <span class="text-base font-medium text-gray-700">Complaints Status Summary</span>
+                            </label>
                         </div>
-                        <input type="radio" name="format" value="pdf" class="ml-auto w-4 h-4 text-red-600 focus:ring-red-500" checked>
-                    </label>
-                    <label class="flex items-center p-3 bg-gray-50 rounded-xl border-2 border-gray-200 hover:border-green-300 hover:bg-green-50 cursor-pointer transition">
-                        <div class="w-8 h-8 mr-3 flex-shrink-0">
-                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" fill="#34A853"/><path d="M14 2V8H20" fill="#E6E6E6"/><path d="M8 12H16M8 16H16M8 8H10" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>
-                        </div>
-                        <div>
-                            <p class="font-semibold text-gray-800 text-sm">Excel</p>
-                            <p class="text-gray-500 text-xs">Editable spreadsheet for analysis or modification.</p>
-                        </div>
-                        <input type="radio" name="format" value="excel" class="ml-auto w-4 h-4 text-green-600 focus:ring-green-500">
-                    </label>
+                    </div>
                 </div>
-
-
-                <!-- Section to Include -->
-                <h3 class="text-sm font-bold text-gray-800 mb-3">Section to Include</h3>
-                <div class="space-y-2.5 mb-8 bg-gray-50 rounded-xl p-4 border border-gray-200">
-                    <label class="flex items-center cursor-pointer">
-                        <input type="checkbox" name="sections[]" value="population_gender" class="w-4 h-4 bg-white border-gray-300 rounded text-blue-600 focus:ring-2 focus:ring-blue-500 cursor-pointer">
-                        <span class="ml-3 text-sm font-medium text-gray-700">Population by Gender</span>
-                    </label>
-                    <label class="flex items-center cursor-pointer">
-                        <input type="checkbox" name="sections[]" value="requests_complaints" class="w-4 h-4 bg-white border-gray-300 rounded text-blue-600 focus:ring-2 focus:ring-blue-500 cursor-pointer">
-                        <span class="ml-3 text-sm font-medium text-gray-700">Total Requests and Complaints</span>
-                    </label>
-                    <label class="flex items-center cursor-pointer">
-                        <input type="checkbox" name="sections[]" value="most_requested_document" class="w-4 h-4 bg-white border-gray-300 rounded text-blue-600 focus:ring-2 focus:ring-blue-500 cursor-pointer">
-                        <span class="ml-3 text-sm font-medium text-gray-700">Most Requested Document</span>
-                    </label>
-                    <label class="flex items-center cursor-pointer">
-                        <input type="checkbox" name="sections[]" value="request_status_summary" class="w-4 h-4 bg-white border-gray-300 rounded text-blue-600 focus:ring-2 focus:ring-blue-500 cursor-pointer">
-                        <span class="ml-3 text-sm font-medium text-gray-700">Request Status Summary</span>
-                    </label>
-                    <label class="flex items-center cursor-pointer">
-                        <input type="checkbox" name="sections[]" value="most_reported_complaints" class="w-4 h-4 bg-white border-gray-300 rounded text-blue-600 focus:ring-2 focus:ring-blue-500 cursor-pointer">
-                        <span class="ml-3 text-sm font-medium text-gray-700">Most Reported Complaints</span>
-                    </label>
-                    <label class="flex items-center cursor-pointer">
-                        <input type="checkbox" name="sections[]" value="complaint_status_summary" class="w-4 h-4 bg-white border-gray-300 rounded text-blue-600 focus:ring-2 focus:ring-blue-500 cursor-pointer">
-                        <span class="ml-3 text-sm font-medium text-gray-700">Complaints Status Summary</span>
-                    </label>
-                </div>
-
-
                 <!-- Footer Buttons -->
-                <div class="flex justify-end gap-3">
-                    <button type="button" onclick="closeModal('exportModal')" class="px-6 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-sm font-semibold transition-all duration-200 border border-gray-300 hover:shadow-md">CANCEL</button>
-                    <button type="submit" class="px-6 py-2.5 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white rounded-xl text-sm font-semibold transition-all duration-200 hover:shadow-lg transform hover:scale-105">EXPORT</button>
+                <div class="flex justify-between items-center mt-2 gap-2">
+                    <div class="modern-modal-footer w-full flex justify-end gap-2">
+                        <button type="button" onclick="closeModal('exportModal')" class="btn-cancel">Cancel</button>
+                        <button type="submit" class="btn-export">Export</button>
+                    </div>
                 </div>
             </form>
         </div>
@@ -542,40 +576,27 @@
     <!-- 2. SUCCESS MODAL (PIXEL PERFECT) -->
     <!-- =============================== -->
     <div id="exportSuccessModal" class="modal-container hidden fixed top-0 left-0 w-full h-full flex items-center justify-center z-[9999] font-poppins" style="left: 240px; width: calc(100vw - 240px); top: 80px; height: calc(100vh - 80px);">
-        <!-- Gray Card Container -->
-        <div class="bg-[#E5E5E5] w-[600px] rounded-3xl p-10 shadow-2xl relative border-2 border-black font-poppins">
-           
-            <!-- Header Text -->
-            <h2 class="text-3xl font-extrabold text-black mb-1">Export Completed</h2>
-            <p class="text-gray-600 text-sm font-semibold mb-6">Your report have been successfully generated and downloaded.</p>
-
-
-            <!-- Cream/Beige Inner Box -->
-            <div class="bg-[#F9F5F0] rounded-3xl p-8 mb-8">
-                <h3 class="font-extrabold text-black text-lg mb-4">File Details</h3>
-               
-                <!-- File Details List -->
-                <div class="space-y-3 text-sm text-black mb-6 pl-2">
-                    <p class="flex items-start"><span class="w-24">File Name:</span> <span>ARIS_Report_2025.pdf</span></p>
-                    <p class="flex items-start"><span class="w-24">Format:</span> <span>PDF</span></p>
-                    <p class="flex items-start"><span class="w-24">Size:</span> <span>245 KB</span></p>
-                    <p class="flex items-start"><span class="w-24">Generated:</span> <span>10/25/2025, 1:12 PM</span></p>
-                </div>
-
-
-                <!-- White Notification Box -->
-                <div class="bg-white rounded-lg py-3 text-center shadow-sm">
-                    <p class="font-bold text-black text-sm">The file has been downloaded to your default folder.</p>
+        <div class="modern-modal w-[480px] flex flex-col font-poppins">
+            <div class="modern-modal-header">
+                <h2 class="modern-modal-title">Export Completed</h2>
+            </div>
+            <div class="modern-modal-body">
+                <p class="text-gray-700 text-base font-semibold mb-6 text-center">Your report has been successfully generated and downloaded.</p>
+                <div class="bg-[#F9F5F0] rounded-2xl p-6 mb-6">
+                    <h3 class="font-bold text-gray-800 text-lg mb-3">File Details</h3>
+                    <div class="space-y-2 text-sm text-gray-800 mb-4 pl-2">
+                        <p class="flex items-start"><span class="w-24 font-semibold">File Name:</span> <span>ARIS_Report_2025.pdf</span></p>
+                        <p class="flex items-start"><span class="w-24 font-semibold">Format:</span> <span>PDF</span></p>
+                        <p class="flex items-start"><span class="w-24 font-semibold">Size:</span> <span>245 KB</span></p>
+                        <p class="flex items-start"><span class="w-24 font-semibold">Generated:</span> <span>10/25/2025, 1:12 PM</span></p>
+                    </div>
+                    <div class="bg-white rounded-lg py-3 text-center shadow-sm">
+                        <p class="font-bold text-gray-800 text-sm">The file has been downloaded to your default folder.</p>
+                    </div>
                 </div>
             </div>
-
-
-            <!-- Done Button -->
-            <div class="flex justify-center">
-                <button onclick="closeModal('exportSuccessModal')"
-                        class="bg-[#58A576] hover:bg-[#468c62] text-black font-extrabold text-sm py-3 px-24 rounded-full shadow-md transition">
-                    DONE
-                </button>
+            <div class="modern-modal-footer w-full flex justify-end gap-2">
+                <button onclick="closeModal('exportSuccessModal')" class="btn-export">DONE</button>
             </div>
         </div>
     </div>
@@ -585,6 +606,71 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+        // Export Range Button Logic
+        document.addEventListener('DOMContentLoaded', function() {
+            const rangeBtns = document.querySelectorAll('.export-range-btn');
+            const exportRangeInput = document.getElementById('exportRange');
+            const weekSelectionContainer = document.getElementById('weekSelectionContainer');
+            const monthField = document.getElementById('monthField');
+            const sixMonthsFields = document.getElementById('sixMonthsFields');
+            const yearMonthFields = document.getElementById('yearMonthFields');
+            rangeBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    rangeBtns.forEach(b => b.classList.remove('bg-blue-500', 'text-white'));
+                    this.classList.add('bg-blue-500', 'text-white');
+                    exportRangeInput.value = this.getAttribute('data-range');
+                    // Show/hide dynamic fields
+                    if (this.getAttribute('data-range') === 'weekly') {
+                        weekSelectionContainer.style.display = '';
+                        monthField.style.display = '';
+                        sixMonthsFields.style.display = 'none';
+                        yearMonthFields.style.display = '';
+                    } else if (this.getAttribute('data-range') === 'monthly') {
+                        weekSelectionContainer.style.display = 'none';
+                        monthField.style.display = '';
+                        sixMonthsFields.style.display = 'none';
+                        yearMonthFields.style.display = '';
+                    } else if (this.getAttribute('data-range') === 'six_months') {
+                        weekSelectionContainer.style.display = 'none';
+                        monthField.style.display = 'none';
+                        sixMonthsFields.style.display = '';
+                        yearMonthFields.style.display = '';
+                    } else {
+                        weekSelectionContainer.style.display = 'none';
+                        monthField.style.display = 'none';
+                        sixMonthsFields.style.display = 'none';
+                        yearMonthFields.style.display = '';
+                    }
+                });
+            });
+            // Set initial state
+            rangeBtns.forEach(btn => {
+                if (btn.getAttribute('data-range') === exportRangeInput.value) {
+                    btn.classList.add('bg-blue-500', 'text-white');
+                }
+            });
+            if (exportRangeInput.value === 'weekly') {
+                weekSelectionContainer.style.display = '';
+                monthField.style.display = '';
+                sixMonthsFields.style.display = 'none';
+                yearMonthFields.style.display = '';
+            } else if (exportRangeInput.value === 'monthly') {
+                weekSelectionContainer.style.display = 'none';
+                monthField.style.display = '';
+                sixMonthsFields.style.display = 'none';
+                yearMonthFields.style.display = '';
+            } else if (exportRangeInput.value === 'six_months') {
+                weekSelectionContainer.style.display = 'none';
+                monthField.style.display = 'none';
+                sixMonthsFields.style.display = '';
+                yearMonthFields.style.display = '';
+            } else {
+                weekSelectionContainer.style.display = 'none';
+                monthField.style.display = 'none';
+                sixMonthsFields.style.display = 'none';
+                yearMonthFields.style.display = '';
+            }
+        });
     // Modern Doughnut Chart for Gender Distribution
     const genderCtx = document.getElementById('genderPieChart').getContext('2d');
     const genderPieChart = new Chart(genderCtx, {

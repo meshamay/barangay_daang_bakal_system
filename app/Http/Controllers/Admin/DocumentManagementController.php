@@ -45,7 +45,7 @@ class DocumentManagementController extends Controller
             $query->where('document_type', $request->document_type);
         }
 
-        $documentRequests = $query->latest()->paginate(100)->withQueryString();
+        $documentRequests = $query->latest()->paginate(10)->withQueryString();
 
         $totalRequests   = DocumentRequest::count();
         $pendingCount    = DocumentRequest::where('status', 'pending')->count();

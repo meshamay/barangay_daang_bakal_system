@@ -7,10 +7,7 @@
     <div>
       <h1 class="text-4xl font-bold bg-gradient-to-r from-[#134573] to-[#0f3a5f] bg-clip-text text-transparent">DASHBOARD</h1>
       <p class="text-gray-500 text-sm mt-1">Welcome back! Here's your system overview.</p>
-    </div>
-  </div>
-
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8 mt-8">
     
     <div class="bg-white rounded-xl shadow-md border border-gray-100 p-6 hover:shadow-lg hover:border-emerald-200 transition duration-300 ease-in-out">
       <div class="flex items-center justify-between">
@@ -195,6 +192,13 @@
 
         </tbody>
       </table>
+    </div>
+  </div>
+  <div class="flex justify-end items-center p-4">
+    <div class="mt-8">
+      <div class="flex justify-center">
+        {{ $transactions->links('vendor.pagination.tailwind-dashboard') }}
+      </div>
     </div>
   </div>
 </main>

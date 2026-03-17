@@ -149,6 +149,9 @@ Route::middleware(['auth'])->group(function () {
 // ========================================================================
 Route::middleware(['auth:admin', 'check.admin'])->prefix('admin')->name('admin.')->group(function () {
 
+    // Archive Announcement
+    Route::put('/announcements/{announcement}/archive', [AnnouncementController::class, 'archive'])->name('announcements.archive');
+
     // Set Password (Superadmin direct set)
     Route::post('/users/{user}/set-password', [App\Http\Controllers\Admin\ResidentManagementController::class, 'setPassword'])->name('users.setPassword');
 

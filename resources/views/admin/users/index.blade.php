@@ -78,48 +78,38 @@
         </div>
     </div>
 
-    <form action="{{ route('admin.users.index') }}" method="GET" class="flex justify-between items-center mb-6 gap-4">
-
-        <div class="flex items-center gap-3 flex-1">
-
-            <div class="relative w-full max-w-md">
-                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </svg>
-                </div>
-                <input type="text" name="search" value="{{ request('search') }}" placeholder="Search" class="w-full h-10 border border-gray-200 rounded-lg pl-11 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition" />
-                <button type="submit" class="hidden"></button>
+    <form action="{{ route('admin.users.index') }}" method="GET" class="w-full flex flex-wrap items-center mb-6 gap-4">
+        <div class="relative flex-1 min-w-[220px] max-w-md">
+            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
             </div>
-
-            <div class="flex gap-2 w-fit">
-
-                <select name="gender" onchange="this.form.submit()" class="h-10 px-4 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition bg-white w-44">
-                    <option value="">Gender</option> <option value="Male" {{ request('gender') == 'Male' ? 'selected' : '' }}>Male</option>
-                    <option value="Female" {{ request('gender') == 'Female' ? 'selected' : '' }}>Female</option>
-                    <option value="Non Binary" {{ request('gender') == 'Non Binary' ? 'selected' : '' }}>Non Binary</option>
-                    <option value="Prefer not to say" {{ request('gender') == 'Prefer not to say' ? 'selected' : '' }}>Prefer not to say</option>
-                </select>
-
-                <select name="status" onchange="this.form.submit()" class="h-10 px-4 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition bg-white w-32">
-                    <option value="">Status</option> <option value="Pending" {{ request('status') == 'Pending' ? 'selected' : '' }}>Pending</option>
-                    <option value="Approved" {{ request('status') == 'Approved' ? 'selected' : '' }}>Approved</option>
-                    <option value="Reject" {{ request('status') == 'Reject' ? 'selected' : '' }}>Rejected</option>
-                    <option value="Archived" {{ request('status') == 'Archived' ? 'selected' : '' }}>Archived</option>
-                </select>
-
-            </div>
-
-            @if(request('search') || request('gender') || request('status'))
-                <a href="{{ route('admin.users.index') }}" class="h-10 px-4 flex items-center gap-2 text-sm border border-gray-300 rounded-lg bg-white hover:bg-gray-50 text-gray-700 transition">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                    Clear
-                </a>
-            @endif
+            <input type="text" name="search" value="{{ request('search') }}" placeholder="Search" class="w-full h-10 border border-gray-200 rounded-lg pl-11 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition" />
+            <button type="submit" class="hidden"></button>
         </div>
-
+        <div class="flex gap-2 w-fit">
+            <select name="gender" onchange="this.form.submit()" class="h-10 px-4 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition bg-white w-44">
+                <option value="">Gender</option> <option value="Male" {{ request('gender') == 'Male' ? 'selected' : '' }}>Male</option>
+                <option value="Female" {{ request('gender') == 'Female' ? 'selected' : '' }}>Female</option>
+                <option value="Non Binary" {{ request('gender') == 'Non Binary' ? 'selected' : '' }}>Non Binary</option>
+                <option value="Prefer not to say" {{ request('gender') == 'Prefer not to say' ? 'selected' : '' }}>Prefer not to say</option>
+            </select>
+            <select name="status" onchange="this.form.submit()" class="h-10 px-4 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition bg-white w-32">
+                <option value="">Status</option> <option value="Pending" {{ request('status') == 'Pending' ? 'selected' : '' }}>Pending</option>
+                <option value="Approved" {{ request('status') == 'Approved' ? 'selected' : '' }}>Approved</option>
+                <option value="Reject" {{ request('status') == 'Reject' ? 'selected' : '' }}>Rejected</option>
+                <option value="Archived" {{ request('status') == 'Archived' ? 'selected' : '' }}>Archived</option>
+            </select>
+        </div>
+        @if(request('search') || request('gender') || request('status'))
+            <a href="{{ route('admin.users.index') }}" class="h-10 px-4 flex items-center gap-2 text-sm border border-gray-300 rounded-lg bg-white hover:bg-gray-50 text-gray-700 transition">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+                Clear
+            </a>
+        @endif
     </form>
 
     <div class="relative">
@@ -236,9 +226,13 @@
             </table>
         </div>
         </div>
+        <div class="flex justify-end items-center p-4">
+                    <div class="mt-8">
+                        {{ $users->links('vendor.pagination.tailwind-dashboard') }}
+                    </div>
+                </div>
     </div>
 
-    <!-- Pagination removed as requested -->
 </main>
 
 {{-- MODALS (Keep Z-index high for modal and backdrop) --}}

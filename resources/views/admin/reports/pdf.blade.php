@@ -12,8 +12,23 @@
     </style>
 </head>
 <body>
+
     <h1>Barangay Daang Bakal Reports & Analytics</h1>
-    <p>Report for {{ $monthName }} {{ $year }}</p>
+    <p>Export Range: {{ $exportRange ?? '' }} ({{ $exportStartDate ?? '' }} to {{ $exportEndDate ?? '' }})</p>
+    <p>Total Exported Records: {{ $totalExported ?? 0 }}</p>
+    <p>
+        @if(($exportRange ?? '') === 'weekly')
+            Report for {{ \Carbon\Carbon::parse($exportStartDate)->format('M d, Y') }} to {{ \Carbon\Carbon::parse($exportEndDate)->format('M d, Y') }}
+        @elseif(($exportRange ?? '') === 'monthly')
+            Report for {{ $monthName }} {{ $year }}
+        @elseif(($exportRange ?? '') === 'six_months')
+            Report for 6 Months ({{ \Carbon\Carbon::parse($exportStartDate)->format('M Y') }} - {{ \Carbon\Carbon::parse($exportEndDate)->format('M Y') }})
+        @elseif(($exportRange ?? '') === 'yearly')
+            Report for Year {{ $year }}
+        @else
+            Report for {{ $exportStartDate ?? '' }} to {{ $exportEndDate ?? '' }}
+        @endif
+    </p>
 
     <h2>KPI Cards</h2>
     <table>

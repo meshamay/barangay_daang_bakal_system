@@ -38,7 +38,9 @@ class Announcement extends Model
         $now = Carbon::now();
         $endDate = $this->end_date ? Carbon::parse($this->end_date) : null;
 
-        if ($endDate && $endDate->isPast()) {
+        if ($this->status === 'archived') {
+            return 'Archived';
+        } elseif ($endDate && $endDate->isPast()) {
             return 'Ended';
         } elseif ($this->status === 'inactive') {
             return 'Inactive';
@@ -51,19 +53,21 @@ class Announcement extends Model
 
     public function scopeOngoing($query)
     {
-        $now = Carbon::now();
-        return $query->where('start_date', '<=', $now)
-                     ->where(function ($q) use ($now) {
-                         $q->where('end_date', '>=', $now)
-                           ->orWhereNull('end_date');
-                     })
-                     ->where('status', '!=', 'inactive');
+                $now = Carbon::now();
+                return $query->where('start_date', '<=', $now)
+                                         ->where(function ($q) use ($now) {
+                                                 $q->where('end_date', '>=', $now)
+                                                     ->orWhereNull('end_date');
+                                         })
+                                         ->where('status', '!=', 'inactive')
+                                         ->where('status', '!=', 'archived');
     }
 
     public function scopeEnded($query)
     {
         $now = Carbon::now();
         return $query->whereNotNull('end_date')
-                     ->where('end_date', '<', $now);
+                 ->where('end_date', '<', $now)
+                 ->where('status', '!=', 'archived');
     }
 }
