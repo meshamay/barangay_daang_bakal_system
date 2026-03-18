@@ -188,7 +188,6 @@ async function submitForm(form, modalId) {
             if (successMessage && data.tracking_number) {
                 successMessage.innerHTML = `
                     <span class="block font-bold">Transaction ID: ${data.tracking_number}</span>
-                    <span class="block mt-2">Your request will be processed within 1 day.</span>
                     <span class="block">You may claim your document at the barangay once it's ready for release.</span>
                 `;
             }

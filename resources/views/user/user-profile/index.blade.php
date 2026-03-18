@@ -1,30 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="csrf-token" content="{{ csrf_token() }}">
-  <title>Barangay Daang Bakal</title>
-  <link rel="icon" type="image/png" href="{{ asset('images/BARANGAY LOGO.png') }}">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <script src="//unpkg.com/alpinejs" defer></script>
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            poppins: ['Poppins', 'sans-serif'],
-            barlow: ['Barlow Semi Condensed', 'sans-serif'],
-          }
-        }
-      }
-    }
-  </script>
-</head>
 
-<body class="bg-gradient-to-br from-slate-50 via-white to-slate-50" style="font-family: 'Poppins', sans-serif;">
+@extends('layouts.user')
+
+@section('content')
 
 @php
   $resolveMediaUrl = function ($path) {
@@ -185,11 +162,28 @@
 
 </nav>
 
-<br>
 
-<main class="flex flex-col lg:flex-row justify-center items-center h-auto lg:h-screen overflow-y-auto lg:overflow-hidden px-4 sm:px-6 lg:px-8 py-4 sm:py-6 gap-6 text-[#1e2e3d] pt-20 sm:pt-24 lg:pt-28">
+<div class="w-full flex justify-center mt-2 mb-4 px-2">
+  <div class="flex flex-col sm:flex-row items-center justify-center bg-yellow-50 border-l-4 border-yellow-400 rounded-xl px-4 py-2 shadow gap-2 w-full max-w-3xl">
+    <span class="text-yellow-600 flex-shrink-0 mr-2">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 20a8 8 0 100-16 8 8 0 000 16z" />
+      </svg>
+    </span>
+    <span class="flex flex-col text-sm text-yellow-900 text-center sm:text-left">
+      <span>
+        <b>Notice:</b> If you find any incorrect or mistyped information in your resident profile, please contact the Barangay through their Facebook page <b>Barangay Daang Bakal</b> or call <b>(+63) 535-3992</b>.
+      </span>
+      <span>
+        You may also visit the Barangay Hall to request a correction of your records.
+      </span>
+    </span>
+  </div>
+</div>
 
-    <section class="w-full max-w-2xl flex flex-col bg-white/80 backdrop-blur-md rounded-3xl shadow-xl border border-white/60 p-4 sm:p-5 lg:p-6 hover:shadow-2xl transition-all duration-300 overflow-visible max-h-none">
+<main class="flex flex-col lg:flex-row justify-center items-start w-full gap-4 px-2 sm:px-6 lg:px-8 py-2 sm:py-4 text-[#1e2e3d]">
+
+    <section class="w-full max-w-xl flex flex-col bg-white/80 backdrop-blur-md rounded-3xl shadow-xl border border-white/60 p-4 sm:p-5 lg:p-6 hover:shadow-2xl transition-all duration-300 overflow-visible">
       <div class="flex flex-col lg:flex-row items-center gap-4 sm:gap-5 mb-5 sm:mb-6 pb-4 sm:pb-5 border-b border-gray-200/50">
         <div class="w-24 h-24 sm:w-28 sm:h-28 border-4 border-gradient-to-br from-blue-400 to-blue-600 rounded-3xl flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-blue-50 to-indigo-50 shadow-xl hover:shadow-2xl transition-all duration-300 shrink-0">
             @if($profilePhotoUrl)
@@ -268,9 +262,9 @@
       </div>
     </section>
 
-    <div class="w-px bg-gradient-to-b from-transparent via-gray-300/30 to-transparent hidden lg:block"></div>
+    <div class="w-0 lg:w-4"></div>
 
-    <section class="w-full max-w-2xl flex flex-col bg-white/80 backdrop-blur-md rounded-3xl shadow-xl border border-white/60 p-4 sm:p-5 lg:p-6 hover:shadow-2xl transition-all duration-300 overflow-visible max-h-none">
+    <section class="w-full max-w-xl flex flex-col bg-white/80 backdrop-blur-md rounded-3xl shadow-xl border border-white/60 p-4 sm:p-5 lg:p-6 hover:shadow-2xl transition-all duration-300 overflow-visible">
       <h2 class="text-lg sm:text-xl font-bold mb-4 sm:mb-5 text-[#134573] flex items-center gap-2">
         <div class="w-7 h-7 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-lg flex items-center justify-center shadow-lg">
           <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -337,108 +331,4 @@
     </section>
 </main>
 
-<script>
-  function notificationHandler() {
-    return {
-      open: false,
-      notifications: [],
-      unreadCount: 0,
-
-      init() {
-        this.fetchNotifications();
-        setInterval(() => this.fetchNotifications(), 5000);
-      },
-
-      toggleDropdown() {
-        this.open = !this.open;
-      },
-
-      formatDate(dateString) {
-        const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
-        return new Date(dateString).toLocaleDateString(undefined, options);
-      },
-
-      fetchNotifications() {
-        fetch("{{ route('api.notifications.index') }}")
-          .then(response => response.json())
-          .then(data => {
-            let merged = data.unread.concat(data.read);
-
-            merged = merged.map(n => {
-              try {
-                if (n.data && n.data.type === 'document' && n.data.status && n.data.status.toLowerCase() === 'completed') {
-                  const claimText = ' You may claim your document at the Barangay Hall during office hours.';
-                  if (!String(n.data.message || '').includes(claimText.trim())) {
-                    n.data.message = String(n.data.message || '').replace(/\.*$/, '');
-                    n.data.message = n.data.message + '.' + claimText;
-                  }
-                }
-              } catch (e) {
-              }
-              return n;
-            });
-
-            this.notifications = merged;
-            this.unreadCount = data.unread_count;
-          })
-          .catch(error => console.error('Error fetching notifications:', error));
-      },
-
-      markAsRead(notificationId, redirectLink) {
-        fetch(`/api/notifications/${notificationId}`, {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-          }
-        })
-        .then(response => response.json())
-        .then(data => {
-          if (data.success) {
-            setTimeout(() => {
-              this.fetchNotifications();
-              if (redirectLink) {
-                setTimeout(() => {
-                  window.location.href = redirectLink;
-                }, 500);
-              }
-            }, 100);
-          }
-        })
-        .catch(error => console.error('Error marking as read:', error));
-      },
-
-      markAllAsRead() {
-        const unreadNotifications = this.notifications.filter(n => !n.read_at);
-
-        if (unreadNotifications.length === 0) {
-          this.open = false;
-          return;
-        }
-
-        unreadNotifications.forEach(n => {
-          fetch(`/api/notifications/${n.id}`, {
-            method: 'PATCH',
-            headers: {
-              'Content-Type': 'application/json',
-              'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-            }
-          })
-          .then(response => response.json())
-          .catch(error => console.error('Error marking as read:', error));
-        });
-
-        setTimeout(() => {
-          this.fetchNotifications();
-        }, 500);
-      }
-    }
-  }
-</script>
-
-<script>
-    lucide.createIcons();
-</script>
-
-</body>
-</html>
+@endsection

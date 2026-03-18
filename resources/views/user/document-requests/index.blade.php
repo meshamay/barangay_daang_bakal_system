@@ -366,7 +366,7 @@
 {{-- ================================================================================= --}}
 {{-- MODAL 1: Barangay Certificate --}}
 <div id="modalCertificate" class="modal-container  hidden fixed top-[80px] left-0 w-full h-[calc(100vh-80px)] flex items-center justify-center z-[9999] p-4 sm:p-0" onclick="if(event.target === this) closeModal('modalCertificate')">
-	<div class="modal-content bg-white -translate-y-5 w-full sm:w-[560px] max-h-[90vh] sm:max-h-none rounded-2xl shadow-2xl overflow-y-auto sm:overflow-hidden flex flex-col border-2 border-gray-100">
+	<div class="modal-content bg-white -translate-y-5 w-full sm:w-[560px] max-h-[90vh] sm:max-h-none overflow-y-auto sm:overflow-hidden rounded-2xl shadow-2xl overflow-hidden flex flex-col border-2 border-gray-100">
 	<div class="px-4 sm:px-6 py-4 rounded-t-2xl" style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%);">
 		<h1 class="text-white font-bold text-lg sm:text-xl text-center uppercase tracking-wide">APPLICATION FOR BARANGAY CERTIFICATE</h1>
 	</div>
@@ -402,33 +402,31 @@
 						<label class="block text-sm font-semibold text-gray-700 mb-2">Purpose of Request</label>
 					<input type="text" name="purpose" required class="w-full bg-gray-50 border-2 border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all" placeholder="State the purpose (Employment, Business, Travel, etc.)">
 					</div>
-					<div class="flex items-start pt-2 relative">
-						<div class="flex flex-col w-full">
-							<div class="w-full mb-2">
-								<div class="bg-blue-50 border-l-4 border-blue-400 text-blue-900 text-xs sm:text-sm rounded-md px-4 py-2 mb-2">
-									<span class="block font-bold mb-1">NOTICE TO REQUESTING RESIDENTS</span>
-									<span class="block mb-2">Document requests are accepted Monday–Friday.</span>
-									<span class="block flex items-center whitespace-nowrap mb-2"><span class="mr-2">&#8226;</span>Monday–Thursday: Same day or next working day</span>
-									<span class="block flex items-center whitespace-nowrap mb-2"><span class="mr-2">&#8226;</span>Friday: Early requests same day; late requests Monday</span>
-									<span class="block flex items-center mb-2"><span class="mr-2">&#8226;</span> Weekend: Processed Monday</span>
-									<span class="block mb-2">Please check your notifications regularly. You’ll be informed via the system, call, or message once your document is ready.</span>
-								</div>
-							</div>
-							<div class="flex items-center gap-2 mt-2">
-								<input type="checkbox" required class="mt-0 mr-2 w-3.5 h-3.5 text-blue-600 border-2 border-gray-300 rounded focus:ring-2 focus:ring-blue-500 cursor-pointer certCheckbox">
-								<span class="certification-label text-[14px] text-gray-600 leading-relaxed">I certify that the information provided above is accurate and complete to the best of my knowledge.</span>
-							</div>
-							<span class="checkboxTooltip absolute left-0 top-full mt-2 hidden w-full max-w-xs bg-amber-50 border-l-4 border-amber-500 px-4 py-3 rounded-lg text-sm text-amber-800 flex items-start gap-3 shadow-md" role="alert">
-								<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-amber-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-									<path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
-								</svg>
-								<div>Please check this box if you want to proceed.</div>
-							</span>
+					<div class="w-full mb-2">
+						<div class="bg-blue-50 border-l-4 border-blue-400 text-blue-900 text-xs sm:text-sm rounded-md px-4 py-2 mb-2">
+							<span class="block font-bold mb-1">NOTICE TO REQUESTING RESIDENTS</span>
+							<span class="block mb-2">Document requests are accepted Monday–Friday.</span>
+							   <span class="block flex items-center whitespace-nowrap mb-0"><span class="mr-2">&#8226;</span>Mon-Thurs: Processed same day or next working day,</span>
+							   <span class="block flex items-center whitespace-nowrap mb-2" style="padding-left:1.5em">depending on submission time.</span>
+							   <span class="block flex items-center whitespace-nowrap mb-0"><span class="mr-2">&#8226;</span>Friday: Early requests may be released same day;</span>
+							   <span class="block flex items-center whitespace-nowrap mb-2" style="padding-left:1.5em">late requests Monday.</span>
+							   <span class="block flex items-center mb-2"><span class="mr-2">&#8226;</span>Weekend (Sat-Sun): Processed on Monday.</span>
+							<span class="block mb-2">Please check your notifications regularly. You’ll be informed via the system, call, or message once your document is ready.</span>
 						</div>
+					</div>
+					<div class="flex items-start pt-2 relative">
+						<input type="checkbox" required class="mt-1 mr-3 w-3.5 h-3.5 text-blue-600 border-2 border-gray-300 rounded focus:ring-2 focus:ring-blue-500 cursor-pointer certCheckbox">
+						<label class="certification-label text-[14px] text-gray-600 leading-relaxed">I certify that the information provided above is accurate and complete to the best of my knowledge.</label>
+						<span class="checkboxTooltip absolute left-0 top-full mt-2 hidden w-full max-w-xs bg-amber-50 border-l-4 border-amber-500 px-4 py-3 rounded-lg text-sm text-amber-800 flex items-start gap-3 shadow-md" role="alert">
+							<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-amber-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+								<path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+							</svg>
+							<div>Please check this box if you want to proceed.</div>
+						</span>
 					</div>
 				</div>
 
-				<div class="flex justify-end gap-3 mt-8 pt-6 border-t border-gray-100">
+				<div class="flex justify-end gap-3 mt-2 pt-4 border-t border-gray-100">
 					   <button type="button" onclick="closeModal('modalCertificate')" class="w-auto px-4 sm:px-6 py-2 bg-gradient-to-r from-gray-100 to-gray-200 hover:from-red-500 hover:to-red-600 text-gray-700 hover:text-white text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 border border-gray-300">CANCEL</button>
 					   <button type="submit" class="w-auto px-4 sm:px-6 py-2 bg-gradient-to-r from-gray-100 to-gray-200 hover:from-blue-500 hover:to-blue-600 text-gray-700 hover:text-white text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 shadow-md hover:shadow-lg border border-gray-300">SUBMIT</button>
 				</div>
@@ -440,7 +438,7 @@
 
 {{-- MODAL 2: Barangay Clearance --}}
 <div id="modalClearance" class="modal-container hidden fixed top-[80px] left-0 w-full h-[calc(100vh-80px)] flex items-center justify-center z-[9999] p-4 sm:p-0" onclick="if(event.target === this) closeModal('modalClearance')">
-	<div class="modal-content bg-white -translate-y-5 w-full sm:w-[560px] max-h-[90vh] sm:max-h-none rounded-2xl shadow-2xl overflow-y-auto sm:overflow-hidden flex flex-col border-2 border-gray-100">
+	<div class="modal-content bg-white -translate-y-5 w-full sm:w-[560px] max-h-[90vh] sm:max-h-none overflow-y-auto sm:overflow-hidden rounded-2xl shadow-2xl overflow-hidden flex flex-col border-2 border-gray-100">
     <div class="px-4 sm:px-6 py-4 rounded-t-2xl" style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%);">
         <h1 class="text-white font-bold text-lg sm:text-xl text-center uppercase tracking-wide">APPLICATION FOR BARANGAY CLEARANCE</h1>
     </div>
@@ -480,9 +478,11 @@
 						<div class="bg-blue-50 border-l-4 border-blue-400 text-blue-900 text-xs sm:text-sm rounded-md px-4 py-2 mb-2">
 							<span class="block font-bold mb-1">NOTICE TO REQUESTING RESIDENTS</span>
 							<span class="block mb-2">Document requests are accepted Monday–Friday.</span>
-							<span class="block flex items-center whitespace-nowrap mb-2"><span class="mr-2">&#8226;</span>Monday–Thursday: Same day or next working day</span>
-							<span class="block flex items-center whitespace-nowrap mb-2"><span class="mr-2">&#8226;</span>Friday: Early requests same day; late requests Monday</span>
-							<span class="block flex items-center mb-2"><span class="mr-2">&#8226;</span> Weekend: Processed Monday</span>
+							   <span class="block flex items-center whitespace-nowrap mb-0"><span class="mr-2">&#8226;</span>Mon-Thurs: Processed same day or next working day,</span>
+							   <span class="block flex items-center whitespace-nowrap mb-2" style="padding-left:1.5em">depending on submission time.</span>
+							   <span class="block flex items-center whitespace-nowrap mb-0"><span class="mr-2">&#8226;</span>Friday: Early requests may be released same day;</span>
+							   <span class="block flex items-center whitespace-nowrap mb-2" style="padding-left:1.5em">late requests Monday.</span>
+							   <span class="block flex items-center mb-2"><span class="mr-2">&#8226;</span>Weekend (Sat-Sun): Processed on Monday.</span>
 							<span class="block mb-2">Please check your notifications regularly. You’ll be informed via the system, call, or message once your document is ready.</span>
 						</div>
 					</div>
@@ -498,7 +498,7 @@
 					</div>
 				</div>
 
-				<div class="flex justify-end gap-3 mt-8 pt-6 border-t border-gray-100">
+				<div class="flex justify-end gap-3 mt-2 pt-4 border-t border-gray-100">
 					   <button type="button" onclick="closeModal('modalClearance')" class="w-auto px-4 sm:px-6 py-2 bg-gradient-to-r from-gray-100 to-gray-200 hover:from-red-500 hover:to-red-600 text-gray-700 hover:text-white text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 border border-gray-300">CANCEL</button>
 					   <button type="submit" class="w-auto px-4 sm:px-6 py-2 bg-gradient-to-r from-gray-100 to-gray-200 hover:from-blue-500 hover:to-blue-600 text-gray-700 hover:text-white text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 shadow-md hover:shadow-lg border border-gray-300">SUBMIT</button>
 				</div>
@@ -548,12 +548,12 @@
 						</div>
 
 						<div>
-						<label class="block text-sm font-semibold text-gray-700 mb-2">Proof of Request</label>
-						<div class="w-full bg-gray-50 border-2 border-gray-300 rounded-lg px-4 py-2.5 flex items-center gap-3">
-							<label for="indigency_proof_file" class="inline-flex items-center px-3 py-1.5 rounded-md text-xs sm:text-sm font-semibold bg-blue-50 text-blue-700 hover:bg-blue-100 cursor-pointer transition-colors">Choose Image</label>
-							<span id="indigency_proof_filename" class="text-sm text-gray-500 truncate">No image selected</span>
-						</div>
-						<input id="indigency_proof_file" type="file" name="proof_file" accept="image/png,image/jpeg,image/jpg" required class="sr-only">
+							<label class="block text-sm font-semibold text-gray-700 mb-2">Proof of Request</label>
+							<div class="w-full bg-gray-50 border-2 border-gray-300 rounded-lg px-4 py-1 flex items-center gap-3">
+								<label for="indigency_proof_file" class="inline-flex items-center px-3 py-1.5 rounded-md text-xs sm:text-sm font-semibold bg-blue-50 text-blue-700 hover:bg-blue-100 cursor-pointer transition-colors">Choose Image</label>
+								<span id="indigency_proof_filename" class="text-sm text-gray-500 truncate">No image selected</span>
+								<input id="indigency_proof_file" type="file" name="proof_file" accept="image/png,image/jpeg,image/jpg" required class="sr-only">
+							</div>
 						</div>
 
 						<div>
@@ -564,9 +564,11 @@
 							<div class="bg-blue-50 border-l-4 border-blue-400 text-blue-900 text-xs sm:text-sm rounded-md px-4 py-2 mb-2">
 								<span class="block font-bold mb-1">NOTICE TO REQUESTING RESIDENTS</span>
 								<span class="block mb-2">Document requests are accepted Monday–Friday.</span>
-								<span class="block flex items-center whitespace-nowrap mb-2"><span class="mr-2">&#8226;</span>Monday–Thursday: Same day or next working day</span>
-								<span class="block flex items-center whitespace-nowrap mb-2"><span class="mr-2">&#8226;</span>Friday: Early requests same day; late requests Monday</span>
-								<span class="block flex items-center mb-2"><span class="mr-2">&#8226;</span> Weekend: Processed Monday</span>
+								   <span class="block flex items-center whitespace-nowrap mb-0"><span class="mr-2">&#8226;</span>Mon-Thurs: Processed same day or next working day,</span>
+								   <span class="block flex items-center whitespace-nowrap mb-2" style="padding-left:1.5em">depending on submission time.</span>
+								   <span class="block flex items-center whitespace-nowrap mb-0"><span class="mr-2">&#8226;</span>Friday: Early requests may be released same day;</span>
+								   <span class="block flex items-center whitespace-nowrap mb-2" style="padding-left:1.5em">late requests Monday.</span>
+								   <span class="block flex items-center mb-2"><span class="mr-2">&#8226;</span>Weekend (Sat-Sun): Processed on Monday.</span>
 								<span class="block mb-2">Please check your notifications regularly. You’ll be informed via the system, call, or message once your document is ready.</span>
 							</div>
 						</div>
@@ -582,7 +584,7 @@
 						</div>
 					</div>
 
-					<div class="flex justify-end gap-3 mt-8 pt-6 border-t border-gray-100">
+					<div class="flex justify-end gap-3 mt-2 pt-4 border-t border-gray-100">
 						   <button type="button" onclick="closeModal('modalIndigency')" class="w-auto px-4 sm:px-6 py-2 bg-gradient-to-r from-gray-100 to-gray-200 hover:from-red-500 hover:to-red-600 text-gray-700 hover:text-white text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 border border-gray-300">CANCEL</button>
 						   <button type="submit" class="w-auto px-4 sm:px-6 py-2 bg-gradient-to-r from-gray-100 to-gray-200 hover:from-blue-500 hover:to-blue-600 text-gray-700 hover:text-white text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 shadow-md hover:shadow-lg border border-gray-300">SUBMIT</button>
 					</div>
@@ -644,9 +646,11 @@
 							<div class="bg-blue-50 border-l-4 border-blue-400 text-blue-900 text-xs sm:text-sm rounded-md px-4 py-2 mb-2">
 								<span class="block font-bold mb-1">NOTICE TO REQUESTING RESIDENTS</span>
 								<span class="block mb-2">Document requests are accepted Monday–Friday.</span>
-								<span class="block flex items-center whitespace-nowrap mb-2"><span class="mr-2">&#8226;</span>Monday–Thursday: Same day or next working day</span>
-								<span class="block flex items-center whitespace-nowrap mb-2"><span class="mr-2">&#8226;</span>Friday: Early requests same day; late requests Monday</span>
-								<span class="block flex items-center mb-2"><span class="mr-2">&#8226;</span> Weekend: Processed Monday</span>
+								<span class="block flex items-center whitespace-nowrap mb-0"><span class="mr-2">&#8226;</span>Mon-Thurs: Processed same day or next working day,</span>
+								<span class="block flex items-center whitespace-nowrap mb-2" style="padding-left:1.5em">depending on submission time.</span>
+								<span class="block flex items-center whitespace-nowrap mb-0"><span class="mr-2">&#8226;</span>Friday: Early requests may be released same day;</span>
+								<span class="block flex items-center whitespace-nowrap mb-2" style="padding-left:1.5em">late requests Monday.</span>
+								<span class="block flex items-center mb-2"><span class="mr-2">&#8226;</span>Weekend (Sat-Sun): Processed on Monday.</span>
 								<span class="block mb-2">Please check your notifications regularly. You’ll be informed via the system, call, or message once your document is ready.</span>
 							</div>
 						</div>
@@ -662,7 +666,7 @@
 						</div>
 					</div>
 
-					<div class="flex justify-end gap-3 mt-8 pt-6 border-t border-gray-100">
+					<div class="flex justify-end gap-3 mt-2 pt-4 border-t border-gray-100">
 						   <button type="button" onclick="closeModal('modalResidency')" class="w-auto px-4 sm:px-6 py-2 bg-gradient-to-r from-gray-100 to-gray-200 hover:from-red-500 hover:to-red-600 text-gray-700 hover:text-white text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 border border-gray-300">CANCEL</button>
 						   <button type="submit" class="w-auto px-4 sm:px-6 py-2 bg-gradient-to-r from-gray-100 to-gray-200 hover:from-blue-500 hover:to-blue-600 text-gray-700 hover:text-white text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 shadow-md hover:shadow-lg border border-gray-300">SUBMIT</button>
 					</div>
@@ -690,7 +694,6 @@
         <br>
 		<p class="text-xs sm:text-sm text-black leading-relaxed space-y-2">
 			<span class="block font-bold">Transaction ID: {{ session('success_id') }}</span>
-			<span class="block mt-2">Your request will be processed within 1 day.</span>
 			<span class="block">You may claim your document at the barangay once it’s ready for release.</span>
 		</p>
         <button onclick="closeSuccessModal('sessionSuccessModal')"

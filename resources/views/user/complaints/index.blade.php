@@ -310,7 +310,7 @@
     <h1 class="text-white font-bold text-lg sm:text-xl text-center uppercase tracking-wide">General Complaint Form</h1>
   </div>
   <div class="complaint-modal-body px-4 sm:px-6 py-4 flex-1 overflow-y-auto">
-    <form id="complaintForm" class="space-y-3 sm:space-y-4" data-store-url="{{ route('user.complaints.store') }}">
+      <form id="complaintForm" class="space-y-3 sm:space-y-4" data-store-url="{{ route('user.complaints.store') }}">
       @csrf
       <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
         <label class="w-full sm:w-40 shrink-0 text-left text-xs sm:text-sm font-semibold text-gray-700 leading-tight">Incident Date</label>
@@ -368,9 +368,20 @@
           <input type="text" id="specifyInput" name="specifyInput" class="w-full sm:flex-1 bg-gray-50 border-2 border-gray-300 rounded-lg px-3 sm:px-4 py-2 text-xs sm:text-sm placeholder:text-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all pointer-events-auto" placeholder="Specify the nature of your complaint" autocomplete="off">
         </div>
       </div>
+      
       <div class="flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-4">
         <label class="w-full sm:w-40 shrink-0 text-left text-xs sm:text-sm font-semibold text-gray-700 leading-tight pt-2">Complaint Statement</label>
         <textarea name="complaint_statement" class="w-full sm:flex-1 bg-gray-50 border-2 border-gray-300 rounded-lg px-3 sm:px-4 py-2 text-xs sm:text-sm placeholder:text-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all resize-none h-24 sm:h-28" placeholder="Provide a detailed description of the incident" required></textarea>
+      </div>
+      <div class="mb-4">
+        <div class="bg-red-50 border-l-4 border-red-400 rounded-xl px-4 py-3 shadow flex flex-col gap-1 text-red-900 text-sm text-justify">
+          <div class="font-bold text-red-800 mb-1">NOTICE TO RESIDENTS</div>
+          <div><b>Clarification:</b> Staff may contact you for additional details.</div>
+          <div><b>Verification & Action:</b> Officials may conduct site visits or interviews to verify the complaint.</div>
+          <div><b>Follow-Up:</b> Staff may call or message you for further information.</div>
+          <div><b>Resolution:</b> You will be informed of the outcome. If no update is received, follow up after 3 working days.</div>
+          <div class="text-xs text-red-700 mt-1"><b>Note:</b> Complaints submitted on weekends are reviewed on Monday.</div>
+        </div>
       </div>
       <div class="flex items-start pt-2 relative">
         <input id="complaintCheckbox" type="checkbox" required class="mt-1 mr-3 w-4 h-4 text-blue-600 border-2 border-gray-300 rounded focus:ring-2 focus:ring-blue-500 cursor-pointer flex-shrink-0">

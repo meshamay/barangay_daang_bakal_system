@@ -87,17 +87,15 @@
 
      {{-- Pagination --}}
 
-        <div class="flex justify-end mt-4 gap-1">
-            <a href="http://127.0.0.1:8000/superadmin/auditlog">
-            <button class="px-3x w-10 bg-[#A2C4D9C7] text-black font-semibold text-md rounded-lg hover:bg-[#C1D2E1]">
-                << </a>
-            </button>
-            <a href="http://127.0.0.1:8000/superadmin/auditlog/nextpage">
-            <button class="px-3x w-10 bg-[#A2C4D9C7] text-black font-semibold text-md rounded-lg hover:bg-[#C1D2E1]">
-            >> </a>
-            </button>
-        </div>
-
+      
+  <div class="flex justify-end items-center p-4">
+    <div class="mt-8">
+      <div class="flex justify-center">
+        {{ $transactions->links('vendor.pagination.tailwind-dashboard') }}
+      </div>
+    </div>
+  </div>
+</main>
 
 
     </main>

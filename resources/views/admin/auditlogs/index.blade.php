@@ -179,33 +179,13 @@
         </div>
     </div>
 
-    {{-- Pagination --}}
-    <div class="mt-6 flex justify-end pb-8">
-        <div style="background: white; border-radius: 0.5rem; padding: 0.25rem 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border: 1px solid #e5e7eb;">
-            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center; align-items: center;">
-                @if ($auditLogs->onFirstPage())
-                    <span style="padding: 0.5rem 0.75rem; color: #9ca3af; cursor: default; font-size: 14px; border-radius: 0.375rem; background: #f3f4f6; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">« Previous</span>
-                @else
-                    <a href="{{ $auditLogs->previousPageUrl() }}" style="padding: 0.5rem 0.75rem; background: linear-gradient(90deg,#1e293b,#134573); color: white; border-radius: 0.375rem; text-decoration: none; font-size: 14px; box-shadow: 0 2px 8px rgba(37,99,235,0.12); transition: background 0.2s;">« Previous</a>
-                @endif
-
-                @foreach ($auditLogs->getUrlRange(1, $auditLogs->lastPage()) as $page => $url)
-                    @if ($page == $auditLogs->currentPage())
-                        <span style="padding: 0.5rem 0.75rem; background: #1e293b; color: white; border-radius: 0.375rem; font-weight: bold; font-size: 14px; box-shadow: 0 2px 8px rgba(30,41,59,0.18); transition: background 0.2s;">{{ $page }}</span>
-                    @else
-                        <a href="{{ $url }}" style="padding: 0.5rem 0.75rem; background: #f3f4f6; color: #374151; border-radius: 0.375rem; text-decoration: none; font-size: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); transition: background 0.2s;">{{ $page }}</a>
-                    @endif
-                @endforeach
-
-                @if ($auditLogs->hasMorePages())
-                    <a href="{{ $auditLogs->nextPageUrl() }}" style="padding: 0.5rem 0.75rem; background: linear-gradient(90deg,#2563eb,#3b82f6); color: white; border-radius: 0.375rem; text-decoration: none; font-size: 14px; box-shadow: 0 2px 8px rgba(37,99,235,0.12); transition: background 0.2s;">Next »</a>
-                @else
-                    <span style="padding: 0.5rem 0.75rem; color: #9ca3af; cursor: default; font-size: 14px; border-radius: 0.375rem; background: #f3f4f6; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">Next »</span>
-                @endif
-            </div>
-        </div>
-    </div>
     
+  <div class="flex justify-end items-center p-4">
+    <div class="mt-8">
+      <div class="flex justify-center">
+        {{ $auditLogs->links('vendor.pagination.tailwind-dashboard') }}
+      </div>
     </div>
+  </div>
 </main>
 @endsection

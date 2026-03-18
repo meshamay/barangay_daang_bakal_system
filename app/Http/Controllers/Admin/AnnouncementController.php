@@ -81,6 +81,9 @@ class AnnouncementController extends Controller
                     $query->where('status', 'archived');
                     break;
             }
+        } else {
+            // Hide archived announcements unless filter is set to archived
+            $query->where('status', '!=', 'archived');
         }
 
         $announcements = $query->latest()->paginate(10)->appends($request->query());
