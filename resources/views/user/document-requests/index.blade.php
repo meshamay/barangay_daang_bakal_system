@@ -428,7 +428,7 @@
 
 				<div class="flex justify-end gap-3 mt-2 pt-4 border-t border-gray-100">
 					   <button type="button" onclick="closeModal('modalCertificate')" class="w-auto px-4 sm:px-6 py-2 bg-gradient-to-r from-gray-100 to-gray-200 hover:from-red-500 hover:to-red-600 text-gray-700 hover:text-white text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 border border-gray-300">CANCEL</button>
-					   <button type="submit" class="w-auto px-4 sm:px-6 py-2 bg-gradient-to-r from-gray-100 to-gray-200 hover:from-blue-500 hover:to-blue-600 text-gray-700 hover:text-white text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 shadow-md hover:shadow-lg border border-gray-300">SUBMIT</button>
+					<button type="submit" class="w-auto px-4 sm:px-6 py-2 bg-gradient-to-r from-gray-100 to-gray-200 hover:from-red-500 hover:to-red-600 text-gray-700 hover:text-white text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 border border-gray-300">SUBMIT</button>
 				</div>
 			</form>
 			</div>

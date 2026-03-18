@@ -154,8 +154,8 @@
                                     </select>
                                 </div>
                                 <div class="order-1 sm:order-none">
-                                    <label for="age" class="mb-1 block text-sm font-semibold text-gray-700">Age <span class="text-red-500">*</span></label>
-                                        <input type="number" name="age" id="age" autocomplete="off" class="h-9 w-full rounded-lg border-2 border-gray-300 px-3 py-1 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none" required>
+                                    <label for="dob" class="mb-1 block text-sm font-semibold text-gray-700">Date of Birth <span class="text-red-500">*</span></label>
+                                        <input type="date" name="dob" id="dob" autocomplete="bday" class="h-9 w-full rounded-lg border-2 border-gray-300 px-3 py-1 bg-gray-50 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent cursor-pointer" required oninput="calculateAge()">
                                 </div>
                                 <div class="order-5 sm:order-none">
                                     <label for="civil_status" class="mb-1 block text-sm font-semibold text-gray-700">Civil Status <span class="text-red-500">*</span></label>
@@ -168,8 +168,36 @@
                                     </select>
                                 </div>
                                 <div class="order-2 sm:order-none">
-                                    <label for="dob" class="mb-1 block text-sm font-semibold text-gray-700">Date of Birth <span class="text-red-500">*</span></label>
-                                        <input type="date" name="dob" id="dob" autocomplete="bday" class="h-9 w-full rounded-lg border-2 border-gray-300 px-3 py-1 bg-gray-50 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent cursor-pointer" required>
+                                    <label for="age" class="mb-1 block text-sm font-semibold text-gray-700">Age <span class="text-red-500">*</span></label>
+                                        <input type="number" name="age" id="age" autocomplete="off" class="h-9 w-full rounded-lg border-2 border-gray-300 px-3 py-1 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none" required readonly>
+
+                                <script>
+                                function calculateAge() {
+                                    const dobInput = document.getElementById('dob');
+                                    const ageInput = document.getElementById('age');
+                                    if (!dobInput || !ageInput) return;
+                                    const dob = dobInput.value;
+                                    if (!dob) {
+                                        ageInput.value = '';
+                                        return;
+                                    }
+                                    const today = new Date();
+                                    const birthDate = new Date(dob);
+                                    let age = today.getFullYear() - birthDate.getFullYear();
+                                    const m = today.getMonth() - birthDate.getMonth();
+                                    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+                                        age--;
+                                    }
+                                    ageInput.value = age > 0 ? age : 0;
+                                }
+                                document.addEventListener('DOMContentLoaded', function() {
+                                    const dobInput = document.getElementById('dob');
+                                    if (dobInput) {
+                                        dobInput.addEventListener('input', calculateAge);
+                                        calculateAge();
+                                    }
+                                });
+                                </script>
                                 </div>
                                 <div class="order-6 sm:order-none">
                                     <label for="citizenship" class="mb-1 block text-sm font-semibold text-gray-700">Citizenship</label>

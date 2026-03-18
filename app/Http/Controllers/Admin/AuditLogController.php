@@ -21,11 +21,17 @@ class AuditLogController extends Controller
         $query = AuditLog::with('user');
 
         
-        if ($request->filled('from_date')) {
-            $query->whereDate('created_at', '>=', $request->from_date);
-        }
-        if ($request->filled('to_date')) {
-            $query->whereDate('created_at', '<=', $request->to_date);
+        if ($request->filled('from_date') && $request->filled('to_date')) {
+            // Use whereBetween for accurate range, include full day for to_date
+            $from = $request->from_date . ' 00:00:00';
+            $to = $request->to_date . ' 23:59:59';
+            $query->whereBetween('created_at', [$from, $to]);
+        } elseif ($request->filled('from_date')) {
+            $from = $request->from_date . ' 00:00:00';
+            $query->where('created_at', '>=', $from);
+        } elseif ($request->filled('to_date')) {
+            $to = $request->to_date . ' 23:59:59';
+            $query->where('created_at', '<=', $to);
         }
 
         

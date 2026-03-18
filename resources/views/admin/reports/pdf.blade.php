@@ -15,7 +15,6 @@
 
     <h1>Barangay Daang Bakal Reports & Analytics</h1>
     <p>Export Range: {{ $exportRange ?? '' }} ({{ $exportStartDate ?? '' }} to {{ $exportEndDate ?? '' }})</p>
-    <p>Total Exported Records: {{ $totalExported ?? 0 }}</p>
     <p>
         @if(($exportRange ?? '') === 'weekly')
             Report for {{ \Carbon\Carbon::parse($exportStartDate)->format('M d, Y') }} to {{ \Carbon\Carbon::parse($exportEndDate)->format('M d, Y') }}

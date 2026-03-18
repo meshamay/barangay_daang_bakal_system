@@ -24,7 +24,7 @@
             <h1 class="text-4xl font-bold bg-gradient-to-r from-[#134573] to-[#0f3a5f] bg-clip-text text-transparent">REPORTS & ANALYTICS</h1>
             <p class="text-gray-500 text-sm mt-1">Explore key metrics, trends, and export monthly summaries.</p>
         </div>
-        <button onclick="document.getElementById('exportModal').classList.remove('hidden')" class="flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white font-semibold px-6 py-2.5 rounded-xl shadow-md hover:shadow-lg transition-all duration-200">
+        <button onclick="document.getElementById('exportModal').classList.remove('hidden')" class="flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:bg-gradient-to-r hover:from-emerald-600 hover:to-emerald-700 text-white font-semibold px-6 py-2.5 rounded-xl shadow-md hover:shadow-lg transition-all duration-200">
             <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v12m6-6H6" />
             </svg>
@@ -449,8 +449,8 @@
                     <div class="flex justify-between gap-2 mb-2">
                         <button type="button" class="export-range-btn flex-1 py-2 rounded-md border border-gray-300 text-gray-700 font-semibold bg-gray-100 hover:bg-blue-100" data-range="weekly">Weekly</button>
                         <button type="button" class="export-range-btn flex-1 py-2 rounded-md border border-gray-300 text-gray-700 font-semibold bg-gray-100 hover:bg-blue-100" data-range="monthly">Monthly</button>
-                        <button type="button" class="export-range-btn flex-1 py-2 rounded-md border border-gray-300 text-gray-700 font-semibold bg-gray-100 hover:bg-blue-100" data-range="six_months">6 Months</button>
                         <button type="button" class="export-range-btn flex-1 py-2 rounded-md border border-gray-300 text-gray-700 font-semibold bg-gray-100 hover:bg-blue-100" data-range="yearly">Yearly</button>
+                        <button type="button" class="export-range-btn flex-1 py-2 rounded-md border border-gray-300 text-gray-700 font-semibold bg-gray-100 hover:bg-blue-100" data-range="custom">Costum</button>
                         <input type="hidden" id="exportRange" name="range" value="monthly">
                     </div>
                     <div id="dynamicFields">
@@ -514,7 +514,7 @@
                             </div>
                         </div>
                         <div>
-                            <span class="block text-xs font-bold text-gray-800 mb-2 tracking-wide uppercase">Sections</span>
+                            <span class="block text-xs font-bold text-gray-800 mb-2 tracking-wide uppercase">SECTIONS TO INCLUDE</span>
                             <div class="grid grid-cols-1 gap-2 bg-gray-50 rounded-xl px-4 py-3 border border-gray-200">
                                 <label class="flex items-center gap-3 cursor-pointer">
                                     <input type="checkbox" name="sections[]" value="population_gender" class="accent-blue-600 scale-110">

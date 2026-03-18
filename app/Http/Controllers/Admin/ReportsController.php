@@ -148,39 +148,14 @@ class ReportsController extends Controller
         $startDate = null;
         $endDate = null;
         if ($range === 'weekly') {
-            // Week 1: 1-7, Week 2: 8-14, Week 3: 15-21, Week 4: 22-28, Week 5: 29-end
+            // Calculate week boundaries based on selected week of the month
             $selectedWeek = (int)($week ?? 1);
             $firstOfMonth = Carbon::createFromDate($year, $month, 1);
-            switch ($selectedWeek) {
-                case 1:
-                    $startDate = $firstOfMonth->copy();
-                    $endDate = $firstOfMonth->copy()->addDays(6);
-                    break;
-                case 2:
-                    $startDate = $firstOfMonth->copy()->addDays(7);
-                    $endDate = $firstOfMonth->copy()->addDays(13);
-                    break;
-                case 3:
-                    $startDate = $firstOfMonth->copy()->addDays(14);
-                    $endDate = $firstOfMonth->copy()->addDays(20);
-                    break;
-                case 4:
-                    $startDate = $firstOfMonth->copy()->addDays(21);
-                    $endDate = $firstOfMonth->copy()->addDays(27);
-                    break;
-                case 5:
-                    $startDate = $firstOfMonth->copy()->addDays(28);
-                    $endDate = $firstOfMonth->copy()->endOfMonth();
-                    break;
-                default:
-                    $startDate = $firstOfMonth->copy();
-                    $endDate = $firstOfMonth->copy()->addDays(6);
-            }
-            // Clamp endDate to end of month
+            $startDate = $firstOfMonth->copy()->addDays(7 * ($selectedWeek - 1));
+            $endDate = $startDate->copy()->addDays(6);
             $lastOfMonth = $firstOfMonth->copy()->endOfMonth();
-            if ($endDate->gt($lastOfMonth)) {
-                $endDate = $lastOfMonth;
-            }
+            if ($startDate->lt($firstOfMonth)) $startDate = $firstOfMonth->copy();
+            if ($endDate->gt($lastOfMonth)) $endDate = $lastOfMonth;
             // If exporting the current week, set endDate to now if it's before end of week
             $now = Carbon::now();
             if ($now->between($startDate, $endDate)) {
