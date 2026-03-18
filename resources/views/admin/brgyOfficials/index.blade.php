@@ -142,6 +142,10 @@
             </tbody>
         </table>
     </div>
+
+    <div class="flex justify-center mt-6">
+        {{ $officials->links('vendor.pagination.tailwind-dashboard') }}
+    </div>
 </main>
 
 

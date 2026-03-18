@@ -21,7 +21,7 @@ class AnnouncementController extends Controller
         \App\Models\AuditLog::create([
             'user_id' => auth()->id(),
             'action' => 'Archive Announcement',
-            'description' => 'Archived announcement: ' . $announcement->title,
+            'description' => 'Archived an announcement',
         ]);
 
         return redirect()->route('admin.announcements.index')->with('success', 'Announcement archived successfully.');

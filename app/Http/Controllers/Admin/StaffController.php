@@ -56,7 +56,7 @@ class StaffController extends Controller
             }
         }
 
-        $staff = $query->orderBy('last_name')->get();
+        $staff = $query->orderBy('last_name')->paginate(10);
         return view('admin.staffs.index', compact('staff'));
     }
 

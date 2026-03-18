@@ -11,7 +11,7 @@ class BrgyOfficialsController extends Controller
 {
     public function index()
     {
-        $officials = BarangayOfficials::orderBy('last_name')->get();
+        $officials = BarangayOfficials::orderBy('last_name')->paginate(10);
 
         return view('admin.brgyOfficials.index', compact('officials'));
     }

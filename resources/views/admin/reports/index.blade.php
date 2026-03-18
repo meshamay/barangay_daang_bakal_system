@@ -24,7 +24,7 @@
             <h1 class="text-4xl font-bold bg-gradient-to-r from-[#134573] to-[#0f3a5f] bg-clip-text text-transparent">REPORTS & ANALYTICS</h1>
             <p class="text-gray-500 text-sm mt-1">Explore key metrics, trends, and export monthly summaries.</p>
         </div>
-        <button onclick="openModal('exportModal')" class="flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white font-semibold px-6 py-2.5 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105">
+        <button onclick="document.getElementById('exportModal').classList.remove('hidden')" class="flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white font-semibold px-6 py-2.5 rounded-xl shadow-md hover:shadow-lg transition-all duration-200">
             <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v12m6-6H6" />
             </svg>
@@ -438,139 +438,120 @@
     <!-- =============================== -->
     <!-- 1. EXPORT SETTINGS MODAL -->
     <!-- =============================== -->
-    <div id="exportModal" class="modal-container hidden fixed top-0 left-0 w-full h-full flex items-center justify-center z-[9999] font-poppins" style="left: 240px; width: calc(100vw - 240px); top: 80px; height: calc(100vh - 80px);">
-        <div class="modern-modal w-[480px] flex flex-col font-poppins">
-            <!-- Header -->
-            <div class="modern-modal-header" style="text-align: left;">
-                <h2 class="modern-modal-title">Export Report</h2>
+        <div id="exportModal" class="modal-container hidden fixed top-0 left-0 w-full h-full flex items-center justify-center z-[9999] font-poppins" style="left: 240px; width: calc(100vw - 240px); top: 80px; height: calc(100vh - 80px);">
+            <div class="modern-modal w-[480px] h-[720px] flex flex-col font-poppins">
+                <!-- Header -->
+                <div class="px-6 py-4 flex items-center gap-3" style="background: linear-gradient(135deg, #134573 0%, #0d2d47 100%);">
+                    <h2 class="text-white font-bold text-xl tracking-wide">Export Report</h2>
+                </div>
+                <form id="exportForm" method="POST" action="{{ route('admin.reports.export') }}" class="modern-modal-body flex flex-col gap-4 flex-1 overflow-y-auto">
+                    @csrf
+                    <div class="flex justify-between gap-2 mb-2">
+                        <button type="button" class="export-range-btn flex-1 py-2 rounded-md border border-gray-300 text-gray-700 font-semibold bg-gray-100 hover:bg-blue-100" data-range="weekly">Weekly</button>
+                        <button type="button" class="export-range-btn flex-1 py-2 rounded-md border border-gray-300 text-gray-700 font-semibold bg-gray-100 hover:bg-blue-100" data-range="monthly">Monthly</button>
+                        <button type="button" class="export-range-btn flex-1 py-2 rounded-md border border-gray-300 text-gray-700 font-semibold bg-gray-100 hover:bg-blue-100" data-range="six_months">6 Months</button>
+                        <button type="button" class="export-range-btn flex-1 py-2 rounded-md border border-gray-300 text-gray-700 font-semibold bg-gray-100 hover:bg-blue-100" data-range="yearly">Yearly</button>
+                        <input type="hidden" id="exportRange" name="range" value="monthly">
+                    </div>
+                    <div id="dynamicFields">
+                        <div class="flex gap-2 mb-2" id="yearMonthFields">
+                            <div class="flex-1">
+                                <label class="block text-xs font-semibold text-gray-700 mb-1">Year</label>
+                                <select id="exportYear" name="year" class="w-full bg-gray-50 border border-gray-300 rounded px-2 py-1 text-sm">
+                                    <option value="{{ date('Y') }}" selected>{{ date('Y') }}</option>
+                                </select>
+                            </div>
+                            <div class="flex-1" id="monthField">
+                                <label class="block text-xs font-semibold text-gray-700 mb-1">Month</label>
+                                <select id="exportMonth" name="month" class="w-full bg-gray-50 border border-gray-300 rounded px-2 py-1 text-sm">
+                                    @for ($i = 1; $i <= 12; $i++)
+                                        <option value="{{ $i }}" {{ (int) request('month', date('m')) === (int) $i ? 'selected' : '' }}>{{ \Carbon\Carbon::create()->month($i)->format('F') }}</option>
+                                    @endfor
+                                </select>
+                            </div>
+                        </div>
+                        <div class="flex gap-2 mb-2" id="sixMonthsFields" style="display:none;">
+                            <div class="flex-1">
+                                <label class="block text-xs font-semibold text-gray-700 mb-1">Start Month</label>
+                                <select id="sixMonthStart" name="six_month_start" class="w-full bg-gray-50 border border-gray-300 rounded px-2 py-1 text-sm">
+                                    @for ($i = 1; $i <= 12; $i++)
+                                        <option value="{{ $i }}">{{ \Carbon\Carbon::create()->month($i)->format('F') }}</option>
+                                    @endfor
+                                </select>
+                            </div>
+                            <div class="flex-1">
+                                <label class="block text-xs font-semibold text-gray-700 mb-1">End Month</label>
+                                <select id="sixMonthEnd" name="six_month_end" class="w-full bg-gray-50 border border-gray-300 rounded px-2 py-1 text-sm">
+                                    @for ($i = 1; $i <= 12; $i++)
+                                        <option value="{{ $i }}">{{ \Carbon\Carbon::create()->month($i)->format('F') }}</option>
+                                    @endfor
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mb-2" id="weekSelectionContainer" style="display:none;">
+                            <label class="block text-xs font-semibold text-gray-700 mb-1">Select Week</label>
+                            <select id="exportWeek" name="week" class="w-full bg-gray-50 border border-gray-300 rounded px-2 py-1 text-sm">
+                                <option value="1">Week 1</option>
+                                <option value="2">Week 2</option>
+                                <option value="3">Week 3</option>
+                                <option value="4">Week 4</option>
+                                <option value="5">Week 5</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-2 mt-8" id="exportFormatSectionsContainer">
+                        <div class="mb-2">
+                            <span class="block text-xs font-bold text-gray-800 mb-2 tracking-wide uppercase">Export Format</span>
+                            <div class="flex gap-4 bg-gray-50 rounded-xl px-4 py-3 border border-gray-200">
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="radio" name="format" value="pdf" class="accent-red-600 scale-125" checked>
+                                    <span class="text-base font-semibold text-gray-700">PDF</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="radio" name="format" value="excel" class="accent-green-600 scale-125">
+                                    <span class="text-base font-semibold text-gray-700">Excel</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div>
+                            <span class="block text-xs font-bold text-gray-800 mb-2 tracking-wide uppercase">Sections</span>
+                            <div class="grid grid-cols-1 gap-2 bg-gray-50 rounded-xl px-4 py-3 border border-gray-200">
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="checkbox" name="sections[]" value="population_gender" class="accent-blue-600 scale-110">
+                                    <span class="text-base font-medium text-gray-700">Population by Gender</span>
+                                </label>
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="checkbox" name="sections[]" value="requests_complaints" class="accent-blue-600 scale-110">
+                                    <span class="text-base font-medium text-gray-700">Total Requests & Complaints</span>
+                                </label>
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="checkbox" name="sections[]" value="most_requested_document" class="accent-blue-600 scale-110">
+                                    <span class="text-base font-medium text-gray-700">Most Requested Document</span>
+                                </label>
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="checkbox" name="sections[]" value="request_status_summary" class="accent-blue-600 scale-110">
+                                    <span class="text-base font-medium text-gray-700">Requests Status Summary</span>
+                                </label>
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="checkbox" name="sections[]" value="most_reported_complaints" class="accent-blue-600 scale-110">
+                                    <span class="text-base font-medium text-gray-700">Most Reported Complaints</span>
+                                </label>
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="checkbox" name="sections[]" value="complaint_status_summary" class="accent-blue-600 scale-110">
+                                    <span class="text-base font-medium text-gray-700">Complaints Status Summary</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="modern-modal-footer w-full flex justify-end gap-2 pl-12 pr-8 py-4 bg-white/80 backdrop-blur-md">
+                    <button type="button" onclick="closeModal('exportModal')" class="btn-cancel">Cancel</button>
+                    <button type="submit" form="exportForm" class="btn-export">Export</button>
+                </div>
+                </form>
             </div>
-            <form id="exportForm" method="POST" action="{{ route('admin.reports.export') }}" class="modern-modal-body flex flex-col gap-5">
-                @csrf
-                <!-- Export Range Buttons -->
-                <div class="flex justify-between gap-2 mb-2">
-                    <button type="button" class="export-range-btn flex-1 py-2 rounded-md border border-gray-300 text-gray-700 font-semibold bg-gray-100 hover:bg-blue-100" data-range="weekly">Weekly</button>
-                    <button type="button" class="export-range-btn flex-1 py-2 rounded-md border border-gray-300 text-gray-700 font-semibold bg-gray-100 hover:bg-blue-100" data-range="monthly">Monthly</button>
-                    <button type="button" class="export-range-btn flex-1 py-2 rounded-md border border-gray-300 text-gray-700 font-semibold bg-gray-100 hover:bg-blue-100" data-range="six_months">6 Months</button>
-                    <button type="button" class="export-range-btn flex-1 py-2 rounded-md border border-gray-300 text-gray-700 font-semibold bg-gray-100 hover:bg-blue-100" data-range="yearly">Yearly</button>
-                    <input type="hidden" id="exportRange" name="range" value="monthly">
-                </div>
-                <!-- Dynamic Fields -->
-                <div id="dynamicFields">
-                    <div class="flex gap-2 mb-2" id="yearMonthFields">
-                        <div class="flex-1">
-                            <label class="block text-xs font-semibold text-gray-700 mb-1">Year</label>
-                            <select id="exportYear" name="year" class="w-full bg-gray-50 border border-gray-300 rounded px-2 py-1 text-sm">
-                                <option value="{{ date('Y') }}" selected>{{ date('Y') }}</option>
-                            </select>
-                        </div>
-                        <div class="flex-1" id="monthField">
-                            <label class="block text-xs font-semibold text-gray-700 mb-1">Month</label>
-                            <select id="exportMonth" name="month" class="w-full bg-gray-50 border border-gray-300 rounded px-2 py-1 text-sm">
-                                @for ($i = 1; $i <= 12; $i++)
-                                    <option value="{{ $i }}" {{ (int) request('month', date('m')) === (int) $i ? 'selected' : '' }}>{{ \Carbon\Carbon::create()->month($i)->format('F') }}</option>
-                                @endfor
-                            </select>
-                        </div>
-                    </div>
-                    <!-- Custom 6 Months Range -->
-                    <div class="flex gap-2 mb-2" id="sixMonthsFields" style="display:none;">
-                        <div class="flex-1">
-                            <label class="block text-xs font-semibold text-gray-700 mb-1">Start Month</label>
-                            <select id="sixMonthStart" name="six_month_start" class="w-full bg-gray-50 border border-gray-300 rounded px-2 py-1 text-sm">
-                                @for ($i = 1; $i <= 12; $i++)
-                                    <option value="{{ $i }}">{{ \Carbon\Carbon::create()->month($i)->format('F') }}</option>
-                                @endfor
-                            </select>
-                        </div>
-                        <div class="flex-1">
-                            <label class="block text-xs font-semibold text-gray-700 mb-1">End Month</label>
-                            <select id="sixMonthEnd" name="six_month_end" class="w-full bg-gray-50 border border-gray-300 rounded px-2 py-1 text-sm">
-                                @for ($i = 1; $i <= 12; $i++)
-                                    <option value="{{ $i }}">{{ \Carbon\Carbon::create()->month($i)->format('F') }}</option>
-                                @endfor
-                            </select>
-                        </div>
-                    </div>
-                    <div class="mb-2" id="weekSelectionContainer" style="display:none;">
-                        <label class="block text-xs font-semibold text-gray-700 mb-1">Select Week</label>
-                        @php
-                            $selectedYear = (int) (request('year', date('Y')));
-                            $selectedMonth = (int) (request('month', date('m')));
-                            $carbon = \Carbon\Carbon::create($selectedYear, $selectedMonth, 1);
-                            $lastDay = $carbon->copy()->endOfMonth()->day;
-                            $weekRanges = [
-                                1 => ['start' => 1, 'end' => 7],
-                                2 => ['start' => 8, 'end' => 14],
-                                3 => ['start' => 15, 'end' => 21],
-                                4 => ['start' => 22, 'end' => 28],
-                                5 => ['start' => 29, 'end' => $lastDay],
-                            ];
-                        @endphp
-                        <select id="exportWeek" name="week" class="w-full bg-gray-50 border border-gray-300 rounded px-2 py-1 text-sm">
-                            @foreach ($weekRanges as $num => $range)
-                                <option value="{{ $num }}">
-                                    Week {{ $num }} ({{ str_pad($range['start'], 2, '0', STR_PAD_LEFT) }} - {{ str_pad($range['end'], 2, '0', STR_PAD_LEFT) }})
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-                <!-- Export Format -->
-                <div class="mb-2">
-                    <div class="mb-2">
-                        <span class="block text-xs font-bold text-gray-800 mb-2 tracking-wide uppercase">Export Format</span>
-                        <div class="flex gap-4 bg-gray-50 rounded-xl px-4 py-3 border border-gray-200">
-                            <label class="flex items-center gap-2 cursor-pointer">
-                                <input type="radio" name="format" value="pdf" class="accent-red-600 scale-125" checked>
-                                <span class="text-base font-semibold text-gray-700">PDF</span>
-                            </label>
-                            <label class="flex items-center gap-2 cursor-pointer">
-                                <input type="radio" name="format" value="excel" class="accent-green-600 scale-125">
-                                <span class="text-base font-semibold text-gray-700">Excel</span>
-                            </label>
-                        </div>
-                    </div>
-                    <div>
-                        <span class="block text-xs font-bold text-gray-800 mb-2 tracking-wide uppercase">Sections</span>
-                        <div class="grid grid-cols-1 gap-2 bg-gray-50 rounded-xl px-4 py-3 border border-gray-200">
-                            <label class="flex items-center gap-3 cursor-pointer">
-                                <input type="checkbox" name="sections[]" value="population_gender" class="accent-blue-600 scale-110">
-                                <span class="text-base font-medium text-gray-700">Population by Gender</span>
-                            </label>
-                            <label class="flex items-center gap-3 cursor-pointer">
-                                <input type="checkbox" name="sections[]" value="requests_complaints" class="accent-blue-600 scale-110">
-                                <span class="text-base font-medium text-gray-700">Total Requests & Complaints</span>
-                            </label>
-                            <label class="flex items-center gap-3 cursor-pointer">
-                                <input type="checkbox" name="sections[]" value="most_requested_document" class="accent-blue-600 scale-110">
-                                <span class="text-base font-medium text-gray-700">Most Requested Document</span>
-                            </label>
-                            <label class="flex items-center gap-3 cursor-pointer">
-                                <input type="checkbox" name="sections[]" value="request_status_summary" class="accent-blue-600 scale-110">
-                                <span class="text-base font-medium text-gray-700">Requests Status Summary</span>
-                            </label>
-                            <label class="flex items-center gap-3 cursor-pointer">
-                                <input type="checkbox" name="sections[]" value="most_reported_complaints" class="accent-blue-600 scale-110">
-                                <span class="text-base font-medium text-gray-700">Most Reported Complaints</span>
-                            </label>
-                            <label class="flex items-center gap-3 cursor-pointer">
-                                <input type="checkbox" name="sections[]" value="complaint_status_summary" class="accent-blue-600 scale-110">
-                                <span class="text-base font-medium text-gray-700">Complaints Status Summary</span>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                <!-- Footer Buttons -->
-                <div class="flex justify-between items-center mt-2 gap-2">
-                    <div class="modern-modal-footer w-full flex justify-end gap-2">
-                        <button type="button" onclick="closeModal('exportModal')" class="btn-cancel">Cancel</button>
-                        <button type="submit" class="btn-export">Export</button>
-                    </div>
-                </div>
-            </form>
         </div>
     </div>
-
 
     <!-- =============================== -->
     <!-- 2. SUCCESS MODAL (PIXEL PERFECT) -->
@@ -1255,10 +1236,11 @@
     </script>
 
 {{-- Shared Backdrop for All Modals --}}
-<div id="modal-backdrop" class="hidden fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] bg-black/50 backdrop-blur-sm z-[9998]"></div>
+
 
 @endsection
 
 @push('scripts')
 <script src="{{ asset('js/admin-reports.js') }}" defer></script>
+<script src="{{ asset('js/export-modal-spacing.js') }}" defer></script>
 @endpush
