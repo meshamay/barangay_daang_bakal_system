@@ -450,16 +450,26 @@
                         <button type="button" class="export-range-btn flex-1 py-2 rounded-md border border-gray-300 text-gray-700 font-semibold bg-gray-100 hover:bg-blue-100" data-range="weekly">Weekly</button>
                         <button type="button" class="export-range-btn flex-1 py-2 rounded-md border border-gray-300 text-gray-700 font-semibold bg-gray-100 hover:bg-blue-100" data-range="monthly">Monthly</button>
                         <button type="button" class="export-range-btn flex-1 py-2 rounded-md border border-gray-300 text-gray-700 font-semibold bg-gray-100 hover:bg-blue-100" data-range="yearly">Yearly</button>
-                        <button type="button" class="export-range-btn flex-1 py-2 rounded-md border border-gray-300 text-gray-700 font-semibold bg-gray-100 hover:bg-blue-100" data-range="custom">Costum</button>
+                        <button type="button" class="export-range-btn flex-1 py-2 rounded-md border border-gray-300 text-gray-700 font-semibold bg-gray-100 hover:bg-blue-100 focus:bg-blue-500 focus:text-white active:bg-blue-600 transition-colors duration-150" data-range="custom">Custom</button>
                         <input type="hidden" id="exportRange" name="range" value="monthly">
                     </div>
                     <div id="dynamicFields">
                         <div class="flex gap-2 mb-2" id="yearMonthFields">
-                            <div class="flex-1">
+                            <div class="flex-1" id="yearField" style="display:none;">
                                 <label class="block text-xs font-semibold text-gray-700 mb-1">Year</label>
                                 <select id="exportYear" name="year" class="w-full bg-gray-50 border border-gray-300 rounded px-2 py-1 text-sm">
-                                    <option value="{{ date('Y') }}" selected>{{ date('Y') }}</option>
+                                    @for ($y = date('Y', strtotime('-5 years')); $y <= date('Y', strtotime('+5 years')); $y++)
+                                        <option value="{{ $y }}" {{ (int) date('Y') === (int) $y ? 'selected' : '' }}>{{ $y }}</option>
+                                    @endfor
                                 </select>
+                            </div>
+                            <div class="flex-1" id="fromDateField" style="display:none;">
+                                <label class="block text-xs font-semibold text-gray-700 mb-1">From Date</label>
+                                <input type="date" id="exportFromDate" name="from_date" class="w-full bg-gray-50 border border-gray-300 rounded px-2 py-1 text-sm" />
+                            </div>
+                            <div class="flex-1" id="toDateField" style="display:none;">
+                                <label class="block text-xs font-semibold text-gray-700 mb-1">To Date</label>
+                                <input type="date" id="exportToDate" name="to_date" class="w-full bg-gray-50 border border-gray-300 rounded px-2 py-1 text-sm" />
                             </div>
                             <div class="flex-1" id="monthField">
                                 <label class="block text-xs font-semibold text-gray-700 mb-1">Month</label>
@@ -545,8 +555,8 @@
                     </div>
                 </form>
                 <div class="modern-modal-footer w-full flex justify-end gap-2 pl-12 pr-8 py-4 bg-white/80 backdrop-blur-md">
-                    <button type="button" onclick="closeModal('exportModal')" class="btn-cancel">Cancel</button>
-                    <button type="submit" form="exportForm" class="btn-export">Export</button>
+                    <button type="button" onclick="closeModal('exportModal')" class="px-6 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-sm font-semibold transition-all duration-200 border border-gray-300 hover:shadow-md" style="font-size:0.875rem; min-width:unset; min-height:unset; padding:0.625rem 1.5rem;">CANCEL</button>
+                    <button type="submit" form="exportForm" class="px-6 py-2.5 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white rounded-xl text-sm font-semibold transition-all duration-200 hover:shadow-lg transform hover:scale-105" style="font-size:0.875rem; min-width:unset; min-height:unset; padding:0.625rem 1.5rem;">EXPORT</button>
                 </div>
                 </form>
             </div>
@@ -606,21 +616,49 @@
                         monthField.style.display = '';
                         sixMonthsFields.style.display = 'none';
                         yearMonthFields.style.display = '';
+                        document.getElementById('yearField').style.display = '';
+                        document.getElementById('fromDateField').style.display = 'none';
+                        document.getElementById('toDateField').style.display = 'none';
                     } else if (this.getAttribute('data-range') === 'monthly') {
                         weekSelectionContainer.style.display = 'none';
                         monthField.style.display = '';
                         sixMonthsFields.style.display = 'none';
                         yearMonthFields.style.display = '';
+                        document.getElementById('yearField').style.display = '';
+                        document.getElementById('fromDateField').style.display = 'none';
+                        document.getElementById('toDateField').style.display = 'none';
                     } else if (this.getAttribute('data-range') === 'six_months') {
                         weekSelectionContainer.style.display = 'none';
                         monthField.style.display = 'none';
                         sixMonthsFields.style.display = '';
                         yearMonthFields.style.display = '';
+                        document.getElementById('yearField').style.display = 'none';
+                        document.getElementById('fromDateField').style.display = 'none';
+                        document.getElementById('toDateField').style.display = 'none';
+                    } else if (this.getAttribute('data-range') === 'yearly') {
+                        weekSelectionContainer.style.display = 'none';
+                        monthField.style.display = 'none';
+                        sixMonthsFields.style.display = 'none';
+                        yearMonthFields.style.display = '';
+                        document.getElementById('yearField').style.display = '';
+                        document.getElementById('fromDateField').style.display = 'none';
+                        document.getElementById('toDateField').style.display = 'none';
+                    } else if (this.getAttribute('data-range') === 'custom') {
+                        weekSelectionContainer.style.display = 'none';
+                        monthField.style.display = 'none';
+                        sixMonthsFields.style.display = 'none';
+                        yearMonthFields.style.display = '';
+                        document.getElementById('yearField').style.display = 'none';
+                        document.getElementById('fromDateField').style.display = '';
+                        document.getElementById('toDateField').style.display = '';
                     } else {
                         weekSelectionContainer.style.display = 'none';
                         monthField.style.display = 'none';
                         sixMonthsFields.style.display = 'none';
                         yearMonthFields.style.display = '';
+                        document.getElementById('yearField').style.display = 'none';
+                        document.getElementById('fromDateField').style.display = 'none';
+                        document.getElementById('toDateField').style.display = 'none';
                     }
                 });
             });

@@ -89,4 +89,8 @@
 
 .modern-modal-footer .btn-export:hover {
   background: linear-gradient(90deg, #059669 0%, #10b981 100%);
+  filter: brightness(1.08);
+  box-shadow: 0 4px 16px 0 rgba(16,185,129,0.18);
+  transform: scale(1.04);
+  border: 1.5px solid #059669;
 }

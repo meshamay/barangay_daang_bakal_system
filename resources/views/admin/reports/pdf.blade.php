@@ -17,7 +17,14 @@
     <p>Export Range: {{ $exportRange ?? '' }} ({{ $exportStartDate ?? '' }} to {{ $exportEndDate ?? '' }})</p>
     <p>
         @if(($exportRange ?? '') === 'weekly')
-            Report for {{ \Carbon\Carbon::parse($exportStartDate)->format('M d, Y') }} to {{ \Carbon\Carbon::parse($exportEndDate)->format('M d, Y') }}
+            @php
+                $weekNumber = isset($week) ? (int)$week : null;
+            @endphp
+            @if($weekNumber)
+                <strong>Week {{ $weekNumber }}</strong> ({{ \Carbon\Carbon::parse($exportStartDate)->format('M d, Y') }} to {{ \Carbon\Carbon::parse($exportEndDate)->format('M d, Y') }})
+            @else
+                Report for {{ \Carbon\Carbon::parse($exportStartDate)->format('M d, Y') }} to {{ \Carbon\Carbon::parse($exportEndDate)->format('M d, Y') }}
+            @endif
         @elseif(($exportRange ?? '') === 'monthly')
             Report for {{ $monthName }} {{ $year }}
         @elseif(($exportRange ?? '') === 'six_months')

@@ -147,8 +147,10 @@ class ReportsController extends Controller
         // Determine date range based on export range
         $startDate = null;
         $endDate = null;
+        $sixMonthStart = $request->get('six_month_start');
+        $sixMonthEnd = $request->get('six_month_end');
         if ($range === 'weekly') {
-            // Calculate week boundaries based on selected week of the month
+            // Use selected week (1-5) of the month: Week 1 = 1-7, Week 2 = 8-14, etc.
             $selectedWeek = (int)($week ?? 1);
             $firstOfMonth = Carbon::createFromDate($year, $month, 1);
             $startDate = $firstOfMonth->copy()->addDays(7 * ($selectedWeek - 1));
@@ -156,51 +158,6 @@ class ReportsController extends Controller
             $lastOfMonth = $firstOfMonth->copy()->endOfMonth();
             if ($startDate->lt($firstOfMonth)) $startDate = $firstOfMonth->copy();
             if ($endDate->gt($lastOfMonth)) $endDate = $lastOfMonth;
-            // If exporting the current week, set endDate to now if it's before end of week
-            $now = Carbon::now();
-            if ($now->between($startDate, $endDate)) {
-                $endDate = $now;
-            }
-        } elseif ($range === 'monthly') {
-            $startDate = Carbon::createFromDate($year, $month, 1)->startOfMonth();
-            $endDate = Carbon::createFromDate($year, $month, 1)->endOfMonth();
-        } elseif ($range === 'six_months') {
-            // Custom 6-month range, possibly crossing years
-            $startMonth = (int)($sixMonthStart ?? 1);
-            $endMonth = (int)($sixMonthEnd ?? 6);
-            if ($startMonth <= $endMonth) {
-                // Same year
-                $startDate = Carbon::createFromDate($year, $startMonth, 1)->startOfMonth();
-                $endDate = Carbon::createFromDate($year, $endMonth, 1)->endOfMonth();
-            } else {
-                // Crosses year boundary: e.g., Dec to May
-                $startDate = Carbon::createFromDate($year - 1, $startMonth, 1)->startOfMonth();
-                $endDate = Carbon::createFromDate($year, $endMonth, 1)->endOfMonth();
-            }
-        } elseif ($range === 'yearly') {
-            $startDate = Carbon::createFromDate($year, 1, 1)->startOfYear();
-            $endDate = Carbon::createFromDate($year, 12, 31)->endOfYear();
-        } else {
-            // Default to monthly
-            $startDate = Carbon::createFromDate($year, $month, 1)->startOfMonth();
-            $endDate = Carbon::createFromDate($year, $month, 1)->endOfMonth();
-        }
-
-        // Determine date range based on export range
-        $startDate = null;
-        $endDate = null;
-        $sixMonthStart = $request->get('six_month_start');
-        $sixMonthEnd = $request->get('six_month_end');
-        if ($range === 'weekly') {
-            // Use selected week (1-5) of the month
-            $selectedWeek = (int)($week ?? 1);
-            $firstOfMonth = Carbon::createFromDate($year, $month, 1);
-            $startDate = $firstOfMonth->copy()->addWeeks($selectedWeek - 1)->startOfWeek();
-            $endDate = $startDate->copy()->endOfWeek();
-            // Clamp to month
-            if ($startDate->month != $month) $startDate = $firstOfMonth->copy();
-            $lastOfMonth = $firstOfMonth->copy()->endOfMonth();
-            if ($endDate->month != $month) $endDate = $lastOfMonth;
         } elseif ($range === 'monthly') {
             $startDate = Carbon::createFromDate($year, $month, 1)->startOfMonth();
             $endDate = Carbon::createFromDate($year, $month, 1)->endOfMonth();
@@ -269,9 +226,10 @@ class ReportsController extends Controller
             'monthName' => Carbon::createFromDate($year, $month, 1)->format('F'),
             'sections' => $sections,
             'exportRange' => $range,
-            'exportStartDate' => $startDate->format('Y-m-d'),
-            'exportEndDate' => $endDate->format('Y-m-d'),
+            'exportStartDate' => Carbon::parse($startDate)->format('Y-m-d'),
+            'exportEndDate' => Carbon::parse($endDate)->format('Y-m-d'),
             'totalExported' => $totalRecords,
+            'week' => $week,
         ];
 
         // Only load data for selected sections

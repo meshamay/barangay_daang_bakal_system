@@ -353,11 +353,11 @@
 
             <div class="p-6 sm:p-8 text-center">
                 <p class="text-[14px] text-gray-700 leading-relaxed mb-2 sm:mb-3">
-                    Please wait for the admins approval before you can access your account.
+                    Please wait for the admin's approval before you can access your account.
                 </p>
 
                 <p class="text-sm text-gray-700 leading-relaxed mb-6">
-                    You will receive an email or text message once your registration is approved.
+                    You will receive a call once your account is approved. If not, try logging in—successful access means your account is approved.
                 </p>
                 <div class="flex justify-center">
                     <a href="/" class="bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-2 rounded-lg font-semibold transition">Close</a>
