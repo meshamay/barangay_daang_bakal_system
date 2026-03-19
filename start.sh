@@ -42,10 +42,15 @@ fi
 
 php artisan migrate --force --no-interaction
 
-exec php \
-  -d upload_max_filesize=12M \
-  -d post_max_size=40M \
-  -S 0.0.0.0:${PORT:-8080} \
-  -t public
+# Run Laravel migrations
+php artisan migrate --force
 
- 
+# Cache config, routes, and views
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
+
+# Start the PHP built-in server
+echo "Starting Laravel server on 0.0.0.0:8080..."
+php -S 0.0.0.0:8080 -t public
+
