@@ -455,7 +455,7 @@
                     </div>
                     <div id="dynamicFields">
                         <div class="flex gap-2 mb-2" id="yearMonthFields">
-                            <div class="flex-1" id="yearField" style="display:none;">
+                            <div class="flex-1" id="yearField" style="display:;">
                                 <label class="block text-xs font-semibold text-gray-700 mb-1">Year</label>
                                 <select id="exportYear" name="year" class="w-full bg-gray-50 border border-gray-300 rounded px-2 py-1 text-sm">
                                     @for ($y = date('Y', strtotime('-5 years')); $y <= date('Y', strtotime('+5 years')); $y++)
@@ -678,6 +678,7 @@
                 monthField.style.display = '';
                 sixMonthsFields.style.display = 'none';
                 yearMonthFields.style.display = '';
+                document.getElementById('yearField').style.display = '';
             } else if (exportRangeInput.value === 'six_months') {
                 weekSelectionContainer.style.display = 'none';
                 monthField.style.display = 'none';
