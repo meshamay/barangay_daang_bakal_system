@@ -45,7 +45,9 @@ class UserController extends Controller
             if (request('status') === 'Archived') {
                 $query = User::onlyTrashed()->where('role', 'resident');
             } else {
-                $query = User::where('role', 'resident')->where('status', request('status'));
+                $query = User::where('role', 'resident')
+                    ->where('status', request('status'))
+                    ->whereNull('deleted_at');
             }
         }
 

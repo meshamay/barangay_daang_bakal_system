@@ -135,20 +135,29 @@ class ReportsController extends Controller
         $year = $request->get('year', date('Y'));
         $month = $request->get('month', date('m'));
         $format = $request->get('format', 'pdf'); // pdf or excel
-        $sections = $request->get('sections', []); // Array of selected sections
+        $sections = $request->get('sections', []);
+        // If no sections are selected, include all by default
+        if (empty($sections)) {
+            $sections = [
+                'population_gender',
+                'requests_complaints',
+                'most_requested_document',
+                'request_status_summary',
+                'most_reported_complaints',
+                'complaint_status_summary',
+            ];
+        }
 
         $range = $request->get('range', 'monthly');
         $week = $request->get('week');
         $sixMonthStart = $request->get('six_month_start');
         $sixMonthEnd = $request->get('six_month_end');
-
-        // ...existing code...
+        $fromDate = $request->get('from_date');
+        $toDate = $request->get('to_date');
 
         // Determine date range based on export range
         $startDate = null;
         $endDate = null;
-        $sixMonthStart = $request->get('six_month_start');
-        $sixMonthEnd = $request->get('six_month_end');
         if ($range === 'weekly') {
             // Use selected week (1-5) of the month: Week 1 = 1-7, Week 2 = 8-14, etc.
             $selectedWeek = (int)($week ?? 1);
@@ -177,6 +186,9 @@ class ReportsController extends Controller
         } elseif ($range === 'yearly') {
             $startDate = Carbon::createFromDate($year, 1, 1)->startOfYear();
             $endDate = Carbon::createFromDate($year, 12, 31)->endOfYear();
+        } elseif ($range === 'custom' && $fromDate && $toDate) {
+            $startDate = Carbon::parse($fromDate)->startOfDay();
+            $endDate = Carbon::parse($toDate)->endOfDay();
         } else {
             // Default to monthly
             $startDate = Carbon::createFromDate($year, $month, 1)->startOfMonth();
@@ -189,7 +201,6 @@ class ReportsController extends Controller
             $q->whereIn('user_type', ['admin', 'super admin', 'super_admin'])
               ->orWhereIn('role', ['admin', 'super admin', 'super_admin', 'superadmin', 'user', 'resident']);
         })
-        ->whereRaw('LOWER(status) IN (?, ?)', ['approved', 'active'])
         ->whereNull('deleted_at')
         ->whereBetween('created_at', [$startDate, $endDate])
         ->count();
@@ -311,21 +322,33 @@ class ReportsController extends Controller
 
     private function generateExcelXlsx(array $data)
     {
-        $filename = 'ARIS_Report_' . $data['year'] . '_' . $data['monthName'] . '.xlsx';
+
+        // If custom, use the from/to dates for filename
+        if (($data['exportRange'] ?? '') === 'custom' && !empty($data['exportStartDate']) && !empty($data['exportEndDate'])) {
+            $filename = 'ARIS_Report_' . str_replace('-', '', $data['exportStartDate']) . '_to_' . str_replace('-', '', $data['exportEndDate']) . '.xlsx';
+        } else {
+            $filename = 'ARIS_Report_' . $data['year'] . '_' . $data['monthName'] . '.xlsx';
+        }
 
         $spreadsheet = new Spreadsheet();
         $dataSheet = $spreadsheet->getActiveSheet();
         $dataSheet->setTitle('Report Data');
 
         $dataSheet->setCellValue('A1', 'Barangay Daang Bakal - Reports & Analytics');
-        $dataSheet->setCellValue('A2', 'Export Range: ' . ($data['exportRange'] ?? '') . ' (' . ($data['exportStartDate'] ?? '') . ' to ' . ($data['exportEndDate'] ?? '') . ')');
-        $dataSheet->setCellValue('A3', 'Total Exported Records: ' . ($data['totalExported'] ?? 0));
-        $dataSheet->setCellValue('A4', 'Report for ' . $data['monthName'] . ' ' . $data['year']);
+        $exportRangeLabel = ucfirst($data['exportRange'] ?? '');
+        $exportStartDate = $data['exportStartDate'] ?? '';
+        $exportEndDate = $data['exportEndDate'] ?? '';
+        // Format dates for display
+        if ($exportStartDate && $exportEndDate) {
+            $exportStartDate = date('F d, Y', strtotime($exportStartDate));
+            $exportEndDate = date('F d, Y', strtotime($exportEndDate));
+        }
+        $dataSheet->setCellValue('A2', 'Export Range: ' . $exportRangeLabel . ' (' . $exportStartDate . ' to ' . $exportEndDate . ')');
+        $dataSheet->setCellValue('A3', 'Report for ' . $data['monthName'] . ' ' . $data['year']);
         $dataSheet->mergeCells('A1:B1');
         $dataSheet->mergeCells('A2:B2');
         $dataSheet->mergeCells('A3:B3');
-        $dataSheet->mergeCells('A4:B4');
-        $dataSheet->getStyle('A1:A4')->getFont()->setBold(true)->setSize(13);
+        $dataSheet->getStyle('A1:A3')->getFont()->setBold(true)->setSize(13);
 
         $row = 6;
         $dataSheet->setCellValue("A{$row}", 'KPI Cards');

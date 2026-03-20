@@ -133,6 +133,16 @@
             <table class="w-full text-sm" style="table-layout: fixed;">
                 <tbody class="divide-y divide-gray-100">
                 @forelse($users as $user)
+                @php
+                    $status = strtolower($user->status ?? 'pending');
+                    $isArchived = $user->trashed();
+                    $showUser = true;
+                    // Hide archived users unless status filter is Archived
+                    if (request('status') && request('status') !== 'Archived' && $isArchived) {
+                        $showUser = false;
+                    }
+                @endphp
+                @if($showUser)
                 <tr class="hover:bg-blue-50/70 transition-colors duration-150 ease-in-out text-center">
                     <td class="py-5 px-6 w-1/7 font-semibold text-gray-900">
                         {{ $user->resident_id ?? '' }}
@@ -143,8 +153,6 @@
                     <td class="py-5 px-6 w-1/7 text-gray-600 text-sm">{{ $user->created_at->format('m/d/Y') }}</td>
                     <td class="py-5 px-6 w-1/7">
                         @php
-                            $status = strtolower($user->status ?? 'pending');
-                            $isArchived = $user->trashed();
                             $colorClass = $isArchived
                                 ? 'bg-gray-100 text-gray-800 border border-gray-300'
                                 : match($status) {
@@ -172,6 +180,7 @@
                                 </a>
                                 <span class="absolute z-[100] top-full mt-1 left-1/2 transform -translate-x-1/2 px-2 py-1 text-xs text-white bg-gray-800 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">View</span>
                             </div>
+                @endif
                             @if(!$isArchived && $statusLower !== 'reject')
                             {{-- Archive Button --}}
                             <div class="relative group">
