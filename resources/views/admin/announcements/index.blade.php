@@ -216,6 +216,7 @@
                                     </button>
                                     <span class="absolute top-full mt-2 left-1/2 -translate-x-1/2 px-2 py-1 text-xs text-white bg-gray-800 rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-opacity">View</span>
                                 </div>
+                                @if(strtolower($announcement->display_status ?? '') !== 'archived')
                                 <div class="relative group">
                                     <button onclick="openEditModal(this)" 
                                         data-id="{{ $announcement->id }}"
@@ -230,6 +231,8 @@
                                     </button>
                                     <span class="absolute top-full mt-2 left-1/2 -translate-x-1/2 px-2 py-1 text-xs text-white bg-gray-800 rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-opacity">Edit</span>
                                 </div>
+                                @endif
+                                @if(strtolower($announcement->display_status ?? '') !== 'archived')
                                 <div class="relative group">
                                     <button type="button" onclick="openArchiveAnnouncementModal('{{ url('admin/announcements/' . $announcement->id . '/archive') }}')"
                                         class="w-9 h-9 flex items-center justify-center rounded-lg bg-transparent hover:bg-gray-200 transition-all duration-200 hover:shadow-md">
@@ -252,6 +255,7 @@
                                     @endpush
                                     <span class="absolute top-full mt-2 left-1/2 -translate-x-1/2 px-2 py-1 text-xs text-white bg-gray-800 rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-opacity">Archive</span>
                                 </div>
+                                @endif
                             </div>
                         </td>
                     </tr>
