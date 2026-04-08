@@ -14,6 +14,11 @@ class TwilioSmsService
         $sid = config('services.twilio.sid');
         $token = config('services.twilio.token');
         $this->from = config('services.twilio.from');
+
+        if (!$sid || !$token || !$this->from) {
+            throw new \Exception('Twilio credentials not configured');
+        }
+
         $this->client = new Client($sid, $token);
     }
 

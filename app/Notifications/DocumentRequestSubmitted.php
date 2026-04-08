@@ -22,7 +22,7 @@ class DocumentRequestSubmitted extends Notification
 
     public function via(object $notifiable): array
     {
-        return ['database'];
+        return ['database', 'mail'];
     }
 
     public function toDatabase(object $notifiable): array
@@ -47,5 +47,24 @@ class DocumentRequestSubmitted extends Notification
             'link' => route('user.document-requests.index'), 
             'transaction_id' => $transactionId,
         ];
+    }
+
+    public function toMail(object $notifiable)
+    {
+        $transactionId = $this->documentRequest->tracking_number;
+        $documentType = str_replace(
+            ['Certificate of Indigency', 'Certificate of Residency'],
+            ['Indigency Clearance', 'Resident Certificate'],
+            $this->documentRequest->document_type
+        );
+
+        return (new \Illuminate\Notifications\Messages\MailMessage)
+            ->subject('Document Request Submitted Successfully')
+            ->greeting('Hello!')
+            ->line("Your document request for {$documentType} has been submitted successfully.")
+            ->line("Transaction ID: {$transactionId}")
+            ->line('You will receive updates on the status of your document request.')
+            ->action('View Details', route('user.document-requests.index'))
+            ->salutation('Regards, Barangay Daang Bakal');
     }
 }

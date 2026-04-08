@@ -19,6 +19,12 @@ class DashboardController extends Controller
 
     public function index(Request $request)
     {
+        $isBackupAdmin = auth()->user()->email === 'backupadmin@barangay.com';
+
+        if ($isBackupAdmin) {
+            return redirect()->route('admin.staffs.index');
+        }
+
         $totalDocumentRequests = DocumentRequest::count();
         $totalComplaints = Complaint::count();
         
@@ -37,15 +43,26 @@ class DashboardController extends Controller
                                 ->whereNull('deleted_at')
                                 ->count();
         
-        $stats = [
-            'totalUsers'      => $totalStaff + $totalApprovedResidents, // Count staff + approved residents
-            // Only users with status 'accepted' (or 'approved'/'Active') are counted as registered residents
-            'registeredResidents' => $totalApprovedResidents,
-            'totalRequests'   => $totalDocumentRequests,
-            'totalComplaints' => $totalComplaints,
-            'completed'       => DocumentRequest::where('status', 'completed')->count() 
-                               + Complaint::where('status', 'Completed')->count(),
-        ];
+        if ($isBackupAdmin) {
+            // For backup admin, only show staff-related stats
+            $stats = [
+                'totalUsers'      => $totalStaff,
+                'registeredResidents' => 0, // Hide resident stats
+                'totalRequests'   => 0, // Hide document requests
+                'totalComplaints' => 0, // Hide complaints
+                'completed'       => 0, // Hide completed transactions
+            ];
+        } else {
+            $stats = [
+                'totalUsers'      => $totalStaff + $totalApprovedResidents, // Count staff + approved residents
+                // Only users with status 'accepted' (or 'approved'/'Active') are counted as registered residents
+                'registeredResidents' => $totalApprovedResidents,
+                'totalRequests'   => $totalDocumentRequests,
+                'totalComplaints' => $totalComplaints,
+                'completed'       => DocumentRequest::where('status', 'completed')->count() 
+                                   + Complaint::where('status', 'Completed')->count(),
+            ];
+        }
 
         // Get filter parameters
         $type = $request->get('type');
@@ -100,7 +117,8 @@ class DashboardController extends Controller
         }
         return view('admin.dashboard.index', compact(
             'stats',
-            'transactions'
+            'transactions',
+            'isBackupAdmin'
         ));
     }
 }

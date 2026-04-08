@@ -28,13 +28,13 @@ class DocumentRequested extends Notification
      */
     public function via($notifiable)
     {
-        return ['database']; // This tells Laravel to save it in your 'notifications' table
+        return ['database', 'mail', 'sms'];
     }
 
     /**
-     * Get the array representation of the notification.
+     * Get the database representation of the notification.
      */
-    public function toArray($notifiable)
+    public function toDatabase($notifiable)
     {
         return [
             'type' => 'document',
@@ -45,5 +45,22 @@ class DocumentRequested extends Notification
             'link' => route('user.document-requests.index'), 
             'created_at' => now(),
         ];
+    }
+
+    public function toMail($notifiable)
+    {
+        return (new MailMessage)
+            ->subject('Document Request Submitted')
+            ->greeting('Hello!')
+            ->line("Your {$this->documentType} request has been submitted successfully.")
+            ->line("Tracking Number: {$this->trackingNumber}")
+            ->line('You will receive updates on the status of your request.')
+            ->action('View Details', route('user.document-requests.index'))
+            ->salutation('Regards, Barangay Daang Bakal');
+    }
+
+    public function toSms($notifiable)
+    {
+        return "Barangay Daang Bakal: Your {$this->documentType} request {$this->trackingNumber} has been submitted. You will receive status updates.";
     }
 }

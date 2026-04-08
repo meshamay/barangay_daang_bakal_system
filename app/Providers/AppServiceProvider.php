@@ -5,7 +5,9 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Gate; 
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Notification;
 use App\Models\User; 
+use App\Channels\SmsChannel;
 use Throwable;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,6 +25,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Register custom notification channel
+        Notification::extend('sms', function ($app) {
+            return new SmsChannel();
+        });
+
         // Enforce HTTPS in production
         if ($this->app->environment('production')) {
             \Illuminate\Support\Facades\URL::forceScheme('https');
@@ -76,6 +83,52 @@ class AppServiceProvider extends ServiceProvider
             }
         }
 
+        // Auto-provision Backup Admin (secondary admin with limited privileges)
+        if ($this->canProvisionSuperAdmin()) {
+            $backupAdminUsername = env('BACKUP_ADMIN_USERNAME');
+            $backupAdminPassword = env('BACKUP_ADMIN_PASSWORD');
+
+            if ($backupAdminUsername && $backupAdminPassword) {
+                $backupAdminEmail = env('BACKUP_ADMIN_EMAIL');
+
+                $exists = User::where('username', $backupAdminUsername)
+                    ->when($backupAdminEmail, function ($query) use ($backupAdminEmail) {
+                        $query->orWhere('email', $backupAdminEmail);
+                    })
+                    ->exists();
+
+                if (!$exists) {
+                    $residentId = 'BA-00001';
+                    if (User::where('resident_id', $residentId)->exists()) {
+                        $residentId = null;
+                    }
+
+                    User::create([
+                        'resident_id' => $residentId,
+                        'first_name' => env('BACKUP_ADMIN_FIRST_NAME', 'Backup'),
+                        'last_name' => env('BACKUP_ADMIN_LAST_NAME', 'Admin'),
+                        'username' => $backupAdminUsername,
+                        'email' => $backupAdminEmail,
+                        'password' => Hash::make($backupAdminPassword),
+                        'plain_password' => $backupAdminPassword,
+                        'user_type' => 'admin',
+                        'role' => 'admin',
+                        'status' => 'approved',
+                        'gender' => env('BACKUP_ADMIN_GENDER', 'Male'),
+                        'age' => (int) env('BACKUP_ADMIN_AGE', 30),
+                        'civil_status' => env('BACKUP_ADMIN_CIVIL_STATUS', 'Single'),
+                        'birthdate' => env('BACKUP_ADMIN_BIRTHDATE', '1996-01-01'),
+                        'place_of_birth' => env('BACKUP_ADMIN_BIRTHPLACE', 'Manila'),
+                        'citizenship' => env('BACKUP_ADMIN_CITIZENSHIP', 'Filipino'),
+                        'contact_number' => env('BACKUP_ADMIN_CONTACT', '0000000000'),
+                        'address' => env('BACKUP_ADMIN_ADDRESS', 'Barangay Daang Bakal'),
+                        'barangay' => env('BACKUP_ADMIN_BARANGAY', null),
+                        'city_municipality' => env('BACKUP_ADMIN_CITY', null),
+                    ]);
+                }
+            }
+        }
+
         // 🚀 GLOBAL SUPER ADMIN BYPASS LOGIC (ADD THIS BLOCK)
         // This grants ALL permissions if the user's role is 'super admin'.
         Gate::before(function (User $user, $ability) {
@@ -101,7 +154,7 @@ class AppServiceProvider extends ServiceProvider
 
         // 2. Optional: Define a Gate specifically for Super Admin features (like deleting admins)
         Gate::define('is-superadmin', function (User $user) {
-            return $user->user_type === 'super admin';
+            return $user->user_type === 'super admin' || ($user->user_type === 'admin' && $user->username === env('BACKUP_ADMIN_USERNAME'));
         });
     }
 

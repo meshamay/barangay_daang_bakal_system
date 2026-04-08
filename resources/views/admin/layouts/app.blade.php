@@ -9,6 +9,7 @@
         $userTypeRaw = strtolower(Auth::user()->user_type ?? '');
         $isSuperAdmin = Auth::check() && (in_array($roleRaw, ['super admin', 'super_admin', 'superadmin']) || in_array($userTypeRaw, ['super admin', 'super_admin', 'superadmin']));
         $isAdminUser = Auth::check() && (in_array($roleRaw, ['admin']) || in_array($userTypeRaw, ['admin']));
+        $isBackupAdmin = Auth::check() && Auth::user()->user_type === 'admin' && Auth::user()->username === 'backupadmin';
         $topRoleLabel = $isSuperAdmin ? 'Super Administrator' : ($isAdminUser ? 'Administrator' : ucfirst(Auth::user()->role ?? Auth::user()->user_type ?? ''));
     @endphp
     <title>Barangay Daang Bakal</title>
@@ -212,6 +213,8 @@
 
             <ul class="space-y-1">
 
+                @if(!$isBackupAdmin)
+
                 <!-- Dashboard -->
                 <li>
                      <a href="{{ route('admin.dashboard') }}"
@@ -277,9 +280,10 @@
                 </a>
             </li>
 
+                @endif
 
 <!-- Staffs (superadmin only) -->
-@if(Auth::user()->user_type === 'super admin')
+@if(Auth::user()->user_type === 'super admin' || $isBackupAdmin)
 <li>
     <a href="{{ route('admin.staffs.index') }}" class="flex items-center py-3 px-4 rounded-lg font-semibold text-sm transition duration-200 group
     {{ request()->routeIs('admin.staffs.*') ? 'bg-white/20 text-white border-l-4 border-white' : 'text-gray-200 hover:bg-white/10' }}">
@@ -297,6 +301,12 @@
 </li>
 @endif
 
+                @if(!$isBackupAdmin)
+
+
+@endif
+
+                @if(!$isBackupAdmin)
 
 <!-- Barangay Officials -->
 <li>
@@ -340,7 +350,6 @@
 
 
 <!-- Audit Logs -->
-@if(Auth::user()->user_type === 'super admin')
 <li>
                 <a href="{{ route('admin.auditlogs.index') }}" class="flex items-center py-3 px-4 rounded-lg font-semibold text-sm transition duration-200 group
                 {{ request()->routeIs('admin.auditlogs.*') ? 'bg-white/20 text-white border-l-4 border-white' : 'text-gray-200 hover:bg-white/10' }}">
@@ -351,7 +360,8 @@
                     <span>Audit Logs</span>
                 </a>
             </li>
-@endif
+
+                @endif
 
 
         </ul>

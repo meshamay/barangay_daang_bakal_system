@@ -27,7 +27,7 @@ class UserRegistrationApproved extends Notification implements ShouldQueue
      */
     public function via(object $notifiable): array
     {
-        return ['mail', 'database'];
+        return ['mail', 'database', 'sms'];
     }
 
     /**
@@ -60,5 +60,10 @@ class UserRegistrationApproved extends Notification implements ShouldQueue
             'user_id' => $this->user->id,
             'resident_id' => $this->user->resident_id,
         ];
+    }
+
+    public function toSms(object $notifiable)
+    {
+        return "Barangay Daang Bakal: Your registration has been approved! Resident ID: {$this->user->resident_id}. You can now login and access services.";
     }
 }

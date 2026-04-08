@@ -5,14 +5,14 @@
 <main class="flex-1 p-8 fixed top-[80px] left-[240px] w-[calc(100vw-240px)] h-[calc(100vh-80px)] overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100">
   <div class="flex items-center justify-between mb-8">
     <div>
-      <h1 class="text-4xl font-bold bg-gradient-to-r from-[#134573] to-[#0f3a5f] bg-clip-text text-transparent">DASHBOARD</h1>
-      <p class="text-gray-500 text-sm mt-1">Welcome back! Here's your system overview.</p>
+      <h1 class="text-4xl font-bold bg-gradient-to-r from-[#134573] to-[#0f3a5f] bg-clip-text text-transparent">{{ $isBackupAdmin ? 'STAFF DASHBOARD' : 'DASHBOARD' }}</h1>
+      <p class="text-gray-500 text-sm mt-1">{{ $isBackupAdmin ? 'Manage staff accounts and permissions.' : 'Welcome back! Here\'s your system overview.' }}</p>
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8 mt-8">
     
     <div class="bg-white rounded-xl shadow-md border border-gray-100 p-6 hover:shadow-lg hover:border-emerald-200 transition duration-300 ease-in-out">
       <div class="flex items-center justify-between">
         <div>
-          <p class="text-gray-500 text-sm font-medium">Total Users</p>
+          <p class="text-gray-500 text-sm font-medium">{{ $isBackupAdmin ? 'Total Staff' : 'Total Users' }}</p>
           <p class="text-4xl font-bold text-gray-900 mt-2">{{ $stats['totalUsers'] ?? 0 }}</p>
         </div>
         <div class="bg-emerald-100 p-4 rounded-lg">
@@ -23,6 +23,7 @@
       </div>
     </div>
 
+    @if(!$isBackupAdmin)
     <div class="bg-white rounded-xl shadow-md border border-gray-100 p-6 hover:shadow-lg hover:border-blue-200 transition duration-300 ease-in-out">
       <div class="flex items-center justify-between">
         <div>
@@ -64,11 +65,13 @@
         </div>
       </div>
     </div>
+    @endif
 
     {{-- Registered Residents card removed from dashboard --}}
   </div>
 
   {{-- SEARCH AND FILTERS --}}
+  @if(!$isBackupAdmin)
   <form method="GET" action="{{ route('admin.dashboard') }}" class="flex justify-between items-center mb-6 gap-4">
     <div class="flex items-center gap-3 flex-1">
       <div class="relative w-full max-w-md">
@@ -201,6 +204,15 @@
       </div>
     </div>
   </div>
+  @else
+  <div class="bg-white shadow-xl rounded-xl border border-gray-100 p-8 text-center">
+    <svg class="w-16 h-16 mx-auto mb-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z" />
+    </svg>
+    <h3 class="text-lg font-semibold text-gray-900 mb-2">Staff Management Access</h3>
+    <p class="text-gray-600">As a backup admin, you have access to manage staff accounts only. Use the Staffs menu to view and manage administrators.</p>
+  </div>
+  @endif
 </main>
 
 @endsection

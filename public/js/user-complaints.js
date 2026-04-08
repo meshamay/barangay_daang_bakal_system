@@ -74,12 +74,11 @@ function closeSuccessModal() {
 }
 
 function toggleSpecifyField() {
-    const select = document.getElementById("description");
     const complaintTypeInput = document.getElementById("complaintTypeInput");
     const specify = document.getElementById("specifyField");
-    const selectedValue = complaintTypeInput?.value || select?.value || "";
+    const selectedValue = complaintTypeInput?.value || "";
     if (specify) {
-        specify.classList.toggle("hidden", selectedValue !== "Other Concerns");
+        specify.classList.toggle("hidden", selectedValue !== "Others");
     }
 }
 

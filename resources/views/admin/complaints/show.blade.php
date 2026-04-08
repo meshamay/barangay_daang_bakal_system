@@ -110,6 +110,21 @@
                     </div>
                 </div>
 
+                {{-- Photo Evidence --}}
+                <div class="mb-6">
+                    <p class="text-gray-500 text-xs uppercase font-bold mb-1">Photo Evidence</p>
+                    <div class="bg-white p-4 rounded-lg border border-gray-200">
+                        @if($complaint->image_path)
+                            <img src="{{ asset('storage/' . $complaint->image_path) }}" 
+                                 class="w-full max-w-3xl h-80 object-cover rounded border border-gray-300 hover:scale-105 transition-transform cursor-pointer"
+                                 onclick="window.open(this.src, '_blank')"
+                                 alt="Complaint photo evidence">
+                        @else
+                            <p class="text-gray-500 italic text-sm">No photo evidence uploaded</p>
+                        @endif
+                    </div>
+                </div>
+
                 {{-- Defendant Info --}}
                 <h4 class="text-lg font-bold mb-3 text-gray-800 border-t pt-4">Defendant Information</h4>
                 <div class="grid grid-cols-2 gap-4 text-sm">

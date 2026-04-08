@@ -443,6 +443,19 @@
                                <label class="font-semibold text-gray-700 block mb-1">Complainant Statement:</label>
                             <textarea readonly class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50 h-28">{{ $c->complaint_statement }}</textarea>
                         </div>
+
+                        {{-- Photo Evidence --}}
+                        <div class="col-span-2">
+                            <label class="font-semibold text-gray-700 block mb-1">Photo Evidence:</label>
+                            @if($c->image_path)
+                                <img src="{{ asset('storage/' . $c->image_path) }}" 
+                                     class="max-w-xs h-auto rounded border border-gray-300 hover:scale-105 transition-transform cursor-pointer"
+                                     onclick="window.open(this.src, '_blank')"
+                                     alt="Complaint photo evidence">
+                            @else
+                                <p class="text-gray-500 italic text-sm py-4">No photo evidence uploaded</p>
+                            @endif
+                        </div>
                     </div>
 
                     <div class="flex justify-end mt-6">

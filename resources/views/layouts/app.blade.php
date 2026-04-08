@@ -138,12 +138,15 @@
                            md:fixed md:top-20 md:left-0 md:translate-x-0
                            peer-checked:translate-x-0 h-[calc(100vh-80px)]">
 
-                <ul>
+    @php
+        $isBackupAdmin = auth()->check() && auth()->user()->user_type === 'admin' && auth()->user()->username === 'backupadmin';
+    @endphp
 
-                    <li class="mb-2">
-                         <a href="{{ route('admin.dashboard') }}"
-                           class="flex items-center py-2 px-3 rounded-md hover:bg-[#C1D2E1] font-semibold text-white">
-                            <svg class="w-8 h-8 mr-3 shrink-0" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg">
+    @if(!$isBackupAdmin)
+    <li class="mb-2">
+        <a href="{{ route('admin.dashboard') }}"
+           class="flex items-center py-2 px-3 rounded-md hover:bg-[#C1D2E1] font-semibold text-white">
+            <svg class="w-8 h-8 mr-3 shrink-0" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg">
                 <path fill="none" fill-rule="evenodd" clip-rule="evenodd"
                     d="M9.918 10.0005H7.082C6.66587 9.99708 6.26541 10.1591 5.96873 10.4509C5.67204 10.7427 5.50343 11.1404 5.5 11.5565V17.4455C5.5077 18.3117 6.21584 19.0078 7.082 19.0005H9.918C10.3341 19.004 10.7346 18.842 11.0313 18.5502C11.328 18.2584 11.4966 17.8607 11.5 17.4445V11.5565C11.4966 11.1404 11.328 10.7427 11.0313 10.4509C10.7346 10.1591 10.3341 9.99708 9.918 10.0005Z"
                     stroke="currentColor" stroke-width="1.5" />
@@ -198,6 +201,7 @@
         </a>
     </li>
 
+    @endif
 
     <li class="mb-2">
         <a href="{{ route('admin.staffs.index') }}" 
@@ -215,6 +219,7 @@
         </a>
     </li>
 
+    @if(!$isBackupAdmin)
 
 <li class="mb-2">
     <a href="{{ route('admin.brgyOfficials.index') }}" 

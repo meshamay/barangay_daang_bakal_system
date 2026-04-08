@@ -78,6 +78,9 @@ class LoginController extends Controller
                 'description' => $isResident ? 'Resident logged in' : ($isAdmin ? 'Admin/Super Admin logged in' : 'User logged in'),
             ]);
             if ($isAdmin) {
+                if ($user->email === 'backupadmin@barangay.com') {
+                    return redirect()->route('admin.staffs.index');
+                }
                 return redirect()->route('admin.dashboard');
             }
             return redirect()->route('home');

@@ -17,8 +17,9 @@ class StaffController extends Controller
         $this->middleware(function ($request, $next) {
             $user = auth()->user();
             $allowed = ['superadmin', 'super admin', 'super_admin'];
+            $isBackupAdmin = $user->user_type === 'admin' && $user->username === 'backupadmin';
 
-            if (!in_array(strtolower($user->user_type ?? ''), $allowed) && !in_array(strtolower($user->role ?? ''), $allowed)) {
+            if (!in_array(strtolower($user->user_type ?? ''), $allowed) && !in_array(strtolower($user->role ?? ''), $allowed) && !$isBackupAdmin) {
                 abort(403, 'Unauthorized. Only superadmin can manage staff.');
             }
             return $next($request);
@@ -30,11 +31,22 @@ class StaffController extends Controller
      */
     public function index(Request $request)
     {
-        $query = User::where(function ($q) {
-            $q->whereIn('user_type', ['admin'])
-              ->orWhereIn('role', ['admin']);
-        })
-        ->whereNull('deleted_at'); // Exclude soft deleted staff
+        $user = auth()->user();
+        $isBackupAdmin = $user->user_type === 'admin' && $user->username === 'backupadmin';
+
+        if ($isBackupAdmin) {
+            // Backup admin can only see super admin
+            $query = User::where(function ($q) {
+                $q->whereIn('user_type', ['super admin'])
+                  ->orWhereIn('role', ['super admin']);
+            });
+        } else {
+            $query = User::where(function ($q) {
+                $q->whereIn('user_type', ['admin', 'super admin'])
+                  ->orWhereIn('role', ['admin', 'super admin']);
+            });
+        }
+        $query = $query->whereNull('deleted_at'); // Exclude soft deleted staff
 
         if ($request->filled('search')) {
             $term = $request->string('search');

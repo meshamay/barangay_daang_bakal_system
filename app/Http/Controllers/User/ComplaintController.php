@@ -49,6 +49,7 @@ class ComplaintController extends Controller
             'description'           => 'required|string|max:255',    
             'specifyInput'          => 'nullable|string|max:255',    
             'complaint_statement'   => 'required|string|min:10',
+            'complaint_image'       => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120', // 5MB max
         ]);
 
         DB::beginTransaction();
@@ -62,6 +63,14 @@ class ComplaintController extends Controller
             }
             $complaintType = Str::limit($complaintType, 255); 
 
+            // Handle image upload
+            $imagePath = null;
+            if ($request->hasFile('complaint_image')) {
+                $image = $request->file('complaint_image');
+                $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+                $imagePath = $image->storeAs('complaints', $imageName, 'public');
+            }
+
             $complaintData = [
                 'user_id'             => Auth::id(),
                 'transaction_no'      => $trackingNumber,
@@ -74,6 +83,7 @@ class ComplaintController extends Controller
                 'complaint_type'      => $complaintType, 
                 
                 'complaint_statement' => $validatedData['complaint_statement'],
+                'image_path'          => $imagePath,
                 'status'              => 'Pending',
             ];
             

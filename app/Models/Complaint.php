@@ -20,6 +20,7 @@ class Complaint extends Model
         'level_urgency',
         'complaint_type',
         'complaint_statement',
+        'image_path',
         'status',
         'date_completed',
     ];

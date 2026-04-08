@@ -489,11 +489,13 @@
                      class="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold px-6 py-2.5 rounded-xl transition-all duration-200 text-sm flex items-center gap-2 hover:shadow-lg transform hover:scale-105">
                      <i data-lucide="edit" class="w-4 h-4"></i> Edit Information
                  </a>
+                 @can('is-superadmin')
                 <button type="button"
                     onclick="openSetPasswordModal({{ $user->id }})"
                     class="bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-white font-semibold px-6 py-2.5 rounded-xl transition-all duration-200 text-sm flex items-center gap-2 hover:shadow-lg transform hover:scale-105">
                     <i data-lucide="key" class="w-4 h-4"></i> Reset Password
                 </button>
+                 @endcan
                  @endif
             </main>
 

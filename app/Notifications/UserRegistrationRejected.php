@@ -29,7 +29,7 @@ class UserRegistrationRejected extends Notification implements ShouldQueue
      */
     public function via(object $notifiable): array
     {
-        return ['mail', 'database'];
+        return ['mail', 'database', 'sms'];
     }
 
     /**
@@ -73,5 +73,16 @@ class UserRegistrationRejected extends Notification implements ShouldQueue
             'user_id' => $this->user->id,
             'reason' => $this->reason,
         ];
+    }
+
+    public function toSms(object $notifiable)
+    {
+        $message = "Barangay Daang Bakal: Your registration has been rejected.";
+        if ($this->reason) {
+            $message .= " Reason: " . $this->reason;
+        }
+        $message .= " Contact barangay office for more info.";
+
+        return $message;
     }
 }

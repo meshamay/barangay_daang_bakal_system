@@ -204,6 +204,7 @@ document.addEventListener("DOMContentLoaded", function () {
             formData.delete("photo_phone");
             formData.delete("photo_desktop");
             formData.set("photo", selectedPhoto);
+            
             const submitBtn = document.getElementById("submit-btn");
             const originalText = submitBtn ? submitBtn.innerText : "REGISTER";
 
