@@ -116,7 +116,7 @@
                     <div class="bg-white p-4 rounded-lg border border-gray-200">
                         @if($complaint->image_path)
                             <img src="{{ asset('storage/' . $complaint->image_path) }}" 
-                                 class="w-full max-w-3xl h-80 object-cover rounded border border-gray-300 hover:scale-105 transition-transform cursor-pointer"
+                                 class="w-[900px] h-[48rem] object-cover rounded border border-gray-300 hover:scale-105 transition-transform cursor-pointer"
                                  onclick="window.open(this.src, '_blank')"
                                  alt="Complaint photo evidence">
                         @else
