@@ -11,6 +11,29 @@ APP_DEBUG = false
 APP_URL = https://barangaydaangbakalsystem-production.up.railway.app
 ```
 
+## Email Configuration (For Document Requests and Complaints)
+
+To enable email notifications for document requests and complaints, add these mail variables:
+
+```
+MAIL_MAILER = smtp
+MAIL_HOST = smtp.gmail.com
+MAIL_PORT = 587
+MAIL_USERNAME = your-barangay-email@gmail.com
+MAIL_PASSWORD = your-gmail-app-password
+MAIL_FROM_ADDRESS = your-barangay-email@gmail.com
+MAIL_FROM_NAME = Barangay Daang Bakal
+```
+
+**Important:** For Gmail, you need to generate an "App Password":
+1. Go to your Google Account settings
+2. Enable 2-Factor Authentication
+3. Go to Security > App passwords
+4. Generate a password for "Mail"
+5. Use that password as MAIL_PASSWORD
+
+If you have a different SMTP provider (like Outlook, Yahoo), adjust the MAIL_HOST and MAIL_PORT accordingly.
+
 ## Steps to Add Variables to Railway:
 
 1. Go to https://railway.app

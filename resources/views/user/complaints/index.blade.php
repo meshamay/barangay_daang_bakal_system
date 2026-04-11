@@ -323,11 +323,11 @@
         <h4 class="text-sm font-semibold text-gray-700 border-b border-gray-200 pb-1">Incident Details</h4>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
-            <label class="block text-xs font-medium text-gray-600 mb-1">Incident Date *</label>
+            <label class="block text-xs font-medium text-gray-600 mb-1">Incident Date </label>
             <input type="date" name="incident_date" class="w-full bg-white border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none" required>
           </div>
           <div>
-            <label class="block text-xs font-medium text-gray-600 mb-1">Incident Time *</label>
+            <label class="block text-xs font-medium text-gray-600 mb-1">Incident Time </label>
             <input type="time" name="incident_time" class="w-full bg-white border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none" required>
           </div>
         </div>
@@ -338,11 +338,11 @@
         <h4 class="text-sm font-semibold text-gray-700 border-b border-gray-200 pb-1">Defendant Information</h4>
         <div class="space-y-3">
           <div>
-            <label class="block text-xs font-medium text-gray-600 mb-1">Defendant's Name *</label>
+            <label class="block text-xs font-medium text-gray-600 mb-1">Defendant's Name </label>
             <input type="text" name="defendant_name" class="w-full bg-white border border-gray-300 rounded-md px-3 py-2 text-sm placeholder:text-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none" placeholder="Enter full name" required>
           </div>
           <div>
-            <label class="block text-xs font-medium text-gray-600 mb-1">Defendant's Address *</label>
+            <label class="block text-xs font-medium text-gray-600 mb-1">Defendant's Address </label>
             <input type="text" name="defendant_address" class="w-full bg-white border border-gray-300 rounded-md px-3 py-2 text-sm placeholder:text-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none" placeholder="Enter complete address" required>
           </div>
         </div>
@@ -353,7 +353,7 @@
         <h4 class="text-sm font-semibold text-gray-700 border-b border-gray-200 pb-1">Complaint Details</h4>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
-            <label class="block text-xs font-medium text-gray-600 mb-1">Level of Urgency *</label>
+            <label class="block text-xs font-medium text-gray-600 mb-1">Level of Urgency </label>
             <select name="level_urgency" class="w-full bg-white border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none" required>
               <option value="" disabled selected>Select urgency</option>
               <option value="Low">Low (Non-urgent)</option>
@@ -362,7 +362,7 @@
             </select>
           </div>
           <div>
-            <label class="block text-xs font-medium text-gray-600 mb-1">Complaint Type *</label>
+            <label class="block text-xs font-medium text-gray-600 mb-1">Complaint Type </label>
             <input type="hidden" id="complaintTypeInput" name="description" required>
             <button type="button" id="complaintTypeButton" onclick="toggleComplaintTypeMenu()" class="w-full bg-white border border-gray-300 rounded-md px-3 py-2 text-sm text-left focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none flex items-center justify-between">
               <span id="complaintTypeLabel" class="text-gray-500">Select type</span>
@@ -390,13 +390,13 @@
       <div class="bg-gray-50 rounded-lg p-3 sm:p-4 space-y-3">
         <h4 class="text-sm font-semibold text-gray-700 border-b border-gray-200 pb-1">Complaint Description</h4>
         <div>
-          <label class="block text-xs font-medium text-gray-600 mb-1">Detailed Statement *</label>
+          <label class="block text-xs font-medium text-gray-600 mb-1">Detailed Statement </label>
           <textarea name="complaint_statement" class="w-full bg-white border border-gray-300 rounded-md px-3 py-2 text-sm placeholder:text-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none resize-none h-20" placeholder="Describe the incident in detail" required></textarea>
         </div>
         <div>
-          <label class="block text-xs font-medium text-gray-600 mb-1">Photo Evidence *</label>
+          <label class="block text-xs font-medium text-gray-600 mb-1">Photo Evidence </label>
           <input type="file" name="complaint_image" accept="image/*" class="w-full bg-white border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none file:mr-3 file:py-1 file:px-3 file:rounded file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700">
-          <p class="text-xs text-gray-500 mt-1">Upload image (JPG, PNG, GIF, max 5MB)</p>
+          <p class="text-xs text-gray-500 mt-1">Upload image (JPG, PNG, max 5MB)</p>
         </div>
       </div>
 
