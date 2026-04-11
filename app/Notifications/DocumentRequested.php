@@ -51,12 +51,10 @@ class DocumentRequested extends Notification
     {
         return (new MailMessage)
             ->subject('Document Request Submitted')
-            ->greeting('Hello!')
-            ->line("Your {$this->documentType} request has been submitted successfully.")
-            ->line("Tracking Number: {$this->trackingNumber}")
-            ->line('You will receive updates on the status of your request.')
-            ->action('View Details', route('user.document-requests.index'))
-            ->salutation('Regards, Barangay Daang Bakal');
+            ->view('emails.document-requested', [
+                'documentType' => $this->documentType,
+                'trackingNumber' => $this->trackingNumber,
+            ]);
     }
 
     public function toSms($notifiable)
