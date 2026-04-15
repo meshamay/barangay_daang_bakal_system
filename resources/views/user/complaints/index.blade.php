@@ -371,12 +371,12 @@
               </svg>
             </button>
             <div id="complaintTypeMenu" class="hidden absolute z-50 mt-1 w-full bg-white border border-gray-200 rounded-md shadow-lg max-h-48 overflow-y-auto">
-              <button type="button" class="w-full text-left px-3 py-2 text-sm hover:bg-blue-50" onclick="selectComplaintType('Community Issues','Community Issues')">Community Issues</button>
-              <button type="button" class="w-full text-left px-3 py-2 text-sm hover:bg-blue-50" onclick="selectComplaintType('Physical Harassment','Physical Harassment')">Physical Harassment</button>
-              <button type="button" class="w-full text-left px-3 py-2 text-sm hover:bg-blue-50" onclick="selectComplaintType('Neighbor Dispute','Neighbor Dispute')">Neighbor Dispute</button>
-              <button type="button" class="w-full text-left px-3 py-2 text-sm hover:bg-blue-50" onclick="selectComplaintType('Money Problems','Money Problems')">Money Problems</button>
-              <button type="button" class="w-full text-left px-3 py-2 text-sm hover:bg-blue-50" onclick="selectComplaintType('Misbehavior','Misbehavior')">Misbehavior</button>
-              <button type="button" class="w-full text-left px-3 py-2 text-sm hover:bg-blue-50" onclick="selectComplaintType('Others','Others')">Others</button>
+              <button type="button" class="w-full text-left px-3 py-2 text-sm hover:bg-blue-50" onclick="selectComplaintType('Community Issues','Community Issues')">Community Issue (e.g., improper garbage disposal, clogged drainage)</button>
+              <button type="button" class="w-full text-left px-3 py-2 text-sm hover:bg-blue-50" onclick="selectComplaintType('Physical Harassment','Physical Harassment')"> Physical Harassment (e.g., pushing, verbal abuse)</button>
+              <button type="button" class="w-full text-left px-3 py-2 text-sm hover:bg-blue-50" onclick="selectComplaintType('Neighbor Dispute','Neighbor Dispute')">Neighbor Dispute (e.g., loud noise at night, boundary conflicts)</button>
+              <button type="button" class="w-full text-left px-3 py-2 text-sm hover:bg-blue-50" onclick="selectComplaintType('Money Problems','Money Problems')">Money Problems (e.g., unpaid debt, refusal to pay shared bills)</button>
+              <button type="button" class="w-full text-left px-3 py-2 text-sm hover:bg-blue-50" onclick="selectComplaintType('Misbehavior','Misbehavior')">Misbehavior (e.g., gambling, drinking in public)</button>
+              <button type="button" class="w-full text-left px-3 py-2 text-sm hover:bg-blue-50" onclick="selectComplaintType('Others','Others')"> Others (please specify)</button>
             </div>
           </div>
         </div>

@@ -57,11 +57,8 @@ class ComplaintController extends Controller
         try {
             $trackingNumber = 'CMP-' . strtoupper(Str::random(8));
             
+            // Use the description directly as complaint_type, it's already validated
             $complaintType = $validatedData['description'];
-            if ($complaintType === 'Others' && !empty($validatedData['specifyInput'])) {
-                $complaintType = $validatedData['specifyInput'];
-            }
-            $complaintType = Str::limit($complaintType, 255); 
 
             // Handle image upload
             $imagePath = null;

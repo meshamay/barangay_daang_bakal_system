@@ -54,10 +54,12 @@ class ComplaintSubmitted extends Notification
 
         return (new \Illuminate\Notifications\Messages\MailMessage)
             ->subject('Complaint Submitted Successfully')
-            ->view('emails.complaint-submitted', [
-                'complaintType' => $complaintType,
-                'transactionId' => $transactionId,
-            ]);
+            ->greeting('Hello!')
+            ->line("Your complaint regarding {$complaintType} has been submitted successfully.")
+            ->line("Transaction ID: {$transactionId}")
+            ->line('You will receive updates on the status of your complaint.')
+            ->action('View Details', route('user.complaints.index'))
+            ->salutation('Regards, Barangay Daang Bakal');
     }
 
     public function toSms(object $notifiable)

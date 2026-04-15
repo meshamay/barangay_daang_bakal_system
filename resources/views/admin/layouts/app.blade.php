@@ -348,7 +348,7 @@
 </li>
 
 
-
+                @if($isSuperAdmin)
 <!-- Audit Logs -->
 <li>
                 <a href="{{ route('admin.auditlogs.index') }}" class="flex items-center py-3 px-4 rounded-lg font-semibold text-sm transition duration-200 group
@@ -360,6 +360,7 @@
                     <span>Audit Logs</span>
                 </a>
             </li>
+                @endif
 
                 @endif
 

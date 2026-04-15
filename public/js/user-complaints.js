@@ -120,6 +120,20 @@ function restorePlaceholder() {
     if (specifyInput) specifyInput.placeholder = "Please specify...";
 }
 
+// Update hidden input when specifyInput changes
+document.addEventListener("DOMContentLoaded", function() {
+    const specifyInput = document.getElementById("specifyInput");
+    const complaintTypeInput = document.getElementById("complaintTypeInput");
+    
+    if (specifyInput && complaintTypeInput) {
+        specifyInput.addEventListener("input", function() {
+            if (complaintTypeInput.value === "Others" && specifyInput.value.trim()) {
+                complaintTypeInput.value = specifyInput.value.trim();
+            }
+        });
+    }
+});
+
 // AJAX SUBMISSION FUNCTION FOR COMPLAINTS
 async function submitComplaintForm() {
     const form = document.getElementById("complaintForm");

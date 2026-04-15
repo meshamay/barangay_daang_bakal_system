@@ -258,6 +258,13 @@
 </li>
 
 
+@php
+    $userRole = strtolower(Auth::user()->role ?? '');
+    $userType = strtolower(Auth::user()->user_type ?? '');
+    $isSuperAdminUser = in_array($userRole, ['super admin', 'super_admin', 'superadmin']) || in_array($userType, ['super admin', 'super_admin', 'superadmin']);
+@endphp
+
+@if($isSuperAdminUser)
 <li class="mb-2">
     <a href="{{ route('admin.auditlogs.index') }}" 
        class="flex items-center py-2 px-3 rounded-md hover:bg-[#C1D2E1] font-semibold text-white">
@@ -268,7 +275,7 @@
         <span>Audit Logs</span>
     </a>
 </li>
-
+@endif
 
                 </ul>
 
