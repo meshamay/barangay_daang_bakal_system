@@ -370,13 +370,31 @@
                 <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
               </svg>
             </button>
-            <div id="complaintTypeMenu" class="hidden absolute z-50 mt-1 w-full bg-white border border-gray-200 rounded-md shadow-lg max-h-48 overflow-y-auto">
-              <button type="button" class="w-full text-left px-3 py-2 text-sm hover:bg-blue-50" onclick="selectComplaintType('Community Issues','Community Issues')">Community Issue (e.g., improper garbage disposal, clogged drainage)</button>
-              <button type="button" class="w-full text-left px-3 py-2 text-sm hover:bg-blue-50" onclick="selectComplaintType('Physical Harassment','Physical Harassment')"> Physical Harassment (e.g., pushing, verbal abuse)</button>
-              <button type="button" class="w-full text-left px-3 py-2 text-sm hover:bg-blue-50" onclick="selectComplaintType('Neighbor Dispute','Neighbor Dispute')">Neighbor Dispute (e.g., loud noise at night, boundary conflicts)</button>
-              <button type="button" class="w-full text-left px-3 py-2 text-sm hover:bg-blue-50" onclick="selectComplaintType('Money Problems','Money Problems')">Money Problems (e.g., unpaid debt, refusal to pay shared bills)</button>
-              <button type="button" class="w-full text-left px-3 py-2 text-sm hover:bg-blue-50" onclick="selectComplaintType('Misbehavior','Misbehavior')">Misbehavior (e.g., gambling, drinking in public)</button>
-              <button type="button" class="w-full text-left px-3 py-2 text-sm hover:bg-blue-50" onclick="selectComplaintType('Others','Others')"> Others (please specify)</button>
+            <div id="complaintTypeMenu" class="hidden absolute z-50 mt-1 w-full min-w-[300px] max-w-[400px] bg-white border border-gray-200 rounded-md shadow-lg max-h-48 overflow-y-auto">
+              <button type="button" class="w-full text-left px-3 py-2 text-sm hover:bg-blue-50 transition-colors whitespace-normal leading-relaxed" onclick="selectComplaintType('Community Issues','Community Issues')">
+                <div class="font-medium">Community Issues</div>
+                <div class="text-xs text-gray-500 mt-0.5">e.g., improper garbage disposal, clogged drainage</div>
+              </button>
+              <button type="button" class="w-full text-left px-3 py-2 text-sm hover:bg-blue-50 transition-colors whitespace-normal leading-relaxed" onclick="selectComplaintType('Physical Harassment','Physical Harassment')">
+                <div class="font-medium">Physical Harassment</div>
+                <div class="text-xs text-gray-500 mt-0.5">e.g., pushing, verbal abuse</div>
+              </button>
+              <button type="button" class="w-full text-left px-3 py-2 text-sm hover:bg-blue-50 transition-colors whitespace-normal leading-relaxed" onclick="selectComplaintType('Neighbor Dispute','Neighbor Dispute')">
+                <div class="font-medium">Neighbor Dispute</div>
+                <div class="text-xs text-gray-500 mt-0.5">e.g., loud noise at night, boundary conflicts</div>
+              </button>
+              <button type="button" class="w-full text-left px-3 py-2 text-sm hover:bg-blue-50 transition-colors whitespace-normal leading-relaxed" onclick="selectComplaintType('Money Problems','Money Problems')">
+                <div class="font-medium">Money Problems</div>
+                <div class="text-xs text-gray-500 mt-0.5">e.g., unpaid debt, refusal to pay shared bills</div>
+              </button>
+              <button type="button" class="w-full text-left px-3 py-2 text-sm hover:bg-blue-50 transition-colors whitespace-normal leading-relaxed" onclick="selectComplaintType('Misbehavior','Misbehavior')">
+                <div class="font-medium">Misbehavior</div>
+                <div class="text-xs text-gray-500 mt-0.5">e.g., gambling, drinking in public</div>
+              </button>
+              <button type="button" class="w-full text-left px-3 py-2 text-sm hover:bg-blue-50 transition-colors whitespace-normal leading-relaxed" onclick="selectComplaintType('Others','Others')">
+                <div class="font-medium">Others</div>
+                <div class="text-xs text-gray-500 mt-0.5">please specify</div>
+              </button>
             </div>
           </div>
         </div>
